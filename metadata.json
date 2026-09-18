@@ -1,0 +1,6 @@
+{
+  "name": "SARTOR | Women's Bespoke Tailoring",
+  "description": "Exquisite women's bespoke tailoring atelier in Lahore. Handcrafted women's power suits, ceremonial couture, bespoke blazers, and luxury ensembles with direct WhatsApp booking. Male service coming soon.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

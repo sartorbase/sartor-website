@@ -1,0 +1,24 @@
+# robots.txt for https://sartor.pk
+User-agent: *
+Allow: /
+
+# Allow AI crawlers for AI Search Indexing (Perplexity, ChatGPT, Claude, Google SGE, Gemini)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://sartor.pk/sitemap.xml
