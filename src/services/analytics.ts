@@ -129,7 +129,7 @@ export const SARTOR_GOOGLE_MAPS_LINK = 'https://maps.app.goo.gl/7JKsRY1k9Aw4MJC6
  */
 export function buildWhatsAppLink(
   message: string, 
-  channel: 'hero' | 'floating' | 'suit_booking' | 'fabric' | 'contact' | 'size_chart' | 'nav' | 'map'
+  channel: 'hero' | 'floating' | 'suit_booking' | 'fabric' | 'contact' | 'size_chart' | 'nav' | 'map' | 'hero_pricing_card' | 'hero_cta' | 'showcase' | 'service_showcase'
 ): string {
   analytics.trackEvent('whatsapp_click', { channel });
   const encodedText = encodeURIComponent(message);

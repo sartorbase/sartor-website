@@ -30,7 +30,7 @@ export const Button: React.FC<ButtonProps> = ({
   const variantStyles = {
     primary: 'bg-stone-100 text-stone-900 hover:bg-white active:bg-stone-200 shadow-sm',
     secondary: 'bg-stone-800 text-stone-200 hover:bg-stone-700 hover:text-white border border-stone-700 active:bg-stone-800',
-    gold: 'bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-semibold shadow-md shadow-amber-900/20',
+    gold: 'bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-neutral-950 font-semibold shadow-md shadow-amber-900/20',
     whatsapp: 'bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-semibold shadow-lg shadow-emerald-950/40',
     outline: 'bg-transparent border border-stone-700 text-stone-300 hover:border-amber-500 hover:text-amber-400 active:bg-stone-900',
     ghost: 'bg-transparent text-stone-300 hover:text-white hover:bg-stone-800/60',

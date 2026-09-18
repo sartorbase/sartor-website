@@ -39,7 +39,7 @@ export const FabricGallery: React.FC = () => {
   };
 
   const handleInquireFromModal = (fabric: Fabric) => {
-    const msg = `Hello SARTOR Master Tailor, I am looking at your bespoke fabric collection on sartor.pk: "${fabric.name}" (${fabric.code}, ${fabric.origin}). Please let me know its availability and suit crafting package.`;
+    const msg = `Hello SARTOR Master Tailor, I am inquiring about your bespoke fabric collection: "${fabric.name}" (${fabric.code}, ${fabric.origin}). Please let me know its availability and suit crafting package.`;
     const url = buildWhatsAppLink(msg, 'fabric');
     window.open(url, '_blank', 'noopener,noreferrer');
   };

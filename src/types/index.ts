@@ -1,6 +1,6 @@
 /**
  * SARTOR Bespoke Tailoring House - TypeScript Definitions
- * Domain: sartor.pk | Location: Moon Tower, Model Town, Lahore
+ * Location: Moon Tower, Model Town, Lahore
  */
 
 export type SuitType = 
@@ -37,6 +37,54 @@ export interface Fabric {
   swatchColor: string;
   priceGrade: 'Premier' | 'Heritage' | 'Imperial Bespoke';
   featured?: boolean;
+}
+
+export type PakistaniSizeLabel = 'XS' | 'S' | 'M' | 'L' | 'XL';
+
+export interface PakistaniSizeMeasurement {
+  sizeLabel: PakistaniSizeLabel;
+  ukUsEquivalent: string;
+  shirtLength: number; // inches
+  chest: number; // inches
+  waist: number;
+  hip: number;
+  shoulder: number;
+  sleeveLength: number;
+  armhole: number;
+  trouserLength: number;
+  trouserHip: number;
+  trouserBottom: number;
+}
+
+export interface PricingItem {
+  id: string;
+  title: string;
+  titleUrdu?: string;
+  pricePKR: number | 'Consult';
+  priceDisplay: string;
+  tag?: string;
+  description: string;
+  features: string[];
+  imageUrl: string;
+}
+
+export interface CustomMeasurementForm {
+  fullName: string;
+  phone: string;
+  suitType: string;
+  standardSize?: PakistaniSizeLabel | 'custom';
+  shirtLength: string;
+  chest: string;
+  waist: string;
+  hip: string;
+  shoulder: string;
+  sleeveLength: string;
+  trouserLength: string;
+  trouserBottom: string;
+  embroideryType: 'none' | 'hand' | 'machine' | 'both';
+  fabricSourcing: boolean;
+  pickAndDrop: boolean;
+  notes: string;
 }
 
 export interface SizeMeasurement {
@@ -100,6 +148,8 @@ export interface AnalyticsEvent {
   eventType: 
     | 'page_view'
     | 'whatsapp_click'
+    | 'pricing_whatsapp_click'
+    | 'whatsapp_hero_direct'
     | 'suit_booking_start'
     | 'suit_booking_complete'
     | 'fabric_view'

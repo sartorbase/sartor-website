@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MessageSquare, PhoneCall } from 'lucide-react';
 import { buildWhatsAppLink, SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
 import { Button, ButtonProps } from '../atoms/Button';
@@ -55,30 +55,52 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
 };
 
 export const WhatsAppFloatingButton: React.FC = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleFloatingClick = () => {
-    const defaultMsg = 'Hello SARTOR Master Tailor, I would like to inquire about booking a bespoke custom suit in Lahore.';
+    const defaultMsg = 'Assalam-o-Alaikum SARTOR, I would like to inquire about women\'s bespoke stitching, embroidery, and tailoring services.';
     const url = buildWhatsAppLink(defaultMsg, 'floating');
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 group">
-      <div className="hidden sm:flex flex-col items-end bg-stone-900/95 border border-stone-700/80 shadow-2xl py-2 px-3.5 rounded-lg text-xs backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-        <span className="font-semibold text-stone-200">Chat with Master Tailor</span>
-        <span className="text-emerald-400 font-medium">WhatsApp 0335-2209991</span>
-      </div>
+    <aside 
+      aria-label="Direct WhatsApp Concierge"
+      className="fixed bottom-6 right-6 z-50 flex items-center select-none"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Brand-Appropriate Floating Action Pill */}
       <button
-        id="floating-whatsapp-trigger"
+        id="floating-whatsapp-action"
+        type="button"
         onClick={handleFloatingClick}
-        aria-label="Contact SARTOR on WhatsApp"
-        className="relative flex items-center justify-center w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-950/60 transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer ring-4 ring-emerald-500/20"
+        aria-label={`Chat with SARTOR Atelier on WhatsApp ${SARTOR_PHONE_LOCAL}`}
+        className="group relative flex items-center gap-3 pl-3.5 pr-4 py-3 rounded-full bg-stone-900/95 hover:bg-stone-900 text-stone-100 border border-emerald-500/40 hover:border-emerald-400 shadow-2xl shadow-emerald-950/40 backdrop-blur-md transition-all duration-300 hover:shadow-emerald-900/50 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
       >
-        <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-300"></span>
-        </span>
-        <MessageSquare className="w-7 h-7 fill-white" />
+        {/* Glowing Emerald Icon Capsule */}
+        <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-emerald-600 group-hover:bg-emerald-500 text-white shadow-md shadow-emerald-950/60 transition-colors duration-200 shrink-0">
+          {/* Subtle Online Ping Indicator */}
+          <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-300 border-2 border-stone-900"></span>
+          </span>
+          <MessageSquare className="w-5 h-5 fill-current" />
+        </div>
+
+        {/* Text Details */}
+        <div className="flex flex-col text-left pr-1">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-400 font-semibold leading-none">
+              WhatsApp Atelier
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
+          </div>
+          <span className="text-xs font-serif font-bold text-stone-100 tracking-wide mt-0.5 leading-snug">
+            {SARTOR_PHONE_LOCAL}
+          </span>
+        </div>
       </button>
-    </div>
+    </aside>
   );
 };

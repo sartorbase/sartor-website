@@ -3,16 +3,148 @@
 @theme {
   --font-serif: "Cinzel", "Playfair Display", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Theme semantic atelier color tokens */
+  --color-atelier-bg: var(--atelier-bg);
+  --color-atelier-surface: var(--atelier-surface);
+  --color-atelier-card: var(--atelier-card);
+  --color-atelier-border: var(--atelier-border);
+  --color-atelier-border-subtle: var(--atelier-border-subtle);
+  --color-atelier-text: var(--atelier-text);
+  --color-atelier-text-muted: var(--atelier-text-muted);
+  --color-atelier-accent: var(--atelier-accent);
+  --color-atelier-gold: var(--atelier-gold);
+
+  /* Dynamic theme mappings for core stone palette */
+  --color-stone-950: var(--th-stone-950);
+  --color-stone-900: var(--th-stone-900);
+  --color-stone-800: var(--th-stone-800);
+  --color-stone-700: var(--th-stone-700);
+  --color-stone-600: var(--th-stone-600);
+  --color-stone-500: var(--th-stone-500);
+  --color-stone-400: var(--th-stone-400);
+  --color-stone-300: var(--th-stone-300);
+  --color-stone-200: var(--th-stone-200);
+  --color-stone-100: var(--th-stone-100);
+  --color-stone-50: var(--th-stone-50);
+
+  /* Dynamic theme mappings for amber / gold accent palette */
+  --color-amber-950: var(--th-amber-950);
+  --color-amber-900: var(--th-amber-900);
+  --color-amber-800: var(--th-amber-800);
+  --color-amber-700: var(--th-amber-700);
+  --color-amber-600: var(--th-amber-600);
+  --color-amber-500: var(--th-amber-500);
+  --color-amber-400: var(--th-amber-400);
+  --color-amber-300: var(--th-amber-300);
+  --color-amber-200: var(--th-amber-200);
+}
+
+/* -------------------------------------------------------------
+   THEME DEFINITIONS: 'Classic Black' vs 'Champagne White'
+   ------------------------------------------------------------- */
+
+/* Default: 'Classic Black' Atelier Theme */
+:root,
+[data-theme="black"] {
+  --atelier-theme: "black";
+
+  /* Semantic Atelier Variables */
+  --atelier-bg: #0c0a09;
+  --atelier-surface: #171412;
+  --atelier-card: #1c1917;
+  --atelier-border: #292524;
+  --atelier-border-subtle: #44403c;
+  --atelier-text: #f5f5f4;
+  --atelier-text-muted: #a8a29e;
+  --atelier-accent: #d97706;
+  --atelier-gold: #fbbf24;
+
+  /* Stone Palette (Dark Noir Luxury) */
+  --th-stone-950: #0c0a09;
+  --th-stone-900: #171412;
+  --th-stone-800: #292524;
+  --th-stone-700: #44403c;
+  --th-stone-600: #57534e;
+  --th-stone-500: #78716c;
+  --th-stone-400: #a8a29e;
+  --th-stone-300: #d6d3d1;
+  --th-stone-200: #e7e5e4;
+  --th-stone-100: #f5f5f4;
+  --th-stone-50: #fafaf9;
+
+  /* Amber Palette (Rich Radiant Gold on Dark) */
+  --th-amber-950: #451a03;
+  --th-amber-900: #78350f;
+  --th-amber-800: #92400e;
+  --th-amber-700: #b45309;
+  --th-amber-600: #d97706;
+  --th-amber-500: #f59e0b;
+  --th-amber-400: #fbbf24;
+  --th-amber-300: #fcd34d;
+  --th-amber-200: #fde68a;
+
+  /* Scrollbar & Selection */
+  --scrollbar-track: #171412;
+  --scrollbar-thumb: #44403c;
+  --scrollbar-thumb-hover: #78716c;
+}
+
+/* 'Champagne White' Haute Couture Atelier Theme */
+[data-theme="champagne"] {
+  --atelier-theme: "champagne";
+
+  /* Semantic Atelier Variables */
+  --atelier-bg: #FAF7F2;
+  --atelier-surface: #F3EFE9;
+  --atelier-card: #FFFFFF;
+  --atelier-border: #E5DFC8;
+  --atelier-border-subtle: #D8CEAF;
+  --atelier-text: #1C1917;
+  --atelier-text-muted: #57534E;
+  --atelier-accent: #A16207;
+  --atelier-gold: #B47D1C;
+
+  /* Stone Palette (Inverted & Warm-Linen Balanced for Champagne Elegance) */
+  --th-stone-950: #FAF7F2; /* Main Page Background */
+  --th-stone-900: #F3EFEA; /* Card & Surface Secondary */
+  --th-stone-800: #E7E0D2; /* Borders & Dividers */
+  --th-stone-700: #D5CBB8; /* Subtle Inset Borders */
+  --th-stone-600: #A89F8D; /* Secondary subtle accents */
+  --th-stone-500: #78716C; /* Secondary muted copy */
+  --th-stone-400: #57534E; /* Dark readable body captions */
+  --th-stone-300: #44403C; /* High-contrast body text */
+  --th-stone-200: #292524; /* Near-black headings */
+  --th-stone-100: #1C1917; /* Deep Espresso Primary Text */
+  --th-stone-50: #0C0A09;
+
+  /* Amber Palette (Antique Gilded Brass & Warm Bronze for Light Mode Legibility) */
+  --th-amber-950: #F5EFE4; /* Warm champagne cream badge container */
+  --th-amber-900: #EADDC7; /* Light gold background pill */
+  --th-amber-800: #92400E; /* Deep warm amber text */
+  --th-amber-700: #A16207; /* Antique gold border */
+  --th-amber-600: #B47D1C; /* Primary gold branding accent */
+  --th-amber-500: #C48E2E; /* Gold highlight */
+  --th-amber-400: #96640F; /* High-contrast antique gold on light canvas */
+  --th-amber-300: #78350F; /* Rich golden espresso text */
+  --th-amber-200: #B47D1C;
+
+  /* Scrollbar & Selection */
+  --scrollbar-track: #F3EFEA;
+  --scrollbar-thumb: #D5CBB8;
+  --scrollbar-thumb-hover: #A89F8D;
 }
 
 html {
   scroll-behavior: smooth;
+  transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #0c0a09;
-  color: #f5f5f4;
+  background-color: var(--th-stone-950);
+  color: var(--th-stone-100);
+  transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Custom subtle scrollbar */
@@ -22,15 +154,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1c1917;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #44403c;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #78716c;
+  background: var(--scrollbar-thumb-hover);
 }
+
 

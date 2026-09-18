@@ -4,28 +4,22 @@
  */
 
 import React from 'react';
-import { ContactSection } from './components/organisms/ContactSection';
 import { HeroSection } from './components/organisms/HeroSection';
+import { ServiceShowcase } from './components/organisms/ServiceShowcase';
 import { SizeChartGuide } from './components/organisms/SizeChartGuide';
-import { SuitCustomizerBooking } from './components/organisms/SuitCustomizerBooking';
 import { MainLayout } from './components/templates/MainLayout';
 
 export default function App() {
   return (
     <MainLayout>
-      {/* 1. Hero Section with Women's Bespoke Focus, WhatsApp CTA & Lahore Location */}
+      {/* 1. Hero Experience: Women's Atelier, Services, Pricing List (PKR) & Outfit Photos */}
       <HeroSection />
 
-      {/* 2. Custom Women's Suit Commission & WhatsApp Scheduling CTA */}
-      <SuitCustomizerBooking />
+      {/* 2. ServiceShowcase: Animated cycling gallery of finished tailoring results */}
+      <ServiceShowcase />
 
-      {/* 3. Dedicated Size Chart & Interactive Measuring Guide */}
+      {/* 3. Pakistani Brand Size Chart (Khaadi, Sapphire, Sana Safinaz, Maria.B Standard) */}
       <SizeChartGuide />
-
-      {/* 4. Customer Inquiries Contact Form */}
-      <ContactSection />
     </MainLayout>
   );
 }
-
-
