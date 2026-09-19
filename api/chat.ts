@@ -2,12 +2,10 @@ import { GoogleGenAI } from '@google/genai';
 import { ATELIER_SYSTEM_INSTRUCTION } from '../src/constants/atelierPrompt';
 
 let aiClient: GoogleGenAI | null = null;
-function getGenAI(): GoogleGenAI {
-  const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error('GEMINI_API_KEY or VITE_GEMINI_API_KEY is not configured in environment variables.');
-  }
-  if (!aiClient) {
+let lastKeyUsed: string | null = null;
+
+function getGenAI(apiKey: string): GoogleGenAI {
+  if (!aiClient || lastKeyUsed !== apiKey) {
     aiClient = new GoogleGenAI({
       apiKey,
       httpOptions: {
@@ -16,6 +14,7 @@ function getGenAI(): GoogleGenAI {
         },
       },
     });
+    lastKeyUsed = apiKey;
   }
   return aiClient;
 }
@@ -51,9 +50,21 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: 'A non-empty messages array is required.' });
     }
 
-    const ai = getGenAI();
+    // Safely check if Gemini API key is configured
+    const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
+      // Graceful JSON error message instead of throwing an unhandled exception or 500 server crash
+      return res.status(200).json({
+        error: 'Gemini API key is not configured. Please add GEMINI_API_KEY or VITE_GEMINI_API_KEY in your deployment environment or Settings > Secrets.',
+        isApiKeyMissing: true,
+        isQuotaExceeded: false,
+        model: 'gemini-2.5-flash',
+      });
+    }
 
-    // Map model ID ensuring valid identifier
+    const ai = getGenAI(apiKey.trim());
+
+    // Map model ID ensuring valid identifier (e.g. gemini-2.5-flash)
     let selectedModel = 'gemini-2.5-flash';
     if (model === 'gemini-2.5-flash' || model === 'gemini-1.5-flash') {
       selectedModel = 'gemini-2.5-flash';
@@ -75,17 +86,37 @@ export default async function handler(req: any, res: any) {
       tools.push({ googleSearch: {} });
     }
 
-    const response = await ai.models.generateContent({
-      model: selectedModel,
-      contents: formattedContents,
-      config: {
-        systemInstruction: ATELIER_SYSTEM_INSTRUCTION,
-        ...(tools.length > 0 ? { tools } : {}),
-      },
-    });
+    let response;
+    try {
+      response = await ai.models.generateContent({
+        model: selectedModel,
+        contents: formattedContents,
+        config: {
+          systemInstruction: ATELIER_SYSTEM_INSTRUCTION,
+          ...(tools.length > 0 ? { tools } : {}),
+        },
+      });
+    } catch (genError: any) {
+      const errString = String(genError?.message || genError);
+      // If 503 or transient unavailability, try fallback to gemini-2.5-flash
+      if ((errString.includes('503') || errString.includes('UNAVAILABLE')) && selectedModel !== 'gemini-2.5-flash') {
+        console.warn(`Primary model ${selectedModel} unavailable. Retrying with gemini-2.5-flash...`);
+        response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: formattedContents,
+          config: {
+            systemInstruction: ATELIER_SYSTEM_INSTRUCTION,
+            ...(tools.length > 0 ? { tools } : {}),
+          },
+        });
+        selectedModel = 'gemini-2.5-flash';
+      } else {
+        throw genError;
+      }
+    }
 
-    const replyText = response.text || 'I apologize, but I could not generate a response. Please try again.';
-    const candidate = response.candidates?.[0];
+    const replyText = response?.text || 'I apologize, but I could not generate a response. Please try again.';
+    const candidate = response?.candidates?.[0];
     const groundingMetadata = candidate?.groundingMetadata;
     const groundingChunks = groundingMetadata?.groundingChunks || [];
     const webSearchQueries = groundingMetadata?.webSearchQueries || [];
@@ -102,7 +133,7 @@ export default async function handler(req: any, res: any) {
     const rawMessage = error?.message || 'An unexpected error occurred while communicating with Gemini API.';
     let cleanMessage = rawMessage;
     let isQuotaExceeded = false;
-    let isApiKeyMissing = rawMessage.includes('GEMINI_API_KEY');
+    let isApiKeyMissing = rawMessage.includes('GEMINI_API_KEY') || rawMessage.includes('API key');
 
     try {
       const parsed = JSON.parse(rawMessage);
@@ -119,10 +150,13 @@ export default async function handler(req: any, res: any) {
       }
     }
 
-    return res.status(isQuotaExceeded ? 429 : 500).json({
+    // Return structured error without crashing runtime or throwing 500
+    const statusCode = isQuotaExceeded ? 429 : 200;
+    return res.status(statusCode).json({
       error: cleanMessage,
       isQuotaExceeded,
       isApiKeyMissing,
     });
   }
 }
+

@@ -14,12 +14,10 @@ app.use(express.json({ limit: '10mb' }));
 
 // Lazy GoogleGenAI client
 let aiClient: GoogleGenAI | null = null;
-function getGenAI(): GoogleGenAI {
-  const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error('GEMINI_API_KEY (or VITE_GEMINI_API_KEY) is not configured in environment variables.');
-  }
-  if (!aiClient) {
+let lastKeyUsed: string | null = null;
+
+function getGenAI(apiKey: string): GoogleGenAI {
+  if (!aiClient || lastKeyUsed !== apiKey) {
     aiClient = new GoogleGenAI({
       apiKey,
       httpOptions: {
@@ -28,6 +26,7 @@ function getGenAI(): GoogleGenAI {
         },
       },
     });
+    lastKeyUsed = apiKey;
   }
   return aiClient;
 }
@@ -62,7 +61,18 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'A non-empty messages array is required.' });
     }
 
-    const ai = getGenAI();
+    // Safely check if Gemini API key is configured without throwing unhandled exception
+    const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
+      return res.status(200).json({
+        error: 'Gemini API key is not configured. Please set GEMINI_API_KEY or VITE_GEMINI_API_KEY in your environment or Settings > Secrets.',
+        isApiKeyMissing: true,
+        isQuotaExceeded: false,
+        model: 'gemini-2.5-flash',
+      });
+    }
+
+    const ai = getGenAI(apiKey.trim());
 
     // Map allowed models according to guidelines
     let selectedModel = 'gemini-2.5-flash';
@@ -154,7 +164,9 @@ app.post('/api/chat', async (req, res) => {
       }
     }
 
-    return res.status(isQuotaExceeded ? 429 : 500).json({
+    // Graceful error response without causing unhandled server crash or 500
+    const statusCode = isQuotaExceeded ? 429 : 200;
+    return res.status(statusCode).json({
       error: cleanMessage,
       isQuotaExceeded,
       isApiKeyMissing,

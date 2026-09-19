@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MessageSquare, PhoneCall } from 'lucide-react';
 import { buildWhatsAppLink, SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
+import { useChatUI } from '../../context/ChatUIContext';
 import { Button, ButtonProps } from '../atoms/Button';
 
 export interface WhatsAppButtonProps {
@@ -54,8 +55,21 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   );
 };
 
-export const WhatsAppFloatingButton: React.FC = () => {
+export interface WhatsAppFloatingButtonProps {
+  isChatOpen?: boolean;
+}
+
+export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
+  isChatOpen: propIsChatOpen,
+}) => {
+  const { isChatOpen: contextIsChatOpen } = useChatUI();
+  const isChatOpen = propIsChatOpen !== undefined ? propIsChatOpen : contextIsChatOpen;
   const [isHovered, setIsHovered] = useState(false);
+
+  // Automatically hide floating WhatsApp button when Chatbot window is open to avoid any UI overlap
+  if (isChatOpen) {
+    return null;
+  }
 
   const handleFloatingClick = () => {
     const defaultMsg = 'Assalam-o-Alaikum SARTOR, I would like to inquire about women\'s bespoke stitching, embroidery, and tailoring services.';
@@ -66,7 +80,7 @@ export const WhatsAppFloatingButton: React.FC = () => {
   return (
     <aside 
       aria-label="Direct WhatsApp Concierge"
-      className="fixed bottom-6 right-6 z-50 flex items-center select-none"
+      className="fixed bottom-6 right-6 z-30 flex items-center select-none transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

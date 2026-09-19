@@ -213,11 +213,24 @@ export async function sendChatMessage(
     });
 
     if (serverResponse.ok) {
-      return await serverResponse.json();
+      const data = await serverResponse.json();
+      if (data && data.error && !data.text) {
+        if (data.isApiKeyMissing && clientKey) {
+          console.info('Server API key missing; seamlessly executing via client-side VITE_GEMINI_API_KEY with model:', modelToUse);
+          return await executeClientSideChat(history, newMessage, options);
+        }
+        throw new Error(data.error);
+      }
+      return data;
     }
 
     is404NotFound = serverResponse.status === 404;
     const errorJson = await serverResponse.json().catch(() => null);
+
+    if (errorJson && errorJson.isApiKeyMissing && clientKey) {
+      console.info('Server API key missing; seamlessly executing via client-side VITE_GEMINI_API_KEY with model:', modelToUse);
+      return await executeClientSideChat(history, newMessage, options);
+    }
 
     if (errorJson && errorJson.error) {
       serverHttpError = errorJson.error;

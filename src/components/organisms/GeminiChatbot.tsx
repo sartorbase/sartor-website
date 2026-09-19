@@ -24,10 +24,12 @@ import {
 import { ChatMessage, GeminiChatModel, GroundingChunk } from '../../types/chat';
 import { sendChatMessage } from '../../services/geminiChat';
 import { buildWhatsAppLink, SARTOR_PHONE_LOCAL } from '../../services/analytics';
+import { useChatUI } from '../../context/ChatUIContext';
 import { SartorLogo } from '../atoms/SartorLogo';
 
 interface GeminiChatbotProps {
   isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   onClose?: () => void;
   initialPrompt?: string;
 }
@@ -51,11 +53,23 @@ const SUGGESTED_PROMPTS = [
 
 export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
   isOpen: controlledIsOpen,
+  onOpenChange,
   onClose,
   initialPrompt,
 }) => {
+  const {
+    isChatOpen: contextIsOpen,
+    setIsChatOpen: setContextIsOpen,
+    chatPrompt,
+    setChatPrompt,
+  } = useChatUI();
   const [internalIsOpen, setInternalIsOpen] = useState(false);
-  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+  const isOpen =
+    controlledIsOpen !== undefined
+      ? controlledIsOpen
+      : (contextIsOpen || internalIsOpen);
+
+  const effectivePrompt = initialPrompt || chatPrompt;
 
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     const saved = localStorage.getItem('sartor_chat_history');
@@ -99,17 +113,22 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
 
   // Apply initial prompt if passed
   useEffect(() => {
-    if (initialPrompt && isOpen) {
-      setInput(initialPrompt);
-      inputRef.current?.focus();
+    if (effectivePrompt && isOpen) {
+      setInput(effectivePrompt);
+      if (setChatPrompt) setChatPrompt(null);
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 120);
     }
-  }, [initialPrompt, isOpen]);
+  }, [effectivePrompt, isOpen, setChatPrompt]);
 
   // Listen for global open-sartor-chat custom events
   useEffect(() => {
     const handleCustomOpen = (e: Event) => {
       const customEvent = e as CustomEvent<{ prompt?: string }>;
       setInternalIsOpen(true);
+      setContextIsOpen(true);
+      onOpenChange?.(true);
       if (customEvent.detail?.prompt) {
         setInput(customEvent.detail.prompt);
         setTimeout(() => {
@@ -119,14 +138,24 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
     };
     window.addEventListener('open-sartor-chat', handleCustomOpen);
     return () => window.removeEventListener('open-sartor-chat', handleCustomOpen);
-  }, []);
+  }, [setContextIsOpen, onOpenChange]);
 
   const handleToggle = () => {
-    if (controlledIsOpen !== undefined && onClose) {
+    const next = !isOpen;
+    if (controlledIsOpen !== undefined && onClose && !next) {
       onClose();
     } else {
-      setInternalIsOpen(!internalIsOpen);
+      setInternalIsOpen(next);
+      setContextIsOpen(next);
+      onOpenChange?.(next);
     }
+  };
+
+  const handleClose = () => {
+    setInternalIsOpen(false);
+    setContextIsOpen(false);
+    onClose?.();
+    onOpenChange?.(false);
   };
 
   const handleSend = async (textToSend?: string) => {
@@ -307,7 +336,7 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
                   {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
                 </button>
                 <button
-                  onClick={handleToggle}
+                  onClick={handleClose}
                   title="Close chat"
                   className="p-1.5 hover:text-stone-100 hover:bg-stone-800 rounded-lg transition-colors cursor-pointer"
                   aria-label="Close chat"
