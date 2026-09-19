@@ -26,6 +26,8 @@ import {
   analytics,
   buildWhatsAppLink,
 } from '../../services/analytics';
+import { openSartorChat } from '../../services/geminiChat';
+import { SartorLogo } from '../atoms/SartorLogo';
 import { Button } from '../atoms/Button';
 import { PricingItem } from '../../types';
 
@@ -138,6 +140,10 @@ Please guide me on consultation and booking.`;
               animate="visible"
               className="lg:col-span-7 flex flex-col items-start"
             >
+              {/* SARTOR Signature Silk Brand Emblem */}
+              <motion.div variants={fadeUpVariant} className="mb-4 sm:mb-5">
+                <SartorLogo variant="hero" />
+              </motion.div>
               
               {/* Location Tag */}
               <motion.div variants={fadeUpVariant} className="flex items-center gap-2 text-xs font-medium text-amber-400 mb-2 font-mono">
@@ -184,6 +190,17 @@ Please guide me on consultation and booking.`;
                   Order on WhatsApp ({SARTOR_PHONE_LOCAL})
                 </Button>
 
+                <Button
+                  id="hero-ai-stylist-cta"
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => openSartorChat()}
+                  leftIcon={<Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />}
+                  className="bg-stone-900 hover:bg-stone-800 text-stone-100 border border-amber-500/40 hover:border-amber-400"
+                >
+                  Ask AI Stylist (Google Search)
+                </Button>
+
                 <a href="#size-chart" className="inline-flex">
                   <Button
                     id="hero-size-chart-cta"
@@ -192,7 +209,7 @@ Please guide me on consultation and booking.`;
                     fullWidth
                     leftIcon={<Ruler className="w-4 h-4 text-amber-400" />}
                   >
-                    Pakistani Brand Size Chart
+                    Brand Size Chart
                   </Button>
                 </a>
               </motion.div>
@@ -631,14 +648,24 @@ Please guide me on consultation and booking.`;
             </div>
           </div>
 
-          <button
-            onClick={() => handleOrderOutfit(PRICING_LIST[5])}
-            className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer shrink-0 shadow-lg"
-          >
-            <MessageSquare className="w-4 h-4 fill-current" />
-            <span>Consult on WhatsApp</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <button
+              onClick={() => openSartorChat("I have a custom dress design and want advice on fabric requirements, styling, and Lahore stitching rates.")}
+              className="px-4 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-100 border border-amber-500/40 hover:border-amber-400 font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer shadow-md"
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Ask AI Stylist</span>
+            </button>
+
+            <button
+              onClick={() => handleOrderOutfit(PRICING_LIST[5])}
+              className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer shadow-lg"
+            >
+              <MessageSquare className="w-4 h-4 fill-current" />
+              <span>Consult on WhatsApp</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </motion.div>
 
       </section>

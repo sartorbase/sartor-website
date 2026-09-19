@@ -2,6 +2,7 @@ import React from 'react';
 import { CheckCircle2, ExternalLink, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
 import { buildWhatsAppLink, SARTOR_GOOGLE_MAPS_LINK, SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
 import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
+import { SartorLogo } from '../atoms/SartorLogo';
 
 export interface FooterProps {
   onOpenAnalytics?: () => void;
@@ -15,14 +16,7 @@ export const Footer: React.FC<FooterProps> = () => {
           
           {/* Brand info */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            <div>
-              <span className="font-serif text-3xl font-bold tracking-[0.25em] text-stone-100">
-                SARTOR
-              </span>
-              <p className="text-xs uppercase font-mono tracking-[0.3em] text-amber-500 mt-1">
-                Women's Bespoke Tailoring Atelier · Lahore
-              </p>
-            </div>
+            <SartorLogo variant="footer" />
             
             <p className="text-xs text-stone-400 leading-relaxed max-w-sm">
               Artisanal sarees, festive maxis, 16-kali kalidar frocks, layered double suits, and royal bridal ensembles. Hand-cut and fitted at Moon Tower, International Market, Model Town, Lahore.

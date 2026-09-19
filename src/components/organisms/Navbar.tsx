@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Clock, MapPin, Menu, MessageSquare, Phone, X } from 'lucide-react';
+import { Clock, MapPin, Menu, MessageSquare, Phone, Sparkles, X } from 'lucide-react';
 import { buildWhatsAppLink, SARTOR_PHONE_LOCAL } from '../../services/analytics';
+import { openSartorChat } from '../../services/geminiChat';
 import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
+import { SartorLogo } from '../atoms/SartorLogo';
 import { WhatsAppButton } from '../molecules/WhatsAppButton';
 
 export interface NavbarProps {
@@ -53,13 +55,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
       {/* Main navigation bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#" className="flex flex-col group">
-          <span className="font-serif text-2xl sm:text-3xl font-extrabold tracking-[0.2em] text-stone-100 group-hover:text-amber-400 transition-colors">
-            SARTOR
-          </span>
-          <span className="text-[9px] uppercase tracking-[0.35em] text-amber-500 font-semibold -mt-1">
-            Women's Bespoke Atelier · Lahore
-          </span>
+        <a href="#" className="flex items-center group cursor-pointer">
+          <SartorLogo variant="navbar" />
         </a>
 
         {/* Desktop Nav Items */}
@@ -78,6 +75,14 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
         {/* CTA Button & Theme Switcher Desktop */}
         <div className="hidden sm:flex items-center gap-3">
+          <button
+            onClick={() => openSartorChat()}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 hover:text-amber-300 border border-stone-800 hover:border-amber-500/40 text-xs font-semibold transition-all cursor-pointer shadow-sm"
+            title="Ask Sartor AI Stylist with Google Search grounding"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <span>AI Stylist</span>
+          </button>
           <ThemeSwitcher variant="segmented" />
           <WhatsAppButton
             channel="nav"
@@ -90,6 +95,15 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
         {/* Mobile Action Controls: Direct 1-tap WhatsApp + Compact Theme + Menu Drawer Toggle */}
         <div className="flex items-center gap-2 sm:hidden">
+          <button
+            onClick={() => openSartorChat()}
+            className="flex items-center justify-center p-2 rounded-full bg-stone-900 border border-amber-500/40 text-amber-400 hover:text-amber-300 shadow-sm cursor-pointer"
+            aria-label="Open AI Stylist"
+            title="AI Stylist"
+          >
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+          </button>
+
           <button
             onClick={handleQuickWhatsApp}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md active:scale-95 transition-all"
@@ -111,6 +125,13 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
         {/* Tablet Menu Toggle (sm to lg) */}
         <div className="hidden sm:flex lg:hidden items-center gap-2">
+          <button
+            onClick={() => openSartorChat()}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-stone-900 text-stone-200 border border-stone-800 text-xs font-medium cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>AI Stylist</span>
+          </button>
           <ThemeSwitcher variant="compact" />
           <WhatsAppButton
             channel="nav"
@@ -150,7 +171,18 @@ export const Navbar: React.FC<NavbarProps> = () => {
             ))}
           </nav>
 
-          <div className="pt-2 flex flex-col gap-3">
+          <div className="pt-2 flex flex-col gap-2.5">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                openSartorChat();
+              }}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-stone-900 to-stone-950 border border-amber-500/40 text-stone-100 text-xs font-semibold hover:border-amber-400 transition-all cursor-pointer shadow-sm"
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Ask Sartor AI Stylist (Google Search)</span>
+            </button>
+
             <WhatsAppButton
               channel="nav"
               label="Order / Consult on WhatsApp"

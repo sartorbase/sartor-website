@@ -28,6 +28,7 @@ import {
   simpleSuitImg,
 } from '../../data/sizes';
 import { analytics, buildWhatsAppLink } from '../../services/analytics';
+import { SartorLogo } from '../atoms/SartorLogo';
 import { Button } from '../atoms/Button';
 
 export interface TailoringResult {
@@ -660,9 +661,7 @@ Please let me know how to send my measurements or arrange unstitched fabric pick
         {/* Lahore Atelier Assurance Banner */}
         <div className="mt-12 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900/90 to-amber-950/30 border border-stone-800 p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
-              <Sparkles className="w-5 h-5" />
-            </div>
+            <SartorLogo variant="emblem" size="sm" />
             <div>
               <h4 className="text-sm font-semibold text-stone-100">
                 Have a customized picture or design in mind?
