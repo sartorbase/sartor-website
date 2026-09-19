@@ -65,26 +65,20 @@ app.post('/api/chat', async (req, res) => {
     const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
     if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
       return res.status(200).json({
+        text: "Assalam-o-Alaikum! Welcome to Sartor Atelier. Our AI Fashion Stylist is currently preparing consultations. For immediate bespoke design inquiries, fabric yardage estimates, and stitching bookings, please contact our Master Tailors at Moon Town Lahore directly via WhatsApp at 0335-2209991.",
         error: 'Gemini API key is not configured. Please set GEMINI_API_KEY or VITE_GEMINI_API_KEY in your environment or Settings > Secrets.',
         isApiKeyMissing: true,
         isQuotaExceeded: false,
         model: 'gemini-2.5-flash',
+        groundingChunks: [],
+        webSearchQueries: [],
+        hasSearchGrounding: false,
       });
     }
 
     const ai = getGenAI(apiKey.trim());
 
-    // Map allowed models according to guidelines
-    let selectedModel = 'gemini-2.5-flash';
-    if (model === 'gemini-2.5-flash' || model === 'gemini-1.5-flash') {
-      selectedModel = 'gemini-2.5-flash';
-    } else if (model === 'gemini-3.8-flash') {
-      selectedModel = 'gemini-3.8-flash';
-    } else if (model === 'gemini-3.1-pro-preview') {
-      selectedModel = 'gemini-3.1-pro-preview';
-    } else if (model === 'gemini-3.1-flash-lite') {
-      selectedModel = 'gemini-3.1-flash-lite';
-    }
+    const selectedModel = 'gemini-2.5-flash';
 
     // Format contents for multi-turn chat
     const formattedContents = messages.map((m) => ({
@@ -93,10 +87,7 @@ app.post('/api/chat', async (req, res) => {
     }));
 
     // Configure tools: Google Search if enabled
-    const tools: any[] = [];
-    if (enableSearch) {
-      tools.push({ googleSearch: {} });
-    }
+    const tools = enableSearch ? [{ googleSearch: {} }] : undefined;
 
     let response;
     try {
@@ -105,26 +96,42 @@ app.post('/api/chat', async (req, res) => {
         contents: formattedContents,
         config: {
           systemInstruction: ATELIER_SYSTEM_INSTRUCTION,
-          ...(tools.length > 0 ? { tools } : {}),
+          ...(tools ? { tools } : {}),
         },
       });
     } catch (genError: any) {
-      // If 503 or transient failure on primary model, try fallback model
-      const errString = String(genError?.message || genError);
-      if (errString.includes('503') || errString.includes('UNAVAILABLE')) {
-        console.warn(`Primary model ${selectedModel} returned 503. Retrying with gemini-2.5-flash...`);
-        response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: formattedContents,
-          config: {
-            systemInstruction: ATELIER_SYSTEM_INSTRUCTION,
-            ...(tools.length > 0 ? { tools } : {}),
-          },
-        });
-        selectedModel = 'gemini-2.5-flash';
-      } else {
-        throw genError;
+      console.error('Gemini SDK generateContent error in server.ts:', genError);
+      const rawMessage = genError?.message || 'Gemini API call failed.';
+      const isQuotaExceeded =
+        rawMessage.includes('429') ||
+        rawMessage.includes('RESOURCE_EXHAUSTED') ||
+        genError?.status === 429;
+      const isApiKeyMissing =
+        rawMessage.includes('GEMINI_API_KEY') ||
+        rawMessage.includes('API key') ||
+        rawMessage.includes('API_KEY_INVALID');
+
+      let userFriendlyError = rawMessage;
+      if (isQuotaExceeded) {
+        userFriendlyError =
+          'Gemini API quota exceeded for your current key. If you are using a free tier key, you can upgrade your plan or select a billing-enabled key in Settings > Secrets.';
       }
+
+      return res.status(200).json({
+        text: `I apologize, but I encountered an issue connecting with the styling service (${userFriendlyError}). You can also reach our atelier directly on WhatsApp at 0335-2209991.`,
+        error: userFriendlyError,
+        details: {
+          message: rawMessage,
+          status: genError?.status,
+          code: genError?.code,
+        },
+        isQuotaExceeded,
+        isApiKeyMissing,
+        model: selectedModel,
+        groundingChunks: [],
+        webSearchQueries: [],
+        hasSearchGrounding: false,
+      });
     }
 
     const replyText = response.text || 'I apologize, but I could not generate a response. Please try again.';
