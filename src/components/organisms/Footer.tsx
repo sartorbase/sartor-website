@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, ChevronRight, ExternalLink, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
+import { CheckCircle2, ExternalLink, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
 import { buildWhatsAppLink, SARTOR_GOOGLE_MAPS_LINK, SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
 import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
 
@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = () => {
             </div>
             
             <p className="text-xs text-stone-400 leading-relaxed max-w-sm">
-              Artisanal custom pantsuits, structured blazers, ceremonial trouser suits, and bespoke stitching for women. Hand-cut and fitted at Moon Tower, Model Town, Lahore.
+              Artisanal sarees, festive maxis, 16-kali kalidar frocks, layered double suits, and royal bridal ensembles. Hand-cut and fitted at Moon Tower, International Market, Model Town, Lahore.
             </p>
 
             <div className="flex flex-col gap-2 text-xs text-stone-300 mt-2">

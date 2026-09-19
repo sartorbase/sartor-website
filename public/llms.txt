@@ -1,29 +1,49 @@
-# SARTOR Lahore - Bespoke Tailoring House
-> Premium handcrafted bespoke suiting, tuxedos, safari suits, prince coats, and sherwanis in Lahore, Pakistan.
+# SARTOR Lahore - Women's Bespoke Tailoring & Stitching Atelier
+> Premier women's bespoke tailoring, designer stitching, hand/machine embroidery, fabric sourcing, and doorstep pick-and-drop service in Lahore, Pakistan.
 
 ## Business Profile
 - **Brand Name**: SARTOR
 - **Domain**: sartor.pk (https://sartor.pk)
-- **Primary Category**: Artisanal Bespoke Tailoring, Men's Sartorial Clothing, Custom Suiting
+- **Primary Category**: Women's Bespoke Tailoring, Luxury Stitching Atelier, Custom Couture
 - **Location**: Moon Tower, International Market, Model Town, Lahore, Punjab 54700, Pakistan
-- **WhatsApp Consultations & Bookings**: +92 335 2209991 (0335-2209991)
-- **Primary Ordering Channel**: Direct Master Tailor WhatsApp consultation and scheduling
+- **Phone / WhatsApp**: +92 335 2209991 (0335-2209991)
+- **WhatsApp Direct**: https://wa.me/923352209991
+- **Email**: contact@sartor.pk
+- **Operating Hours**: Monday - Saturday: 11:00 AM - 9:30 PM PKT | Sunday: 2:00 PM - 8:00 PM PKT
 
-## Services & Craftsmanship
-- **Bespoke Two-Piece & Three-Piece Suits**: Drafted individually from blank paper patterns. Full or half canvas interior, horn buttons, working sleeve cuffs (surgeon cuffs), hand-pick stitching.
-- **Black Tie & Tuxedos**: Peak lapel, shawl collar, grosgrain/satin facings, tailored dress trousers.
-- **Prince Coats & Safari Jackets**: Pakistani heritage cuts tailored with modern British silhouette and luxury Italian fabrics.
-- **Royal Wedding Sherwanis**: Bespoke raw silk, banarsi brocade, and jamawar sherwanis for grooms and dignitaries.
-- **Custom Measurement & Home Fitting Services**: Studio fittings at Moon Tower, Model Town, or private master tailor home appointments in Gulberg, DHA, and Model Town Lahore. Overseas measurement submission via interactive guide.
+## Stitching Services & Transparent Rate List (PKR)
+- **Simple Everyday / Pret Suit**: PKR 2,500
+  - Turnaround: 3 - 4 Days
+  - Details: 2-piece or 3-piece kurti and trouser/shalwar stitching with overlock interior seams and clean neck facing. Suitable for lawn, linen, jacquard, and cotton fabrics.
+- **Structured Layered Double Suit**: PKR 4,000
+  - Turnaround: 4 - 6 Days
+  - Details: Floor-length sheer organza coat over tailored slip kurti with matching cigarette pants. Double-stitched concealed slip lining and tapered trousers.
+- **16-Kali Kalidar Panneled Frock**: PKR 7,000
+  - Turnaround: 5 - 7 Days
+  - Details: 16 symmetrical geometric kalis with wide flare, sculpted bodice, lace setting, hemline scalloping, and churidar or trousers.
+- **Handcrafted Pleated Sarhi & Blouse Set**: PKR 7,000
+  - Turnaround: 6 - 8 Days
+  - Details: Pre-pleated pallu fall with anti-slip binding, weighted satin fall application, padded bustier blouse with invisible zipper, and custom drawstring satin petticoat.
+- **Royal Bridal Lehenga & Gown Set**: PKR 10,000
+  - Turnaround: 10 - 14 Days
+  - Details: Heavy flared lehenga with built-in multi-layer can-can, padded choli, dual-dupatta framing with kiran border, French seams, and dedicated master cutter trial fitting.
+- **Hand & Machine Embroidery**: Custom Quote
+  - Techniques: Authentic zardozi, aari needlework, tilla, resham threadwork, micro-dabka, French knots, and laser scalloped borders.
+- **Fabric Sourcing Service**:
+  - Direct wholesale and luxury fabric sourcing from Moon Tower, Liberty Market, Ichhra, Anarkali, and Azam Cloth Market in Lahore.
+- **Doorstep Pick & Drop Service**:
+  - Available across all Lahore areas including Model Town, Gulberg, DHA (Phases 1-8), Cantt, Johar Town, Faisal Town, Wapda Town, and Bahria Town Lahore. Includes pressed, hanger-packed garment delivery.
 
-## Fabric Collections
-- **Super 130s to Super 180s Wool**: Sourced from premier European and international mills (Biella, Huddersfield traditions).
-- **Cashmere & Wool Overcoatings**: Heavy luxury blends for winter weddings and travel.
-- **Pure Irish Linen & Tropical Worsted**: Breathable, lightweight luxury for Lahore's spring, summer, and autumn climate.
-- **Pure Egyptian & Giza Cotton**: High-thread-count bespoke shirting fabrics.
-- **Jacquard & Silk Linings**: Bemberg and silk breathable linings in paisley, houndstooth, and bespoke monograms.
+## Pakistani Brand Size Chart Standardization
+SARTOR accommodates standardized sizing matching top Pakistani pret fashion brands:
+- **Brands Supported**: Khaadi, Sapphire, Maria.B, Sana Safinaz, Bareeze, Nishat Linen, Cross Stitch, Generation.
+- **Sizes**: Extra Small (XS), Small (S), Medium (M), Large (L), Extra Large (XL).
+- **Measurement Units**: Supports both Inches (") and Centimeters (cm) with an interactive size calculator.
+- **Custom Measurements**: Shoulder, Chest/Bust, Waist, Hips, Kurti Length, Sleeve Length, Trouser Length, and Trouser Inseam.
 
-## Studio Details
-- **Address**: Moon Tower, International Market, Model Town, Lahore, Pakistan
-- **Hours**: Monday to Saturday: 11:00 AM - 9:30 PM PKT | Sunday: 2:00 PM - 8:00 PM PKT
-- **Booking URL**: https://wa.me/923352209991
+## Extended Resources
+- **Full LLM Context**: https://sartor.pk/llms-full.txt
+- **Sitemap**: https://sartor.pk/sitemap.xml
+- **Interactive Size Calculator**: https://sartor.pk/#size-chart
+- **Google Maps Location**: https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68
+

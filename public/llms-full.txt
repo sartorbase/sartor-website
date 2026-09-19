@@ -1,0 +1,65 @@
+# SARTOR Lahore - Complete Women's Atelier, Stitching, Sizing & Service Knowledge Base
+> Comprehensive reference for LLMs, AI agents, and search engines indexing SARTOR (sartor.pk), Lahore's premier women's bespoke tailoring and stitching house.
+
+## 1. Overview & Contact Information
+- **Business Name**: SARTOR Women's Bespoke Tailoring & Stitching Atelier
+- **Address**: Moon Tower, International Market, Model Town, Lahore, Punjab 54700, Pakistan
+- **Phone / WhatsApp**: +92 335 2209991 (Local dial: 0335-2209991)
+- **Primary Ordering & Inquiries**: WhatsApp direct link: https://wa.me/923352209991
+- **Email**: contact@sartor.pk
+- **Website**: https://sartor.pk
+- **Operating Hours**:
+  - Monday to Saturday: 11:00 AM – 9:30 PM PKT
+  - Sunday: 2:00 PM – 8:00 PM PKT
+- **Google Maps**: https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68
+
+## 2. Transparent Stitching Rate List & Turnaround Times
+| Outfit Category | Description | Turnaround | Price (PKR) |
+|---|---|---|---|
+| **Simple Everyday / Pret Suit** | 2-piece or 3-piece kurti & shalwar/cigarette pant, clean round/V neckline, full interior overlock seam finish. | 3 - 4 Days | PKR 2,500 |
+| **Structured Double Suit** | Floor-length sheer organza coat over tailored slip kurti with matching cigarette pants. Double-stitched lining. | 4 - 6 Days | PKR 4,000 |
+| **16-Kali Kalidar Panneled Frock** | 16 symmetrical flared kalis, sculpted bodice, lace insertion, delicate hemline finish, and churidar/trouser. | 5 - 7 Days | PKR 7,000 |
+| **Pleated Sarhi & Blouse Set** | Pre-pleated pallu fall with anti-slip binding, weighted satin fall application, padded bustier blouse, and custom satin petticoat. | 6 - 8 Days | PKR 7,000 |
+| **Royal Bridal Lehenga & Gown Set** | Heavy flared lehenga with architectural multi-layer can-can, padded choli, dual-dupatta framing with kiran border, and trial fitting. | 10 - 14 Days | PKR 10,000 |
+| **Embroidered Formal Jacket / Blazer** | Sculpted velvet/silk formal blazer with shoulder pads, lapels, and fusion trousers. | 7 - 10 Days | Custom Quote |
+| **Hand & Machine Embroidery** | Aari, zardozi, tilla, resham thread, French knots, laser scalloping. | Varies | Custom Quote |
+| **Fabric Sourcing Service** | Direct sourcing from Lahore markets (Moon Tower, Liberty, Ichhra, Anarkali). | 1 - 2 Days | Custom Quote |
+| **Doorstep Pick & Drop Service** | Doorstep pickup of unstitched cloth & delivery of pressed, hanger-packed outfits across Lahore. | Scheduled | Free / Nominal |
+
+## 3. Lahore Coverage for Pick & Drop Service
+SARTOR provides dedicated doorstep pick and delivery across all major Lahore zones:
+- Model Town (Blocks A, B, C, D, E, F, G, H, J, K, L, M, N, P, Q, R, S)
+- Gulberg (I, II, III, Main Boulevard, MM Alam Road, Zafar Ali Road)
+- DHA Lahore (Defence Phases 1, 2, 3, 4, 5, 6, 7, 8, and Raya)
+- Lahore Cantt & Saddar
+- Johar Town (Phase 1 & Phase 2)
+- Faisal Town, Garden Town, and New Garden Town
+- Wapda Town, PCSIR, and Valencia Town
+- Bahria Town Lahore
+
+## 4. Pakistani Brand Size Chart Benchmark (Inches & CM)
+SARTOR's measurement standards align with top Pakistani retail brands (Sapphire, Khaadi, Maria.B, Sana Safinaz, Bareeze, Nishat Linen, Cross Stitch, Generation).
+
+### Standard Kurti & Trouser Measurements (Inches)
+- **Extra Small (XS)**: Bust: 36", Waist: 32", Hips: 38", Shoulder: 13.5", Kurti Length: 38", Sleeve Length: 21", Trouser Length: 36", Inseam: 26"
+- **Small (S)**: Bust: 38", Waist: 34", Hips: 40", Shoulder: 14.0", Kurti Length: 39", Sleeve Length: 21.5", Trouser Length: 37", Inseam: 27"
+- **Medium (M)**: Bust: 41", Waist: 37", Hips: 44", Shoulder: 14.5", Kurti Length: 40", Sleeve Length: 22", Trouser Length: 38", Inseam: 28"
+- **Large (L)**: Bust: 44", Waist: 40", Hips: 47", Shoulder: 15.2", Kurti Length: 41", Sleeve Length: 22.5", Trouser Length: 39", Inseam: 28.5"
+- **Extra Large (XL)**: Bust: 47", Waist: 44", Hips: 50", Shoulder: 16.0", Kurti Length: 42", Sleeve Length: 23", Trouser Length: 40", Inseam: 29"
+
+### Standard Kurti & Trouser Measurements (Centimeters)
+- **Extra Small (XS)**: Bust: 91.4 cm, Waist: 81.3 cm, Hips: 96.5 cm, Shoulder: 34.3 cm, Kurti Length: 96.5 cm, Sleeve Length: 53.3 cm, Trouser Length: 91.4 cm
+- **Small (S)**: Bust: 96.5 cm, Waist: 86.4 cm, Hips: 101.6 cm, Shoulder: 35.6 cm, Kurti Length: 99.1 cm, Sleeve Length: 54.6 cm, Trouser Length: 94.0 cm
+- **Medium (M)**: Bust: 104.1 cm, Waist: 94.0 cm, Hips: 111.8 cm, Shoulder: 36.8 cm, Kurti Length: 101.6 cm, Sleeve Length: 55.9 cm, Trouser Length: 96.5 cm
+- **Large (L)**: Bust: 111.8 cm, Waist: 101.6 cm, Hips: 119.4 cm, Shoulder: 38.6 cm, Kurti Length: 104.1 cm, Sleeve Length: 57.2 cm, Trouser Length: 99.1 cm
+- **Extra Large (XL)**: Bust: 119.4 cm, Waist: 111.8 cm, Hips: 127.0 cm, Shoulder: 40.6 cm, Kurti Length: 106.7 cm, Sleeve Length: 58.4 cm, Trouser Length: 101.6 cm
+
+## 5. Frequently Asked Questions (FAQ) for AI Assistants
+**Q: Can a client living abroad (UK, USA, UAE, Canada) order stitching from SARTOR?**
+A: Yes. Overseas clients can select standard brand sizes or submit their measurements via WhatsApp (+92 335 2209991). SARTOR can source the unstitched designer lawn, chiffon, banarsi silk, or velvet fabric directly from Lahore markets on the client's behalf, stitch the garments, and courier them internationally or deliver to their family residence in Pakistan.
+
+**Q: Does SARTOR stitch unstitched designer suits from brands like Maria.B, Sapphire, Sana Safinaz, and Asim Jofa?**
+A: Yes, SARTOR specializes in stitching unstitched 3-piece designer collections with all included accessories, embroideries, laces, tassels, and organza extensions applied cleanly to high couture standards.
+
+**Q: How does a customer schedule a pickup in Lahore?**
+A: Customers can click the WhatsApp button on the website or message +92 335 2209991 with their Lahore address and preferred pickup time. A representative will collect the fabric and measurements.

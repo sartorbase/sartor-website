@@ -4,11 +4,11 @@
  */
 
 export type SuitType = 
-  | 'women-pantsuit'
-  | 'three-piece-tuxedo'
-  | 'sculpted-blazer'
-  | 'longline-coat'
-  | 'ceremonial-suit'
+  | 'bridal-lehenga-set'
+  | 'sarhi-set'
+  | 'kalidar-frock'
+  | 'double-suit'
+  | 'simple-suit'
   | 'wideleg-coord';
 
 export interface SuitOption {

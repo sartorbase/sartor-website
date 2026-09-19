@@ -1,36 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
   CheckCircle2,
-  Clock,
-  Crown,
   ExternalLink,
-  Flame,
   Layers,
   MapPin,
   MessageSquare,
-  Package,
-  Phone,
   Ruler,
   Scissors,
-  Send,
   Sparkles,
   Truck,
 } from 'lucide-react';
 import {
-  BESPOKE_SERVICES,
   PRICING_LIST,
   bridalSetImg,
   doubleSuitImg,
-  embroideredJacketImg,
   panneledFrockImg,
   sarhiSetImg,
   simpleSuitImg,
 } from '../../data/sizes';
 import {
   SARTOR_GOOGLE_MAPS_LINK,
-  SARTOR_PHONE_DISPLAY,
   SARTOR_PHONE_LOCAL,
   analytics,
   buildWhatsAppLink,
@@ -65,8 +56,6 @@ const fadeUpVariant = {
 };
 
 export const HeroSection: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
   const handleOrderOutfit = (item: PricingItem) => {
     analytics.trackEvent('pricing_whatsapp_click', {
       outfit: item.title,
@@ -104,16 +93,11 @@ Please guide me on consultation and booking.`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const filteredPricing =
-    selectedCategory === 'all'
-      ? PRICING_LIST
-      : PRICING_LIST.filter((item) => item.id === selectedCategory);
-
   return (
     <div className="relative bg-stone-950 text-stone-100">
       
       {/* 1. Main Hero Header Banner */}
-      <section className="relative overflow-hidden pt-10 pb-16 md:pt-16 md:pb-20 border-b border-stone-800/80">
+      <section className="relative overflow-hidden pt-6 pb-14 md:pt-14 md:pb-20 border-b border-stone-800/80">
         {/* Glow backdrop effects */}
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/2 left-10 w-96 h-96 bg-stone-800/20 rounded-full blur-3xl pointer-events-none" />
@@ -125,29 +109,29 @@ Please guide me on consultation and booking.`;
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easeCurve }}
-            className="flex flex-wrap items-center gap-2.5 mb-6"
+            className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/70 border border-amber-600/50 text-amber-300 text-xs font-medium">
+            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-amber-950/70 border border-amber-600/50 text-amber-300 text-[11px] sm:text-xs font-medium">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               <span className="font-semibold">Women's Bespoke Atelier</span>
               <span className="text-amber-500/60">·</span>
-              <span>Moon Tower, Model Town, Lahore</span>
+              <span>Model Town, Lahore</span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3 sm:py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-[11px] sm:text-xs font-medium">
               <Truck className="w-3.5 h-3.5 text-amber-400" />
               <span>Pick & Drop Across Lahore</span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium">
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>Hand & Machine Embroidery</span>
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
             
-            {/* Left Column: Headline, Services & Actions */}
+            {/* Left Column: Headline, Subtitle, Direct Above-the-Fold CTA & Pricing */}
             <motion.div
               variants={containerStagger}
               initial="hidden"
@@ -156,7 +140,7 @@ Please guide me on consultation and booking.`;
             >
               
               {/* Location Tag */}
-              <motion.div variants={fadeUpVariant} className="flex items-center gap-2 text-xs font-medium text-amber-400 mb-3 font-mono">
+              <motion.div variants={fadeUpVariant} className="flex items-center gap-2 text-xs font-medium text-amber-400 mb-2 font-mono">
                 <a
                   href={SARTOR_GOOGLE_MAPS_LINK}
                   target="_blank"
@@ -164,7 +148,7 @@ Please guide me on consultation and booking.`;
                   className="hover:underline flex items-center gap-1.5 text-stone-300 hover:text-amber-300"
                 >
                   <MapPin className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Moon Tower, Model Town, Lahore</span>
+                  <span>Moon Tower, International Market, Model Town</span>
                   <ExternalLink className="w-3 h-3 text-stone-400" />
                 </a>
               </motion.div>
@@ -172,7 +156,7 @@ Please guide me on consultation and booking.`;
               {/* Grand Main Headline */}
               <motion.h1
                 variants={fadeUpVariant}
-                className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-stone-100 tracking-tight leading-[1.15]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-stone-100 tracking-tight leading-[1.15]"
               >
                 Master Women's Tailoring, <br className="hidden sm:inline" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500">
@@ -183,32 +167,13 @@ Please guide me on consultation and booking.`;
               {/* Subtitle */}
               <motion.p
                 variants={fadeUpVariant}
-                className="mt-5 text-stone-300 text-base sm:text-lg max-w-2xl leading-relaxed"
+                className="mt-3 sm:mt-5 text-stone-300 text-sm sm:text-base lg:text-lg max-w-2xl leading-relaxed"
               >
-                Welcome to <strong>SARTOR</strong>. We specialize in precision stitching for everyday simple suits, structured double suits, kalidar panned frocks, couture sarhis, and royal bridal ensembles. Complete with master hand & machine embroidery, fabric sourcing, and doorstep pick & drop service throughout Lahore.
+                Welcome to <strong>SARTOR</strong>. We specialize in precision stitching for sarees, festive maxis, 16-kali kalidar frocks, structured double suits, and royal bridal lehengas. Complete with master hand & machine embroidery, authentic fabric sourcing, and doorstep pick & drop throughout Lahore.
               </motion.p>
 
-              {/* Quick Pricing Pill Highlights */}
-              <motion.div variants={fadeUpVariant} className="mt-6 flex flex-wrap gap-2 text-xs">
-                <span className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                  Simple Suit: <strong className="text-amber-400">PKR 2,500</strong>
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                  Double Suit: <strong className="text-amber-400">PKR 4,000</strong>
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                  Sarhi Set: <strong className="text-amber-400">PKR 7,000</strong>
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                  Panneled Frock: <strong className="text-amber-400">PKR 7,000</strong>
-                </span>
-                <span className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                  Bridal Set: <strong className="text-amber-400">PKR 10,000</strong>
-                </span>
-              </motion.div>
-
-              {/* Primary CTAs */}
-              <motion.div variants={fadeUpVariant} className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto">
+              {/* Primary CTAs (Placed directly below headline for immediate above-the-fold conversion) */}
+              <motion.div variants={fadeUpVariant} className="mt-5 sm:mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                 <Button
                   id="hero-whatsapp-main-cta"
                   variant="whatsapp"
@@ -232,19 +197,45 @@ Please guide me on consultation and booking.`;
                 </a>
               </motion.div>
 
-              {/* Quick assurance info */}
-              <motion.div variants={fadeUpVariant} className="mt-4 flex flex-wrap items-center gap-4 text-xs text-stone-400">
-                <span className="flex items-center gap-1.5 text-stone-300">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  Instant WhatsApp Booking Active
+              {/* Quick assurance info & trust micro-copy */}
+              <motion.div variants={fadeUpVariant} className="mt-3.5 flex flex-wrap items-center gap-3 text-xs text-stone-400">
+                <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Direct WhatsApp reply &lt; 15 mins
                 </span>
-                <span>•</span>
-                <span>Moon Tower, International Market, Model Town</span>
+                <span className="text-stone-600 hidden sm:inline">•</span>
+                <span className="text-stone-300">Free Fabric Pickup in Lahore</span>
+                <span className="text-stone-600 hidden sm:inline">•</span>
+                <span className="text-stone-300">Fitting Guarantee</span>
+              </motion.div>
+
+              {/* Transparent Quick Rates Ticker */}
+              <motion.div variants={fadeUpVariant} className="mt-6 pt-4 border-t border-stone-800/80 w-full">
+                <div className="text-[11px] uppercase tracking-wider text-amber-500/90 font-mono font-semibold mb-2">
+                  Transparent Stitching Rates (PKR):
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
+                    Simple Suit: <strong className="text-amber-400">PKR 2,500</strong>
+                  </a>
+                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
+                    Double Suit: <strong className="text-amber-400">PKR 4,000</strong>
+                  </a>
+                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
+                    Sarhi Set: <strong className="text-amber-400">PKR 7,000</strong>
+                  </a>
+                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
+                    Panneled Frock: <strong className="text-amber-400">PKR 7,000</strong>
+                  </a>
+                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
+                    Bridal Set: <strong className="text-amber-400">PKR 10,000</strong>
+                  </a>
+                </div>
               </motion.div>
 
             </motion.div>
 
-            {/* Right Column: Hero Visual Portfolio Collage */}
+            {/* Right Column: Hero Visual Portfolio Collage (Optimized LCP Image) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -253,12 +244,15 @@ Please guide me on consultation and booking.`;
             >
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 
-                {/* Visual Card with Carousel / Showcase Preview */}
-                <div className="relative rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 shadow-2xl group">
+                {/* Visual Card with Preview */}
+                <div className="relative rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 shadow-2xl group aspect-[4/5] sm:aspect-auto">
                   <img
                     src={bridalSetImg}
-                    alt="SARTOR Pakistani Bridal Lehenga Choli Stitching"
-                    className="w-full h-96 sm:h-[420px] object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    alt="SARTOR Pakistani Bridal Lehenga Choli & Maxi Stitching Lahore"
+                    className="w-full h-80 sm:h-96 lg:h-[430px] object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
 
@@ -304,6 +298,8 @@ Please guide me on consultation and booking.`;
                       src={panneledFrockImg}
                       alt="Panneled Frock"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                     />
                     <span className="absolute bottom-0 inset-x-0 bg-stone-950/80 text-[9px] text-center font-mono text-amber-300 py-0.5">
@@ -315,6 +311,8 @@ Please guide me on consultation and booking.`;
                       src={doubleSuitImg}
                       alt="Double Suit"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                     />
                     <span className="absolute bottom-0 inset-x-0 bg-stone-950/80 text-[9px] text-center font-mono text-amber-300 py-0.5">
@@ -326,6 +324,8 @@ Please guide me on consultation and booking.`;
                       src={sarhiSetImg}
                       alt="Sarhi Set"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                     />
                     <span className="absolute bottom-0 inset-x-0 bg-stone-950/80 text-[9px] text-center font-mono text-amber-300 py-0.5">
@@ -337,6 +337,8 @@ Please guide me on consultation and booking.`;
                       src={simpleSuitImg}
                       alt="Simple Suit"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                     />
                     <span className="absolute bottom-0 inset-x-0 bg-stone-950/80 text-[9px] text-center font-mono text-amber-300 py-0.5">

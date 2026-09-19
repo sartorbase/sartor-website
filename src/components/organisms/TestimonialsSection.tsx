@@ -7,12 +7,12 @@ import { WhatsAppButton } from '../molecules/WhatsAppButton';
 
 export const TestimonialsSection: React.FC = () => {
   return (
-    <section id="testimonials" className="py-20 bg-stone-900/40 border-b border-stone-800">
+    <section id="testimonials" className="py-16 sm:py-20 bg-stone-900/40 border-b border-stone-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <SectionHeading
-          badge="Distinguished Clientele"
-          title="Endorsed by Gentlemen of Distinction"
-          subtitle="From high court advocates and wedding grooms in DHA & Gulberg to overseas Pakistani connoisseurs, hear what our clients say about SARTOR’s bespoke craftsmanship."
+          badge="Client Endorsements"
+          title="Endorsed by Discerning Women Across Lahore"
+          subtitle="From bridal lehenga ensembles and pleated designer sarees in DHA & Gulberg to festive wardrobes for overseas Pakistanis, experience what our clients say about SARTOR’s master atelier."
         />
 
         {/* Aggregate Credibility Bar */}
@@ -24,17 +24,17 @@ export const TestimonialsSection: React.FC = () => {
                 <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <span className="text-[11px] text-stone-400 mt-1 block">Bespoke Rating</span>
+            <span className="text-[11px] text-stone-400 mt-1 block">Atelier Rating</span>
           </div>
           <div className="h-8 w-px bg-stone-800" />
           <div>
-            <div className="text-xl sm:text-2xl font-bold font-mono text-stone-100">1,200+</div>
-            <span className="text-[11px] text-stone-400 mt-1 block">Custom Suits Crafted</span>
+            <div className="text-xl sm:text-2xl font-bold font-mono text-stone-100">1,800+</div>
+            <span className="text-[11px] text-stone-400 mt-1 block">Outfits Tailored</span>
           </div>
           <div className="h-8 w-px bg-stone-800" />
           <div>
             <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">100%</div>
-            <span className="text-[11px] text-stone-400 mt-1 block">Fit Guarantee</span>
+            <span className="text-[11px] text-stone-400 mt-1 block">Bespoke Guarantee</span>
           </div>
         </div>
 
@@ -45,17 +45,20 @@ export const TestimonialsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Wedding Groom Consultation Prompt */}
-        <div className="mt-14 text-center">
+        {/* Bridal & Festive Consultation Prompt */}
+        <div className="mt-12 text-center p-6 rounded-2xl bg-stone-900/60 border border-stone-800 max-w-2xl mx-auto">
+          <h4 className="font-serif text-lg font-bold text-stone-100 mb-1">
+            Planning a Wedding or Festive Occasion in Lahore?
+          </h4>
           <p className="text-xs sm:text-sm text-stone-400 mb-4">
-            Planning your wedding in Lahore? Book a dedicated groom styling consultation with Master Tailor.
+            Book a private fitting session at our Moon Tower studio or request doorstep fabric pickup anywhere in Lahore.
           </p>
           <WhatsAppButton
             channel="hero"
-            label="Inquire Groom Wedding Packages on WhatsApp"
+            label="Book Bridal & Festive Fitting on WhatsApp"
             variant="whatsapp"
             size="md"
-            message="Hello SARTOR, I am planning my wedding in Lahore and would like to schedule a private groom consultation for sherwani and tuxedo."
+            message="Assalam-o-Alaikum SARTOR, I am planning for an upcoming wedding in Lahore and would like to schedule a bridal or festive stitching consultation."
           />
         </div>
 

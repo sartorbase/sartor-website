@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowUpDown, Check, Copy, HelpCircle, MessageSquare, Ruler, Send, Sparkles } from 'lucide-react';
+import { ArrowUpDown, Check, Copy, MessageSquare, Ruler, Sparkles } from 'lucide-react';
 import { PAKISTANI_MEASURING_STEPS, PAKISTANI_SIZES } from '../../data/sizes';
 import { analytics, buildWhatsAppLink, SARTOR_PHONE_LOCAL } from '../../services/analytics';
 import { Button } from '../atoms/Button';

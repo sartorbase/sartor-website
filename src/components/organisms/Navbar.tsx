@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { BarChart3, Clock, MapPin, Menu, Phone, Sparkles, X } from 'lucide-react';
-import { SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
+import { Clock, MapPin, Menu, MessageSquare, Phone, X } from 'lucide-react';
+import { buildWhatsAppLink, SARTOR_PHONE_LOCAL } from '../../services/analytics';
 import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
 import { WhatsAppButton } from '../molecules/WhatsAppButton';
 
@@ -13,30 +13,39 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Pricing & Stitching', href: '#pricing' },
-    { label: 'Craft Showcase', href: '#service-showcase' },
-    { label: 'Services & Sourcing', href: '#services' },
+    { label: 'Stitching Rates', href: '#pricing' },
+    { label: 'Craft Portfolio', href: '#service-showcase' },
+    { label: 'Embroidery & Sourcing', href: '#services' },
     { label: 'Pakistani Size Chart', href: '#size-chart' },
+    { label: 'Studio & Location', href: '#location' },
   ];
 
+  const handleQuickWhatsApp = () => {
+    const url = buildWhatsAppLink(
+      'Assalam-o-Alaikum SARTOR, I would like to inquire about women\'s bespoke tailoring and stitching services at your Model Town studio.',
+      'nav'
+    );
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-stone-950/90 backdrop-blur-md border-b border-stone-800/80 transition-all">
+    <header className="sticky top-0 z-40 bg-stone-950/95 backdrop-blur-md border-b border-stone-800/80 transition-all">
       {/* Top micro bar for location & working hours */}
       <div className="bg-stone-900/90 border-b border-stone-800/50 text-[11px] text-stone-400 py-1.5 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1 text-stone-300">
-              <MapPin className="w-3 h-3 text-amber-500" />
-              <span>Moon Tower, International Market, Model Town, Lahore</span>
+            <span className="flex items-center gap-1.5 text-stone-300 truncate">
+              <MapPin className="w-3 h-3 text-amber-500 shrink-0" />
+              <span className="truncate">Moon Tower, International Market, Model Town, Lahore</span>
             </span>
             <span className="hidden md:flex items-center gap-1 text-stone-400">
               <Clock className="w-3 h-3 text-stone-500" />
-              <span>Mon-Sat: 11:00 AM – 9:30 PM PKT</span>
+              <span>Mon–Sat: 11:00 AM – 9:30 PM PKT</span>
             </span>
           </div>
-          <div className="flex items-center gap-2 text-stone-300">
+          <div className="flex items-center gap-2 text-stone-300 shrink-0">
             <Phone className="w-3 h-3 text-emerald-400" />
-            <span>Direct Atelier: <strong className="text-emerald-400 font-mono">{SARTOR_PHONE_LOCAL}</strong></span>
+            <span>Atelier WhatsApp: <strong className="text-emerald-400 font-mono">{SARTOR_PHONE_LOCAL}</strong></span>
           </div>
         </div>
       </div>
@@ -49,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             SARTOR
           </span>
           <span className="text-[9px] uppercase tracking-[0.35em] text-amber-500 font-semibold -mt-1">
-            Bespoke Tailoring · Lahore
+            Women's Bespoke Atelier · Lahore
           </span>
         </a>
 
@@ -72,22 +81,47 @@ export const Navbar: React.FC<NavbarProps> = () => {
           <ThemeSwitcher variant="segmented" />
           <WhatsAppButton
             channel="nav"
-            label="Book via WhatsApp"
+            label="Book on WhatsApp"
             size="sm"
             variant="whatsapp"
-            message="Hello SARTOR, I would like to schedule a custom suit fitting at your Moon Tower studio in Model Town Lahore."
+            message="Assalam-o-Alaikum SARTOR, I would like to inquire about women's bespoke stitching and consultation at your Moon Tower studio in Model Town Lahore."
           />
         </div>
 
-        {/* Mobile Menu & Quick Switcher Button */}
-        <div className="flex items-center gap-2 lg:hidden">
-          <div className="sm:hidden">
-            <ThemeSwitcher variant="compact" />
-          </div>
+        {/* Mobile Action Controls: Direct 1-tap WhatsApp + Compact Theme + Menu Drawer Toggle */}
+        <div className="flex items-center gap-2 sm:hidden">
+          <button
+            onClick={handleQuickWhatsApp}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md active:scale-95 transition-all"
+            aria-label="Direct WhatsApp Message"
+          >
+            <MessageSquare className="w-3.5 h-3.5 fill-current" />
+            <span>WhatsApp</span>
+          </button>
+
           <button
             id="mobile-nav-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-md bg-stone-900 border border-stone-800 text-stone-300 hover:text-white"
+            className="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
+        {/* Tablet Menu Toggle (sm to lg) */}
+        <div className="hidden sm:flex lg:hidden items-center gap-2">
+          <ThemeSwitcher variant="compact" />
+          <WhatsAppButton
+            channel="nav"
+            label="WhatsApp"
+            size="sm"
+            variant="whatsapp"
+            message="Assalam-o-Alaikum SARTOR, I would like to inquire about women's bespoke tailoring."
+          />
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -119,11 +153,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
           <div className="pt-2 flex flex-col gap-3">
             <WhatsAppButton
               channel="nav"
-              label="Schedule on WhatsApp"
+              label="Order / Consult on WhatsApp"
               size="md"
               fullWidth
               showPhoneHint
-              message="Hello SARTOR, I would like to schedule a bespoke consultation in Lahore."
+              message="Assalam-o-Alaikum SARTOR, I would like to schedule a women's bespoke consultation in Lahore."
             />
           </div>
         </div>
