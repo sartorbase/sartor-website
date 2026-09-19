@@ -72,7 +72,7 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
 
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [model, setModel] = useState<GeminiChatModel>('gemini-3.5-flash');
+  const [model, setModel] = useState<GeminiChatModel>('gemini-2.5-flash');
   const [enableSearch, setEnableSearch] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -284,7 +284,7 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
                     </span>
                   </div>
                   <p className="text-[10px] text-stone-400">
-                    Moon Tower Atelier • Powered by Gemini 3.5
+                    Moon Tower Atelier • {model}
                   </p>
                 </div>
               </div>
@@ -328,8 +328,10 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
                   onChange={(e) => setModel(e.target.value as GeminiChatModel)}
                   className="bg-stone-800 text-stone-200 text-[11px] rounded px-2 py-0.5 border border-stone-700 outline-none focus:border-amber-400 cursor-pointer"
                 >
-                  <option value="gemini-3.5-flash">Gemini 3.5 Flash (Recommended)</option>
-                  <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro (Deep Styling)</option>
+                  <option value="gemini-2.5-flash">Gemini 2.5 Flash (Recommended)</option>
+                  <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                  <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
+                  <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro (Deep Reasoning)</option>
                   <option value="gemini-3.1-flash-lite">Gemini 3.1 Lite (Fast)</option>
                 </select>
               </div>
@@ -524,6 +526,24 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
                     </button>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Error Banner if API error is active */}
+            {errorMessage && (
+              <div className="px-3 py-2 bg-rose-950/90 border-t border-rose-800/80 text-rose-200 text-xs flex items-start justify-between gap-2">
+                <div className="flex-1">
+                  <span className="font-semibold text-rose-300">API Notice: </span>
+                  <span className="break-words">{errorMessage}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setErrorMessage(null)}
+                  className="text-rose-400 hover:text-rose-200 p-0.5 cursor-pointer shrink-0"
+                  title="Dismiss error notice"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
               </div>
             )}
 
