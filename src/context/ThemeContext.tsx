@@ -22,8 +22,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return savedTheme;
       }
     }
-    // Default to 'black' (Classic Black)
-    return 'black';
+    // Default to 'champagne' (Champagne White Light Theme)
+    return 'champagne';
   });
 
   const applyThemeToDOM = (activeTheme: AtelierTheme) => {

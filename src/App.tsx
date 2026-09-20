@@ -4,6 +4,8 @@
  */
 
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { HeroSection } from './components/organisms/HeroSection';
 import { LocationMapSection } from './components/organisms/LocationMapSection';
 import { ServiceShowcase } from './components/organisms/ServiceShowcase';
@@ -28,6 +30,10 @@ export default function App() {
 
       {/* 5. Moon Tower Studio Location, Google Maps & Directions */}
       <LocationMapSection />
+
+      {/* Vercel Web Analytics & Speed Insights */}
+      <Analytics />
+      <SpeedInsights />
     </MainLayout>
   );
 }

@@ -41,56 +41,11 @@
 }
 
 /* -------------------------------------------------------------
-   THEME DEFINITIONS: 'Classic Black' vs 'Champagne White'
+   THEME DEFINITIONS: 'Champagne White' (Default Light) vs 'Classic Black' (Dark)
    ------------------------------------------------------------- */
 
-/* Default: 'Classic Black' Atelier Theme */
+/* Default: 'Champagne White' Haute Couture Atelier Theme (Light Mode Default) */
 :root,
-[data-theme="black"] {
-  --atelier-theme: "black";
-
-  /* Semantic Atelier Variables */
-  --atelier-bg: #0c0a09;
-  --atelier-surface: #171412;
-  --atelier-card: #1c1917;
-  --atelier-border: #292524;
-  --atelier-border-subtle: #44403c;
-  --atelier-text: #f5f5f4;
-  --atelier-text-muted: #a8a29e;
-  --atelier-accent: #d97706;
-  --atelier-gold: #fbbf24;
-
-  /* Stone Palette (Dark Noir Luxury) */
-  --th-stone-950: #0c0a09;
-  --th-stone-900: #171412;
-  --th-stone-800: #292524;
-  --th-stone-700: #44403c;
-  --th-stone-600: #57534e;
-  --th-stone-500: #78716c;
-  --th-stone-400: #a8a29e;
-  --th-stone-300: #d6d3d1;
-  --th-stone-200: #e7e5e4;
-  --th-stone-100: #f5f5f4;
-  --th-stone-50: #fafaf9;
-
-  /* Amber Palette (Rich Radiant Gold on Dark) */
-  --th-amber-950: #451a03;
-  --th-amber-900: #78350f;
-  --th-amber-800: #92400e;
-  --th-amber-700: #b45309;
-  --th-amber-600: #d97706;
-  --th-amber-500: #f59e0b;
-  --th-amber-400: #fbbf24;
-  --th-amber-300: #fcd34d;
-  --th-amber-200: #fde68a;
-
-  /* Scrollbar & Selection */
-  --scrollbar-track: #171412;
-  --scrollbar-thumb: #44403c;
-  --scrollbar-thumb-hover: #78716c;
-}
-
-/* 'Champagne White' Haute Couture Atelier Theme */
 [data-theme="champagne"] {
   --atelier-theme: "champagne";
 
@@ -133,6 +88,51 @@
   --scrollbar-track: #F3EFEA;
   --scrollbar-thumb: #D5CBB8;
   --scrollbar-thumb-hover: #A89F8D;
+}
+
+/* 'Classic Black' Atelier Theme (Dark Mode Override) */
+[data-theme="black"] {
+  --atelier-theme: "black";
+
+  /* Semantic Atelier Variables */
+  --atelier-bg: #0c0a09;
+  --atelier-surface: #171412;
+  --atelier-card: #1c1917;
+  --atelier-border: #292524;
+  --atelier-border-subtle: #44403c;
+  --atelier-text: #f5f5f4;
+  --atelier-text-muted: #a8a29e;
+  --atelier-accent: #d97706;
+  --atelier-gold: #fbbf24;
+
+  /* Stone Palette (Dark Noir Luxury) */
+  --th-stone-950: #0c0a09;
+  --th-stone-900: #171412;
+  --th-stone-800: #292524;
+  --th-stone-700: #44403c;
+  --th-stone-600: #57534e;
+  --th-stone-500: #78716c;
+  --th-stone-400: #a8a29e;
+  --th-stone-300: #d6d3d1;
+  --th-stone-200: #e7e5e4;
+  --th-stone-100: #f5f5f4;
+  --th-stone-50: #fafaf9;
+
+  /* Amber Palette (Rich Radiant Gold on Dark) */
+  --th-amber-950: #451a03;
+  --th-amber-900: #78350f;
+  --th-amber-800: #92400e;
+  --th-amber-700: #b45309;
+  --th-amber-600: #d97706;
+  --th-amber-500: #f59e0b;
+  --th-amber-400: #fbbf24;
+  --th-amber-300: #fcd34d;
+  --th-amber-200: #fde68a;
+
+  /* Scrollbar & Selection */
+  --scrollbar-track: #171412;
+  --scrollbar-thumb: #44403c;
+  --scrollbar-thumb-hover: #78716c;
 }
 
 html {

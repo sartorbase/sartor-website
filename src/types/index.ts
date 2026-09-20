@@ -116,9 +116,12 @@ export interface Testimonial {
   location: string;
   suitCrafted: string;
   quote: string;
-  rating: number;
+  rating: number; // e.g., 5.0, 4.8, 4.7
   date: string;
   verified: boolean;
+  orderType?: 'In-Studio Fitting' | 'Doorstep Pickup' | 'Overseas WhatsApp Order';
+  experienceHighlight?: string;
+  turnaroundDays?: number;
 }
 
 export interface BookingFormState {

@@ -1,23 +1,45 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="champagne" class="theme-champagne">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SARTOR | Women's Bespoke Tailoring</title>
-    <meta name="description" content="SARTOR — Tailoring made easy. Premier women's bespoke tailoring and stitching atelier at Moon Tower Model Town Lahore. Hand and machine embroidery, sarees, kalidars, bridal lehengas, doorstep pick & drop, and transparent rates in PKR." />
-    <link rel="icon" type="image/jpeg" href="/sartor-logo.jpg" />
-    <link rel="apple-touch-icon" href="/sartor-logo.jpg" />
-    <meta name="keywords" content="women tailoring lahore, pakistani suit stitching rates, simple suit 2500, bridal lehenga stitching lahore 10000, hand embroidery lahore, machine embroidery, fabric sourcing lahore, model town ladies tailor, pakistani size chart, pick and drop tailor lahore, sartor pk" />
+    <title>SARTOR | Best Women's Tailor in Lahore & Online Tailoring Pakistan</title>
+    <meta name="description" content="SARTOR is a premier online tailor in Lahore, Pakistan specializing in custom women's tailoring, bespoke sarees, bridal lehengas, festive maxis, and stitching services nationwide with home pickup and delivery." />
+    <meta name="keywords" content="tailor in lahore, tailor in pakistan, online tailors pakistan, online stitching lahore, ladies tailor model town, custom dress stitching lahore, sartor tailoring" />
+
+    <!-- Favicons & Icons for Google Search Snippets -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
     <meta name="author" content="SARTOR Bespoke" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- Instant light theme initializer to avoid FOUC -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('sartor-atelier-theme');
+          var theme = (saved === 'black' || saved === 'champagne') ? saved : 'champagne';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.remove('theme-black', 'theme-champagne');
+          document.documentElement.classList.add('theme-' + theme);
+          document.documentElement.style.colorScheme = theme === 'black' ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'champagne');
+          document.documentElement.classList.add('theme-champagne');
+        }
+      })();
+    </script>
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://sartor.pk/" />
 
     <!-- OpenGraph Social Cards (WhatsApp, Meta & LinkedIn optimized) -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="SARTOR | Women's Bespoke Tailoring & Stitching Lahore" />
-    <meta property="og:description" content="Premier women's bespoke atelier at Moon Tower, Model Town Lahore. Hand & machine embroidery, sarees, maxis, kalidars, and bridal lehengas. Transparent stitching rates from PKR 2,500 with doorstep pick & drop." />
+    <meta property="og:title" content="SARTOR | Best Women's Tailor in Lahore & Online Tailoring Pakistan" />
+    <meta property="og:description" content="SARTOR is a premier online tailor in Lahore, Pakistan specializing in custom women's tailoring, bespoke sarees, bridal lehengas, festive maxis, and stitching services nationwide with home pickup and delivery." />
     <meta property="og:url" content="https://sartor.pk/" />
     <meta property="og:site_name" content="SARTOR Bespoke Atelier" />
     <meta property="og:locale" content="en_PK" />
@@ -30,15 +52,56 @@
 
     <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SARTOR | Women's Bespoke Tailoring & Stitching Lahore" />
-    <meta name="twitter:description" content="Premier women's bespoke atelier at Moon Tower, Model Town Lahore. Hand & machine embroidery, sarees, maxis, kalidars, and bridal lehengas. Transparent stitching rates from PKR 2,500 with doorstep pick & drop." />
+    <meta name="twitter:title" content="SARTOR | Best Women's Tailor in Lahore & Online Tailoring Pakistan" />
+    <meta name="twitter:description" content="SARTOR is a premier online tailor in Lahore, Pakistan specializing in custom women's tailoring, bespoke sarees, bridal lehengas, festive maxis, and stitching services nationwide with home pickup and delivery." />
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&h=630&q=80" />
-    <meta name="theme-color" content="#0c0a09" />
+    <meta name="theme-color" content="#FAF7F2" />
 
     <!-- Google Fonts for Sartorial Elegance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Primary Structured Data (JSON-LD for Google & LLM / AI Search Engines) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ClothingStore",
+      "name": "SARTOR",
+      "image": "https://sartor.pk/logo.png",
+      "url": "https://sartor.pk",
+      "telephone": "+923352209991",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Shop M-16, International Market, Model Town",
+        "addressLocality": "Lahore",
+        "addressRegion": "Punjab",
+        "postalCode": "54000",
+        "addressCountry": "PK"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 31.482,
+        "longitude": 74.321
+      },
+      "priceRange": "$$",
+      "description": "Leading online tailor in Lahore and Pakistan for high-end women's bespoke tailoring, bridal dresses, sarees, and custom stitching services.",
+      "areaServed": ["Lahore", "Pakistan", "Worldwide"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Tailoring & Stitching Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Women's Custom Stitching & Online Tailoring"
+            }
+          }
+        ]
+      }
+    }
+    </script>
 
     <!-- Schema.org JSON-LD Structured Data for LocalBusiness & Tailoring -->
     <script type="application/ld+json">
