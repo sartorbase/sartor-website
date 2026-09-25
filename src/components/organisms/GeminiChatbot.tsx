@@ -248,39 +248,6 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({
 
   return (
     <>
-      {/* Floating Trigger Button (Always visible on bottom-right, paired with WhatsApp) */}
-      {!isOpen && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed bottom-24 right-6 z-40"
-        >
-          <button
-            onClick={handleToggle}
-            id="open-gemini-chatbot-btn"
-            className="group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-full bg-stone-900/95 border border-amber-500/40 hover:border-amber-400 text-stone-100 shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 cursor-pointer backdrop-blur-md"
-            aria-label="Open Sartor AI Stylist Chatbot"
-          >
-            <div className="relative shrink-0">
-              <SartorLogo variant="emblem" size="xs" />
-              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-stone-950" />
-            </div>
-            <div className="text-left">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-serif font-bold text-stone-100 group-hover:text-amber-300 transition-colors">
-                  Sartor AI Stylist
-                </span>
-                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                  Google Search
-                </span>
-              </div>
-              <p className="text-[10px] text-stone-400">Ask trends, yardage & rates</p>
-            </div>
-          </button>
-        </motion.div>
-      )}
-
       {/* Main Chat Window */}
       <AnimatePresence>
         {isOpen && (

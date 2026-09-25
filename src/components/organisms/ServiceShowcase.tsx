@@ -263,10 +263,11 @@ import myDressImg from '../assets/images/my_dress.jpg';
 
   return (
     <section
-      id="service-showcase"
+      id="portfolio"
       className="relative py-16 md:py-24 bg-stone-950 text-stone-100 border-b border-stone-800 overflow-hidden"
       aria-label="Tailoring Results Showcase Gallery"
     >
+      <div id="service-showcase" className="absolute -top-20" />
       {/* Decorative ambient background lighting */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[750px] h-[360px] bg-amber-600/5 blur-[130px] pointer-events-none -z-10 rounded-full" />
 
