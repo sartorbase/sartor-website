@@ -3,6 +3,7 @@ import { Star, ShieldCheck, Sparkles, CheckCircle2, Clock, MapPin, Quote, Messag
 import { TESTIMONIALS } from '../../data/testimonials';
 import { SectionHeading } from '../atoms/SectionHeading';
 import { TestimonialCard } from '../molecules/TestimonialCard';
+import { buildWhatsAppLink } from '../../services/analytics';
 
 type FilterCategory = 'featured' | 'all' | 'bridal' | 'saree' | 'pret';
 
@@ -208,7 +209,10 @@ export const TestimonialsSection: React.FC = () => {
             Book door-to-door fabric pickup in Lahore or schedule a private fitting at our Moon Tower Model Town atelier.
           </p>
           <a
-            href="https://wa.me/923352209991?text=Assalam-o-Alaikum%20SARTOR%2C%20I%20would%20like%20to%20book%20a%20tailoring%20consultation%20and%20discuss%20stitching%20rates."
+            href={buildWhatsAppLink(
+              'Assalam-o-Alaikum SARTOR Atelier,\nI was reading your customer reviews and would like to book a bespoke tailoring consultation.\nPlease guide me on doorstep fabric pickup in Lahore and stitching timeframes.',
+              'contact'
+            )}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-950/50 border border-emerald-400/40 transition-all active:scale-95 cursor-pointer"

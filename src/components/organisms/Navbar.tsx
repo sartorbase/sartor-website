@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, MessageSquare, X } from 'lucide-react';
 import { SartorLogo } from '../atoms/SartorLogo';
+import { buildWhatsAppLink } from '../../services/analytics';
 
 export interface NavbarProps {
   onOpenAnalytics?: () => void;
@@ -17,7 +18,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Studio Location', href: '#location' },
   ];
 
-  const whatsappUrl = 'https://wa.me/923352209991';
+  const navWhatsAppMsg = `Assalam-o-Alaikum SARTOR Atelier,
+I would like to book a bespoke tailoring consultation.
+Please guide me on stitching rates, timeframes, and doorstep fabric pickup in Lahore.`;
+  const whatsappUrl = buildWhatsAppLink(navWhatsAppMsg, 'nav');
 
   return (
     <header className="sticky top-0 z-40 bg-stone-950/95 backdrop-blur-md border-b border-stone-800/80 transition-all">

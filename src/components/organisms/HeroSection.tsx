@@ -27,7 +27,6 @@ import {
   buildWhatsAppLink,
 } from '../../services/analytics';
 import { openSartorChat } from '../../services/geminiChat';
-import { SartorLogo } from '../atoms/SartorLogo';
 import { Button } from '../atoms/Button';
 import { PricingItem } from '../../types';
 
@@ -126,11 +125,19 @@ export const HeroSection: React.FC = () => {
   const activeCard = SHOWCASE_ITEMS[activeCardIndex];
 
   const getOutfitWhatsAppUrl = (item: PricingItem) => {
+    if (item.id === 'custom-designs') {
+      const customMsg = `Assalam-o-Alaikum SARTOR Atelier,
+I have a custom dress design / celebrity photo inspiration and would like an estimate on fabric requirement and stitching rates in Lahore.`;
+      return buildWhatsAppLink(customMsg, 'hero_pricing_card');
+    }
+
     let outfitLabel = item.title;
     if (item.id === 'simple-suit') outfitLabel = 'Simple Suit (Starting PKR 2,500)';
     else if (item.id === 'sarhi-set') outfitLabel = 'Saree & Blouse Set (Starting PKR 7,000)';
     else if (item.id === 'panneled-frock') outfitLabel = 'Festive Maxi & Kalidar (Starting PKR 7,000)';
     else if (item.id === 'bridal-set') outfitLabel = 'Bridal Set (Starting PKR 10,000)';
+    else if (item.id === 'double-suit') outfitLabel = 'Double Suit / Lined Pret (Starting PKR 4,000)';
+    else if (item.id === 'ready-made-alteration') outfitLabel = 'Luxury Alteration & Fitting (Starting PKR 1,500)';
 
     const msg = `*ORDER ON WHATSAPP - SARTOR LAHORE*
 ---------------------------------------
@@ -145,6 +152,13 @@ Please guide me on sending fabric / fabric pickup in Lahore and sharing measurem
     return buildWhatsAppLink(msg, 'hero_pricing_card');
   };
 
+  const heroMainWhatsAppUrl = buildWhatsAppLink(
+    `Assalam-o-Alaikum SARTOR Atelier,
+I would like to book an order for bespoke women's tailoring (0335-2209991).
+Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and turnaround time.`,
+    'hero_cta'
+  );
+
   const handleOrderOutfit = (item: PricingItem) => {
     analytics.trackEvent('pricing_whatsapp_click', {
       outfit: item.title,
@@ -157,38 +171,12 @@ Please guide me on sending fabric / fabric pickup in Lahore and sharing measurem
     <div className="relative bg-stone-950 text-stone-100">
       
       {/* 1. Main Hero Header Banner */}
-      <section className="relative overflow-hidden pt-6 pb-14 md:pt-12 md:pb-20 border-b border-stone-800/80">
+      <section className="relative overflow-hidden pt-6 pb-14 md:pt-10 md:pb-20 border-b border-stone-800/80">
         {/* Glow backdrop effects */}
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/2 left-10 w-96 h-96 bg-stone-800/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
-          
-          {/* Top atelier badges with gentle fade-in */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeCurve }}
-            className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-amber-950/70 border border-amber-600/50 text-amber-300 text-[11px] sm:text-xs font-medium">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="font-semibold">Women's Bespoke Atelier</span>
-              <span className="text-amber-500/60">·</span>
-              <span>Model Town, Lahore</span>
-            </div>
-
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3 sm:py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-[11px] sm:text-xs font-medium">
-              <Truck className="w-3.5 h-3.5 text-amber-400" />
-              <span>Doorstep Pickup Across Lahore</span>
-            </div>
-
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Hand &amp; Machine Embroidery</span>
-            </div>
-          </motion.div>
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             
             {/* Left Column: Headline, Subtitle, Direct Above-the-Fold CTA & Pricing */}
@@ -198,19 +186,14 @@ Please guide me on sending fabric / fabric pickup in Lahore and sharing measurem
               animate="visible"
               className="lg:col-span-7 flex flex-col items-start"
             >
-              {/* SARTOR Signature Silk Brand Emblem */}
-              <motion.div variants={fadeUpVariant} className="mb-4">
-                <SartorLogo variant="hero" />
-              </motion.div>
-
-              {/* Specialization Badge */}
-              <motion.div variants={fadeUpVariant} className="mb-4">
-                <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-950/80 via-stone-900 to-amber-950/60 border border-amber-500/50 text-amber-200 text-xs sm:text-sm font-medium shadow-md shadow-amber-950/20">
-                  <span className="px-2 py-0.5 rounded-full bg-amber-500 text-stone-950 text-[10px] font-black uppercase tracking-wider">
-                    Specialization
+              {/* Clean Single-Line Specialization Accent Badge directly above H1 */}
+              <motion.div variants={fadeUpVariant} className="mb-3.5">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-200 text-xs sm:text-sm font-medium shadow-sm">
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500 text-stone-950 text-[10px] font-bold uppercase tracking-wider shrink-0">
+                    SPECIALIZATION
                   </span>
-                  <span className="text-stone-100 font-medium">
-                    Exclusively Crafting Bespoke Women's Fashion &amp; Online Tailoring Services in Lahore &amp; Nationwide.
+                  <span className="text-stone-200 font-medium whitespace-nowrap">
+                    Exclusively Crafting Bespoke Women's Fashion &amp; Tailoring in Lahore
                   </span>
                 </div>
               </motion.div>
@@ -239,7 +222,7 @@ Please guide me on sending fabric / fabric pickup in Lahore and sharing measurem
               <motion.div variants={fadeUpVariant} className="mt-6 w-full max-w-xl">
                 <a
                   id="hero-whatsapp-main-cta"
-                  href="https://wa.me/923352209991"
+                  href={heroMainWhatsAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base sm:text-lg flex items-center justify-center gap-3 shadow-xl shadow-emerald-950/50 hover:shadow-emerald-900/60 border border-emerald-400/40 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-center cursor-pointer"
