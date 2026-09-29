@@ -1,0 +1,6 @@
+# Netlify & Cloudflare Pages Redirects
+/sitemap.xml    /sitemap.xml    200
+/robots.txt     /robots.txt     200
+/blog           /blog.html      200
+/custom-bridal  /custom-bridal.html 200
+/blog/:slug     /blog/:slug.html 200
