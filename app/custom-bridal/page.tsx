@@ -89,6 +89,158 @@ export default function CustomBridalLandingPage() {
               </a>
             </div>
 
+            {/* -------------------------------------------------------------- */}
+            {/* HERO SPOTLIGHT: 3 CLIENT MASTERWORK COMMISSIONS (UPLOADED IMGS) */}
+            {/* -------------------------------------------------------------- */}
+            <div className="mt-14 w-full">
+              <div className="text-left mb-4 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold block">
+                    Recent Atelier Commissions
+                  </span>
+                  <h3 className="text-base sm:text-lg font-serif font-bold text-stone-100">
+                    Handcrafted in Lahore for Overseas Brides (USA, UK, Canada &amp; UAE)
+                  </h3>
+                </div>
+                <span className="text-xs text-stone-400 font-mono hidden sm:inline">
+                  Verified Real Handcraft
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                {/* Look 1: Royal Barat Crimson Bridal */}
+                <div className="group rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/60 shadow-2xl transition-all duration-300 flex flex-col text-left">
+                  <div className="relative aspect-[4/3] bg-stone-950 overflow-hidden">
+                    <img
+                      src="/images/barat-crimson-bridal.jpg"
+                      alt="SARTOR Bespoke Crimson Velvet & Raw Silk Barat Bridal Lehenga with Zardozi Handwork"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                      loading="eager"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-stone-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-500/30">
+                      Barat Main Bridal
+                    </span>
+                    <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-amber-500 text-stone-950 font-mono font-bold text-xs shadow-lg">
+                      $2,800 USD
+                    </span>
+                  </div>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h4 className="font-serif text-lg font-bold text-stone-100 group-hover:text-amber-300 transition-colors">
+                        Royal Crimson Velvet Lehenga
+                      </h4>
+                      <p className="text-xs text-stone-300 mt-1 leading-relaxed">
+                        Heavy 3D zardozi, antique dabka, kora wire &amp; French knot embroidery with sweetheart neckline choli and dual bridal veil framing.
+                      </p>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-stone-800/80 flex items-center justify-between">
+                      <span className="text-[11px] font-mono text-stone-400">100% Pure Velvet &amp; Silk</span>
+                      <WhatsAppButton
+                        sourceLocation="hero_showcase_barat_crimson"
+                        variant="outline"
+                        className="!px-3 !py-1.5 !text-xs !tracking-normal !rounded-lg"
+                        message="Hi Sartor, I am interested in the Royal Crimson Velvet Barat Lehenga ($2,800 USD). Can you share details for my wedding date?"
+                      >
+                        Inquire
+                      </WhatsAppButton>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Look 2: Walima Champagne Sage Couture Gown */}
+                <div className="group rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/60 shadow-2xl transition-all duration-300 flex flex-col text-left">
+                  <div className="relative aspect-[4/3] bg-stone-950 overflow-hidden">
+                    <img
+                      src="/images/walima-champagne-gown.jpg"
+                      alt="SARTOR Champagne Gold & Sage Green Walima Bridal Couture Gown with Tilla Needlework"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                      loading="eager"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-stone-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-500/30">
+                      Walima Reception
+                    </span>
+                    <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-amber-500 text-stone-950 font-mono font-bold text-xs shadow-lg">
+                      $3,200 USD
+                    </span>
+                  </div>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h4 className="font-serif text-lg font-bold text-stone-100 group-hover:text-amber-300 transition-colors">
+                        Champagne Sage Couture Gown
+                      </h4>
+                      <p className="text-xs text-stone-300 mt-1 leading-relaxed">
+                        Intricate all-over lace tilla, crystal beads, fine pearls, and sheer embroidered sleeves tailored with contoured princess cut.
+                      </p>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-stone-800/80 flex items-center justify-between">
+                      <span className="text-[11px] font-mono text-stone-400">Pure Tissue &amp; Net Brocade</span>
+                      <WhatsAppButton
+                        sourceLocation="hero_showcase_walima_champagne"
+                        variant="outline"
+                        className="!px-3 !py-1.5 !text-xs !tracking-normal !rounded-lg"
+                        message="Hi Sartor, I am interested in the Champagne Sage Walima Couture Gown ($3,200 USD). Can you share fabric and lead time?"
+                      >
+                        Inquire
+                      </WhatsAppButton>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Look 3: Royal Mehndi Mustard & Emerald Kalidar */}
+                <div className="group rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/60 shadow-2xl transition-all duration-300 flex flex-col text-left">
+                  <div className="relative aspect-[4/3] bg-stone-950 overflow-hidden">
+                    <img
+                      src="/images/mehndi-mustard-kalidar.jpg"
+                      alt="SARTOR Festive Mustard Yellow & Emerald Green Kalidar Flared Bridal Lehenga for Mehndi"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                      loading="eager"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-stone-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-500/30">
+                      Mehndi &amp; Mayun
+                    </span>
+                    <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-amber-500 text-stone-950 font-mono font-bold text-xs shadow-lg">
+                      $2,200 USD
+                    </span>
+                  </div>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h4 className="font-serif text-lg font-bold text-stone-100 group-hover:text-amber-300 transition-colors">
+                        Mustard &amp; Emerald Kalidar Set
+                      </h4>
+                      <p className="text-xs text-stone-300 mt-1 leading-relaxed">
+                        16-kali sweeping flare, traditional gota patti, kundan motifs, pure raw silk choli, and contrast emerald green border dupatta.
+                      </p>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-stone-800/80 flex items-center justify-between">
+                      <span className="text-[11px] font-mono text-stone-400">Pure Raw Silk (80g)</span>
+                      <WhatsAppButton
+                        sourceLocation="hero_showcase_mehndi_mustard"
+                        variant="outline"
+                        className="!px-3 !py-1.5 !text-xs !tracking-normal !rounded-lg"
+                        message="Hi Sartor, I am interested in the Mustard & Emerald Kalidar Set for Mehndi ($2,200 USD). Let's discuss measurements and delivery."
+                      >
+                        Inquire
+                      </WhatsAppButton>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             {/* Above-the-Fold Trust Bar */}
             <div className="mt-12 pt-8 border-t border-stone-800/80 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left w-full">
               <div className="p-3.5 rounded-xl bg-stone-900/50 border border-stone-800/80">
@@ -152,7 +304,7 @@ export default function CustomBridalLandingPage() {
                   autoPlay
                   loop
                   muted
-                  poster="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+                  poster="/images/barat-crimson-bridal.jpg"
                 >
                   <source
                     src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
@@ -197,7 +349,7 @@ export default function CustomBridalLandingPage() {
                   autoPlay
                   loop
                   muted
-                  poster="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80"
+                  poster="/images/walima-champagne-gown.jpg"
                 >
                   <source
                     src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
@@ -241,7 +393,7 @@ export default function CustomBridalLandingPage() {
                   autoPlay
                   loop
                   muted
-                  poster="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=800&q=80"
+                  poster="/images/mehndi-mustard-kalidar.jpg"
                 >
                   <source
                     src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
@@ -511,109 +663,157 @@ export default function CustomBridalLandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           
           {/* Tier 1 */}
-          <div className="p-7 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col justify-between">
-            <div>
-              <span className="text-[11px] font-mono text-stone-400 uppercase tracking-wider block">
-                Formal / Engagement / Mehndi
+          <div className="rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden flex flex-col justify-between">
+            <div className="relative aspect-[16/10] bg-stone-950 overflow-hidden">
+              <img
+                src="/images/mehndi-mustard-kalidar.jpg"
+                alt="SARTOR Luxury Festive Couture Mehndi Kalidar"
+                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent pointer-events-none" />
+              <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-md bg-stone-950/80 text-[10px] font-mono uppercase text-amber-300 border border-amber-500/30">
+                Mehndi &amp; Mayun
               </span>
-              <h3 className="font-serif text-2xl font-bold text-stone-100 mt-1">
-                Luxury Festive Couture
-              </h3>
-              <div className="mt-4 text-3xl font-serif font-bold text-amber-400">
-                $1,500 – $2,200 <span className="text-xs text-stone-400 font-mono">USD</span>
-              </div>
-              <p className="text-xs text-stone-400 mt-1">Approx. PKR 420,000 – PKR 615,000</p>
-              
-              <ul className="mt-6 space-y-2 text-xs text-stone-300">
-                <li className="flex items-center gap-2">✓ 16-Kali Kalidar / Peshwas / Flared Gown</li>
-                <li className="flex items-center gap-2">✓ Resham threadwork, gota patti &amp; cut-dana</li>
-                <li className="flex items-center gap-2">✓ Pure silk base &amp; sheer organza dupatta</li>
-                <li className="flex items-center gap-2">✓ 6–8 Weeks Handcraft Turnaround</li>
-              </ul>
             </div>
 
-            <div className="mt-8 pt-4 border-t border-stone-800">
-              <WhatsAppButton
-                sourceLocation="pricing_tier_festive"
-                variant="outline"
-                fullWidth
-                message="Hi Sartor, I am interested in your Festive Luxury Couture tier ($1,500 - $2,200 USD). I would like to schedule a consultation."
-              >
-                Inquire for Festive
-              </WhatsAppButton>
+            <div className="p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <span className="text-[11px] font-mono text-stone-400 uppercase tracking-wider block">
+                  Formal / Engagement / Mehndi
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-stone-100 mt-1">
+                  Luxury Festive Couture
+                </h3>
+                <div className="mt-4 text-3xl font-serif font-bold text-amber-400">
+                  $1,500 – $2,200 <span className="text-xs text-stone-400 font-mono">USD</span>
+                </div>
+                <p className="text-xs text-stone-400 mt-1">Approx. PKR 420,000 – PKR 615,000</p>
+                
+                <ul className="mt-6 space-y-2 text-xs text-stone-300">
+                  <li className="flex items-center gap-2">✓ 16-Kali Kalidar / Peshwas / Flared Gown</li>
+                  <li className="flex items-center gap-2">✓ Resham threadwork, gota patti &amp; cut-dana</li>
+                  <li className="flex items-center gap-2">✓ Pure silk base &amp; sheer organza dupatta</li>
+                  <li className="flex items-center gap-2">✓ 6–8 Weeks Handcraft Turnaround</li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-stone-800">
+                <WhatsAppButton
+                  sourceLocation="pricing_tier_festive"
+                  variant="outline"
+                  fullWidth
+                  message="Hi Sartor, I am interested in your Festive Luxury Couture tier ($1,500 - $2,200 USD). I would like to schedule a consultation."
+                >
+                  Inquire for Festive
+                </WhatsAppButton>
+              </div>
             </div>
           </div>
 
           {/* Tier 2: Signature Bridal (Highlighted) */}
-          <div className="relative p-7 rounded-2xl bg-gradient-to-b from-amber-950/60 via-stone-900 to-stone-900 border-2 border-amber-500 shadow-2xl flex flex-col justify-between">
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-500 text-stone-950 text-[10px] font-black uppercase tracking-widest shadow-md">
+          <div className="relative rounded-2xl bg-gradient-to-b from-amber-950/60 via-stone-900 to-stone-900 border-2 border-amber-500 shadow-2xl overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10 px-3 py-1 rounded-full bg-amber-500 text-stone-950 text-[10px] font-black uppercase tracking-widest shadow-md">
               Most Selected by Overseas Brides
             </div>
 
-            <div>
-              <span className="text-[11px] font-mono text-amber-300 uppercase tracking-wider block">
-                Barat &amp; Walima Main Bridal
+            <div className="relative aspect-[16/10] bg-stone-950 overflow-hidden">
+              <img
+                src="/images/barat-crimson-bridal.jpg"
+                alt="SARTOR Master Bespoke Barat Bridal Lehenga"
+                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent pointer-events-none" />
+              <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-md bg-stone-950/80 text-[10px] font-mono uppercase text-amber-300 border border-amber-500/30">
+                Barat Royal Heirloom
               </span>
-              <h3 className="font-serif text-2xl font-bold text-stone-100 mt-1">
-                Master Bespoke Bridal
-              </h3>
-              <div className="mt-4 text-3xl font-serif font-bold text-amber-300">
-                $2,500 – $3,800 <span className="text-xs text-stone-400 font-mono">USD</span>
-              </div>
-              <p className="text-xs text-stone-400 mt-1">Approx. PKR 700,000 – PKR 1,060,000</p>
-              
-              <ul className="mt-6 space-y-2 text-xs text-stone-200">
-                <li className="flex items-center gap-2">✓ Full Royal Lehenga, Padded Choli &amp; 2 Dupattas</li>
-                <li className="flex items-center gap-2">✓ Heavy Zardozi, Real Dabka, Tilla &amp; Pearl Handwork</li>
-                <li className="flex items-center gap-2">✓ Architectural Can-Can &amp; Pure Tissue / Silk Base</li>
-                <li className="flex items-center gap-2">✓ 4-Step Milestone Escrow Security</li>
-                <li className="flex items-center gap-2">✓ 8–12 Weeks Handcraft Turnaround</li>
-              </ul>
             </div>
 
-            <div className="mt-8 pt-4 border-t border-stone-800">
-              <WhatsAppButton
-                sourceLocation="pricing_tier_master_bridal"
-                variant="primary"
-                fullWidth
-                message="Hi Sartor, I am interested in your Master Bespoke Bridal tier ($2,500 - $3,800 USD). I would like to review designs and timeline."
-              >
-                Book Bridal Consultation
-              </WhatsAppButton>
+            <div className="p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <span className="text-[11px] font-mono text-amber-300 uppercase tracking-wider block">
+                  Barat &amp; Walima Main Bridal
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-stone-100 mt-1">
+                  Master Bespoke Bridal
+                </h3>
+                <div className="mt-4 text-3xl font-serif font-bold text-amber-300">
+                  $2,500 – $3,800 <span className="text-xs text-stone-400 font-mono">USD</span>
+                </div>
+                <p className="text-xs text-stone-400 mt-1">Approx. PKR 700,000 – PKR 1,060,000</p>
+                
+                <ul className="mt-6 space-y-2 text-xs text-stone-200">
+                  <li className="flex items-center gap-2">✓ Full Royal Lehenga, Padded Choli &amp; 2 Dupattas</li>
+                  <li className="flex items-center gap-2">✓ Heavy Zardozi, Real Dabka, Tilla &amp; Pearl Handwork</li>
+                  <li className="flex items-center gap-2">✓ Architectural Can-Can &amp; Pure Tissue / Silk Base</li>
+                  <li className="flex items-center gap-2">✓ 4-Step Milestone Escrow Security</li>
+                  <li className="flex items-center gap-2">✓ 8–12 Weeks Handcraft Turnaround</li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-stone-800">
+                <WhatsAppButton
+                  sourceLocation="pricing_tier_master_bridal"
+                  variant="primary"
+                  fullWidth
+                  message="Hi Sartor, I am interested in your Master Bespoke Bridal tier ($2,500 - $3,800 USD). I would like to review designs and timeline."
+                >
+                  Book Bridal Consultation
+                </WhatsAppButton>
+              </div>
             </div>
           </div>
 
           {/* Tier 3: Royal Heirloom */}
-          <div className="p-7 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col justify-between">
-            <div>
-              <span className="text-[11px] font-mono text-stone-400 uppercase tracking-wider block">
-                Museum Quality &amp; Multi-Day Trousseau
+          <div className="rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden flex flex-col justify-between">
+            <div className="relative aspect-[16/10] bg-stone-950 overflow-hidden">
+              <img
+                src="/images/walima-champagne-gown.jpg"
+                alt="SARTOR Royal Heirloom Walima Reception Gown"
+                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent pointer-events-none" />
+              <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-md bg-stone-950/80 text-[10px] font-mono uppercase text-amber-300 border border-amber-500/30">
+                Walima &amp; Reception
               </span>
-              <h3 className="font-serif text-2xl font-bold text-stone-100 mt-1">
-                Royal Heirloom Replica
-              </h3>
-              <div className="mt-4 text-3xl font-serif font-bold text-amber-400">
-                $4,000 – $6,500+ <span className="text-xs text-stone-400 font-mono">USD</span>
-              </div>
-              <p className="text-xs text-stone-400 mt-1">Approx. PKR 1,120,000 – PKR 1,820,000+</p>
-              
-              <ul className="mt-6 space-y-2 text-xs text-stone-300">
-                <li className="flex items-center gap-2">✓ Couture Farshi Gharara or 18-Foot Royal Train</li>
-                <li className="flex items-center gap-2">✓ Real Gold / Silver Plated Tilla &amp; Hand-Pounded Kora</li>
-                <li className="flex items-center gap-2">✓ 350+ Hours of Pure Generational Adda Handwork</li>
-                <li className="flex items-center gap-2">✓ Head Karigar Direct Video Line Access</li>
-              </ul>
             </div>
 
-            <div className="mt-8 pt-4 border-t border-stone-800">
-              <WhatsAppButton
-                sourceLocation="pricing_tier_royal_heirloom"
-                variant="outline"
-                fullWidth
-                message="Hi Sartor, I am interested in the Royal Heirloom Replica tier ($4,000+ USD). Let's connect on WhatsApp."
-              >
-                Inquire for Royal Heirloom
-              </WhatsAppButton>
+            <div className="p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <span className="text-[11px] font-mono text-stone-400 uppercase tracking-wider block">
+                  Museum Quality &amp; Multi-Day Trousseau
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-stone-100 mt-1">
+                  Royal Heirloom Replica
+                </h3>
+                <div className="mt-4 text-3xl font-serif font-bold text-amber-400">
+                  $4,000 – $6,500+ <span className="text-xs text-stone-400 font-mono">USD</span>
+                </div>
+                <p className="text-xs text-stone-400 mt-1">Approx. PKR 1,120,000 – PKR 1,820,000+</p>
+                
+                <ul className="mt-6 space-y-2 text-xs text-stone-300">
+                  <li className="flex items-center gap-2">✓ Couture Farshi Gharara or 18-Foot Royal Train</li>
+                  <li className="flex items-center gap-2">✓ Real Gold / Silver Plated Tilla &amp; Hand-Pounded Kora</li>
+                  <li className="flex items-center gap-2">✓ 350+ Hours of Pure Generational Adda Handwork</li>
+                  <li className="flex items-center gap-2">✓ Head Karigar Direct Video Line Access</li>
+                </ul>
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-stone-800">
+                <WhatsAppButton
+                  sourceLocation="pricing_tier_royal_heirloom"
+                  variant="outline"
+                  fullWidth
+                  message="Hi Sartor, I am interested in the Royal Heirloom Replica tier ($4,000+ USD). Let's connect on WhatsApp."
+                >
+                  Inquire for Royal Heirloom
+                </WhatsAppButton>
+              </div>
             </div>
           </div>
 
