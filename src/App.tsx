@@ -16,58 +16,60 @@ import { TestimonialsSection } from './components/organisms/TestimonialsSection'
 import { MainLayout } from './components/templates/MainLayout';
 import CustomBridalLandingPage from '../app/custom-bridal/page';
 import { BlogPageView } from './components/pages/BlogPageView';
+import { navigateTo } from './utils/navigation';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(
-    typeof window !== 'undefined' ? window.location.pathname + window.location.hash : ''
+    typeof window !== 'undefined' ? window.location.pathname : '/'
   );
 
   useEffect(() => {
-    const handleHashOrPathChange = () => {
-      setCurrentPath(window.location.pathname + window.location.hash);
+    // 1. Check for legacy hash URLs and seamlessly migrate them to canonical pathnames
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash;
+      if (hash.startsWith('#blog/')) {
+        const legacySlug = hash.replace('#blog/', '').trim();
+        if (legacySlug) {
+          window.history.replaceState(null, '', `/blog/${legacySlug}`);
+          setCurrentPath(`/blog/${legacySlug}`);
+        }
+      } else if (hash === '#blog') {
+        window.history.replaceState(null, '', '/blog');
+        setCurrentPath('/blog');
+      } else if (hash === '#custom-bridal') {
+        window.history.replaceState(null, '', '/custom-bridal');
+        setCurrentPath('/custom-bridal');
+      }
+    }
+
+    const handleRouteChange = () => {
+      setCurrentPath(window.location.pathname);
     };
 
-    window.addEventListener('hashchange', handleHashOrPathChange);
-    window.addEventListener('popstate', handleHashOrPathChange);
+    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('app-navigate', handleRouteChange);
     return () => {
-      window.removeEventListener('hashchange', handleHashOrPathChange);
-      window.removeEventListener('popstate', handleHashOrPathChange);
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('app-navigate', handleRouteChange);
     };
   }, []);
 
-  const isCustomBridalRoute =
-    currentPath.includes('/custom-bridal') || currentPath.includes('#custom-bridal');
-  const isBlogRoute =
-    currentPath.includes('/blog') || currentPath.includes('#blog');
+  const pathname = currentPath.toLowerCase();
+  const isCustomBridalRoute = pathname === '/custom-bridal' || pathname.startsWith('/custom-bridal/');
+  const isBlogRoute = pathname === '/blog' || pathname.startsWith('/blog/');
+
+  let activeBlogSlug: string | null = null;
+  if (pathname.startsWith('/blog/')) {
+    activeBlogSlug = pathname.replace('/blog/', '').split('/')[0].split('?')[0].split('#')[0];
+  }
 
   if (isBlogRoute) {
     return (
       <div className="relative">
-        <div className="bg-stone-900 border-b border-stone-800 px-4 py-2 text-xs flex items-center justify-between z-50 sticky top-0">
-          <span className="text-amber-400 font-mono font-bold">
-            ⚡ Previewing /app/blog (SARTOR Atelier Journal & MDX System)
-          </span>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              window.history.pushState({}, '', '/');
-              setCurrentPath('/');
-            }}
-            className="text-stone-300 hover:text-white underline underline-offset-4 cursor-pointer"
-          >
-            ← Back to Main Studio Home
-          </a>
-        </div>
         <BlogPageView
-          onNavigateHome={() => {
-            window.history.pushState({}, '', '/');
-            setCurrentPath('/');
-          }}
-          onNavigateCustomBridal={() => {
-            window.history.pushState({}, '', '#custom-bridal');
-            setCurrentPath('#custom-bridal');
-          }}
+          initialSlug={activeBlogSlug}
+          onNavigateHome={() => navigateTo('/')}
+          onNavigateCustomBridal={() => navigateTo('/custom-bridal')}
         />
         <Analytics />
         <SpeedInsights />
@@ -78,17 +80,15 @@ export default function App() {
   if (isCustomBridalRoute) {
     return (
       <div className="relative">
-        {/* Top return bar for easy preview in AI Studio dev environment */}
         <div className="bg-stone-900 border-b border-stone-800 px-4 py-2 text-xs flex items-center justify-between z-50 sticky top-0">
           <span className="text-amber-400 font-mono font-bold">
-            ⚡ Previewing /app/custom-bridal/page.tsx (Overseas Bridal Route)
+            ⚡ SARTOR Overseas Bridal Route (/custom-bridal)
           </span>
           <a
             href="/"
             onClick={(e) => {
               e.preventDefault();
-              window.history.pushState({}, '', '/');
-              setCurrentPath('/');
+              navigateTo('/');
             }}
             className="text-stone-300 hover:text-white underline underline-offset-4 cursor-pointer"
           >

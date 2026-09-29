@@ -17,7 +17,7 @@ export const BLOG_POSTS: BlogPostData[] = [
     title: 'The Overseas Pakistani’s Guide to Digital Measurements and Milestone-Based Bespoke Tailoring',
     excerpt: 'A comprehensive masterclass on how overseas Pakistanis in the UK, USA, Canada, and Gulf can achieve millimeter-perfect couture fits through 28-point video profiling, live adda verification, and milestone payments.',
     date: '2026-09-29',
-    author: 'SARTOR Master Atelier',
+    author: 'Abdul Ghaffar & SARTOR Master Atelier',
     category: 'Measurement Masterclass',
     readingTime: '7 min read',
     tags: ['Digital Measurements', 'Bespoke Tailoring', 'Overseas Brides', 'Milestone Payments', 'Lahore Couture', 'Fit Guarantee'],
@@ -389,3 +389,12 @@ Connect directly with our master concierge via WhatsApp to discuss your wedding 
     `.trim(),
   },
 ];
+
+export function getAllBlogPosts(): BlogPostData[] {
+  return BLOG_POSTS;
+}
+
+export function getBlogPostBySlug(slug: string): BlogPostData | undefined {
+  return BLOG_POSTS.find((p) => p.slug === slug);
+}
+

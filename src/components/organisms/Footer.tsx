@@ -3,6 +3,7 @@ import { CheckCircle2, ExternalLink, Mail, MapPin, MessageSquare, Phone } from '
 import { buildWhatsAppLink, SARTOR_GOOGLE_MAPS_LINK, SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
 import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
 import { SartorLogo } from '../atoms/SartorLogo';
+import { navigateTo } from '../../utils/navigation';
 
 export interface FooterProps {
   onOpenAnalytics?: () => void;
@@ -94,12 +95,12 @@ export const Footer: React.FC<FooterProps> = () => {
               </li>
               <li>
                 <a
-                  href="#blog"
+                  href="/blog"
                   onClick={(e) => {
-                    e.preventDefault();
-                    window.location.hash = '#blog';
-                    window.dispatchEvent(new Event('hashchange'));
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      navigateTo('/blog');
+                    }
                   }}
                   className="hover:text-amber-400 transition-colors flex items-center justify-between font-medium text-amber-300/90"
                 >
@@ -109,12 +110,27 @@ export const Footer: React.FC<FooterProps> = () => {
               </li>
               <li>
                 <a
-                  href="#custom-bridal"
+                  href="/blog/digital-measurements-guide"
                   onClick={(e) => {
-                    e.preventDefault();
-                    window.location.hash = '#custom-bridal';
-                    window.dispatchEvent(new Event('hashchange'));
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      navigateTo('/blog/digital-measurements-guide');
+                    }
+                  }}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between text-stone-400 hover:text-stone-200"
+                >
+                  <span>Digital Measurements Masterclass</span>
+                  <span className="text-amber-400 text-[10px]">Article</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/custom-bridal"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      navigateTo('/custom-bridal');
+                    }
                   }}
                   className="hover:text-amber-400 transition-colors flex items-center justify-between"
                 >

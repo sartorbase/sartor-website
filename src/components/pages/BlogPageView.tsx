@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft, Calendar, Clock, Sparkles, MessageCircle, ExternalLink, ChevronRight, Share2, Check } from 'lucide-react';
-import { BLOG_POSTS, BlogPostData } from '../../data/blogPosts';
+import { ArrowLeft, Calendar, Clock, Sparkles, MessageCircle, ChevronRight, Share2, Check, Home } from 'lucide-react';
+import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
 import { trackWhatsAppClick } from '../../../lib/analytics';
+import { navigateTo, handleInternalLinkClick } from '../../utils/navigation';
 
 interface BlogPageViewProps {
   initialSlug?: string | null;
@@ -19,36 +20,191 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
   const [selectedSlug, setSelectedSlug] = useState<string | null>(initialSlug || null);
   const [copiedLink, setCopiedLink] = useState(false);
 
+  // Sync state whenever initialSlug prop changes
   useEffect(() => {
-    // Sync with hash if it has format #blog/slug or #blog?slug=...
-    const hash = window.location.hash;
-    if (hash.startsWith('#blog/')) {
-      const slug = hash.replace('#blog/', '');
-      if (slug) setSelectedSlug(slug);
-    } else if (hash === '#blog' && !initialSlug) {
-      setSelectedSlug(null);
+    if (initialSlug !== undefined) {
+      setSelectedSlug(initialSlug);
     }
   }, [initialSlug]);
 
-  const activePost = selectedSlug
-    ? BLOG_POSTS.find((p) => p.slug === selectedSlug) || null
+  // Handle client-side hash migration if user arrived via #blog/slug or #blog
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash;
+    if (hash.startsWith('#blog/')) {
+      const slug = hash.replace('#blog/', '').trim();
+      if (slug) {
+        window.history.replaceState(null, '', `/blog/${slug}`);
+        setSelectedSlug(slug);
+      }
+    } else if (hash === '#blog') {
+      window.history.replaceState(null, '', '/blog');
+      setSelectedSlug(null);
+    }
+  }, []);
+
+  const activePost: BlogPostData | null = selectedSlug
+    ? getBlogPostBySlug(selectedSlug) || null
     : null;
 
-  const handleSelectPost = (slug: string) => {
+  // Dynamically update document title, canonical link, and JSON-LD structured data on client side
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.rel = 'canonical';
+      document.head.appendChild(canonicalEl);
+    }
+
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement;
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+
+    // Dynamic schema container for blog posts
+    let schemaScript = document.getElementById('sartor-blog-dynamic-ldjson') as HTMLScriptElement;
+    if (!schemaScript) {
+      schemaScript = document.createElement('script');
+      schemaScript.id = 'sartor-blog-dynamic-ldjson';
+      schemaScript.type = 'application/ld+json';
+      document.head.appendChild(schemaScript);
+    }
+
+    if (activePost) {
+      // 1. Specific Article SEO
+      const articleUrl = `https://sartor.pk/blog/${activePost.slug}`;
+      document.title = `${activePost.title} | SARTOR Atelier`;
+      canonicalEl.href = articleUrl;
+      metaDesc.content = activePost.excerpt;
+
+      // Inject BlogPosting + BreadcrumbList JSON-LD
+      const schemaData = {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'BlogPosting',
+            '@id': `${articleUrl}#article`,
+            'isPartOf': {
+              '@type': 'Blog',
+              '@id': 'https://sartor.pk/blog',
+              'name': 'SARTOR Atelier Journal',
+            },
+            'headline': activePost.title,
+            'description': activePost.excerpt,
+            'image': activePost.coverImage
+              ? (activePost.coverImage.startsWith('http') ? activePost.coverImage : `https://sartor.pk${activePost.coverImage}`)
+              : 'https://sartor.pk/digital-measurements-guide.jpg',
+            'datePublished': `${activePost.date}T00:00:00+05:00`,
+            'dateModified': `${activePost.date}T00:00:00+05:00`,
+            'author': {
+              '@type': 'Person',
+              'name': 'Abdul Ghaffar',
+              'jobTitle': 'Master Tailor & Cutting Artisan',
+              'worksFor': {
+                '@type': 'Organization',
+                'name': 'SARTOR Bespoke Atelier',
+              },
+            },
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'SARTOR Bespoke Atelier',
+              'url': 'https://sartor.pk',
+              'logo': {
+                '@type': 'ImageObject',
+                'url': 'https://sartor.pk/logo.png',
+              },
+            },
+            'mainEntityOfPage': {
+              '@type': 'WebPage',
+              '@id': articleUrl,
+            },
+            'articleSection': activePost.category,
+            'keywords': activePost.tags.join(', '),
+          },
+          {
+            '@type': 'BreadcrumbList',
+            '@id': `${articleUrl}#breadcrumb`,
+            'itemListElement': [
+              {
+                '@type': 'ListItem',
+                'position': 1,
+                'name': 'Home',
+                'item': 'https://sartor.pk/',
+              },
+              {
+                '@type': 'ListItem',
+                'position': 2,
+                'name': 'Atelier Journal',
+                'item': 'https://sartor.pk/blog',
+              },
+              {
+                '@type': 'ListItem',
+                'position': 3,
+                'name': activePost.title,
+                'item': articleUrl,
+              },
+            ],
+          },
+        ],
+      };
+      schemaScript.textContent = JSON.stringify(schemaData);
+    } else {
+      // 2. Blog Archive Listing SEO
+      document.title = 'SARTOR Atelier Journal | Bespoke Tailoring & Couture Guides';
+      canonicalEl.href = 'https://sartor.pk/blog';
+      metaDesc.content =
+        'Guides for discerning brides and couture enthusiasts. Discover authentic zardozi embroidery techniques, international measurement advice, and craftsmanship updates from Lahore.';
+      
+      const archiveSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': 'https://sartor.pk/blog',
+        'name': 'SARTOR Atelier Journal',
+        'url': 'https://sartor.pk/blog',
+        'description':
+          'Guides for discerning brides and couture enthusiasts. Discover authentic zardozi embroidery techniques, international measurement advice, and craftsmanship updates from Lahore.',
+        'breadcrumb': {
+          '@type': 'BreadcrumbList',
+          'itemListElement': [
+            {
+              '@type': 'ListItem',
+              'position': 1,
+              'name': 'Home',
+              'item': 'https://sartor.pk/',
+            },
+            {
+              '@type': 'ListItem',
+              'position': 2,
+              'name': 'Atelier Journal',
+              'item': 'https://sartor.pk/blog',
+            },
+          ],
+        },
+      };
+      schemaScript.textContent = JSON.stringify(archiveSchema);
+    }
+  }, [activePost]);
+
+  const handleSelectPost = (slug: string, e?: React.MouseEvent) => {
     setSelectedSlug(slug);
-    window.location.hash = `#blog/${slug}`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateTo(`/blog/${slug}`, e);
   };
 
-  const handleBackToList = () => {
+  const handleBackToList = (e?: React.MouseEvent) => {
     setSelectedSlug(null);
-    window.location.hash = '#blog';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateTo('/blog', e);
   };
 
   const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+    if (typeof window !== 'undefined' && navigator.clipboard) {
+      const shareUrl = activePost
+        ? `${window.location.origin}/blog/${activePost.slug}`
+        : `${window.location.origin}/blog`;
+      navigator.clipboard.writeText(shareUrl);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     }
@@ -60,28 +216,47 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
       <header className="sticky top-0 z-40 border-b border-stone-800/80 bg-stone-950/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <button
-              onClick={onNavigateHome}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateHome();
+              }}
               className="group flex items-center gap-2 text-stone-400 hover:text-amber-400 text-xs uppercase tracking-wider font-semibold transition-colors"
             >
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               <span>Studio Home</span>
-            </button>
+            </a>
             <span className="text-stone-700 hidden sm:inline">|</span>
-            <div className="hidden sm:flex items-center gap-2">
-              <span className="font-serif text-lg font-bold tracking-widest text-amber-400">SARTOR</span>
-              <span className="text-xs uppercase tracking-widest text-stone-400">Atelier Journal</span>
-            </div>
+            <a
+              href="/blog"
+              onClick={(e) => {
+                e.preventDefault();
+                handleBackToList(e);
+              }}
+              className="flex items-center gap-2 group cursor-pointer"
+            >
+              <span className="font-serif text-lg font-bold tracking-widest text-amber-400 group-hover:text-amber-300">
+                SARTOR
+              </span>
+              <span className="text-xs uppercase tracking-widest text-stone-400 group-hover:text-stone-200">
+                Atelier Journal
+              </span>
+            </a>
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={onNavigateCustomBridal}
+            <a
+              href="/custom-bridal"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateCustomBridal();
+              }}
               className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-950/60 border border-amber-500/40 text-amber-300 hover:bg-amber-900/60 transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>Custom Bridal ($2k+)</span>
-            </button>
+            </a>
 
             <a
               href={buildWhatsAppLink(
@@ -104,16 +279,44 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
       {activePost ? (
         /* SINGLE ARTICLE DETAIL VIEW */
         <article className="pb-24">
-          {/* Article Banner Header */}
-          <div className="border-b border-stone-800/80 bg-gradient-to-b from-stone-900/70 to-stone-950 py-12 sm:py-16">
+          {/* Article Banner Header with Breadcrumbs */}
+          <div className="border-b border-stone-800/80 bg-gradient-to-b from-stone-900/70 to-stone-950 py-10 sm:py-14">
             <div className="max-w-4xl mx-auto px-4 sm:px-6">
-              <button
-                onClick={handleBackToList}
-                className="inline-flex items-center gap-2 text-xs font-semibold text-amber-400 hover:text-amber-300 uppercase tracking-wider mb-6 transition-colors"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Back to all Journal Entries</span>
-              </button>
+              {/* Semantic SEO Breadcrumb Navigation */}
+              <nav aria-label="Breadcrumb" className="mb-6">
+                <ol className="flex flex-wrap items-center gap-2 text-xs text-stone-400">
+                  <li className="flex items-center gap-1.5">
+                    <a
+                      href="/"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigateHome();
+                      }}
+                      className="hover:text-amber-400 flex items-center gap-1 transition-colors"
+                    >
+                      <Home className="w-3.5 h-3.5" />
+                      <span>Home</span>
+                    </a>
+                  </li>
+                  <li className="text-stone-600">/</li>
+                  <li>
+                    <a
+                      href="/blog"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleBackToList(e);
+                      }}
+                      className="hover:text-amber-400 transition-colors"
+                    >
+                      Blog
+                    </a>
+                  </li>
+                  <li className="text-stone-600">/</li>
+                  <li className="text-amber-300 font-medium truncate max-w-[260px] sm:max-w-md" aria-current="page">
+                    {activePost.title}
+                  </li>
+                </ol>
+              </nav>
 
               <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 mb-4">
                 <span className="rounded-md border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-300 uppercase tracking-wider font-semibold">
@@ -164,7 +367,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
                   {copiedLink ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-400">Link Copied</span>
+                      <span className="text-emerald-400 font-medium">Link Copied</span>
                     </>
                   ) : (
                     <>
@@ -192,7 +395,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
 
           {/* Markdown Content */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <div className="prose prose-invert prose-amber max-w-none font-sans text-stone-300 leading-relaxed prose-headings:font-serif prose-headings:font-normal prose-headings:text-stone-100 prose-p:my-4 prose-h2:mt-10 prose-h2:mb-4 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-ul:my-4 prose-li:my-1 prose-strong:text-amber-300 prose-hr:border-stone-800">
+            <div className="prose prose-invert prose-amber max-w-none font-sans text-stone-300 leading-relaxed prose-headings:font-serif prose-headings:font-normal prose-headings:text-stone-100 prose-p:my-4 prose-h2:mt-10 prose-h2:mb-4 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-ul:my-4 prose-li:my-1 prose-strong:text-amber-300 prose-hr:border-stone-800 prose-table:my-8 prose-th:border-b prose-th:border-stone-700 prose-td:border-b prose-td:border-stone-800 prose-td:py-3 prose-th:py-3 prose-th:text-stone-200">
               <ReactMarkdown>{activePost.content}</ReactMarkdown>
             </div>
 
@@ -243,30 +446,61 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
                   <span>Consult Master Tailor on WhatsApp</span>
                 </a>
 
-                <button
-                  onClick={onNavigateCustomBridal}
+                <a
+                  href="/custom-bridal"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateCustomBridal();
+                  }}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-3.5 rounded-xl border border-stone-700 bg-stone-800/80 hover:bg-stone-800 text-stone-200 hover:text-amber-300 text-sm font-semibold transition-colors"
                 >
                   <span>View 4-Step Milestone Process</span>
                   <ChevronRight className="w-4 h-4" />
-                </button>
+                </a>
               </div>
             </section>
 
             <div className="mt-12 text-center">
-              <button
-                onClick={handleBackToList}
+              <a
+                href="/blog"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleBackToList(e);
+                }}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to all Atelier Journal entries</span>
-              </button>
+              </a>
             </div>
           </div>
         </article>
       ) : (
         /* ARCHIVE / LISTING VIEW */
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          {/* Breadcrumb for Archive */}
+          <nav aria-label="Breadcrumb" className="mb-8">
+            <ol className="flex items-center gap-2 text-xs text-stone-400">
+              <li className="flex items-center gap-1.5">
+                <a
+                  href="/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateHome();
+                  }}
+                  className="hover:text-amber-400 flex items-center gap-1 transition-colors"
+                >
+                  <Home className="w-3.5 h-3.5" />
+                  <span>Home</span>
+                </a>
+              </li>
+              <li className="text-stone-600">/</li>
+              <li className="text-amber-300 font-medium" aria-current="page">
+                Atelier Journal
+              </li>
+            </ol>
+          </nav>
+
           {/* Hero Banner */}
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-amber-300 uppercase mb-4">
@@ -281,13 +515,14 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
             </p>
           </div>
 
-          {/* Posts Grid */}
+          {/* Posts Grid with crawlable <a href="/blog/[slug]"> links */}
           <div className="grid gap-8 sm:grid-cols-2">
             {BLOG_POSTS.map((post) => (
-              <article
+              <a
                 key={post.slug}
-                onClick={() => handleSelectPost(post.slug)}
-                className="group cursor-pointer flex flex-col overflow-hidden rounded-2xl border border-stone-800/80 bg-stone-900/40 hover:border-amber-500/40 hover:bg-stone-900/70 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5"
+                href={`/blog/${post.slug}`}
+                onClick={(e) => handleSelectPost(post.slug, e)}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-stone-800/80 bg-stone-900/40 hover:border-amber-500/40 hover:bg-stone-900/70 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 text-left"
               >
                 {post.coverImage && (
                   <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-900">
@@ -347,7 +582,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
                     </div>
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
 
@@ -375,12 +610,16 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
                 <span>Chat With Master Tailor on WhatsApp</span>
               </a>
 
-              <button
-                onClick={onNavigateCustomBridal}
+              <a
+                href="/custom-bridal"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigateCustomBridal();
+                }}
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl border border-stone-700 bg-stone-800/60 hover:bg-stone-800 text-stone-200 hover:text-amber-300 text-sm font-semibold transition-colors"
               >
                 Explore Custom Bridal ($2k+)
-              </button>
+              </a>
             </div>
           </section>
         </main>

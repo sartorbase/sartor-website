@@ -1,9 +1,11 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 import { ATELIER_SYSTEM_INSTRUCTION } from './src/constants/atelierPrompt';
+import { generateSitemapXml, injectSeoIntoHtml } from './src/server/seoRenderer';
 
 dotenv.config();
 
@@ -182,15 +184,45 @@ app.post('/api/chat', async (req, res) => {
 });
 
 async function startServer() {
+  // Dynamic Sitemap.xml endpoint with real crawlable URLs
+  app.get('/sitemap.xml', (req, res) => {
+    const xml = generateSitemapXml();
+    res.set('Content-Type', 'application/xml; charset=utf-8');
+    res.send(xml);
+  });
+
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
+
+    // Handle SEO-enhanced blog and bridal routes with pre-rendered metadata and body
+    app.get(['/blog', '/blog/*', '/custom-bridal'], async (req, res, next) => {
+      try {
+        const url = req.originalUrl;
+        const templatePath = path.join(process.cwd(), 'index.html');
+        let template = fs.readFileSync(templatePath, 'utf-8');
+        template = await vite.transformIndexHtml(url, template);
+        const { status, html } = injectSeoIntoHtml(template, url);
+        return res.status(status).set({ 'Content-Type': 'text/html' }).send(html);
+      } catch (e) {
+        next(e);
+      }
+    });
+
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
+
+    app.get(['/blog', '/blog/*', '/custom-bridal'], (req, res) => {
+      const templatePath = path.join(distPath, 'index.html');
+      let template = fs.readFileSync(templatePath, 'utf-8');
+      const { status, html } = injectSeoIntoHtml(template, req.originalUrl);
+      return res.status(status).set({ 'Content-Type': 'text/html' }).send(html);
+    });
+
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, MessageSquare, X } from 'lucide-react';
 import { SartorLogo } from '../atoms/SartorLogo';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { navigateTo } from '../../utils/navigation';
 
 export interface NavbarProps {
   onOpenAnalytics?: () => void;
@@ -12,12 +13,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Custom Bridal ($2k+)', href: '#custom-bridal', highlight: true },
-    { label: 'Journal', href: '#blog' },
-    { label: 'Stitching Rates', href: '#pricing' },
-    { label: 'Portfolio', href: '#portfolio' },
-    { label: 'Size Chart', href: '#size-chart' },
-    { label: 'Studio Location', href: '#location' },
+    { label: 'Custom Bridal ($2k+)', href: '/custom-bridal', highlight: true },
+    { label: 'Journal', href: '/blog' },
+    { label: 'Stitching Rates', href: '/#pricing' },
+    { label: 'Portfolio', href: '/#portfolio' },
+    { label: 'Size Chart', href: '/#size-chart' },
+    { label: 'Studio Location', href: '/#location' },
   ];
 
   const navWhatsAppMsg = `Assalam-o-Alaikum SARTOR Atelier,
@@ -26,15 +27,35 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
   const whatsappUrl = buildWhatsAppLink(navWhatsAppMsg, 'nav');
 
   const handleLinkClick = (href: string, e: React.MouseEvent) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      window.location.hash = href;
-      window.dispatchEvent(new Event('hashchange'));
-      // Scroll to element if it exists on page (e.g. #pricing, #portfolio)
-      const element = document.getElementById(href.replace('#', ''));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      return;
+    }
+
+    if (href.startsWith('/#')) {
+      const targetId = href.replace('/#', '');
+      if (typeof window !== 'undefined') {
+        if (window.location.pathname === '/' || window.location.pathname === '') {
+          e.preventDefault();
+          const element = document.getElementById(targetId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          e.preventDefault();
+          navigateTo(`/#${targetId}`);
+          setTimeout(() => {
+            const element = document.getElementById(targetId);
+            if (element) element.scrollIntoView({ behavior: 'smooth' });
+          }, 120);
+        }
       }
+      return;
+    }
+
+    if (href.startsWith('/')) {
+      e.preventDefault();
+      navigateTo(href);
+      return;
     }
   };
 
@@ -43,7 +64,16 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
       {/* Main navigation bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
         {/* Brand Logo */}
-        <a href="#" className="flex items-center group cursor-pointer shrink-0">
+        <a
+          href="/"
+          onClick={(e) => {
+            if (!e.metaKey && !e.ctrlKey) {
+              e.preventDefault();
+              navigateTo('/');
+            }
+          }}
+          className="flex items-center group cursor-pointer shrink-0"
+        >
           <SartorLogo variant="navbar" />
         </a>
 
