@@ -12,6 +12,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { label: 'Custom Bridal ($2k+)', href: '#custom-bridal', highlight: true },
     { label: 'Stitching Rates', href: '#pricing' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Size Chart', href: '#size-chart' },
@@ -33,15 +34,21 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
         </a>
 
         {/* Desktop Nav Items */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-xs uppercase tracking-wider font-semibold text-stone-300">
+        <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-xs uppercase tracking-wider font-semibold text-stone-300">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="hover:text-amber-400 transition-colors py-1 relative group"
+              className={`transition-colors py-1 relative group ${
+                link.highlight
+                  ? 'text-amber-300 font-bold px-2.5 py-1 rounded-full bg-amber-950/60 border border-amber-500/40 hover:bg-amber-900/60'
+                  : 'hover:text-amber-400'
+              }`}
             >
               {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full" />
+              {!link.highlight && (
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full" />
+              )}
             </a>
           ))}
         </nav>
@@ -80,9 +87,18 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-medium text-stone-200 hover:text-amber-400 py-3"
+                className={`text-sm py-3 flex items-center justify-between ${
+                  link.highlight
+                    ? 'font-bold text-amber-300'
+                    : 'font-medium text-stone-200 hover:text-amber-400'
+                }`}
               >
-                {link.label}
+                <span>{link.label}</span>
+                {link.highlight && (
+                  <span className="text-[10px] font-mono uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded-full">
+                    Overseas
+                  </span>
+                )}
               </a>
             ))}
           </nav>

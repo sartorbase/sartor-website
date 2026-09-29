@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { HeroSection } from './components/organisms/HeroSection';
@@ -14,8 +14,56 @@ import { ServiceShowcase } from './components/organisms/ServiceShowcase';
 import { SizeChartGuide } from './components/organisms/SizeChartGuide';
 import { TestimonialsSection } from './components/organisms/TestimonialsSection';
 import { MainLayout } from './components/templates/MainLayout';
+import CustomBridalLandingPage from '../app/custom-bridal/page';
 
 export default function App() {
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' ? window.location.pathname + window.location.hash : ''
+  );
+
+  useEffect(() => {
+    const handleHashOrPathChange = () => {
+      setCurrentPath(window.location.pathname + window.location.hash);
+    };
+
+    window.addEventListener('hashchange', handleHashOrPathChange);
+    window.addEventListener('popstate', handleHashOrPathChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashOrPathChange);
+      window.removeEventListener('popstate', handleHashOrPathChange);
+    };
+  }, []);
+
+  const isCustomBridalRoute =
+    currentPath.includes('/custom-bridal') || currentPath.includes('#custom-bridal');
+
+  if (isCustomBridalRoute) {
+    return (
+      <div className="relative">
+        {/* Top return bar for easy preview in AI Studio dev environment */}
+        <div className="bg-stone-900 border-b border-stone-800 px-4 py-2 text-xs flex items-center justify-between z-50 sticky top-0">
+          <span className="text-amber-400 font-mono font-bold">
+            ⚡ Previewing /app/custom-bridal/page.tsx (Overseas Bridal Route)
+          </span>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/');
+              setCurrentPath('/');
+            }}
+            className="text-stone-300 hover:text-white underline underline-offset-4 cursor-pointer"
+          >
+            ← Back to Main Studio Home
+          </a>
+        </div>
+        <CustomBridalLandingPage />
+        <Analytics />
+        <SpeedInsights />
+      </div>
+    );
+  }
+
   return (
     <MainLayout>
       {/* 1. Hero Experience: Women's Atelier, Services, Transparent Rates (PKR) & Outfit Photos */}
