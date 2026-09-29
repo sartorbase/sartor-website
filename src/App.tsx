@@ -15,6 +15,7 @@ import { SizeChartGuide } from './components/organisms/SizeChartGuide';
 import { TestimonialsSection } from './components/organisms/TestimonialsSection';
 import { MainLayout } from './components/templates/MainLayout';
 import CustomBridalLandingPage from '../app/custom-bridal/page';
+import { BlogPageView } from './components/pages/BlogPageView';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(
@@ -36,6 +37,43 @@ export default function App() {
 
   const isCustomBridalRoute =
     currentPath.includes('/custom-bridal') || currentPath.includes('#custom-bridal');
+  const isBlogRoute =
+    currentPath.includes('/blog') || currentPath.includes('#blog');
+
+  if (isBlogRoute) {
+    return (
+      <div className="relative">
+        <div className="bg-stone-900 border-b border-stone-800 px-4 py-2 text-xs flex items-center justify-between z-50 sticky top-0">
+          <span className="text-amber-400 font-mono font-bold">
+            ⚡ Previewing /app/blog (SARTOR Atelier Journal & MDX System)
+          </span>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/');
+              setCurrentPath('/');
+            }}
+            className="text-stone-300 hover:text-white underline underline-offset-4 cursor-pointer"
+          >
+            ← Back to Main Studio Home
+          </a>
+        </div>
+        <BlogPageView
+          onNavigateHome={() => {
+            window.history.pushState({}, '', '/');
+            setCurrentPath('/');
+          }}
+          onNavigateCustomBridal={() => {
+            window.history.pushState({}, '', '#custom-bridal');
+            setCurrentPath('#custom-bridal');
+          }}
+        />
+        <Analytics />
+        <SpeedInsights />
+      </div>
+    );
+  }
 
   if (isCustomBridalRoute) {
     return (

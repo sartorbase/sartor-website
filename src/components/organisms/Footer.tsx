@@ -92,6 +92,36 @@ export const Footer: React.FC<FooterProps> = () => {
                   <span className="text-amber-400 text-[10px]">XS – XL</span>
                 </a>
               </li>
+              <li>
+                <a
+                  href="#blog"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.hash = '#blog';
+                    window.dispatchEvent(new Event('hashchange'));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between font-medium text-amber-300/90"
+                >
+                  <span>Atelier Journal & Couture Guides</span>
+                  <span className="text-amber-400 text-[10px]">New</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#custom-bridal"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.hash = '#custom-bridal';
+                    window.dispatchEvent(new Event('hashchange'));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between"
+                >
+                  <span>Overseas Custom Bridal ($2k+)</span>
+                  <span className="text-emerald-400 text-[10px]">Worldwide</span>
+                </a>
+              </li>
             </ul>
           </div>
 

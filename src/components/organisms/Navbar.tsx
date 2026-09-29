@@ -13,6 +13,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   const navLinks = [
     { label: 'Custom Bridal ($2k+)', href: '#custom-bridal', highlight: true },
+    { label: 'Journal', href: '#blog' },
     { label: 'Stitching Rates', href: '#pricing' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Size Chart', href: '#size-chart' },
@@ -23,6 +24,19 @@ export const Navbar: React.FC<NavbarProps> = () => {
 I would like to book a bespoke tailoring consultation.
 Please guide me on stitching rates, timeframes, and doorstep fabric pickup in Lahore.`;
   const whatsappUrl = buildWhatsAppLink(navWhatsAppMsg, 'nav');
+
+  const handleLinkClick = (href: string, e: React.MouseEvent) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      window.location.hash = href;
+      window.dispatchEvent(new Event('hashchange'));
+      // Scroll to element if it exists on page (e.g. #pricing, #portfolio)
+      const element = document.getElementById(href.replace('#', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-stone-950/95 backdrop-blur-md border-b border-stone-800/80 transition-all">
@@ -39,6 +53,7 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
             <a
               key={link.href}
               href={link.href}
+              onClick={(e) => handleLinkClick(link.href, e)}
               className={`transition-colors py-1 relative group ${
                 link.highlight
                   ? 'text-amber-300 font-bold px-2.5 py-1 rounded-full bg-amber-950/60 border border-amber-500/40 hover:bg-amber-900/60'
@@ -86,7 +101,10 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  handleLinkClick(link.href, e);
+                }}
                 className={`text-sm py-3 flex items-center justify-between ${
                   link.highlight
                     ? 'font-bold text-amber-300'
