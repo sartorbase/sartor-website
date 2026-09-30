@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { ArrowLeft, Calendar, Clock, Sparkles, MessageCircle, ChevronRight, Share2, Check, Home } from 'lucide-react';
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
@@ -395,8 +396,115 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({
 
           {/* Markdown Content */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <div className="prose prose-invert prose-amber max-w-none font-sans text-stone-300 leading-relaxed prose-headings:font-serif prose-headings:font-normal prose-headings:text-stone-100 prose-p:my-4 prose-h2:mt-10 prose-h2:mb-4 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-ul:my-4 prose-li:my-1 prose-strong:text-amber-300 prose-hr:border-stone-800 prose-table:my-8 prose-th:border-b prose-th:border-stone-700 prose-td:border-b prose-td:border-stone-800 prose-td:py-3 prose-th:py-3 prose-th:text-stone-200">
-              <ReactMarkdown>{activePost.content}</ReactMarkdown>
+            <div className="prose prose-invert prose-amber max-w-none font-sans text-stone-300 leading-relaxed">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  table: ({ children, ...props }) => (
+                    <div className="my-8 overflow-x-auto rounded-2xl border border-stone-800 bg-stone-900/60 shadow-xl backdrop-blur-sm">
+                      <table className="w-full min-w-[540px] border-collapse text-left text-sm" {...props}>
+                        {children}
+                      </table>
+                    </div>
+                  ),
+                  thead: ({ children, ...props }) => (
+                    <thead className="bg-stone-900/90 border-b border-stone-700/80 text-amber-300 font-serif" {...props}>
+                      {children}
+                    </thead>
+                  ),
+                  th: ({ children, ...props }) => (
+                    <th className="p-3.5 text-xs font-semibold uppercase tracking-wider text-amber-300 border-r border-stone-800/80 last:border-r-0" {...props}>
+                      {children}
+                    </th>
+                  ),
+                  tbody: ({ children, ...props }) => (
+                    <tbody className="divide-y divide-stone-800/80" {...props}>
+                      {children}
+                    </tbody>
+                  ),
+                  tr: ({ children, ...props }) => (
+                    <tr className="hover:bg-stone-800/40 transition-colors" {...props}>
+                      {children}
+                    </tr>
+                  ),
+                  td: ({ children, ...props }) => (
+                    <td className="p-3.5 text-stone-300 border-r border-stone-800/60 last:border-r-0 leading-relaxed" {...props}>
+                      {children}
+                    </td>
+                  ),
+                  blockquote: ({ children, ...props }) => (
+                    <div className="my-8 rounded-2xl border-l-4 border-amber-500 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-5 sm:p-6 shadow-lg shadow-black/20 text-stone-200">
+                      <blockquote className="font-serif italic text-amber-100/95 leading-relaxed [&>p]:my-2 [&>h3]:text-amber-400 [&>h3]:font-serif [&>h3]:font-bold [&>h3]:text-lg [&>h3]:mb-2 [&>h3]:mt-0 [&>strong]:text-amber-300 [&>strong]:font-semibold not-italic" {...props}>
+                        {children}
+                      </blockquote>
+                    </div>
+                  ),
+                  a: ({ href, children, ...props }) => {
+                    const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
+                    if (isInternal) {
+                      return (
+                        <a
+                          href={href}
+                          onClick={(e) => {
+                            if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
+                              e.preventDefault();
+                              navigateTo(href);
+                            }
+                          }}
+                          className="text-amber-400 hover:text-amber-300 underline underline-offset-4 font-medium transition-colors cursor-pointer"
+                          {...props}
+                        >
+                          {children}
+                        </a>
+                      );
+                    }
+                    return (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-amber-400 hover:text-amber-300 underline underline-offset-4 font-medium transition-colors"
+                        {...props}
+                      >
+                        {children}
+                      </a>
+                    );
+                  },
+                  hr: () => <hr className="my-10 border-stone-800/90" />,
+                  h1: ({ children, ...props }) => (
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-stone-50 my-6 leading-tight tracking-tight" {...props}>
+                      {children}
+                    </h1>
+                  ),
+                  h2: ({ children, ...props }) => (
+                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-100 mt-12 mb-5 pb-3 border-b border-stone-800/80 leading-snug tracking-tight" {...props}>
+                      {children}
+                    </h2>
+                  ),
+                  h3: ({ children, ...props }) => (
+                    <h3 className="text-xl sm:text-2xl font-serif font-semibold text-amber-200/90 mt-8 mb-3 leading-snug" {...props}>
+                      {children}
+                    </h3>
+                  ),
+                  ul: ({ children, ...props }) => (
+                    <ul className="list-disc list-outside ml-6 space-y-2.5 my-5 text-stone-300" {...props}>
+                      {children}
+                    </ul>
+                  ),
+                  ol: ({ children, ...props }) => (
+                    <ol className="list-decimal list-outside ml-6 space-y-2.5 my-5 text-stone-300 font-sans" {...props}>
+                      {children}
+                    </ol>
+                  ),
+                  li: ({ children, ...props }) => (
+                    <li className="leading-relaxed pl-1 marker:text-amber-400" {...props}>
+                      {children}
+                    </li>
+                  ),
+                }}
+              >
+                {activePost.content}
+              </ReactMarkdown>
             </div>
 
             {/* Conversion CTA Block at the bottom of article */}

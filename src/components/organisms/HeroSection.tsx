@@ -1,33 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
   CheckCircle2,
-  ExternalLink,
   Layers,
-  MapPin,
   MessageSquare,
-  Ruler,
   Scissors,
   Sparkles,
   Truck,
 } from 'lucide-react';
-import {
-  PRICING_LIST,
-  bridalSetImg,
-  doubleSuitImg,
-  panneledFrockImg,
-  sarhiSetImg,
-  simpleSuitImg,
-} from '../../data/sizes';
-import {
-  SARTOR_GOOGLE_MAPS_LINK,
-  SARTOR_PHONE_LOCAL,
-  analytics,
-  buildWhatsAppLink,
-} from '../../services/analytics';
+import { PRICING_LIST } from '../../data/sizes';
+import { analytics, buildWhatsAppLink } from '../../services/analytics';
 import { openSartorChat } from '../../services/geminiChat';
-import { Button } from '../atoms/Button';
 import { PricingItem } from '../../types';
 
 // Subtle, high-end atelier animation variants
@@ -38,8 +22,8 @@ const containerStagger = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.04,
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
     },
   },
 };
@@ -56,74 +40,7 @@ const fadeUpVariant = {
   },
 };
 
-interface ShowcaseItem {
-  id: string;
-  title: string;
-  priceDisplay: string;
-  description: string;
-  tag: string;
-  badge: string;
-  image: string;
-  alt: string;
-  thumbLabel: string;
-  whatsappMessage: string;
-}
-
-const SHOWCASE_ITEMS: ShowcaseItem[] = [
-  {
-    id: 'bridal-set',
-    title: 'Bridal Set — PKR 10,000',
-    priceDisplay: 'PKR 10,000',
-    description: 'Heavy lehenga, padded choli, can-can & double-dupatta framing',
-    tag: 'Master Couture',
-    badge: 'Zardozi & Tilla Hand Embroidery',
-    image: bridalSetImg,
-    alt: "SARTOR Pakistani Bridal Lehenga Choli & Maxi Stitching Lahore",
-    thumbLabel: 'Bridal 10k',
-    whatsappMessage: 'Assalam-o-Alaikum SARTOR Atelier,\nI would like to order custom stitching for: *Bridal Set — PKR 10,000*.\nPlease guide me on fabric pickup in Lahore and master tailor consultation.',
-  },
-  {
-    id: 'sarhi-set',
-    title: 'Custom Saree — PKR 7,000',
-    priceDisplay: 'PKR 7,000',
-    description: 'Bespoke padded blouse, seamless fall & pico, pleat alignment & matching petticoat',
-    tag: 'Festive Drapery',
-    badge: 'Contour Blouse & Fall Finish',
-    image: sarhiSetImg,
-    alt: "SARTOR Saree & Blouse Custom Tailoring Lahore",
-    thumbLabel: 'Saree 7k',
-    whatsappMessage: 'Assalam-o-Alaikum SARTOR Atelier,\nI would like to order custom stitching for: *Custom Saree — PKR 7,000*.\nPlease guide me on blouse measurements and fabric pickup in Lahore.',
-  },
-  {
-    id: 'panneled-frock',
-    title: 'Festive Maxi — PKR 7,000',
-    priceDisplay: 'PKR 7,000',
-    description: '16-kali kalidar flowing flare, silk lining, gotta / lace border & tailored trouser',
-    tag: 'Flowing Kalidar',
-    badge: '16-Kali Sweeping Flare',
-    image: panneledFrockImg,
-    alt: "SARTOR Festive Maxi & Kalidar Stitching Lahore",
-    thumbLabel: 'Maxi 7k',
-    whatsappMessage: 'Assalam-o-Alaikum SARTOR Atelier,\nI would like to order custom stitching for: *Festive Maxi — PKR 7,000*.\nPlease guide me on fabric yardage and doorstep pickup in Lahore.',
-  },
-  {
-    id: 'simple-suit',
-    title: 'Simple Suit — PKR 2,500',
-    priceDisplay: 'PKR 2,500',
-    description: '3-piece lawn or formal suit with custom piping, neck design & tailored trouser',
-    tag: 'Everyday Pret',
-    badge: 'Precision Lawn & Pret Stitching',
-    image: simpleSuitImg,
-    alt: "SARTOR Simple 3-Piece Ladies Suit Tailoring Lahore",
-    thumbLabel: 'Simple 2.5k',
-    whatsappMessage: 'Assalam-o-Alaikum SARTOR Atelier,\nI would like to order custom stitching for: *Simple Suit — PKR 2,500*.\nPlease guide me on sending fabric / doorstep pickup in Lahore.',
-  },
-];
-
 export const HeroSection: React.FC = () => {
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-  const activeCard = SHOWCASE_ITEMS[activeCardIndex];
-
   const getOutfitWhatsAppUrl = (item: PricingItem) => {
     if (item.id === 'custom-designs') {
       const customMsg = `Assalam-o-Alaikum SARTOR Atelier,
@@ -170,244 +87,52 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
   return (
     <div className="relative bg-stone-950 text-stone-100">
       
-      {/* 1. Main Hero Header Banner */}
-      <section className="relative overflow-hidden pt-6 pb-14 md:pt-10 md:pb-20 border-b border-stone-800/80">
+      {/* 1. Clean, Serene Hero Banner */}
+      <section className="relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-28 border-b border-stone-800/80">
         {/* Glow backdrop effects */}
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-10 w-96 h-96 bg-stone-800/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-1/3 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-stone-800/25 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-            
-            {/* Left Column: Headline, Subtitle, Direct Above-the-Fold CTA & Pricing */}
-            <motion.div
-              variants={containerStagger}
-              initial="hidden"
-              animate="visible"
-              className="lg:col-span-7 flex flex-col items-start"
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            variants={containerStagger}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col items-center"
+          >
+            {/* Grand Main Headline */}
+            <motion.h1
+              variants={fadeUpVariant}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-stone-100 tracking-tight leading-[1.14]"
             >
-              {/* Clean Single-Line Specialization Accent Badge directly above H1 */}
-              <motion.div variants={fadeUpVariant} className="mb-3.5">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-200 text-xs sm:text-sm font-medium shadow-sm">
-                  <span className="px-2 py-0.5 rounded-full bg-amber-500 text-stone-950 text-[10px] font-bold uppercase tracking-wider shrink-0">
-                    SPECIALIZATION
-                  </span>
-                  <span className="text-stone-200 font-medium whitespace-nowrap">
-                    Exclusively Crafting Bespoke Women's Fashion &amp; Tailoring in Lahore
-                  </span>
-                </div>
-              </motion.div>
+              Bespoke Women&apos;s Tailoring{' '}
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500">
+                &amp; Luxury Embroidery
+              </span>
+            </motion.h1>
 
-              {/* Grand Main Headline */}
-              <motion.h1
-                variants={fadeUpVariant}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-stone-100 tracking-tight leading-[1.15]"
-              >
-                Bespoke Women's Tailoring{' '}
-                <br className="hidden sm:inline" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500">
-                  &amp; Luxury Embroidery
-                </span>
-              </motion.h1>
-
-              {/* Subheadline */}
-              <motion.p
-                variants={fadeUpVariant}
-                className="mt-4 sm:mt-5 text-stone-300 text-sm sm:text-base lg:text-lg max-w-2xl leading-relaxed"
-              >
-                Precision stitching for sarees, festive maxis, 16-kali kalidars, and bridal lehengas with free doorstep fabric pickup &amp; delivery across Lahore.
-              </motion.p>
-
-              {/* Primary CTA Button: Full-width green button */}
-              <motion.div variants={fadeUpVariant} className="mt-6 w-full max-w-xl">
-                <a
-                  id="hero-whatsapp-main-cta"
-                  href={heroMainWhatsAppUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base sm:text-lg flex items-center justify-center gap-3 shadow-xl shadow-emerald-950/50 hover:shadow-emerald-900/60 border border-emerald-400/40 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-center cursor-pointer"
-                >
-                  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 fill-current shrink-0" />
-                  <span>Book Order on WhatsApp (0335-2209991)</span>
-                </a>
-              </motion.div>
-
-              {/* Trust Badges under CTA */}
-              <motion.div variants={fadeUpVariant} className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm font-medium text-stone-300">
-                <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                  <span className="font-bold">✓</span> Free Fabric Pickup in Lahore
-                </span>
-                <span className="text-stone-700 hidden sm:inline">•</span>
-                <span className="flex items-center gap-1.5 text-stone-200 font-medium">
-                  <span className="text-amber-400 font-bold">✓</span> Guaranteed Fitting
-                </span>
-                <span className="text-stone-700 hidden sm:inline">•</span>
-                <span className="flex items-center gap-1.5 text-stone-200 font-medium">
-                  <span className="text-amber-400 font-bold">✓</span> Direct Master Tailor Consultation
-                </span>
-              </motion.div>
-
-              {/* Social Proof: Google Review Badge & Size Chart Link */}
-              <motion.div variants={fadeUpVariant} className="mt-4 flex flex-wrap items-center gap-3">
-                <a
-                  href="#testimonials"
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-900/90 border border-amber-500/30 text-xs text-stone-200 hover:border-amber-400 transition-colors"
-                >
-                  <span className="text-amber-400 font-bold">★ 4.8 Rating on Google</span>
-                  <span className="text-stone-400">(Model Town, Lahore)</span>
-                  <span className="text-emerald-400 text-[11px] font-semibold hidden sm:inline">• Verified Customer Trials</span>
-                </a>
-                <span className="text-stone-700 hidden sm:inline">•</span>
-                <a
-                  href="#size-chart"
-                  className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-amber-400 transition-colors py-1"
-                >
-                  <Ruler className="w-3.5 h-3.5 text-amber-500" />
-                  <span className="underline underline-offset-4">Size Chart Guide</span>
-                </a>
-              </motion.div>
-
-              {/* Transparent Quick Rates Ticker */}
-              <motion.div variants={fadeUpVariant} className="mt-6 pt-4 border-t border-stone-800/80 w-full">
-                <div className="text-[11px] uppercase tracking-wider text-amber-500/90 font-mono font-semibold mb-2">
-                  Transparent Stitching Rates (PKR):
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                    Simple Suit: <strong className="text-amber-400">PKR 2,500</strong>
-                  </a>
-                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                    Double Suit: <strong className="text-amber-400">PKR 4,000</strong>
-                  </a>
-                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                    Sarhi Set: <strong className="text-amber-400">PKR 7,000</strong>
-                  </a>
-                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                    Panneled Frock: <strong className="text-amber-400">PKR 7,000</strong>
-                  </a>
-                  <a href="#pricing" className="px-3 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 transition-colors hover:border-amber-600/40">
-                    Bridal Set: <strong className="text-amber-400">PKR 10,000</strong>
-                  </a>
-                </div>
-              </motion.div>
-
-            </motion.div>
-
-            {/* Right Column: Hero Visual Portfolio Showcase Card with Real Sample Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 24 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: easeCurve }}
-              className="lg:col-span-5 relative"
+            {/* Subheadline / Summary */}
+            <motion.p
+              variants={fadeUpVariant}
+              className="mt-6 text-stone-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-sans"
             >
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                
-                {/* Visual Card with Preview */}
-                <div className="relative rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/50 shadow-2xl group transition-all duration-300">
-                  <div className="relative h-80 sm:h-96 lg:h-[430px] overflow-hidden bg-stone-950">
-                    <img
-                      key={activeCard.id}
-                      src={activeCard.image}
-                      alt={activeCard.alt}
-                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                    />
+              Precision stitching for sarees, festive maxis, 16-kali kalidars, and bridal lehengas with free doorstep fabric pickup &amp; delivery across Lahore.
+            </motion.p>
 
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/25 to-transparent pointer-events-none" />
-
-                    {/* Mini floating feature badge */}
-                    <div className="absolute top-4 left-4 px-3 py-1.5 rounded-lg bg-stone-950/85 border border-stone-700/80 text-[11px] font-medium text-stone-200 backdrop-blur-md flex items-center gap-1.5 shadow-lg">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                      <span>{activeCard.badge}</span>
-                    </div>
-
-                    {/* Tag badge top right */}
-                    <div className="absolute top-4 right-4 px-2.5 py-1 rounded-md bg-amber-500 text-stone-950 text-[10px] font-black uppercase tracking-wider shadow-md">
-                      {activeCard.tag}
-                    </div>
-
-                    {/* Overlaid Card Info with direct instant Order via WhatsApp button */}
-                    <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-stone-950/95 border border-stone-800 backdrop-blur-md shadow-2xl">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div>
-                          <span className="text-[10px] uppercase font-mono tracking-widest text-amber-400 font-bold block">
-                            SARTOR Master Atelier
-                          </span>
-                          <h3 className="font-serif text-base sm:text-lg font-bold text-stone-100 mt-0.5">
-                            {activeCard.title}
-                          </h3>
-                          <p className="text-[11px] text-stone-300 mt-0.5 line-clamp-2">
-                            {activeCard.description}
-                          </p>
-                        </div>
-                        <a
-                          id={`hero-card-order-btn-${activeCard.id}`}
-                          href={buildWhatsAppLink(activeCard.whatsappMessage, 'hero_pricing_card')}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => {
-                            analytics.trackEvent('pricing_whatsapp_click', {
-                              outfit: activeCard.title,
-                              source: 'hero_card',
-                            });
-                          }}
-                          className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-950/50 border border-emerald-400/40 transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0 text-center"
-                        >
-                          <MessageSquare className="w-3.5 h-3.5 fill-current shrink-0" />
-                          <span>Order via WhatsApp</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Interactive Thumbnail Selector Strip */}
-                <div className="mt-3">
-                  <div className="text-[10px] uppercase tracking-wider font-mono text-stone-400 mb-1.5 flex items-center justify-between px-1">
-                    <span>Sample Tailoring Gallery:</span>
-                    <span className="text-amber-400">Click to Preview Rate &amp; Cut</span>
-                  </div>
-                  <div className="grid grid-cols-4 gap-2">
-                    {SHOWCASE_ITEMS.map((item, idx) => {
-                      const isActive = idx === activeCardIndex;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => setActiveCardIndex(idx)}
-                          className={`relative rounded-xl overflow-hidden border h-16 bg-stone-900 group transition-all cursor-pointer ${
-                            isActive
-                              ? 'border-amber-400 ring-2 ring-amber-400/30 scale-[1.02]'
-                              : 'border-stone-800 opacity-70 hover:opacity-100'
-                          }`}
-                          aria-label={`Select ${item.title}`}
-                        >
-                          <img
-                            src={item.image}
-                            alt={item.alt}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                            loading="lazy"
-                            decoding="async"
-                            referrerPolicy="no-referrer"
-                          />
-                          <div className={`absolute bottom-0 inset-x-0 text-[10px] text-center font-mono py-0.5 transition-colors ${
-                            isActive ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-950/90 text-amber-300'
-                          }`}>
-                            {item.thumbLabel}
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-              </div>
+            {/* Single WhatsApp CTA Button */}
+            <motion.div variants={fadeUpVariant} className="mt-8 flex justify-center w-full">
+              <a
+                id="hero-whatsapp-main-cta"
+                href={heroMainWhatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base sm:text-lg shadow-xl shadow-emerald-950/50 hover:shadow-emerald-900/60 border border-emerald-400/40 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-center cursor-pointer"
+              >
+                <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 fill-current shrink-0" />
+                <span>Book Order on WhatsApp (0335-2209991)</span>
+              </a>
             </motion.div>
-
-          </div>
+          </motion.div>
         </div>
       </section>
 

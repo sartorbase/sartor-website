@@ -41,9 +41,18 @@ SARTOR accommodates standardized sizing matching top Pakistani pret fashion bran
 - **Measurement Units**: Supports both Inches (") and Centimeters (cm) with an interactive size calculator.
 - **Custom Measurements**: Shoulder, Chest/Bust, Waist, Hips, Kurti Length, Sleeve Length, Trouser Length, and Trouser Inseam.
 
+## Masterclass Guides & Atelier Journal
+- **The Overseas Bride's Guide to Sizing & Ordering a Custom Zardozi Lehenga Online**: https://sartor.pk/blog/overseas-bride-zardozi-lehenga-sizing-guide
+- **Online Tailoring from Lahore for Overseas Pakistanis (UK, USA, Canada, Gulf)**: https://sartor.pk/blog/online-tailoring-lahore-overseas-pakistanis
+- **Zardozi vs. Dabka vs. Marori: The Master Artisan's Guide to Lahore Hand Embroidery**: https://sartor.pk/blog/zardozi-vs-dabka
+- **Digital Measurements & Overseas Sizing Masterclass**: https://sartor.pk/blog/digital-measurements-guide
+- **How Overseas Brides Order Custom Pakistani Bridalwear Online**: https://sartor.pk/blog/how-overseas-brides-order-custom-pakistani-bridalwear-online
+- **The Ultimate Overseas Bridal Tailoring Guide**: https://sartor.pk/blog/overseas-bridal-tailoring-guide
+
 ## Extended Resources
 - **Full LLM Context**: https://sartor.pk/llms-full.txt
 - **Sitemap**: https://sartor.pk/sitemap.xml
+- **Custom Bridal Concierge ($2k+)**: https://sartor.pk/custom-bridal
 - **Interactive Size Calculator**: https://sartor.pk/#size-chart
 - **Google Maps Location**: https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68
 

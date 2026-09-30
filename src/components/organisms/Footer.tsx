@@ -38,10 +38,13 @@ export const Footer: React.FC<FooterProps> = () => {
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Direct WhatsApp: <strong>{SARTOR_PHONE_LOCAL}</strong> ({SARTOR_PHONE_DISPLAY})</span>
               </span>
-              <span className="flex items-center gap-2">
+              <a
+                href="mailto:contact@sartor.pk"
+                className="flex items-center gap-2 hover:text-amber-400 transition-colors"
+              >
                 <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Direct Contact: info@sartor-atelier.com</span>
-              </span>
+                <span>Direct Contact: <strong>contact@sartor.pk</strong></span>
+              </a>
             </div>
           </div>
 

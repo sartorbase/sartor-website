@@ -54,65 +54,84 @@ ${xmlEntries}
 }
 
 /**
- * Simple, robust Markdown to semantic HTML parser for SSR pre-rendering
+ * Robust Markdown to semantic HTML parser for SSR pre-rendering & static exports
  */
 function markdownToHtml(md: string): string {
   const lines = md.split('\n');
   const htmlLines: string[] = [];
   let inTable = false;
-  let inList = false;
+  let inUl = false;
+  let inOl = false;
+  let quoteBuffer: string[] = [];
+
+  const flushQuote = () => {
+    if (quoteBuffer.length === 0) return;
+    const innerText = quoteBuffer.join('\n');
+    quoteBuffer = [];
+
+    // Parse inner lines of quote
+    const parsedQuote = innerText
+      .split('\n')
+      .map((qLine) => {
+        const trimmed = qLine.trim();
+        if (!trimmed) return '';
+        if (trimmed.startsWith('### ')) {
+          return `<h3 class="text-amber-400 font-serif font-bold text-lg mb-2 mt-1">${formatInline(trimmed.slice(4))}</h3>`;
+        }
+        if (trimmed.startsWith('## ')) {
+          return `<h2 class="text-amber-300 font-serif font-bold text-xl mb-2 mt-1">${formatInline(trimmed.slice(3))}</h2>`;
+        }
+        return `<p class="my-1.5 leading-relaxed">${formatInline(trimmed)}</p>`;
+      })
+      .filter(Boolean)
+      .join('\n');
+
+    htmlLines.push(
+      `<div class="my-8 rounded-2xl border-l-4 border-amber-500 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-5 sm:p-6 shadow-lg shadow-black/20 text-stone-200">
+        <blockquote class="font-serif italic text-amber-100/95 leading-relaxed not-italic">${parsedQuote}</blockquote>
+      </div>`
+    );
+  };
+
+  const closeBlocks = () => {
+    if (inTable) {
+      htmlLines.push('</tbody></table></div>');
+      inTable = false;
+    }
+    if (inUl) {
+      htmlLines.push('</ul>');
+      inUl = false;
+    }
+    if (inOl) {
+      htmlLines.push('</ol>');
+      inOl = false;
+    }
+    flushQuote();
+  };
 
   for (let i = 0; i < lines.length; i++) {
     const rawLine = lines[i];
     const line = rawLine.trim();
 
-    // End table if line doesn't start with pipe
-    if (inTable && !line.startsWith('|')) {
-      htmlLines.push('</tbody></table></div>');
-      inTable = false;
+    // Check blockquote
+    if (line.startsWith('>') || line.startsWith('> ')) {
+      if (inTable || inUl || inOl) {
+        if (inTable) { htmlLines.push('</tbody></table></div>'); inTable = false; }
+        if (inUl) { htmlLines.push('</ul>'); inUl = false; }
+        if (inOl) { htmlLines.push('</ol>'); inOl = false; }
+      }
+      const stripped = line.replace(/^>\s?/, '');
+      quoteBuffer.push(stripped);
+      continue;
+    } else if (quoteBuffer.length > 0) {
+      flushQuote();
     }
 
-    // End list if line is not a bullet
-    if (inList && !line.startsWith('* ') && !line.startsWith('- ')) {
-      htmlLines.push('</ul>');
-      inList = false;
-    }
-
-    if (!line) {
-      continue;
-    }
-
-    // Horizontal rule
-    if (line === '---' || line === '***') {
-      htmlLines.push('<hr class="my-8 border-stone-800" />');
-      continue;
-    }
-
-    // Headings
-    if (line.startsWith('# ')) {
-      htmlLines.push(`<h1 class="text-3xl sm:text-4xl font-serif font-bold text-stone-100 my-6">${escapeHtml(line.slice(2))}</h1>`);
-      continue;
-    }
-    if (line.startsWith('## ')) {
-      htmlLines.push(`<h2 class="text-2xl sm:text-3xl font-serif font-semibold text-stone-100 mt-10 mb-4">${escapeHtml(line.slice(3))}</h2>`);
-      continue;
-    }
-    if (line.startsWith('### ')) {
-      htmlLines.push(`<h3 class="text-xl sm:text-2xl font-serif font-semibold text-stone-200 mt-8 mb-3">${escapeHtml(line.slice(4))}</h3>`);
-      continue;
-    }
-
-    // Artisan notes / blockquotes
-    if (line.startsWith('> ')) {
-      const quoteText = line.slice(2);
-      htmlLines.push(
-        `<blockquote class="my-6 border-l-4 border-amber-500 bg-amber-500/10 p-4 rounded-r-lg text-amber-200 font-serif italic">${formatInline(quoteText)}</blockquote>`
-      );
-      continue;
-    }
-
-    // Tables
+    // Check table
     if (line.startsWith('|')) {
+      if (inUl) { htmlLines.push('</ul>'); inUl = false; }
+      if (inOl) { htmlLines.push('</ol>'); inOl = false; }
+
       const cells = line
         .split('|')
         .slice(1, -1)
@@ -125,29 +144,87 @@ function markdownToHtml(md: string): string {
 
       if (!inTable) {
         inTable = true;
-        htmlLines.push('<div class="overflow-x-auto my-8"><table class="w-full border-collapse border border-stone-800 text-left text-sm">');
+        htmlLines.push(
+          '<div class="my-8 overflow-x-auto rounded-2xl border border-stone-800 bg-stone-900/60 shadow-xl"><table class="w-full min-w-[540px] border-collapse text-left text-sm">'
+        );
         htmlLines.push('<thead><tr class="bg-stone-900 border-b border-stone-700">');
         cells.forEach((c) => {
-          htmlLines.push(`<th class="p-3 font-semibold text-amber-300 border border-stone-800">${formatInline(c)}</th>`);
+          htmlLines.push(
+            `<th class="p-3.5 font-semibold uppercase tracking-wider text-xs text-amber-300 border-r border-stone-800/80 last:border-r-0">${formatInline(c)}</th>`
+          );
         });
-        htmlLines.push('</tr></thead><tbody>');
+        htmlLines.push('</tr></thead><tbody class="divide-y divide-stone-800/80">');
       } else {
-        htmlLines.push('<tr class="border-b border-stone-800/80 hover:bg-stone-900/40">');
+        htmlLines.push('<tr class="hover:bg-stone-800/40 transition-colors">');
         cells.forEach((c) => {
-          htmlLines.push(`<td class="p-3 text-stone-300 border border-stone-800/80">${formatInline(c)}</td>`);
+          htmlLines.push(
+            `<td class="p-3.5 text-stone-300 border-r border-stone-800/60 last:border-r-0 leading-relaxed">${formatInline(c)}</td>`
+          );
         });
         htmlLines.push('</tr>');
       }
       continue;
+    } else if (inTable) {
+      htmlLines.push('</tbody></table></div>');
+      inTable = false;
     }
 
-    // Unordered lists
+    // Check unordered lists
     if (line.startsWith('* ') || line.startsWith('- ')) {
-      if (!inList) {
-        inList = true;
-        htmlLines.push('<ul class="list-disc list-inside space-y-2 my-4 text-stone-300">');
+      if (inOl) { htmlLines.push('</ol>'); inOl = false; }
+      if (!inUl) {
+        inUl = true;
+        htmlLines.push('<ul class="list-disc list-outside ml-6 space-y-2.5 my-5 text-stone-300">');
       }
-      htmlLines.push(`<li>${formatInline(line.slice(2))}</li>`);
+      htmlLines.push(`<li class="leading-relaxed pl-1 marker:text-amber-400">${formatInline(line.slice(2))}</li>`);
+      continue;
+    } else if (inUl) {
+      htmlLines.push('</ul>');
+      inUl = false;
+    }
+
+    // Check ordered lists
+    const orderedMatch = line.match(/^(\d+)\.\s+(.*)$/);
+    if (orderedMatch) {
+      if (inUl) { htmlLines.push('</ul>'); inUl = false; }
+      if (!inOl) {
+        inOl = true;
+        htmlLines.push('<ol class="list-decimal list-outside ml-6 space-y-2.5 my-5 text-stone-300 font-sans">');
+      }
+      htmlLines.push(`<li class="leading-relaxed pl-1 marker:text-amber-400">${formatInline(orderedMatch[2])}</li>`);
+      continue;
+    } else if (inOl) {
+      htmlLines.push('</ol>');
+      inOl = false;
+    }
+
+    if (!line) {
+      continue;
+    }
+
+    // Horizontal rule
+    if (line === '---' || line === '***') {
+      htmlLines.push('<hr class="my-10 border-stone-800/90" />');
+      continue;
+    }
+
+    // Headings
+    if (line.startsWith('# ')) {
+      htmlLines.push(
+        `<h1 class="text-3xl sm:text-4xl font-serif font-bold text-stone-50 my-6 leading-tight tracking-tight">${escapeHtml(line.slice(2))}</h1>`
+      );
+      continue;
+    }
+    if (line.startsWith('## ')) {
+      htmlLines.push(
+        `<h2 class="text-2xl sm:text-3xl font-serif font-bold text-stone-100 mt-12 mb-5 pb-3 border-b border-stone-800/80 leading-snug tracking-tight">${escapeHtml(line.slice(3))}</h2>`
+      );
+      continue;
+    }
+    if (line.startsWith('### ')) {
+      htmlLines.push(
+        `<h3 class="text-xl sm:text-2xl font-serif font-semibold text-amber-200/90 mt-8 mb-3 leading-snug">${escapeHtml(line.slice(4))}</h3>`
+      );
       continue;
     }
 
@@ -155,8 +232,7 @@ function markdownToHtml(md: string): string {
     htmlLines.push(`<p class="my-4 text-stone-300 leading-relaxed">${formatInline(line)}</p>`);
   }
 
-  if (inTable) htmlLines.push('</tbody></table></div>');
-  if (inList) htmlLines.push('</ul>');
+  closeBlocks();
 
   return htmlLines.join('\n');
 }
@@ -166,12 +242,16 @@ function markdownToHtml(md: string): string {
  */
 function formatInline(text: string): string {
   let res = escapeHtml(text);
+  // Inline code `code`
+  res = res.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-amber-300 text-xs font-mono">$1</code>');
+  // Bold + Italic ***text***
+  res = res.replace(/\*\*\*(.*?)\*\*\*/g, '<strong class="text-amber-300 font-semibold"><em class="italic">$1</em></strong>');
   // Bold **text**
   res = res.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-300 font-semibold">$1</strong>');
   // Italic *text*
   res = res.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
   // Markdown links [label](url)
-  res = res.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-amber-400 hover:text-amber-300 underline underline-offset-4 font-medium">$1</a>');
+  res = res.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-amber-400 hover:text-amber-300 underline underline-offset-4 font-medium transition-colors">$1</a>');
   return res;
 }
 

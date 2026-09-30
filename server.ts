@@ -198,7 +198,7 @@ async function startServer() {
     });
 
     // Handle SEO-enhanced blog and bridal routes with pre-rendered metadata and body
-    app.get(['/blog', '/blog/*', '/custom-bridal'], async (req, res, next) => {
+    app.get(/^\/(blog(\/.*)?|custom-bridal(\/.*)?)$/, async (req, res, next) => {
       try {
         const url = req.originalUrl;
         const templatePath = path.join(process.cwd(), 'index.html');
@@ -216,14 +216,14 @@ async function startServer() {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
 
-    app.get(['/blog', '/blog/*', '/custom-bridal'], (req, res) => {
+    app.get(/^\/(blog(\/.*)?|custom-bridal(\/.*)?)$/, (req, res) => {
       const templatePath = path.join(distPath, 'index.html');
       let template = fs.readFileSync(templatePath, 'utf-8');
       const { status, html } = injectSeoIntoHtml(template, req.originalUrl);
       return res.status(status).set({ 'Content-Type': 'text/html' }).send(html);
     });
 
-    app.get('*', (req, res) => {
+    app.get(/.*/, (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
