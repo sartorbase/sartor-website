@@ -1,76 +1,67 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type AtelierTheme = 'black' | 'champagne';
+type Theme = 'champagne' | 'black';
 
-export interface ThemeContextType {
-  theme: AtelierTheme;
-  setTheme: (theme: AtelierTheme) => void;
+interface ThemeContextType {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
-  isChampagne: boolean;
 }
-
-const STORAGE_KEY = 'sartor-atelier-theme';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<AtelierTheme>(() => {
-    // Check local storage first
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem(STORAGE_KEY) as AtelierTheme | null;
-      if (savedTheme === 'black' || savedTheme === 'champagne') {
-        return savedTheme;
-      }
-    }
-    // Default to 'champagne' (Champagne White Light Theme)
-    return 'champagne';
-  });
-
-  const applyThemeToDOM = (activeTheme: AtelierTheme) => {
-    if (typeof document === 'undefined') return;
-    const root = document.documentElement;
-
-    root.setAttribute('data-theme', activeTheme);
-    root.classList.remove('theme-black', 'theme-champagne');
-    root.classList.add(`theme-${activeTheme}`);
-    root.style.colorScheme = activeTheme === 'black' ? 'dark' : 'light';
-  };
+  const [theme, setThemeState] = useState<Theme>('champagne');
 
   useEffect(() => {
-    applyThemeToDOM(theme);
     try {
-      localStorage.setItem(STORAGE_KEY, theme);
+      const saved = localStorage.getItem('sartor-atelier-theme') as Theme;
+      if (saved === 'black' || saved === 'champagne') {
+        setThemeState(saved);
+        applyTheme(saved);
+      } else {
+        applyTheme('champagne');
+      }
     } catch {
-      // Ignore storage write failures (e.g. incognito)
+      applyTheme('champagne');
     }
-  }, [theme]);
+  }, []);
 
-  const setTheme = (newTheme: AtelierTheme) => {
+  const applyTheme = (t: Theme) => {
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.remove('theme-black', 'theme-champagne');
+    document.documentElement.classList.add(`theme-${t}`);
+    document.documentElement.style.colorScheme = t === 'black' ? 'dark' : 'light';
+  };
+
+  const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
+    try {
+      localStorage.setItem('sartor-atelier-theme', newTheme);
+    } catch {}
+    applyTheme(newTheme);
   };
 
   const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'black' ? 'champagne' : 'black'));
-  };
-
-  const value: ThemeContextType = {
-    theme,
-    setTheme,
-    toggleTheme,
-    isChampagne: theme === 'champagne',
+    const next = theme === 'black' ? 'champagne' : 'black';
+    setTheme(next);
   };
 
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = (): ThemeContextType => {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    return {
+      theme: 'champagne' as Theme,
+      setTheme: () => {},
+      toggleTheme: () => {},
+    };
   }
   return context;
 };

@@ -1,222 +1,249 @@
 import React from 'react';
-import { CheckCircle2, ExternalLink, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
-import { buildWhatsAppLink, SARTOR_GOOGLE_MAPS_LINK, SARTOR_PHONE_DISPLAY, SARTOR_PHONE_LOCAL } from '../../services/analytics';
-import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
 import { SartorLogo } from '../atoms/SartorLogo';
+import { buildWhatsAppLink } from '../../services/analytics';
 import { navigateTo } from '../../utils/navigation';
+import { MessageSquare, MapPin, Phone, Clock, ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
 
-export interface FooterProps {
-  onOpenAnalytics?: () => void;
-}
+export const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
 
-export const Footer: React.FC<FooterProps> = () => {
+  const footerWhatsAppMsg = `Assalam-o-Alaikum SARTOR Atelier,
+I would like to enquire about bespoke tailoring services and doorstep fabric collection in Lahore.`;
+  const whatsappUrl = buildWhatsAppLink(footerWhatsAppMsg, 'footer');
+
+  const handleLinkClick = (href: string, e: React.MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      return;
+    }
+
+    if (href.startsWith('/#')) {
+      const targetId = href.replace('/#', '');
+      e.preventDefault();
+      if (typeof window !== 'undefined') {
+        if (window.location.pathname === '/' || window.location.pathname === '') {
+          const element = document.getElementById(targetId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          navigateTo(`/#${targetId}`);
+          setTimeout(() => {
+            const element = document.getElementById(targetId);
+            if (element) element.scrollIntoView({ behavior: 'smooth' });
+          }, 120);
+        }
+      }
+      return;
+    }
+
+    if (href.startsWith('/')) {
+      e.preventDefault();
+      navigateTo(href);
+      return;
+    }
+  };
+
   return (
-    <footer className="bg-stone-950 text-stone-300 border-t border-stone-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-stone-800">
-          
-          {/* Brand info */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
-            <SartorLogo variant="footer" />
-            
-            <p className="text-xs text-stone-400 leading-relaxed max-w-sm">
-              Artisanal sarees, festive maxis, 16-kali kalidar frocks, layered double suits, and royal bridal ensembles. Hand-cut and fitted at Moon Tower, International Market, Model Town, Lahore.
+    <footer className="bg-stone-950 text-stone-300 border-t border-stone-850 pt-16 pb-12 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-12 border-b border-stone-800">
+          {/* Brand Column */}
+          <div className="space-y-4">
+            <a
+              href="/"
+              onClick={(e) => handleLinkClick('/', e)}
+              className="inline-block group cursor-pointer"
+            >
+              <SartorLogo variant="footer" />
+            </a>
+            <p className="text-stone-400 text-sm leading-relaxed max-w-sm">
+              Premier bespoke women&apos;s tailoring atelier in Model Town, Lahore. Specializing in luxury bridal lehengas, sarees, 16-kali kalidars, raw silk pret, and hand zardozi craftsmanship with free doorstep pickup &amp; delivery across Lahore.
             </p>
-
-            <div className="flex flex-col gap-2 text-xs text-stone-300 mt-2">
+            <div className="pt-2">
               <a
-                href={SARTOR_GOOGLE_MAPS_LINK}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:text-amber-400 transition-colors group"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/50 border border-emerald-500/40 text-emerald-300 hover:text-emerald-200 text-sm font-semibold transition-all"
               >
-                <MapPin className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>Moon Tower, International Market, Model Town, Lahore</span>
-                <ExternalLink className="w-3 h-3 text-stone-500 group-hover:text-amber-400" />
-              </a>
-              <span className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Direct WhatsApp: <strong>{SARTOR_PHONE_LOCAL}</strong> ({SARTOR_PHONE_DISPLAY})</span>
-              </span>
-              <a
-                href="mailto:contact@sartor.pk"
-                className="flex items-center gap-2 hover:text-amber-400 transition-colors"
-              >
-                <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Direct Contact: <strong>contact@sartor.pk</strong></span>
+                <MessageSquare className="w-4 h-4 fill-current shrink-0" />
+                <span>WhatsApp: +92 335 2209991</span>
               </a>
             </div>
           </div>
 
-          {/* Quick Navigation Links */}
-          <div className="lg:col-span-3 flex flex-col gap-3">
-            <h4 className="text-xs font-mono uppercase tracking-widest text-amber-400 font-semibold mb-2">
-              Atelier Offerings & Pricing
-            </h4>
-            <ul className="space-y-2 text-xs text-stone-400">
+          {/* Stitching Services & Rates */}
+          <div>
+            <h3 className="text-stone-100 font-serif font-bold text-base uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              Tailoring &amp; Rates
+            </h3>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="#pricing" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Simple Suit Stitching</span>
-                  <strong className="text-stone-300 font-mono">PKR 2,500</strong>
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Double Suit / Layered Gown</span>
-                  <strong className="text-stone-300 font-mono">PKR 4,000</strong>
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Sarhi Set (Blouse + Fall + Pico)</span>
-                  <strong className="text-stone-300 font-mono">PKR 7,000</strong>
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Panneled Frock / Kalidar Set</span>
-                  <strong className="text-stone-300 font-mono">PKR 7,000</strong>
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Bridal Set (Lehenga / Maxi)</span>
-                  <strong className="text-amber-400 font-mono">PKR 10,000</strong>
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Hand & Machine Embroidery</span>
-                  <span className="text-emerald-400 text-[10px]">Master Karigari</span>
-                </a>
-              </li>
-              <li>
-                <a href="#size-chart" className="hover:text-amber-400 transition-colors flex items-center justify-between">
-                  <span>Pakistani Brand Size Chart</span>
-                  <span className="text-amber-400 text-[10px]">XS – XL</span>
+                <a
+                  href="/#pricing"
+                  onClick={(e) => handleLinkClick('/#pricing', e)}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between"
+                >
+                  <span>Simple 2-Piece Suit</span>
+                  <span className="text-xs font-mono text-amber-400/90 font-semibold">PKR 2,500</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="/blog"
-                  onClick={(e) => {
-                    if (!e.metaKey && !e.ctrlKey) {
-                      e.preventDefault();
-                      navigateTo('/blog');
-                    }
-                  }}
-                  className="hover:text-amber-400 transition-colors flex items-center justify-between font-medium text-amber-300/90"
+                  href="/#pricing"
+                  onClick={(e) => handleLinkClick('/#pricing', e)}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between"
                 >
-                  <span>Atelier Journal & Couture Guides</span>
-                  <span className="text-amber-400 text-[10px]">New</span>
+                  <span>Double Suit / Lined Pret</span>
+                  <span className="text-xs font-mono text-amber-400/90 font-semibold">PKR 4,000</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="/blog/digital-measurements-guide"
-                  onClick={(e) => {
-                    if (!e.metaKey && !e.ctrlKey) {
-                      e.preventDefault();
-                      navigateTo('/blog/digital-measurements-guide');
-                    }
-                  }}
-                  className="hover:text-amber-400 transition-colors flex items-center justify-between text-stone-400 hover:text-stone-200"
+                  href="/#pricing"
+                  onClick={(e) => handleLinkClick('/#pricing', e)}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between"
                 >
-                  <span>Digital Measurements Masterclass</span>
-                  <span className="text-amber-400 text-[10px]">Article</span>
+                  <span>Saree &amp; Blouse Set</span>
+                  <span className="text-xs font-mono text-amber-400/90 font-semibold">PKR 7,000</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#pricing"
+                  onClick={(e) => handleLinkClick('/#pricing', e)}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between"
+                >
+                  <span>16-Kali Kalidar &amp; Maxi</span>
+                  <span className="text-xs font-mono text-amber-400/90 font-semibold">PKR 7,000</span>
                 </a>
               </li>
               <li>
                 <a
                   href="/custom-bridal"
-                  onClick={(e) => {
-                    if (!e.metaKey && !e.ctrlKey) {
-                      e.preventDefault();
-                      navigateTo('/custom-bridal');
-                    }
-                  }}
-                  className="hover:text-amber-400 transition-colors flex items-center justify-between"
+                  onClick={(e) => handleLinkClick('/custom-bridal', e)}
+                  className="hover:text-amber-400 transition-colors flex items-center justify-between text-amber-300 font-medium"
                 >
-                  <span>Overseas Custom Bridal ($2k+)</span>
-                  <span className="text-emerald-400 text-[10px]">Worldwide</span>
+                  <span>Custom Bridal Consultation</span>
+                  <span className="text-xs font-mono text-amber-300 font-bold">$2,000+</span>
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* SARTOR Standards */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
-            <h4 className="text-xs font-mono uppercase tracking-widest text-amber-400 font-semibold mb-1">
-              Atelier Commitments
-            </h4>
-            <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-2.5 text-xs text-stone-400">
-              <div className="flex items-center gap-2 text-stone-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Precision Bespoke Cut & Fit for Women</span>
-              </div>
-              <div className="flex items-center gap-2 text-stone-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Pakistani Brand Standard Sizing (XS - XL)</span>
-              </div>
-              <div className="flex items-center gap-2 text-stone-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Doorstep Fabric Pick & Delivery in Lahore</span>
-              </div>
-              <div className="flex items-center gap-2 text-stone-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Direct WhatsApp Consultation with Master Tailor</span>
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <a
-                href={buildWhatsAppLink('Assalam-o-Alaikum SARTOR, I would like to inquire about stitching and tailoring services.', 'floating')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs shadow-md transition-colors"
-              >
-                <MessageSquare className="w-4 h-4 fill-white" />
-                <span>Connect with Atelier on WhatsApp</span>
-              </a>
-            </div>
+          {/* Quick Navigation & Journal */}
+          <div>
+            <h3 className="text-stone-100 font-serif font-bold text-base uppercase tracking-wider mb-4 flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-amber-400" />
+              Journal &amp; Atelier
+            </h3>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <a
+                  href="/blog"
+                  onClick={(e) => handleLinkClick('/blog', e)}
+                  className="hover:text-amber-400 transition-colors"
+                >
+                  Atelier Journal &amp; Masterclasses
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog/how-to-choose-a-good-tailor-in-lahore"
+                  onClick={(e) => handleLinkClick('/blog/how-to-choose-a-good-tailor-in-lahore', e)}
+                  className="hover:text-amber-400 transition-colors text-stone-400 hover:text-stone-200"
+                >
+                  How to Choose a Good Tailor in Lahore
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog/overseas-bride-zardozi-lehenga-sizing-guide"
+                  onClick={(e) => handleLinkClick('/blog/overseas-bride-zardozi-lehenga-sizing-guide', e)}
+                  className="hover:text-amber-400 transition-colors text-stone-400 hover:text-stone-200"
+                >
+                  Overseas Bride Sizing Guide
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#portfolio"
+                  onClick={(e) => handleLinkClick('/#portfolio', e)}
+                  className="hover:text-amber-400 transition-colors"
+                >
+                  Masterpiece Portfolio
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#size-chart"
+                  onClick={(e) => handleLinkClick('/#size-chart', e)}
+                  className="hover:text-amber-400 transition-colors"
+                >
+                  Pakistani Standard Size Chart
+                </a>
+              </li>
+            </ul>
           </div>
 
+          {/* Studio Location & Guarantee */}
+          <div>
+            <h3 className="text-stone-100 font-serif font-bold text-base uppercase tracking-wider mb-4 flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-amber-400" />
+              Lahore Studio
+            </h3>
+            <div className="space-y-3 text-sm text-stone-400">
+              <p className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                <span>Moon Tower, International Market, Model Town, Lahore, Pakistan</span>
+              </p>
+              <p className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>+92 335 2209991</span>
+              </p>
+              <p className="flex items-center gap-2.5">
+                <Clock className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>Mon – Sat: 11:00 AM – 9:00 PM PKT</span>
+              </p>
+              <div className="p-3 rounded-lg bg-stone-900 border border-stone-800 text-xs text-stone-300 flex items-start gap-2 mt-2">
+                <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span>1.5–2.0 inches internal alteration margin guaranteed on every garment.</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-          <div>
-            © {new Date().getFullYear()} SARTOR Bespoke. Exclusively Serving Women · Lahore, Pakistan.
-          </div>
-
-          {/* Ambience Theme Switcher */}
-          <div className="flex items-center gap-2.5">
-            <span className="text-[11px] text-stone-400 font-medium">Atelier Ambience:</span>
-            <ThemeSwitcher variant="segmented" />
-          </div>
-
-          <div className="flex items-center gap-4">
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+          <p>&copy; {currentYear} SARTOR Bespoke Atelier Lahore. All rights reserved.</p>
+          <p className="flex items-center gap-4">
             <a
-              href={SARTOR_GOOGLE_MAPS_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-amber-400 transition-colors flex items-center gap-1"
+              href="/#location"
+              onClick={(e) => handleLinkClick('/#location', e)}
+              className="hover:text-stone-300 transition-colors"
             >
-              <span>Moon Tower, Model Town on Google Maps</span>
-              <ExternalLink className="w-3 h-3" />
+              Moon Tower Model Town
             </a>
             <span>•</span>
             <a
-              href={buildWhatsAppLink('Assalam-o-Alaikum SARTOR, I would like to schedule a consultation.', 'hero')}
+              href="/blog"
+              onClick={(e) => handleLinkClick('/blog', e)}
+              className="hover:text-stone-300 transition-colors"
+            >
+              Editorial Journal
+            </a>
+            <span>•</span>
+            <a
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:underline"
+              className="hover:text-emerald-400 text-emerald-500 font-semibold transition-colors"
             >
-              WhatsApp Concierge
+              WhatsApp Support (0335-2209991)
             </a>
-          </div>
+          </p>
         </div>
-
       </div>
     </footer>
   );

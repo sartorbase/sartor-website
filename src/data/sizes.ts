@@ -1,26 +1,13 @@
-import { MeasureGuideStep, PakistaniSizeMeasurement, PricingItem } from '../types';
+import { PakistaniSizeMeasurement, PricingItem } from '../types';
+import baratBridalImg from '../assets/images/barat_crimson_bridal_1790690862486.jpg';
 
-// Visual showcase images generated to match user's custom Pakistani tailoring portfolio
-import simpleSuitImg from '../assets/images/simple_suit_1789759016944.jpg';
-import doubleSuitImg from '../assets/images/double_suit_1789759035888.jpg';
-import sarhiSetImg from '../assets/images/sarhi_set_1789759000331.jpg';
-import panneledFrockImg from '../assets/images/panneled_frock_1789758962385.jpg';
-import bridalSetImg from '../assets/images/bridal_set_1789758804831.jpg';
-import embroideredJacketImg from '../assets/images/embroidered_jacket_1789758981850.jpg';
+export const simpleSuitImg = 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1200&q=80';
+export const doubleSuitImg = 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80';
+export const sarhiSetImg = 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80';
+export const panneledFrockImg = 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=1200&q=80';
+export const bridalSetImg = baratBridalImg;
+export const embroideredJacketImg = '/images/zardozi-dabka-marori-embroidery.jpg';
 
-export {
-  simpleSuitImg,
-  doubleSuitImg,
-  sarhiSetImg,
-  panneledFrockImg,
-  bridalSetImg,
-  embroideredJacketImg,
-};
-
-/**
- * Standard Pakistani Brand Size Chart (Khaadi, Sapphire, Sana Safinaz, Maria.B, Nishat Linen standard)
- * Measurements provided in Inches
- */
 export const PAKISTANI_SIZES: PakistaniSizeMeasurement[] = [
   {
     sizeLabel: 'XS',
@@ -80,8 +67,8 @@ export const PAKISTANI_SIZES: PakistaniSizeMeasurement[] = [
   },
   {
     sizeLabel: 'XL',
-    ukUsEquivalent: 'UK 18-20 / US 14-16',
-    shirtLength: 42,
+    ukUsEquivalent: 'UK 16-18 / US 12-14',
+    shirtLength: 43,
     chest: 47,
     waist: 45,
     hip: 51,
@@ -94,9 +81,6 @@ export const PAKISTANI_SIZES: PakistaniSizeMeasurement[] = [
   },
 ];
 
-/**
- * Official SARTOR Bespoke Pricing List (All prices in PKR)
- */
 export const PRICING_LIST: PricingItem[] = [
   {
     id: 'simple-suit',
@@ -180,119 +164,18 @@ export const PRICING_LIST: PricingItem[] = [
   },
   {
     id: 'custom-designs',
-    title: 'Consult for Custom Designs',
-    titleUrdu: 'کسٹم ڈیزائن کنسلٹیشن',
+    title: 'Custom Design & Replicas',
+    titleUrdu: 'کسٹم ڈیزائین و فینسی ایمبرائیڈری',
     pricePKR: 'Consult',
-    priceDisplay: 'Consultation / Custom Quote',
-    tag: 'Signature Atelier',
-    description: 'Bring any picture, celebrity outfit inspiration, or sketch. We handcraft bespoke western suits, luxury couture jackets, fusion ensembles, and custom silhouettes.',
+    priceDisplay: 'Custom Quote',
+    tag: 'Celebrity & Couture',
+    description: 'Bring any design photo, Pinterest moodboard, or designer inspiration. Our master ustads calculate fabric yardage, draft custom patterns, and replicate hand embellishments.',
     features: [
-      'Share your photo / sketch directly on WhatsApp',
-      'Design consultation with master stylist',
-      'Choice of hand or machine embroidery',
-      'Complete fabric sourcing & accessories matching',
+      'Direct photo estimate & fabric calculation',
+      'Hand zardozi, dabka, tilla, and resham threadwork',
+      'Authentic fabric sourcing from Lahore bazaars',
+      'Doorstep pickup & trial fitting service',
     ],
     imageUrl: embroideredJacketImg,
-  },
-];
-
-/**
- * Signature SARTOR Atelier Services in Lahore
- */
-export const BESPOKE_SERVICES = [
-  {
-    id: 'hand-embroidery',
-    title: 'Hand Embroidery',
-    titleUrdu: 'دستی کڑھائی (ہینڈ ایمبرائیڈری)',
-    badge: 'Artisanal Karigari',
-    description: 'Traditional Pakistani zardozi, tilla, dabka, resham silk threadwork, sequins, and cut-dana crafted by generational master karigars.',
-  },
-  {
-    id: 'machine-embroidery',
-    title: 'Machine Embroidery',
-    titleUrdu: 'مشین و کمپیوٹرائزڈ کڑھائی',
-    badge: 'Precision Craft',
-    description: 'High-density multi-head computerized and machine embroidery for intricate lawn borders, schiffli eyelets, monograms, and neckline motifs.',
-  },
-  {
-    id: 'fabric-sourcing',
-    title: 'Fabric & Material Sourcing',
-    titleUrdu: 'کپڑا اور مٹیریل کی فراہمی',
-    badge: 'Direct Mill Access',
-    description: 'We source premium unstitched fabrics, pure raw silk, organza, chiffon, imported velvet, lining, and designer trims on your behalf in Lahore.',
-  },
-  {
-    id: 'pick-and-drop',
-    title: 'Pick & Drop in Lahore',
-    titleUrdu: 'لاہور میں پک اینڈ ڈراپ سروس',
-    badge: 'Doorstep Convenience',
-    description: 'Convenient doorstep service across Lahore: we pick up your unstitched fabric or sample sample garment and deliver your finished stitched attire.',
-  },
-];
-
-export const PAKISTANI_MEASURING_STEPS: MeasureGuideStep[] = [
-  {
-    id: 'shirt-length',
-    name: 'Shirt Length (قمیض لمبائی)',
-    urduName: 'قمیض کی لمبائی',
-    instruction: 'Measure from the top shoulder seam next to the collar straight down to your desired knee or calf hemline.',
-    tip: 'Standard Pakistani pret length is between 38" to 42" inches depending on your height.',
-    iconName: 'ArrowDown',
-  },
-  {
-    id: 'chest',
-    name: 'Chest / Bust (چھاتی کی پیمائش)',
-    urduName: 'چھاتی / بسٹ',
-    instruction: 'Measure around the fullest part of your bust horizontally, keeping the tape straight and snug across your back.',
-    tip: 'Keep tape comfortable so breathing is easy.',
-    iconName: 'Maximize2',
-  },
-  {
-    id: 'waist',
-    name: 'Waist (کمر کی پیمائش)',
-    urduName: 'کمر',
-    instruction: 'Measure around the narrowest part of your waistline above the navel.',
-    tip: 'For A-line and relaxed kurtis, waist fit has a comfortable ease of 2 inches.',
-    iconName: 'Disc',
-  },
-  {
-    id: 'hip',
-    name: 'Hips / Daman (کولہے اور دامن)',
-    urduName: 'کولہے / دامن',
-    instruction: 'Measure around the widest part of your hips, ensuring the tape measure is level all around.',
-    tip: 'Shirt hip measurement determines the side chalk (slit) opening drape.',
-    iconName: 'Disc',
-  },
-  {
-    id: 'shoulder',
-    name: 'Shoulder / Teera (تیرا)',
-    urduName: 'تیرا',
-    instruction: 'Measure across the back from the edge of one shoulder bone across to the edge of the other.',
-    tip: 'Crucial for a crisp neckline that does not slip backwards.',
-    iconName: 'MoveHorizontal',
-  },
-  {
-    id: 'sleeve',
-    name: 'Sleeve Length (بازو لمبائی)',
-    urduName: 'بازو',
-    instruction: 'Measure from shoulder joint down the arm to your wrist bone.',
-    tip: 'Full sleeves typically measure 21.5" to 23" inches.',
-    iconName: 'Ruler',
-  },
-  {
-    id: 'trouser-length',
-    name: 'Trouser Length (شلوار / پینٹ لمبائی)',
-    urduName: 'ٹراؤزر لمبائی',
-    instruction: 'Measure from your waistline where you tie your trouser down to your ankle bone.',
-    tip: 'For cigarette pants, measure slightly above ankle; for palazzos or flairs, measure to floor.',
-    iconName: 'TrendingDown',
-  },
-  {
-    id: 'trouser-bottom',
-    name: 'Trouser Bottom / Pauncha (پانچہ)',
-    urduName: 'پانچہ',
-    instruction: 'Desired opening width at the bottom of the trouser leg.',
-    tip: 'Standard cigarette pant is 6.5" to 7", straight pant 7.5" to 8", bell bottom 10"+.',
-    iconName: 'Maximize2',
   },
 ];

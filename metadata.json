@@ -1,6 +1,5 @@
 {
-  "name": "SARTOR | Best Women's Tailor in Lahore & Online Tailoring Pakistan",
-  "description": "SARTOR is Lahore's premier women's online tailor specializing exclusively in female bespoke tailoring, custom saree stitching, festive maxis, bridal lehengas, and designer lawn suits with doorstep pickup and delivery.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "SARTOR Bespoke Women's Tailoring Lahore",
+  "description": "Premier bespoke women's tailoring atelier in Moon Tower, Model Town, Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, and luxury pret with free doorstep pickup across Lahore.",
+  "permissions": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

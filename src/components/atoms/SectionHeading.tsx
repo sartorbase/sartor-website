@@ -15,28 +15,23 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   align = 'center',
   className = '',
 }) => {
-  const alignStyles = align === 'center' ? 'items-center text-center' : 'items-start text-left';
+  const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
 
   return (
-    <div className={`flex flex-col ${alignStyles} mb-12 sm:mb-16 ${className}`}>
+    <div className={`max-w-3xl mb-12 ${alignClass} ${className}`}>
       {badge && (
-        <div className="inline-flex items-center gap-2 mb-3">
-          <span className="h-px w-6 bg-amber-600/60" />
-          <span className="text-xs uppercase tracking-widest text-amber-500 font-semibold">
-            {badge}
-          </span>
-          <span className="h-px w-6 bg-amber-600/60" />
-        </div>
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/80 border border-amber-600/40 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-3">
+          {badge}
+        </span>
       )}
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-stone-100 tracking-tight leading-tight max-w-3xl">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-stone-100 tracking-tight leading-tight">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-3.5 text-stone-400 text-sm sm:text-base max-w-2xl leading-relaxed">
+        <p className="mt-3 text-stone-400 text-sm sm:text-base leading-relaxed">
           {subtitle}
         </p>
       )}
-      <div className={`mt-4 h-0.5 w-12 bg-amber-600/40 rounded-full ${align === 'center' ? 'mx-auto' : ''}`} />
     </div>
   );
 };

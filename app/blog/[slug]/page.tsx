@@ -83,10 +83,12 @@ const mdxComponents = {
   ),
   // Blockquotes with atelier styling
   blockquote: (props: React.BlockquoteHTMLAttributes<HTMLElement>) => (
-    <blockquote
-      {...props}
-      className="my-6 rounded-r-xl border-l-4 border-amber-400 bg-stone-900/60 py-3 px-5 font-serif italic text-stone-200"
-    />
+    <div className="my-8 rounded-2xl border border-stone-800/80 border-l-4 border-l-amber-600 bg-stone-900/90 p-5 sm:p-7 shadow-lg shadow-stone-950/10">
+      <blockquote
+        {...props}
+        className="font-sans not-italic text-stone-200 text-base leading-relaxed [&>p]:my-2 [&>p]:text-stone-200 [&>h3]:text-amber-700 dark:[&>h3]:text-amber-400 [&>h3]:font-serif [&>h3]:font-bold [&>h3]:text-lg [&>strong]:text-stone-100 dark:[&>strong]:text-amber-300"
+      />
+    </div>
   ),
   // Tables formatted for responsive reading
   table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (

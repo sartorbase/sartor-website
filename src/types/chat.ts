@@ -1,27 +1,22 @@
 export type GeminiChatModel =
   | 'gemini-2.5-flash'
-  | 'gemini-1.5-flash'
   | 'gemini-3.8-flash'
   | 'gemini-3.1-pro-preview'
-  | 'gemini-3.1-flash-lite';
+  | 'gemini-3.1-flash-lite'
+  | 'gemini-1.5-flash';
 
-export interface GroundingChunkWeb {
-  uri?: string;
-  title?: string;
-}
-
-export interface GroundingChunk {
-  web?: GroundingChunkWeb;
+export interface GroundingSource {
+  uri: string;
+  title: string;
 }
 
 export interface ChatMessage {
-  id: string;
+  id?: string;
   role: 'user' | 'model';
   text: string;
-  timestamp: string;
-  groundingChunks?: GroundingChunk[];
-  webSearchQueries?: string[];
-  isError?: boolean;
+  timestamp?: number | Date;
+  groundingSources?: GroundingSource[];
+  modelUsed?: string;
 }
 
 export interface ChatRequestPayload {
@@ -35,9 +30,18 @@ export interface ChatRequestPayload {
 
 export interface ChatResponsePayload {
   text: string;
-  model: string;
-  groundingChunks?: GroundingChunk[];
+  model?: string;
+  modelUsed?: string;
+  groundingChunks?: Array<{
+    web?: {
+      uri: string;
+      title: string;
+    };
+  }>;
+  groundingSources?: GroundingSource[];
   webSearchQueries?: string[];
   hasSearchGrounding?: boolean;
   error?: string;
+  isApiKeyMissing?: boolean;
+  isQuotaExceeded?: boolean;
 }

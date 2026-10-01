@@ -1,737 +1,354 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowLeft, Calendar, Clock, Sparkles, MessageCircle, ChevronRight, Share2, Check, Home } from 'lucide-react';
+import {
+  Calendar,
+  Clock,
+  User,
+  ArrowLeft,
+  Share2,
+  BookOpen,
+  MessageSquare,
+  Sparkles,
+  Tag,
+  Check,
+  ChevronRight,
+  ShieldCheck,
+  Scissors,
+} from 'lucide-react';
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
-import { trackWhatsAppClick } from '../../../lib/analytics';
-import { navigateTo, handleInternalLinkClick } from '../../utils/navigation';
+import { navigateTo } from '../../utils/navigation';
 
-interface BlogPageViewProps {
-  initialSlug?: string | null;
-  onNavigateHome: () => void;
-  onNavigateCustomBridal: () => void;
+export interface BlogPageViewProps {
+  slug?: string;
 }
 
-export const BlogPageView: React.FC<BlogPageViewProps> = ({
-  initialSlug,
-  onNavigateHome,
-  onNavigateCustomBridal,
-}) => {
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(initialSlug || null);
+export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
+  const [activeSlug, setActiveSlug] = useState<string | undefined>(slug);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  // Sync state whenever initialSlug prop changes
   useEffect(() => {
-    if (initialSlug !== undefined) {
-      setSelectedSlug(initialSlug);
-    }
-  }, [initialSlug]);
+    setActiveSlug(slug);
+  }, [slug]);
 
-  // Handle client-side hash migration if user arrived via #blog/slug or #blog
+  // Handle route change via popstate
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const hash = window.location.hash;
-    if (hash.startsWith('#blog/')) {
-      const slug = hash.replace('#blog/', '').trim();
-      if (slug) {
-        window.history.replaceState(null, '', `/blog/${slug}`);
-        setSelectedSlug(slug);
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path.startsWith('/blog/')) {
+        const currentSlug = path.replace('/blog/', '').replace(/\/$/, '');
+        setActiveSlug(currentSlug);
+      } else if (path === '/blog' || path === '/blog/') {
+        setActiveSlug(undefined);
       }
-    } else if (hash === '#blog') {
-      window.history.replaceState(null, '', '/blog');
-      setSelectedSlug(null);
-    }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const activePost: BlogPostData | null = selectedSlug
-    ? getBlogPostBySlug(selectedSlug) || null
-    : null;
+  const activePost: BlogPostData | undefined = activeSlug
+    ? getBlogPostBySlug(activeSlug)
+    : undefined;
 
-  // Dynamically update document title, canonical link, and JSON-LD structured data on client side
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-
-    let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-    if (!canonicalEl) {
-      canonicalEl = document.createElement('link');
-      canonicalEl.rel = 'canonical';
-      document.head.appendChild(canonicalEl);
-    }
-
-    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement;
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.name = 'description';
-      document.head.appendChild(metaDesc);
-    }
-
-    // Dynamic schema container for blog posts
-    let schemaScript = document.getElementById('sartor-blog-dynamic-ldjson') as HTMLScriptElement;
-    if (!schemaScript) {
-      schemaScript = document.createElement('script');
-      schemaScript.id = 'sartor-blog-dynamic-ldjson';
-      schemaScript.type = 'application/ld+json';
-      document.head.appendChild(schemaScript);
-    }
-
-    if (activePost) {
-      // 1. Specific Article SEO
-      const articleUrl = `https://sartor.pk/blog/${activePost.slug}`;
-      document.title = `${activePost.title} | SARTOR Atelier`;
-      canonicalEl.href = articleUrl;
-      metaDesc.content = activePost.excerpt;
-
-      // Inject BlogPosting + BreadcrumbList JSON-LD
-      const schemaData = {
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': 'BlogPosting',
-            '@id': `${articleUrl}#article`,
-            'isPartOf': {
-              '@type': 'Blog',
-              '@id': 'https://sartor.pk/blog',
-              'name': 'SARTOR Atelier Journal',
-            },
-            'headline': activePost.title,
-            'description': activePost.excerpt,
-            'image': activePost.coverImage
-              ? (activePost.coverImage.startsWith('http') ? activePost.coverImage : `https://sartor.pk${activePost.coverImage}`)
-              : 'https://sartor.pk/digital-measurements-guide.jpg',
-            'datePublished': `${activePost.date}T00:00:00+05:00`,
-            'dateModified': `${activePost.date}T00:00:00+05:00`,
-            'author': {
-              '@type': 'Person',
-              'name': 'Abdul Ghaffar',
-              'jobTitle': 'Master Tailor & Cutting Artisan',
-              'worksFor': {
-                '@type': 'Organization',
-                'name': 'SARTOR Bespoke Atelier',
-              },
-            },
-            'publisher': {
-              '@type': 'Organization',
-              'name': 'SARTOR Bespoke Atelier',
-              'url': 'https://sartor.pk',
-              'logo': {
-                '@type': 'ImageObject',
-                'url': 'https://sartor.pk/logo.png',
-              },
-            },
-            'mainEntityOfPage': {
-              '@type': 'WebPage',
-              '@id': articleUrl,
-            },
-            'articleSection': activePost.category,
-            'keywords': activePost.tags.join(', '),
-          },
-          {
-            '@type': 'BreadcrumbList',
-            '@id': `${articleUrl}#breadcrumb`,
-            'itemListElement': [
-              {
-                '@type': 'ListItem',
-                'position': 1,
-                'name': 'Home',
-                'item': 'https://sartor.pk/',
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'name': 'Atelier Journal',
-                'item': 'https://sartor.pk/blog',
-              },
-              {
-                '@type': 'ListItem',
-                'position': 3,
-                'name': activePost.title,
-                'item': articleUrl,
-              },
-            ],
-          },
-        ],
-      };
-      schemaScript.textContent = JSON.stringify(schemaData);
-    } else {
-      // 2. Blog Archive Listing SEO
-      document.title = 'SARTOR Atelier Journal | Bespoke Tailoring & Couture Guides';
-      canonicalEl.href = 'https://sartor.pk/blog';
-      metaDesc.content =
-        'Guides for discerning brides and couture enthusiasts. Discover authentic zardozi embroidery techniques, international measurement advice, and craftsmanship updates from Lahore.';
-      
-      const archiveSchema = {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        '@id': 'https://sartor.pk/blog',
-        'name': 'SARTOR Atelier Journal',
-        'url': 'https://sartor.pk/blog',
-        'description':
-          'Guides for discerning brides and couture enthusiasts. Discover authentic zardozi embroidery techniques, international measurement advice, and craftsmanship updates from Lahore.',
-        'breadcrumb': {
-          '@type': 'BreadcrumbList',
-          'itemListElement': [
-            {
-              '@type': 'ListItem',
-              'position': 1,
-              'name': 'Home',
-              'item': 'https://sartor.pk/',
-            },
-            {
-              '@type': 'ListItem',
-              'position': 2,
-              'name': 'Atelier Journal',
-              'item': 'https://sartor.pk/blog',
-            },
-          ],
-        },
-      };
-      schemaScript.textContent = JSON.stringify(archiveSchema);
-    }
-  }, [activePost]);
-
-  const handleSelectPost = (slug: string, e?: React.MouseEvent) => {
-    setSelectedSlug(slug);
-    navigateTo(`/blog/${slug}`, e);
-  };
-
-  const handleBackToList = (e?: React.MouseEvent) => {
-    setSelectedSlug(null);
-    navigateTo('/blog', e);
-  };
-
-  const handleShare = () => {
-    if (typeof window !== 'undefined' && navigator.clipboard) {
-      const shareUrl = activePost
-        ? `${window.location.origin}/blog/${activePost.slug}`
-        : `${window.location.origin}/blog`;
-      navigator.clipboard.writeText(shareUrl);
+  const handleCopyLink = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(window.location.href);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-stone-950 text-stone-100 selection:bg-amber-500/30 selection:text-amber-200">
-      {/* Top sticky navigation bar */}
-      <header className="sticky top-0 z-40 border-b border-stone-800/80 bg-stone-950/95 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <a
-              href="/"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigateHome();
-              }}
-              className="group flex items-center gap-2 text-stone-400 hover:text-amber-400 text-xs uppercase tracking-wider font-semibold transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              <span>Studio Home</span>
-            </a>
-            <span className="text-stone-700 hidden sm:inline">|</span>
-            <a
-              href="/blog"
-              onClick={(e) => {
-                e.preventDefault();
-                handleBackToList(e);
-              }}
-              className="flex items-center gap-2 group cursor-pointer"
-            >
-              <span className="font-serif text-lg font-bold tracking-widest text-amber-400 group-hover:text-amber-300">
-                SARTOR
-              </span>
-              <span className="text-xs uppercase tracking-widest text-stone-400 group-hover:text-stone-200">
-                Atelier Journal
-              </span>
-            </a>
-          </div>
+  // If viewing a single post
+  if (activePost) {
+    const postWhatsAppMsg = `*SARTOR ATELIER JOURNAL ENQUIRY*
+---------------------------------------
+Article: ${activePost.title}
+URL: https://sartor.pk/blog/${activePost.slug}
 
-          <div className="flex items-center gap-3">
-            <a
-              href="/custom-bridal"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigateCustomBridal();
-              }}
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-950/60 border border-amber-500/40 text-amber-300 hover:bg-amber-900/60 transition-colors"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Custom Bridal ($2k+)</span>
-            </a>
+Assalam-o-Alaikum SARTOR Atelier,
+I read your tailoring guide and would like to consult on bespoke stitching and fabric pickup in Lahore.`;
+    const postWhatsAppUrl = buildWhatsAppLink(postWhatsAppMsg, 'blog_post');
 
-            <a
-              href={buildWhatsAppLink(
-                'Hi Sartor, I am reading your Atelier Journal and would like to ask a tailoring question.',
-                'blog_header'
+    return (
+      <div className="min-h-screen bg-stone-950 text-stone-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Back Navigation Bar */}
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <button
+              onClick={() => navigateTo('/blog')}
+              className="inline-flex items-center gap-2 text-xs font-semibold text-stone-400 hover:text-amber-400 uppercase tracking-wider transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Atelier Journal</span>
+            </button>
+
+            <button
+              onClick={handleCopyLink}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-stone-850 text-stone-300 border border-stone-800 text-xs transition-colors cursor-pointer"
+            >
+              {copiedLink ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-400">Link Copied</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-3.5 h-3.5" />
+                  <span>Share Guide</span>
+                </>
               )}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackWhatsAppClick('blog_top_header_cta')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-md transition-all active:scale-95"
-            >
-              <MessageCircle className="w-3.5 h-3.5 fill-current" />
-              <span>Ask Atelier</span>
-            </a>
+            </button>
           </div>
-        </div>
-      </header>
 
-      {/* Main Content Area */}
-      {activePost ? (
-        /* SINGLE ARTICLE DETAIL VIEW */
-        <article className="pb-24">
-          {/* Article Banner Header with Breadcrumbs */}
-          <div className="border-b border-stone-800/80 bg-gradient-to-b from-stone-900/70 to-stone-950 py-10 sm:py-14">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6">
-              {/* Semantic SEO Breadcrumb Navigation */}
-              <nav aria-label="Breadcrumb" className="mb-6">
-                <ol className="flex flex-wrap items-center gap-2 text-xs text-stone-400">
-                  <li className="flex items-center gap-1.5">
-                    <a
-                      href="/"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onNavigateHome();
-                      }}
-                      className="hover:text-amber-400 flex items-center gap-1 transition-colors"
-                    >
-                      <Home className="w-3.5 h-3.5" />
-                      <span>Home</span>
-                    </a>
-                  </li>
-                  <li className="text-stone-600">/</li>
-                  <li>
-                    <a
-                      href="/blog"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleBackToList(e);
-                      }}
-                      className="hover:text-amber-400 transition-colors"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li className="text-stone-600">/</li>
-                  <li className="text-amber-300 font-medium truncate max-w-[260px] sm:max-w-md" aria-current="page">
-                    {activePost.title}
-                  </li>
-                </ol>
-              </nav>
+          {/* Article Header */}
+          <header className="mb-10 text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 mb-4 text-xs">
+              <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono uppercase tracking-wider font-semibold">
+                {activePost.category || 'Atelier Masterclass'}
+              </span>
+              <span className="text-stone-500">•</span>
+              <span className="text-stone-400 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5" />
+                {activePost.readingTime || '8 min read'}
+              </span>
+              <span className="text-stone-500">•</span>
+              <span className="text-stone-400 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5" />
+                {activePost.date}
+              </span>
+            </div>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 mb-4">
-                <span className="rounded-md border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-300 uppercase tracking-wider font-semibold">
-                  {activePost.category}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-stone-400" />
-                  <time dateTime={activePost.date}>
-                    {new Date(activePost.date).toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </time>
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-stone-400" />
-                  <span>{activePost.readingTime}</span>
-                </span>
-                <span>•</span>
-                <span className="text-stone-300 font-medium">{activePost.author}</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-stone-100 tracking-tight leading-[1.18] mb-6">
+              {activePost.title}
+            </h1>
+
+            <p className="text-stone-300 text-base sm:text-lg leading-relaxed max-w-3xl">
+              {activePost.excerpt}
+            </p>
+
+            <div className="mt-6 pt-6 border-t border-stone-800 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-amber-600/30 border border-amber-500/40 text-amber-400 flex items-center justify-center font-serif font-bold text-base">
+                AG
               </div>
-
-              <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-stone-50 leading-tight sm:leading-tight">
-                {activePost.title}
-              </h1>
-
-              <p className="mt-4 text-base sm:text-lg text-stone-300 leading-relaxed font-light">
-                {activePost.excerpt}
-              </p>
-
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-stone-800/80">
-                <div className="flex flex-wrap gap-1.5">
-                  {activePost.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-stone-900 border border-stone-800 px-2.5 py-1 text-xs text-stone-400"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleShare}
-                  className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-stone-200 transition-colors"
-                >
-                  {copiedLink ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-400 font-medium">Link Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <Share2 className="w-3.5 h-3.5" />
-                      <span>Share Article</span>
-                    </>
-                  )}
-                </button>
+              <div>
+                <p className="text-sm font-semibold text-stone-200">{activePost.author}</p>
+                <p className="text-xs text-stone-400">Master Tailor &amp; Head Cutter, SARTOR Lahore</p>
               </div>
             </div>
-          </div>
+          </header>
 
-          {/* Hero Cover Image */}
+          {/* Cover Image */}
           {activePost.coverImage && (
-            <div className="max-w-4xl mx-auto px-4 -mt-6 sm:-mt-8 sm:px-6">
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-stone-800 bg-stone-900 shadow-2xl">
-                <img
-                  src={activePost.coverImage}
-                  alt={activePost.title}
-                  className="h-full w-full object-cover"
-                />
-              </div>
+            <div className="mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
+              <img
+                src={activePost.coverImage}
+                alt={activePost.coverImageAlt || activePost.title}
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
 
-          {/* Markdown Content */}
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-            <div className="prose prose-invert prose-amber max-w-none font-sans text-stone-300 leading-relaxed">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  table: ({ children, ...props }) => (
-                    <div className="my-8 overflow-x-auto rounded-2xl border border-stone-800 bg-stone-900/60 shadow-xl backdrop-blur-sm">
-                      <table className="w-full min-w-[540px] border-collapse text-left text-sm" {...props}>
-                        {children}
-                      </table>
-                    </div>
-                  ),
-                  thead: ({ children, ...props }) => (
-                    <thead className="bg-stone-900/90 border-b border-stone-700/80 text-amber-300 font-serif" {...props}>
+          {/* Markdown Content with Editorial Component Styling */}
+          <article className="prose prose-invert prose-stone max-w-none prose-headings:font-serif prose-headings:font-bold prose-headings:text-stone-100 prose-p:text-stone-300 prose-p:leading-relaxed prose-li:text-stone-300 prose-strong:text-stone-100 prose-a:text-amber-400 prose-a:no-underline hover:prose-a:underline prose-table:text-sm prose-th:text-amber-400 prose-th:font-mono prose-th:bg-stone-900 prose-td:border-stone-800 prose-hr:border-stone-800">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                blockquote: ({ children }) => (
+                  <div className="my-6 p-6 rounded-2xl bg-stone-900/90 border-l-4 border-amber-500 border-stone-800 text-stone-200 shadow-lg font-sans">
+                    {children}
+                  </div>
+                ),
+                table: ({ children }) => (
+                  <div className="my-8 overflow-x-auto rounded-xl border border-stone-800 bg-stone-900/60 shadow-lg">
+                    <table className="w-full text-left border-collapse text-xs sm:text-sm font-sans">
                       {children}
-                    </thead>
-                  ),
-                  th: ({ children, ...props }) => (
-                    <th className="p-3.5 text-xs font-semibold uppercase tracking-wider text-amber-300 border-r border-stone-800/80 last:border-r-0" {...props}>
-                      {children}
-                    </th>
-                  ),
-                  tbody: ({ children, ...props }) => (
-                    <tbody className="divide-y divide-stone-800/80" {...props}>
-                      {children}
-                    </tbody>
-                  ),
-                  tr: ({ children, ...props }) => (
-                    <tr className="hover:bg-stone-800/40 transition-colors" {...props}>
-                      {children}
-                    </tr>
-                  ),
-                  td: ({ children, ...props }) => (
-                    <td className="p-3.5 text-stone-300 border-r border-stone-800/60 last:border-r-0 leading-relaxed" {...props}>
-                      {children}
-                    </td>
-                  ),
-                  blockquote: ({ children, ...props }) => (
-                    <div className="my-8 rounded-2xl border-l-4 border-amber-500 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-5 sm:p-6 shadow-lg shadow-black/20 text-stone-200">
-                      <blockquote className="font-serif italic text-amber-100/95 leading-relaxed [&>p]:my-2 [&>h3]:text-amber-400 [&>h3]:font-serif [&>h3]:font-bold [&>h3]:text-lg [&>h3]:mb-2 [&>h3]:mt-0 [&>strong]:text-amber-300 [&>strong]:font-semibold not-italic" {...props}>
-                        {children}
-                      </blockquote>
-                    </div>
-                  ),
-                  a: ({ href, children, ...props }) => {
-                    const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
-                    if (isInternal) {
-                      return (
-                        <a
-                          href={href}
-                          onClick={(e) => {
-                            if (!e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button === 0) {
-                              e.preventDefault();
-                              navigateTo(href);
-                            }
-                          }}
-                          className="text-amber-400 hover:text-amber-300 underline underline-offset-4 font-medium transition-colors cursor-pointer"
-                          {...props}
-                        >
-                          {children}
-                        </a>
-                      );
-                    }
-                    return (
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-amber-400 hover:text-amber-300 underline underline-offset-4 font-medium transition-colors"
-                        {...props}
-                      >
-                        {children}
-                      </a>
-                    );
-                  },
-                  hr: () => <hr className="my-10 border-stone-800/90" />,
-                  h1: ({ children, ...props }) => (
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-stone-50 my-6 leading-tight tracking-tight" {...props}>
-                      {children}
-                    </h1>
-                  ),
-                  h2: ({ children, ...props }) => (
-                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-100 mt-12 mb-5 pb-3 border-b border-stone-800/80 leading-snug tracking-tight" {...props}>
-                      {children}
-                    </h2>
-                  ),
-                  h3: ({ children, ...props }) => (
-                    <h3 className="text-xl sm:text-2xl font-serif font-semibold text-amber-200/90 mt-8 mb-3 leading-snug" {...props}>
-                      {children}
-                    </h3>
-                  ),
-                  ul: ({ children, ...props }) => (
-                    <ul className="list-disc list-outside ml-6 space-y-2.5 my-5 text-stone-300" {...props}>
-                      {children}
-                    </ul>
-                  ),
-                  ol: ({ children, ...props }) => (
-                    <ol className="list-decimal list-outside ml-6 space-y-2.5 my-5 text-stone-300 font-sans" {...props}>
-                      {children}
-                    </ol>
-                  ),
-                  li: ({ children, ...props }) => (
-                    <li className="leading-relaxed pl-1 marker:text-amber-400" {...props}>
-                      {children}
-                    </li>
-                  ),
-                }}
-              >
-                {activePost.content}
-              </ReactMarkdown>
+                    </table>
+                  </div>
+                ),
+                th: ({ children }) => (
+                  <th className="py-3 px-4 bg-stone-850 text-amber-400 font-mono text-[11px] uppercase tracking-wider border-b border-stone-800">
+                    {children}
+                  </th>
+                ),
+                td: ({ children }) => (
+                  <td className="py-3 px-4 border-b border-stone-800 text-stone-300">
+                    {children}
+                  </td>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-100 mt-12 mb-4 pb-2 border-b border-stone-850">
+                    {children}
+                  </h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="text-xl font-serif font-bold text-stone-200 mt-8 mb-3">
+                    {children}
+                  </h3>
+                ),
+                hr: () => <hr className="my-10 border-stone-800" />,
+              }}
+            >
+              {activePost.content.replace(/^---[\s\S]*?---\s*/, '')}
+            </ReactMarkdown>
+          </article>
+
+          {/* Author Block */}
+          <div className="mt-16 p-8 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 text-stone-950 flex items-center justify-center font-serif font-bold text-2xl shrink-0 shadow-lg">
+              AG
             </div>
-
-            {/* Conversion CTA Block at the bottom of article */}
-            <section className="mt-16 rounded-3xl border border-amber-500/40 bg-gradient-to-br from-stone-900 via-stone-900/90 to-amber-950/40 p-6 sm:p-10 shadow-2xl">
-              <div className="flex items-center gap-2 text-amber-400 mb-2">
-                <Sparkles className="w-5 h-5 text-amber-400" />
-                <span className="text-xs font-bold uppercase tracking-widest text-amber-300">
-                  Sartor Bespoke Concierge
-                </span>
-              </div>
-
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-100 tracking-tight">
-                Inspired by this article? Let&apos;s design your outfit.
-              </h2>
-
-              <p className="mt-3 text-sm sm:text-base text-stone-300 leading-relaxed">
-                Whether you need custom bridal lehenga tailoring, replica designer work, or bespoke festive ensembles delivered overseas via DHL Express, our master karigars are ready to assist.
+            <div className="text-center sm:text-left flex-1">
+              <span className="text-xs uppercase font-mono text-amber-400 font-semibold tracking-wider">
+                About the Master Tailor
+              </span>
+              <h3 className="text-xl font-serif font-bold text-stone-100 mt-1">
+                Abdul Ghaffar — Master Tailor, SARTOR
+              </h3>
+              <p className="mt-2 text-stone-400 text-sm leading-relaxed">
+                With 35+ years of cutting and pattern drafting at Lahore ateliers, Master Tailor Abdul Ghaffar oversees all garment drafting, seam margin preservation, and quality inspections at SARTOR Model Town.
               </p>
-
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 border-y border-stone-800/80 py-4 text-xs text-stone-300">
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 font-bold">✓</span>
-                  <span>Live 4K Adda Frame Swatch</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 font-bold">✓</span>
-                  <span>2.5&quot; Inseam Fit Allowance</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 font-bold">✓</span>
-                  <span>DHL Tracked Worldwide</span>
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
-                <a
-                  href={buildWhatsAppLink(
-                    `Hi Sartor Atelier, I just read "${activePost.title}" and would like to ask about custom tailoring and pricing.`,
-                    `blog_bottom_${activePost.slug}`
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackWhatsAppClick(`blog_article_${activePost.slug}`)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-950/50 border border-emerald-400/30 transition-all active:scale-95"
-                >
-                  <MessageCircle className="w-4 h-4 fill-current" />
-                  <span>Consult Master Tailor on WhatsApp</span>
-                </a>
-
-                <a
-                  href="/custom-bridal"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onNavigateCustomBridal();
-                  }}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-3.5 rounded-xl border border-stone-700 bg-stone-800/80 hover:bg-stone-800 text-stone-200 hover:text-amber-300 text-sm font-semibold transition-colors"
-                >
-                  <span>View 4-Step Milestone Process</span>
-                  <ChevronRight className="w-4 h-4" />
-                </a>
-              </div>
-            </section>
-
-            <div className="mt-12 text-center">
-              <a
-                href="/blog"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleBackToList(e);
-                }}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to all Atelier Journal entries</span>
-              </a>
             </div>
           </div>
-        </article>
-      ) : (
-        /* ARCHIVE / LISTING VIEW */
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          {/* Breadcrumb for Archive */}
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex items-center gap-2 text-xs text-stone-400">
-              <li className="flex items-center gap-1.5">
-                <a
-                  href="/"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onNavigateHome();
-                  }}
-                  className="hover:text-amber-400 flex items-center gap-1 transition-colors"
-                >
-                  <Home className="w-3.5 h-3.5" />
-                  <span>Home</span>
-                </a>
-              </li>
-              <li className="text-stone-600">/</li>
-              <li className="text-amber-300 font-medium" aria-current="page">
-                Atelier Journal
-              </li>
-            </ol>
-          </nav>
 
-          {/* Hero Banner */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-amber-300 uppercase mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Knowledge & Couture Masterclasses</span>
+          {/* Final Call to Action */}
+          <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-amber-950/40 via-stone-900 to-stone-950 border border-amber-500/30 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div>
+              <span className="text-xs uppercase font-mono text-amber-400 font-semibold tracking-widest block mb-1">
+                Ready to Experience Master Craftsmanship?
+              </span>
+              <h3 className="text-2xl font-serif font-bold text-stone-100">
+                Book Bespoke Tailoring in Lahore
+              </h3>
+              <p className="mt-2 text-stone-300 text-sm max-w-xl">
+                Have unstitched designer lawn, festive silks, or bridal fabric? Send your measurements or sample suit via free doorstep pickup across Lahore.
+              </p>
             </div>
-            <h1 className="font-serif text-3xl sm:text-5xl font-medium tracking-tight text-stone-50">
-              The Sartor Atelier Journal
-            </h1>
-            <p className="mt-4 text-base sm:text-lg text-stone-300">
-              Guides for discerning brides and couture enthusiasts. Discover authentic zardozi embroidery techniques, international measurement advice, and craftsmanship updates from Lahore.
-            </p>
+
+            <a
+              href={postWhatsAppUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base flex items-center gap-3 transition-all shadow-xl shadow-emerald-950/60 shrink-0 cursor-pointer"
+            >
+              <MessageSquare className="w-5 h-5 fill-current" />
+              <span>Ask SARTOR on WhatsApp</span>
+            </a>
           </div>
 
-          {/* Posts Grid with crawlable <a href="/blog/[slug]"> links */}
-          <div className="grid gap-8 sm:grid-cols-2">
-            {BLOG_POSTS.map((post) => (
-              <a
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                onClick={(e) => handleSelectPost(post.slug, e)}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-stone-800/80 bg-stone-900/40 hover:border-amber-500/40 hover:bg-stone-900/70 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 text-left"
-              >
-                {post.coverImage && (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-900">
-                    <img
-                      src={post.coverImage}
-                      alt={post.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
-                    <span className="absolute top-4 left-4 rounded-md border border-stone-700/60 bg-stone-900/90 px-2.5 py-1 text-xs font-semibold tracking-wider text-amber-300 uppercase backdrop-blur-sm">
-                      {post.category}
+          {/* Related Articles Navigation */}
+          <div className="mt-16 pt-10 border-t border-stone-800">
+            <h3 className="font-serif font-bold text-lg text-stone-100 mb-6 flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-amber-400" />
+              <span>Continue Reading in Atelier Journal</span>
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {BLOG_POSTS.filter((p) => p.slug !== activePost.slug).map((post) => (
+                <div
+                  key={post.slug}
+                  onClick={() => navigateTo(`/blog/${post.slug}`)}
+                  className="p-5 rounded-xl bg-stone-900/60 hover:bg-stone-900 border border-stone-800 hover:border-amber-500/40 transition-all cursor-pointer group"
+                >
+                  <span className="text-[11px] font-mono uppercase text-amber-400 block mb-1">
+                    {post.category}
+                  </span>
+                  <h4 className="font-serif font-bold text-stone-100 group-hover:text-amber-300 transition-colors text-sm line-clamp-2">
+                    {post.title}
+                  </h4>
+                  <p className="mt-2 text-stone-400 text-xs line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <div className="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
+                    <span>Read Article</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Blog Archive List View
+  return (
+    <div className="min-h-screen bg-stone-950 text-stone-100 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="text-amber-400 font-mono text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 mb-2">
+            <BookOpen className="w-4 h-4 text-amber-400" />
+            Atelier Journal &amp; Guides
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-serif font-bold text-stone-100 tracking-tight">
+            Tailoring Masterclasses &amp; Fitting Insights
+          </h1>
+          <p className="mt-4 text-stone-300 text-base leading-relaxed">
+            Practical advice from Lahore master tailors on choosing the right artisan, sizing bridal lehengas, fabric yardage, and avoiding fitting nightmares.
+          </p>
+        </div>
+
+        {/* Blog Post Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {BLOG_POSTS.map((post) => (
+            <article
+              key={post.slug}
+              onClick={() => navigateTo(`/blog/${post.slug}`)}
+              className="group rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-950/20 transition-all flex flex-col cursor-pointer"
+            >
+              {post.coverImage && (
+                <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
+                  <img
+                    src={post.coverImage}
+                    alt={post.coverImageAlt || post.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent" />
+                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-700 text-stone-200 text-xs font-semibold">
+                    {post.category}
+                  </div>
+                </div>
+              )}
+
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-3 text-xs text-stone-400 mb-3">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {post.date}
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      {post.readingTime}
                     </span>
                   </div>
-                )}
 
-                <div className="flex flex-1 flex-col justify-between p-6 sm:p-8">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-stone-400 mb-3">
-                      <time dateTime={post.date}>
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </time>
-                      <span>•</span>
-                      <span>{post.readingTime}</span>
-                      <span>•</span>
-                      <span className="text-stone-300">{post.author}</span>
-                    </div>
+                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-100 group-hover:text-amber-300 transition-colors leading-snug mb-3">
+                    {post.title}
+                  </h2>
 
-                    <h2 className="font-serif text-xl sm:text-2xl font-semibold text-stone-100 group-hover:text-amber-300 transition-colors">
-                      {post.title}
-                    </h2>
-
-                    <p className="mt-3 text-sm leading-relaxed text-stone-300 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-4 border-t border-stone-800/80">
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-stone-800/90 px-2.5 py-0.5 text-[11px] font-medium text-stone-300"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs font-semibold text-amber-400 group-hover:text-amber-300">
-                      <span>Read Full Masterclass</span>
-                      <span className="transition-transform group-hover:translate-x-1">→</span>
-                    </div>
-                  </div>
+                  <p className="text-stone-300 text-sm leading-relaxed mb-6 line-clamp-3">
+                    {post.excerpt}
+                  </p>
                 </div>
-              </a>
-            ))}
-          </div>
 
-          {/* Bottom Conversion Section */}
-          <section className="mt-20 rounded-3xl border border-amber-500/30 bg-gradient-to-br from-stone-900 via-stone-900/95 to-amber-950/30 p-8 sm:p-12 text-center shadow-2xl">
-            <span className="text-3xl inline-block mb-3">🧵</span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-100 tracking-tight">
-              Have Questions About Overseas Sizing or Delivery?
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-stone-300 leading-relaxed">
-              Our master tailors and bridal concierges in Lahore offer 1-on-1 WhatsApp video measurement consultations and custom quotes.
-            </p>
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href={buildWhatsAppLink(
-                  'Hi Sartor, I am exploring your Atelier Journal and would like a tailoring consultation.',
-                  'journal_bottom'
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackWhatsAppClick('blog_archive_bottom_cta')}
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-950/50 border border-emerald-400/30 transition-all active:scale-95"
-              >
-                <MessageCircle className="w-4 h-4 fill-current" />
-                <span>Chat With Master Tailor on WhatsApp</span>
-              </a>
-
-              <a
-                href="/custom-bridal"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigateCustomBridal();
-                }}
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl border border-stone-700 bg-stone-800/60 hover:bg-stone-800 text-stone-200 hover:text-amber-300 text-sm font-semibold transition-colors"
-              >
-                Explore Custom Bridal ($2k+)
-              </a>
-            </div>
-          </section>
-        </main>
-      )}
+                <div className="pt-4 border-t border-stone-800 flex items-center justify-between">
+                  <span className="text-xs text-stone-400 font-medium">{post.author}</span>
+                  <span className="text-xs font-bold text-amber-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    <span>Read Full Guide</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

@@ -3,79 +3,47 @@ import path from 'path';
 import { BLOG_POSTS } from '../src/data/blogPosts';
 import { injectSeoIntoHtml, generateSitemapXml } from '../src/server/seoRenderer';
 
-/**
- * Pre-renders all application routes into static HTML files in /dist
- * This ensures Vercel, Netlify, Apache, Nginx, or any CDN directly serves
- * HTTP 200 with complete article metadata, canonical link, and visible content
- * without requiring server-side compute or redirecting to the homepage.
- */
-function buildStaticRoutes() {
-  const distDir = path.join(process.cwd(), 'dist');
-
-  if (!fs.existsSync(distDir)) {
-    console.error('Error: dist directory does not exist. Run vite build first.');
-    process.exit(1);
-  }
-
+async function buildStaticRoutes() {
+  const distDir = path.resolve(process.cwd(), 'dist');
   const indexHtmlPath = path.join(distDir, 'index.html');
+
   if (!fs.existsSync(indexHtmlPath)) {
-    console.error('Error: dist/index.html not found.');
-    process.exit(1);
+    console.warn('dist/index.html not found, skipping static routes pre-rendering');
+    return;
   }
 
   const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
 
-  // List of all valid routes to pre-render
-  const routes = [
-    '/blog',
-    '/custom-bridal',
-    ...BLOG_POSTS.map((post) => `/blog/${post.slug}`),
-  ];
+  // Pre-render /blog
+  const blogDir = path.join(distDir, 'blog');
+  fs.mkdirSync(blogDir, { recursive: true });
+  const blogSeo = injectSeoIntoHtml(baseHtml, '/blog');
+  fs.writeFileSync(path.join(blogDir, 'index.html'), blogSeo.html);
+  console.log('Pre-rendered /blog/index.html');
 
-  console.log(`Pre-rendering ${routes.length} static routes for production deployment...`);
+  // Pre-render /custom-bridal
+  const bridalDir = path.join(distDir, 'custom-bridal');
+  fs.mkdirSync(bridalDir, { recursive: true });
+  const bridalSeo = injectSeoIntoHtml(baseHtml, '/custom-bridal');
+  fs.writeFileSync(path.join(bridalDir, 'index.html'), bridalSeo.html);
+  console.log('Pre-rendered /custom-bridal/index.html');
 
-  for (const route of routes) {
-    const { status, html } = injectSeoIntoHtml(baseHtml, route);
-
-    if (status !== 200) {
-      console.warn(`Warning: Route ${route} returned status ${status}`);
-      continue;
-    }
-
-    // 1. Write as /dist/[route]/index.html (standard directory index)
-    const targetDir = path.join(distDir, route.replace(/^\//, ''));
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-    fs.writeFileSync(path.join(targetDir, 'index.html'), html, 'utf-8');
-
-    // 2. Also write as /dist/[route].html (for cleanUrls: true support)
-    const cleanUrlPath = path.join(distDir, `${route.replace(/^\//, '')}.html`);
-    const cleanUrlDir = path.dirname(cleanUrlPath);
-    if (!fs.existsSync(cleanUrlDir)) {
-      fs.mkdirSync(cleanUrlDir, { recursive: true });
-    }
-    fs.writeFileSync(cleanUrlPath, html, 'utf-8');
-
-    console.log(`✓ Pre-rendered: ${route} -> ${route}/index.html & ${route}.html`);
+  // Pre-render each blog post
+  for (const post of BLOG_POSTS) {
+    const postDir = path.join(blogDir, post.slug);
+    fs.mkdirSync(postDir, { recursive: true });
+    const postSeo = injectSeoIntoHtml(baseHtml, `/blog/${post.slug}`);
+    fs.writeFileSync(path.join(postDir, 'index.html'), postSeo.html);
+    console.log(`Pre-rendered /blog/${post.slug}/index.html`);
   }
 
-  // Generate 404.html so invalid URLs return true 404 instead of falling back to homepage
-  const { html: notFoundHtml } = injectSeoIntoHtml(baseHtml, '/blog/non-existent-404-trigger');
-  const custom404Html = notFoundHtml
-    .replace(/<title>.*?<\/title>/, '<title>404: Page Not Found | SARTOR Atelier</title>')
-    .replace('<head>', '<head>\n    <meta name="robots" content="noindex, follow" />');
-
-  fs.writeFileSync(path.join(distDir, '404.html'), custom404Html, 'utf-8');
-  console.log('✓ Generated dist/404.html for explicit 404 handling');
-
-  // Ensure sitemap.xml in dist is fresh and accurate
+  // Generate sitemap.xml in dist/
   const sitemapXml = generateSitemapXml();
-  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml, 'utf-8');
-  fs.writeFileSync(path.join(process.cwd(), 'public', 'sitemap.xml'), sitemapXml, 'utf-8');
-  console.log('✓ Synchronized dist/sitemap.xml and public/sitemap.xml');
-
-  console.log('Static route pre-rendering complete!');
+  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml);
+  console.log('Generated dist/sitemap.xml');
 }
 
-buildStaticRoutes();
+buildStaticRoutes().catch((err) => {
+  console.error('Error during static route generation:', err);
+  process.exit(1);
+});

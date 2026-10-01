@@ -107,12 +107,24 @@ async function executeClientSideChat(
     const groundingChunks = groundingMetadata?.groundingChunks || [];
     const webSearchQueries = groundingMetadata?.webSearchQueries || [];
 
+    const groundingSources: { uri: string; title: string }[] = [];
+    if (groundingChunks && Array.isArray(groundingChunks)) {
+      for (const chunk of groundingChunks as any[]) {
+        if (chunk.web?.uri) {
+          groundingSources.push({
+            uri: chunk.web.uri,
+            title: chunk.web.title || chunk.web.uri,
+          });
+        }
+      }
+    }
+
     return {
       text: replyText,
       model: modelId,
-      groundingChunks,
+      groundingSources,
       webSearchQueries,
-      hasSearchGrounding: Boolean(groundingChunks && groundingChunks.length > 0),
+      hasSearchGrounding: Boolean(groundingSources.length > 0),
     };
   } catch (apiError: any) {
     console.error('Client-side Gemini API execution error:', apiError);
@@ -266,3 +278,5 @@ export function openSartorChat(prompt?: string) {
     window.dispatchEvent(new CustomEvent('open-sartor-chat', { detail: { prompt } }));
   }
 }
+
+export const sendGeminiChatMessage = sendChatMessage;

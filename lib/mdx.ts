@@ -2,13 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-/**
- * ==============================================================================
- * SARTOR ATELIER - FILE-BASED MDX BLOG ENGINE
- * Reads and parses Markdown/MDX content with frontmatter from /content/posts/
- * ==============================================================================
- */
-
 export interface PostFrontmatter {
   title: string;
   excerpt: string;
@@ -29,9 +22,6 @@ export interface Post {
 
 const POSTS_DIRECTORY = path.join(process.cwd(), 'content', 'posts');
 
-/**
- * Ensure posts directory exists
- */
 function getPostsDirectory(): string {
   if (!fs.existsSync(POSTS_DIRECTORY)) {
     fs.mkdirSync(POSTS_DIRECTORY, { recursive: true });
@@ -39,9 +29,6 @@ function getPostsDirectory(): string {
   return POSTS_DIRECTORY;
 }
 
-/**
- * Calculate approximate reading time in minutes
- */
 function estimateReadingTime(text: string): string {
   const wordsPerMinute = 200;
   const words = text.trim().split(/\s+/).length;
@@ -49,23 +36,15 @@ function estimateReadingTime(text: string): string {
   return `${minutes} min read`;
 }
 
-/**
- * Retrieve all blog post file names from /content/posts
- */
 export function getPostFiles(): string[] {
   const dir = getPostsDirectory();
   return fs.readdirSync(dir).filter((file) => file.endsWith('.mdx') || file.endsWith('.md'));
 }
 
-/**
- * Retrieve a single blog post by slug
- * @param slug - The slug identifier of the article (filename without extension)
- */
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const dir = getPostsDirectory();
   const decodedSlug = decodeURIComponent(slug);
 
-  // Check for both .mdx and .md extensions
   const mdxPath = path.join(dir, `${decodedSlug}.mdx`);
   const mdPath = path.join(dir, `${decodedSlug}.md`);
 
@@ -100,9 +79,6 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   };
 }
 
-/**
- * Retrieve all blog posts sorted chronologically (newest first)
- */
 export async function getAllPosts(): Promise<Post[]> {
   const files = getPostFiles();
 
@@ -113,7 +89,6 @@ export async function getAllPosts(): Promise<Post[]> {
     })
   );
 
-  // Filter out any null entries and sort descending by date
   return (posts.filter((post): post is Post => post !== null)).sort((a, b) => {
     const dateA = new Date(a.frontmatter.date).getTime();
     const dateB = new Date(b.frontmatter.date).getTime();
@@ -121,9 +96,6 @@ export async function getAllPosts(): Promise<Post[]> {
   });
 }
 
-/**
- * Retrieve all unique slugs for static route generation (generateStaticParams)
- */
 export async function getAllPostSlugs(): Promise<{ slug: string }[]> {
   const files = getPostFiles();
   return files.map((file) => ({

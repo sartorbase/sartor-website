@@ -1,53 +1,66 @@
 import React from 'react';
-import { motion } from 'motion/react';
-import { Sparkles, Scissors, Crown, Truck, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Ruler, Scissors, Truck, Award, Sparkles } from 'lucide-react';
 
 export const SpecializationBanner: React.FC = () => {
+  const highlights = [
+    {
+      icon: Ruler,
+      title: '1.5–2.0 Inch Seam Margin',
+      description: 'Generous internal alteration allowance preserved on every side seam. Never get locked out of your favorite dress.',
+    },
+    {
+      icon: Scissors,
+      title: 'Radial Kalidar Curves',
+      description: 'Pattern-drafted 16-kali kalidars and sarees cut on graduated geometric curves, avoiding front-hem sag.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Anti-Curl Interfacing',
+      description: 'Micro-woven fusible interfacings shaped to the collarbone. Never stiff cardboard that blisters in wash.',
+    },
+    {
+      icon: Truck,
+      title: 'Doorstep Lahore Pickup',
+      description: 'Complimentary doorstep fabric pickup & delivery across Model Town, DHA, Gulberg, Johar Town, and Cantt.',
+    },
+  ];
+
   return (
-    <section
-      id="specialization"
-      aria-label="Atelier Specialization"
-      className="relative bg-gradient-to-r from-stone-950 via-amber-950/40 to-stone-950 border-y border-amber-500/30 py-8 px-4 sm:px-8 overflow-hidden"
-    >
-      {/* Subtle background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto relative flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 text-left">
-          {/* Distinct Specialization Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-300 text-xs font-bold uppercase tracking-widest shrink-0">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Specialization</span>
-          </div>
-
-          <div>
-            <h2 className="text-base sm:text-lg md:text-xl font-serif font-bold text-stone-100 tracking-tight">
-              Exclusively Crafting Bespoke Women's Fashion &amp; Online Tailoring Services in Lahore &amp; Nationwide.
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-300 mt-1 font-sans">
-              Dedicated 100% to female haute couture, designer lawn suites, pleated sarees, festive maxis, and royal bridal lehengas.
-            </p>
-          </div>
+    <section className="py-12 bg-stone-900/80 border-b border-stone-800 text-stone-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <span className="text-amber-400 font-mono text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5 mb-2">
+            <Award className="w-4 h-4 text-amber-400" />
+            The Master Atelier Standard
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-100">
+            Tailoring Discipline, Not Bazaar Gambles
+          </h2>
+          <p className="mt-2 text-stone-300 text-sm sm:text-base leading-relaxed">
+            Every garment tailored at SARTOR is drafted with pattern-cutting rigor, grainline respect, and meticulous finishing.
+          </p>
         </div>
 
-        {/* 4 Core Pillars matching Schema.org */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full md:w-auto shrink-0 text-xs">
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900/90 border border-stone-800 text-stone-200">
-            <Scissors className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs">Bespoke Couture</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900/90 border border-stone-800 text-stone-200">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs">Saree &amp; Blouse</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900/90 border border-stone-800 text-stone-200">
-            <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs">Bridal Lehengas</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900/90 border border-stone-800 text-stone-200">
-            <Truck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs">Nationwide Pickup</span>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {highlights.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={idx}
+                className="p-6 rounded-xl bg-stone-850/70 border border-stone-800 hover:border-amber-500/40 transition-all group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <h3 className="font-serif font-bold text-stone-100 text-base mb-2 group-hover:text-amber-300 transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-stone-400 text-xs sm:text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
