@@ -52,6 +52,57 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
     ? getBlogPostBySlug(activeSlug)
     : undefined;
 
+  // Dynamically inject SEO Title and Schema.org FAQPage JSON-LD into document.head
+  useEffect(() => {
+    if (!activePost || typeof document === 'undefined') return;
+
+    document.title = `${activePost.title} | SARTOR Atelier`;
+
+    // Extract FAQs from markdown text
+    const faqMatches: { question: string; answer: string }[] = [];
+    const faqSectionMatch = activePost.content.match(/## Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
+    if (faqSectionMatch) {
+      const faqText = faqSectionMatch[1];
+      const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;
+      let match;
+      while ((match = qaRegex.exec(faqText)) !== null) {
+        const question = match[1].trim();
+        const answer = match[2].trim().replace(/\n+/g, ' ');
+        if (question && answer) {
+          faqMatches.push({ question, answer });
+        }
+      }
+    }
+
+    if (faqMatches.length > 0) {
+      const scriptId = 'article-faq-schema';
+      let existingScript = document.getElementById(scriptId);
+      if (!existingScript) {
+        existingScript = document.createElement('script');
+        existingScript.id = scriptId;
+        existingScript.setAttribute('type', 'application/ld+json');
+        document.head.appendChild(existingScript);
+      }
+      existingScript.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqMatches.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      });
+
+      return () => {
+        const el = document.getElementById(scriptId);
+        if (el) el.remove();
+      };
+    }
+  }, [activePost]);
+
   const handleCopyLink = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
@@ -190,7 +241,9 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                 hr: () => <hr className="my-10 border-stone-800" />,
               }}
             >
-              {activePost.content.replace(/^---[\s\S]*?---\s*/, '')}
+              {activePost.content
+                .replace(/^---[\s\S]*?---\s*/, '')
+                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')}
             </ReactMarkdown>
           </article>
 

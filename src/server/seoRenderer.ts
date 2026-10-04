@@ -56,7 +56,9 @@ function formatInline(text: string): string {
 }
 
 function markdownToHtml(md: string): string {
-  const cleanMd = md.replace(/^---[\s\S]*?---\s*/, '');
+  const cleanMd = md
+    .replace(/^---[\s\S]*?---\s*/, '')
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
   const lines = cleanMd.split('\n');
   const htmlLines: string[] = [];
   let inTable = false;
@@ -197,11 +199,49 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const pageTitle = `${post.title} | SARTOR Atelier`;
     const renderedBody = markdownToHtml(post.content);
 
+    // Extract FAQs for Schema.org JSON-LD
+    const faqMatches: { question: string; answer: string }[] = [];
+    const faqSectionMatch = post.content.match(/## Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
+    if (faqSectionMatch) {
+      const faqText = faqSectionMatch[1];
+      const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;
+      let match;
+      while ((match = qaRegex.exec(faqText)) !== null) {
+        const question = match[1].trim();
+        const answer = match[2].trim().replace(/\n+/g, ' ');
+        if (question && answer) {
+          faqMatches.push({ question, answer });
+        }
+      }
+    }
+
+    let faqJsonLd = '';
+    if (faqMatches.length > 0) {
+      const schemaData = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqMatches.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      };
+      faqJsonLd = `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>`;
+    }
+
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${articleUrl}" />`)
-      .replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${renderedBody}</main></div>`);
+      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${articleUrl}" />`);
+
+    if (faqJsonLd) {
+      transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}</head>`);
+    }
+
+    transformedHtml = transformedHtml.replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${renderedBody}</main></div>`);
 
     return { status: 200, html: transformedHtml };
   }
