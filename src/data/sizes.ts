@@ -1,4 +1,4 @@
-import { PakistaniSizeMeasurement, PricingItem } from '../types';
+import { PakistaniSizeMeasurement, PricingItem, MeasureGuideStep } from '../types';
 import baratBridalImg from '../assets/images/barat_crimson_bridal_1790690862486.jpg';
 
 export const simpleSuitImg = 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1200&q=80';
@@ -177,5 +177,72 @@ export const PRICING_LIST: PricingItem[] = [
       'Doorstep pickup & trial fitting service',
     ],
     imageUrl: embroideredJacketImg,
+  },
+];
+
+export const PAKISTANI_MEASURING_STEPS: MeasureGuideStep[] = [
+  {
+    id: 'shirt-length',
+    name: 'Kameez / Shirt Length',
+    urduName: 'قمیض کی لمبائی',
+    instruction: 'Measure straight down from the highest point of the shoulder (neck juncture) over the bust to your desired hemline.',
+    tip: 'Stand straight; do not look down while taking this measurement. Standard length is 40–42 inches.',
+    iconName: 'ArrowDown',
+  },
+  {
+    id: 'shoulder',
+    name: 'Teera / Shoulder Width',
+    urduName: 'تیرا (کندھا)',
+    instruction: 'Measure across the back from the edge of one shoulder bone across the base of the neck to the other shoulder bone.',
+    tip: 'Follow the natural curve across the top of your shoulders; do not pull the tape completely rigid.',
+    iconName: 'MoveHorizontal',
+  },
+  {
+    id: 'chest',
+    name: 'Chest / Bust Circumference',
+    urduName: 'چھاتی کا گھیراو',
+    instruction: 'Wrap the tape around the fullest part of the bust, keeping the tape horizontal across the back shoulder blades.',
+    tip: 'Wear the specific bra you intend to wear with the stitched outfit. Keep two fingers inside the tape for comfort ease.',
+    iconName: 'Disc',
+  },
+  {
+    id: 'waist',
+    name: 'Kamar / Waist Circumference',
+    urduName: 'کمر کا گھیراو',
+    instruction: 'Measure around your natural waistline, typically located 1 to 2 inches above your navel at the narrowest torso curve.',
+    tip: 'Breathe normally; do not suck in your stomach. For A-line kurtis, we add standard ease of 2 inches.',
+    iconName: 'Maximize2',
+  },
+  {
+    id: 'hip',
+    name: 'Hip / Chaak Circumference',
+    urduName: 'ہپ کا ناپ',
+    instruction: 'Measure around the fullest part of your hips and buttocks, keeping the tape parallel to the floor.',
+    tip: 'This determines the slit (chaak) opening height and ensures the shirt does not pull or catch when seated.',
+    iconName: 'Disc',
+  },
+  {
+    id: 'sleeve-length',
+    name: 'Asteen / Sleeve Length',
+    urduName: 'آستین کی لمبائی',
+    instruction: 'Measure from the shoulder tip bone down along the outer arm over a slightly bent elbow to the wrist bone.',
+    tip: 'Always measure with the arm slightly bent to prevent the sleeve from riding up when bending your elbow.',
+    iconName: 'Ruler',
+  },
+  {
+    id: 'trouser-length',
+    name: 'Shalwar / Trouser Length',
+    urduName: 'شلوار / ٹراؤزر لمبائی',
+    instruction: 'Measure from where you tie your waistband/elastic down the outside of the leg to the ankle bone or top of foot.',
+    tip: 'Wear your typical heel or flat shoe to ensure the hem falls exactly where preferred.',
+    iconName: 'TrendingDown',
+  },
+  {
+    id: 'trouser-bottom',
+    name: 'Paincha / Trouser Bottom',
+    urduName: 'پائنچہ کی چوڑائی',
+    instruction: 'Measure the flat width or total circumference desired for the bottom opening of your trouser, shalwar, or culotte.',
+    tip: 'Standard straight cigarette pants measure 6.5–7.5 inches flat; tulip shalwars and bell bottoms vary.',
+    iconName: 'MoveHorizontal',
   },
 ];
