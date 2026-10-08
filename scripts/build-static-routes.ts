@@ -21,6 +21,13 @@ async function buildStaticRoutes() {
   fs.writeFileSync(path.join(blogDir, 'index.html'), blogSeo.html);
   console.log('Pre-rendered /blog/index.html');
 
+  // Pre-render /services
+  const servicesDir = path.join(distDir, 'services');
+  fs.mkdirSync(servicesDir, { recursive: true });
+  const servicesSeo = injectSeoIntoHtml(baseHtml, '/services');
+  fs.writeFileSync(path.join(servicesDir, 'index.html'), servicesSeo.html);
+  console.log('Pre-rendered /services/index.html');
+
   // Pre-render /custom-bridal
   const bridalDir = path.join(distDir, 'custom-bridal');
   fs.mkdirSync(bridalDir, { recursive: true });

@@ -7,6 +7,7 @@ import { AboutTailoringSection } from './components/organisms/AboutTailoringSect
 import { LocationMapSection } from './components/organisms/LocationMapSection';
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
+import { ServicesPageView } from './components/pages/ServicesPageView';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
@@ -34,6 +35,11 @@ export function App() {
     // 1. Custom Bridal landing route
     if (currentPath === '/custom-bridal' || currentPath === '/custom-bridal/') {
       return <CustomBridalLandingPage />;
+    }
+
+    // 2. Services directory route
+    if (currentPath === '/services' || currentPath === '/services/') {
+      return <ServicesPageView />;
     }
 
     // 2. Blog Single Post route

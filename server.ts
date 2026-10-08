@@ -38,6 +38,15 @@ const isProd = process.env.NODE_ENV === 'production';
 
 app.use(express.json());
 
+// Canonical 301 Redirect Middleware (apex sartor.pk -> https://www.sartor.pk)
+app.use((req: Request, res: Response, next) => {
+  const host = req.headers.host || '';
+  if (host === 'sartor.pk') {
+    return res.redirect(301, `https://www.sartor.pk${req.originalUrl || req.url}`);
+  }
+  next();
+});
+
 // 1. Health check
 app.get('/api/health', (_req: Request, res: Response) => {
   res.json({

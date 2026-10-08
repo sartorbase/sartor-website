@@ -15,8 +15,9 @@ export function generateSitemapXml(): string {
 
   const staticUrls = [
     { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'daily', lastmod: currentDate },
-    { loc: `${baseUrl}/blog`, priority: '0.9', changefreq: 'daily', lastmod: currentDate },
+    { loc: `${baseUrl}/services`, priority: '0.9', changefreq: 'weekly', lastmod: currentDate },
     { loc: `${baseUrl}/custom-bridal`, priority: '0.9', changefreq: 'weekly', lastmod: currentDate },
+    { loc: `${baseUrl}/blog`, priority: '0.9', changefreq: 'daily', lastmod: currentDate },
   ];
 
   const blogUrls = BLOG_POSTS.map((post) => ({
@@ -260,14 +261,40 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
   }
 
   if (cleanPath === '/custom-bridal') {
-    const bridalTitle = 'Custom Bridal ($2k+) & Overseas Bespoke Wedding Tailoring | SARTOR';
-    const bridalDesc = 'Commission bespoke bridal lehengas, royal farshi ghararas, and gowns directly from master artisans in Lahore.';
+    const bridalTitle = 'Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR';
+    const bridalDesc = 'Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).';
     const bridalUrl = 'https://sartor.pk/custom-bridal';
 
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(bridalTitle)}</title>`)
       .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(bridalDesc)}" />`)
       .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${bridalUrl}" />`);
+
+    return { status: 200, html: transformedHtml };
+  }
+
+  if (cleanPath === '/services') {
+    const servicesTitle = 'Tailor Model Town Lahore | Lehenga & Saree Tailor Near Me | SARTOR Atelier';
+    const servicesDesc = 'Searching for the best tailor in Model Town or lehenga and saree tailor near me? SARTOR provides luxury bespoke stitching in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).';
+    const servicesUrl = 'https://sartor.pk/services';
+
+    let transformedHtml = baseHtml
+      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(servicesTitle)}</title>`)
+      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(servicesDesc)}" />`)
+      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${servicesUrl}" />`);
+
+    return { status: 200, html: transformedHtml };
+  }
+
+  if (cleanPath === '/' || cleanPath === '') {
+    const homeTitle = 'Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR';
+    const homeDesc = 'Master bespoke Pakistani tailor in Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, & luxury couture. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).';
+    const homeUrl = 'https://sartor.pk/';
+
+    let transformedHtml = baseHtml
+      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(homeTitle)}</title>`)
+      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(homeDesc)}" />`)
+      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${homeUrl}" />`);
 
     return { status: 200, html: transformedHtml };
   }
