@@ -1117,7 +1117,7 @@ I would like to share my design references and schedule a live digital sizing se
             </div>
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">ATELIER LOCATION</span>
-              <span>Liberty Market / Gulberg III, Lahore</span>
+              <span>Moon Tower, International Market, Model Town Lahore</span>
             </div>
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">GLOBAL EXPRESS</span>
