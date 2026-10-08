@@ -1119,27 +1119,6 @@ I would like to share my design references and schedule a live digital sizing se
           <span>Chat on WhatsApp</span>
         </a>
       </div>
-
-      {/* Desktop Floating Widget (Fixed Bottom-Right) */}
-      <div className="hidden md:flex fixed bottom-6 right-6 z-50 flex-col items-end">
-        <a
-          href={primaryWhatsAppUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex items-center gap-3 p-3.5 pr-5 rounded-full bg-neutral-900/95 hover:bg-neutral-800 border border-neutral-700/80 hover:border-emerald-500/50 shadow-2xl shadow-neutral-950/80 backdrop-blur-md transition-all duration-300 hover:scale-105"
-        >
-          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-950/60 group-hover:bg-emerald-500 transition-colors">
-            <MessageCircle className="w-5 h-5" />
-          </div>
-          <div className="flex flex-col text-left">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">Master Tailor Consult</span>
-            <span className="text-xs font-semibold text-neutral-100 group-hover:text-amber-300 transition-colors">
-              💬 Inquire on WhatsApp
-            </span>
-          </div>
-        </a>
-      </div>
-
     </div>
   );
 };

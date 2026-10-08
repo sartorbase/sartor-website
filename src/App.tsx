@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { MainLayout } from './components/templates/MainLayout';
 import { HeroSection } from './components/organisms/HeroSection';
 import { SpecializationBanner } from './components/organisms/SpecializationBanner';
@@ -74,7 +76,13 @@ export function App() {
     );
   };
 
-  return <MainLayout>{renderContent()}</MainLayout>;
+  return (
+    <>
+      <MainLayout>{renderContent()}</MainLayout>
+      <Analytics />
+      <SpeedInsights />
+    </>
+  );
 }
 
 export default App;

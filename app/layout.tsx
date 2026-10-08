@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -140,6 +142,8 @@ export default function RootLayout({
       </head>
       <body className="bg-stone-950 text-stone-100 antialiased selection:bg-amber-800 selection:text-white min-h-screen flex flex-col">
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

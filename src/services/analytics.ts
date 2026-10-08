@@ -1,3 +1,5 @@
+import { track } from '@vercel/analytics';
+
 export const SARTOR_PHONE_LOCAL = '0335-2209991';
 export const SARTOR_PHONE_INTL = '923352209991';
 export const SARTOR_PHONE_DISPLAY = '+92 335 2209991';
@@ -10,11 +12,18 @@ export function buildWhatsAppLink(message: string, source?: string): string {
 
 export const analytics = {
   trackEvent: (eventName: string, params?: Record<string, any>) => {
-    if (typeof window !== 'undefined' && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: eventName,
-        ...params,
-      });
+    if (typeof window !== 'undefined') {
+      if ((window as any).dataLayer) {
+        (window as any).dataLayer.push({
+          event: eventName,
+          ...params,
+        });
+      }
+      try {
+        track(eventName, params);
+      } catch (_e) {
+        // Silently continue if tracking fails in non-prod or blocked environments
+      }
     }
   },
 };
