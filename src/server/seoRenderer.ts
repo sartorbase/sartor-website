@@ -235,11 +235,16 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
-      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${articleUrl}" />`);
+      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`);
+
+    if (transformedHtml.includes('<link rel="canonical"')) {
+      transformedHtml = transformedHtml.replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${articleUrl}" />`);
+    } else {
+      transformedHtml = transformedHtml.replace('</head>', `<link rel="canonical" href="${articleUrl}" />\n</head>`);
+    }
 
     if (faqJsonLd) {
-      transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}</head>`);
+      transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}\n</head>`);
     }
 
     transformedHtml = transformedHtml.replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${renderedBody}</main></div>`);
