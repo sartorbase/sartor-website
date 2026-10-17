@@ -26,15 +26,6 @@ export const BLOG_POSTS: BlogPostData[] = [
     coverImageAlt: "Custom Pakistani luxury festive chiffon and lawn formal ensemble with intricate embroidery and bespoke tailoring from SARTOR Lahore atelier",
     content: `
 ---
-title: "Festive Elegance Across Borders: The Overseas Guide to Custom Luxury Eid & Chiffon Formals from Lahore"
-description: "Don't wait until Chand Raat to discover your Eid outfit doesn't fit! Learn how overseas Pakistanis in the UK, UAE, and US get luxury chiffon and lawn formals custom-stitched in Lahore with guaranteed pre-festive international delivery."
-date: "2026-10-17"
-category: "Festive Masterclass"
-slug: "custom-pakistani-eid-dresses-online-uk-uae"
-tags: ["Custom Pakistani Eid Dresses", "Luxury Chiffon Formals", "Eid Wear Overseas", "Lahore Tailor", "Designer Lawn Stitching", "Chand Raat Preparation"]
----
-
-# Festive Elegance Across Borders: The Overseas Guide to Custom Luxury Eid & Chiffon Formals from Lahore
 
 For Pakistani diaspora communities across London, Birmingham, Manchester, Dubai, Abu Dhabi, Toronto, Houston, and New York, the arrival of the festive season is a time of spiritual reflection, grand family dinners, and cherished cultural celebrations. From the exuberant anticipation of Chand Raat to dawn Eid prayers and celebratory afternoon dawat gatherings, looking impeccably dressed in authentic festive attire is an enduring tradition.
 
@@ -62,8 +53,6 @@ In this comprehensive guide, you will discover:
 
 ---
 
-## 1. Fabric Mastery: Handling Luxury Chiffon, Net & Organza
-
 Festive collections rely on ethereal, lightweight textiles that require specialized handling. What distinguishes master atelier tailoring from generic quick-stitching is a deep understanding of textile physics.
 
 | Fabric Type | Weight (GSM) | Recommended Needle | Lining Requirement |
@@ -85,7 +74,7 @@ The single greatest complaint from overseas women wearing commercial Pakistani f
 
 ---
 
-## 2. Custom Designer Detailing & Haute Finishing Touches
+## Custom Designer Detailing & Haute Finishing Touches
 
 When you wear a bespoke festive outfit from SARTOR, the difference is evident in every millimetre of hand-finishing. Unlike commercial ready-to-wear garments that use raw overlock stitches, our artisans apply heritage finishing techniques passed down through generations.
 
@@ -125,7 +114,7 @@ Review the structural and financial differences between purchasing commercial fe
 
 ---
 
-## 3. Stress-Free Pre-Festive Logistics & Order Portal
+## Stress-Free Pre-Festive Logistics & Order Portal
 
 To ensure complete peace of mind across oceans, SARTOR operates on a transparent, 4-step milestone framework backed by our proprietary digital client portal at **app.sartor.pk**.
 
@@ -157,7 +146,7 @@ Every parcel is packed in moisture-resistant protective covers, placed on custom
 
 ---
 
-## 4. Realistic Customer Scenario: An Eid Wardrobe for a Family in Manchester
+## Realistic Customer Scenario: An Eid Wardrobe for a Family in Manchester
 
 To understand how seamlessly this process works, consider the journey of Ayesha, a healthcare director residing in Didsbury, Manchester.
 
@@ -180,7 +169,7 @@ To understand how seamlessly this process works, consider the journey of Ayesha,
 
 ---
 
-## 5. The Overseas Festive Preparation Checklist
+## The Overseas Festive Preparation Checklist
 
 Ensure a flawless, stress-free Eid wardrobe by following our master atelier preparation protocol:
 
