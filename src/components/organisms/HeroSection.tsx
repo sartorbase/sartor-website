@@ -232,13 +232,21 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
               >
                 <div>
                   <div className="relative h-72 w-full overflow-hidden bg-stone-950">
-                    <img
-                      src={item.imageUrl}
-                      alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-black/30" />
+                    <picture>
+                      <source
+                        type="image/webp"
+                        srcSet={item.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')}
+                      />
+                      <img
+                        src={item.imageUrl}
+                        alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        referrerPolicy="no-referrer"
+                      />
+                    </picture>
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-black/30 pointer-events-none" />
 
                     {item.tag && (
                       <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-stone-950/90 border border-stone-700/80 text-[11px] font-semibold text-amber-300 backdrop-blur-md">

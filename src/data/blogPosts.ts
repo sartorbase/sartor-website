@@ -25,8 +25,6 @@ export const BLOG_POSTS: BlogPostData[] = [
     coverImage: "/images/mehndi-mustard-kalidar.jpg",
     coverImageAlt: "Custom Pakistani luxury festive chiffon and lawn formal ensemble with intricate embroidery and bespoke tailoring from SARTOR Lahore atelier",
     content: `
----
-
 For Pakistani diaspora communities across London, Birmingham, Manchester, Dubai, Abu Dhabi, Toronto, Houston, and New York, the arrival of the festive season is a time of spiritual reflection, grand family dinners, and cherished cultural celebrations. From the exuberant anticipation of Chand Raat to dawn Eid prayers and celebratory afternoon dawat gatherings, looking impeccably dressed in authentic festive attire is an enduring tradition.
 
 Yet, for overseas women, securing a stunning festive ensemble is often fraught with high stress and logistical headaches. Searching for **custom Pakistani Eid dresses online UK UAE** frequently leads to commercial off-the-rack disappointment, exorbitant boutique markups on the high street, or unstitched designer lawn parcels arriving abroad just days before Eid with no local tailor willing to touch them.

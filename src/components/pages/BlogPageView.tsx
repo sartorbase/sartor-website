@@ -193,11 +193,21 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
           {/* Cover Image */}
           {activePost.coverImage && (
             <div className="mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
-              <img
-                src={activePost.coverImage}
-                alt={activePost.coverImageAlt || activePost.title}
-                className="w-full h-full object-cover"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet={activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+                />
+                <img
+                  src={activePost.coverImage}
+                  alt={activePost.coverImageAlt || activePost.title}
+                  loading="eager"
+                  decoding="async"
+                  // @ts-expect-error fetchpriority supported in modern browsers
+                  fetchpriority="high"
+                  className="w-full h-full object-cover"
+                />
+              </picture>
             </div>
           )}
 
@@ -354,13 +364,20 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             >
               {post.coverImage && (
                 <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
-                  <img
-                    src={post.coverImage}
-                    alt={post.coverImageAlt || post.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent" />
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcSet={post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+                    />
+                    <img
+                      src={post.coverImage}
+                      alt={post.coverImageAlt || post.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </picture>
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
                   <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-700 text-stone-200 text-xs font-semibold">
                     {post.category}
                   </div>

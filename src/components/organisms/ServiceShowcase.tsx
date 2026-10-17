@@ -83,13 +83,20 @@ I saw "${suite.title}" in your portfolio and would like to consult on fabric opt
                   className="relative aspect-[4/5] bg-stone-950 overflow-hidden cursor-pointer"
                   onClick={() => setSelectedSuite(suite)}
                 >
-                  <img
-                    src={suite.primaryImage}
-                    alt={suite.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcSet={suite.primaryImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+                    />
+                    <img
+                      src={suite.primaryImage}
+                      alt={suite.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </picture>
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
 
                   {/* Badge */}
                   <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-700 text-stone-200 text-xs font-semibold">

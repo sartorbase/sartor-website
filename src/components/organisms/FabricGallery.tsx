@@ -184,11 +184,19 @@ export const FabricGallery: React.FC = () => {
             {/* Modal Body */}
             <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
               <div className="relative rounded-xl overflow-hidden aspect-square border border-stone-800 bg-stone-950">
-                <img
-                  src={activeModalFabric.imageUrl}
-                  alt={activeModalFabric.name}
-                  className="w-full h-full object-cover"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet={activeModalFabric.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')}
+                  />
+                  <img
+                    src={activeModalFabric.imageUrl}
+                    alt={activeModalFabric.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
                 <div className="absolute bottom-2 left-2">
                   <Badge variant={activeModalFabric.priceGrade === 'Imperial Bespoke' ? 'gold' : 'stone'}>
                     {activeModalFabric.priceGrade}

@@ -84,12 +84,19 @@ Please let me know how to arrange custom stitching or fabric pickup in Lahore.`;
           </button>
         )}
 
-        <img
-          src={currentPhoto.url}
-          alt={currentPhoto.caption}
-          className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl"
-          referrerPolicy="no-referrer"
-        />
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={currentPhoto.url.replace(/\.(jpe?g|png)$/i, '.webp')}
+          />
+          <img
+            src={currentPhoto.url}
+            alt={currentPhoto.caption}
+            decoding="async"
+            className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl"
+            referrerPolicy="no-referrer"
+          />
+        </picture>
 
         {suite.gallery.length > 1 && (
           <button

@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import compression from 'compression';
 import { GoogleGenAI } from '@google/genai';
 import { ATELIER_SYSTEM_INSTRUCTION } from './src/constants/atelierPrompt';
 import { injectSeoIntoHtml, generateSitemapXml } from './src/server/seoRenderer';
@@ -36,7 +37,51 @@ const PORT = getCliPort();
 const HOST = getCliHost();
 const isProd = process.env.NODE_ENV === 'production';
 
+// High-performance gzip/deflate compression for mobile payload minimization
+app.use(
+  compression({
+    level: 6,
+    threshold: 1024,
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) return false;
+      return compression.filter(req, res);
+    },
+  })
+);
+
 app.use(express.json());
+
+// Smart WebP Content Negotiation & Static Image Caching Middleware
+app.use((req: Request, res: Response, next) => {
+  const urlPath = req.path;
+  const acceptHeader = req.headers.accept || '';
+  const supportsWebp = acceptHeader.includes('image/webp');
+
+  if (/\.(jpe?g|png)$/i.test(urlPath)) {
+    res.setHeader('Vary', 'Accept');
+    res.setHeader('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
+
+    if (supportsWebp) {
+      const webpRelPath = urlPath.replace(/\.(jpe?g|png)$/i, '.webp');
+      const candidates = [
+        path.join(__dirname, 'dist', webpRelPath),
+        path.join(__dirname, 'public', webpRelPath),
+      ];
+      for (const cand of candidates) {
+        if (fs.existsSync(cand)) {
+          res.setHeader('Content-Type', 'image/webp');
+          return res.sendFile(cand);
+        }
+      }
+    }
+  } else if (/\.webp$/i.test(urlPath)) {
+    res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+  } else if (urlPath.startsWith('/assets/')) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+
+  next();
+});
 
 // Canonical 301 Redirect Middleware (apex sartor.pk -> https://www.sartor.pk)
 app.use((req: Request, res: Response, next) => {
