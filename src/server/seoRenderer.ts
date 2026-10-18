@@ -58,7 +58,7 @@ function formatInline(text: string): string {
 
 function markdownToHtml(md: string): string {
   const cleanMd = md
-    .replace(/^---[\s\S]*?---\s*/, '')
+    .replace(/^\s*---[\s\S]*?---\s*/, '')
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
   const lines = cleanMd.split('\n');
   const htmlLines: string[] = [];

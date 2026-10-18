@@ -25,8 +25,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
           alt={alt || ''}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
-          // @ts-expect-error fetchPriority is supported in modern browsers
-          fetchpriority={priority ? 'high' : 'auto'}
+          fetchPriority={priority ? 'high' : 'auto'}
           onLoad={() => setLoaded(true)}
           referrerPolicy="no-referrer"
           className={`transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`}

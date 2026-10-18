@@ -203,8 +203,7 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                   alt={activePost.coverImageAlt || activePost.title}
                   loading="eager"
                   decoding="async"
-                  // @ts-expect-error fetchpriority supported in modern browsers
-                  fetchpriority="high"
+                  fetchPriority="high"
                   className="w-full h-full object-cover"
                 />
               </picture>
@@ -252,7 +251,7 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
               }}
             >
               {activePost.content
-                .replace(/^---[\s\S]*?---\s*/, '')
+                .replace(/^\s*---[\s\S]*?---\s*/, '')
                 .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')}
             </ReactMarkdown>
           </article>
