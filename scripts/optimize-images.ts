@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 async function optimizeImages() {
   console.log('⚡ Starting SARTOR Mobile Image Optimization & WebP Generation...');
-  const directories = ['public', 'public/images'];
+  const directories = ['public', 'public/images', 'public/images/services'];
 
   let totalOriginal = 0;
   let totalOptimized = 0;

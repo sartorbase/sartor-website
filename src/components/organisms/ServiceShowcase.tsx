@@ -19,10 +19,10 @@ export const ServiceShowcase: React.FC = () => {
   const filteredSuites = activeCategory === 'all'
     ? BESPOKE_SUITES
     : BESPOKE_SUITES.filter((suite) => {
-        if (activeCategory === 'bridal') return suite.id.includes('bridal') || suite.category?.toLowerCase().includes('bridal');
-        if (activeCategory === 'festive') return suite.id.includes('kalidar') || suite.id.includes('frock') || suite.category?.toLowerCase().includes('festive');
-        if (activeCategory === 'saree') return suite.id.includes('sarhi') || suite.id.includes('saree') || suite.category?.toLowerCase().includes('saree');
-        if (activeCategory === 'formal') return suite.id.includes('suit') || suite.category?.toLowerCase().includes('suit');
+        if (activeCategory === 'bridal') return suite.category === 'bridal' || suite.id.includes('bridal') || suite.id.includes('custom');
+        if (activeCategory === 'festive') return suite.category === 'festive' || suite.id.includes('kalidar') || suite.id.includes('frock');
+        if (activeCategory === 'saree') return suite.category === 'saree' || suite.id.includes('sarhi') || suite.id.includes('saree');
+        if (activeCategory === 'formal') return suite.category === 'formal' || suite.category === 'casual' || suite.id.includes('suit');
         return true;
       });
 
@@ -80,7 +80,7 @@ I saw "${suite.title}" in your portfolio and would like to consult on fabric opt
               >
                 {/* Image Container with Zoom Overlay */}
                 <div
-                  className="relative aspect-[4/5] bg-stone-950 overflow-hidden cursor-pointer"
+                  className="relative aspect-[4/5] sm:aspect-[3/4] bg-stone-950 overflow-hidden cursor-pointer"
                   onClick={() => setSelectedSuite(suite)}
                 >
                   <picture>
@@ -93,18 +93,25 @@ I saw "${suite.title}" in your portfolio and would like to consult on fabric opt
                       alt={suite.title}
                       loading="lazy"
                       decoding="async"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src !== '/images/services/simple-suit.webp') {
+                          target.src = '/images/services/simple-suit.webp';
+                        }
+                      }}
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
                     />
                   </picture>
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
 
                   {/* Badge */}
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-700 text-stone-200 text-xs font-semibold">
-                    {suite.category || 'Bespoke Atelier'}
+                  <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-stone-950/90 backdrop-blur-md border border-stone-700/80 text-stone-200 text-xs font-semibold shadow-md">
+                    {suite.categoryLabel || suite.category || 'Bespoke Atelier'}
                   </div>
 
                   {/* Quick Zoom Button */}
-                  <div className="absolute bottom-3 right-3 p-2.5 rounded-full bg-stone-900/90 text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md border border-stone-700">
+                  <div className="absolute bottom-3 right-3 z-10 p-2.5 rounded-full bg-stone-900/90 text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md border border-stone-700">
                     <ZoomIn className="w-4 h-4" />
                   </div>
                 </div>

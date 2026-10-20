@@ -1,12 +1,14 @@
 import { PakistaniSizeMeasurement, PricingItem, MeasureGuideStep } from '../types';
-import baratBridalImg from '../assets/images/barat_crimson_bridal_1790690862486.jpg';
 
-export const simpleSuitImg = 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1200&q=80';
-export const doubleSuitImg = 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80';
-export const sarhiSetImg = 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80';
-export const panneledFrockImg = 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=1200&q=80';
-export const bridalSetImg = baratBridalImg;
-export const embroideredJacketImg = '/images/zardozi-dabka-marori-embroidery.jpg';
+export const simpleSuitImg = '/images/services/simple-suit.webp';
+export const doubleSuitImg = '/images/services/double-suit.webp';
+export const sarhiSetImg = '/images/services/sarhi-set.webp';
+export const panneledFrockImg = '/images/services/panneled-frock.webp';
+export const kalidar16Img = '/images/services/16-kalidar.webp';
+export const bridalSetImg = '/images/services/bridal-set.webp';
+export const champagneTissueSareeImg = '/images/services/champagne-tissue-saree.webp';
+export const customDesignsImg = '/images/services/custom-designs.webp';
+export const embroideredJacketImg = '/images/services/custom-designs.webp';
 
 export const PAKISTANI_SIZES: PakistaniSizeMeasurement[] = [
   {
@@ -132,7 +134,7 @@ export const PRICING_LIST: PricingItem[] = [
   },
   {
     id: 'panneled-frock',
-    title: 'Panneled Frock Set',
+    title: 'Panneled Frock Set / Kalidar',
     titleUrdu: 'پینلڈ فراک / کلی دار انارکلی سیٹ',
     pricePKR: 7000,
     priceDisplay: 'PKR 7,000',
@@ -147,13 +149,29 @@ export const PRICING_LIST: PricingItem[] = [
     imageUrl: panneledFrockImg,
   },
   {
+    id: '16-kalidar',
+    title: '16-Kali Pure Raw Silk Kalidar',
+    titleUrdu: 'سولہ کلی را سلک انارکلی فراک',
+    pricePKR: 14000,
+    priceDisplay: 'PKR 14,000+',
+    tag: 'Heritage Kalidar',
+    description: 'High-end pure raw silk 16-panel flared gown cut from 80 GSM pure raw silk, individually aligned along the fabric grainline with hand-applied gotta and resham needlework.',
+    features: [
+      '16 individually grain-aligned panels',
+      'Pure 80 GSM raw silk with organza dupatta',
+      'Gotta patti & resham bootis with micro-piping',
+      'Turnaround: 10-14 business days',
+    ],
+    imageUrl: kalidar16Img,
+  },
+  {
     id: 'bridal-set',
-    title: 'Bridal Set',
-    titleUrdu: 'برائیڈل سیٹ (لہنگا چولی / میکسی سیٹ)',
+    title: 'Bridal Set / Crimson Velvet Bridal Lehenga',
+    titleUrdu: 'شاہی سرخ برائیڈل لہنگا و چولی سیٹ',
     pricePKR: 10000,
-    priceDisplay: 'PKR 10,000',
+    priceDisplay: 'PKR 10,000+',
     tag: 'Master Couture',
-    description: 'Regal bridal stitching for Barat, Walima, or Mehndi. Includes heavy lehenga with can-can layering, padded choli/corset blouse, and double-dupatta framing with border setting.',
+    description: 'Luxury embroidered Barat/Walima bridal lehenga ensemble with heavy Zardozi, integrated 3-tier canvas suspension, can-can layering, sculpted padded choli, and dual dupatta framing.',
     features: [
       'Heavy flare lehenga with integrated can-can',
       'Padded sculpted choli or bridal gown maxi',
@@ -163,20 +181,36 @@ export const PRICING_LIST: PricingItem[] = [
     imageUrl: bridalSetImg,
   },
   {
+    id: 'champagne-tissue-saree',
+    title: 'Champagne Tissue Saree & Blouse',
+    titleUrdu: 'شیمپین ٹشو ساڑھی بمعہ بلاؤز',
+    pricePKR: 9500,
+    priceDisplay: 'PKR 9,500',
+    tag: 'Celebrity Drapery',
+    description: 'Tissue & organza saree showcase with sculpted sweetheart neckline blouse, structural boning, pre-pleated drape, hand-rolled fall, and matching luxury satin petticoat.',
+    features: [
+      'Sculpted sweetheart neckline blouse with cups',
+      'Structural boning & concealed side zipper',
+      'Seamless fall & delicate pico finish',
+      'Matched satin petticoat included',
+    ],
+    imageUrl: champagneTissueSareeImg,
+  },
+  {
     id: 'custom-designs',
     title: 'Custom Design & Replicas',
     titleUrdu: 'کسٹم ڈیزائین و فینسی ایمبرائیڈری',
     pricePKR: 'Consult',
     priceDisplay: 'Custom Quote',
-    tag: 'Celebrity & Couture',
-    description: 'Bring any design photo, Pinterest moodboard, or designer inspiration. Our master ustads calculate fabric yardage, draft custom patterns, and replicate hand embellishments.',
+    tag: 'Adda Craft & Replicas',
+    description: 'Bring any design photo, Pinterest moodboard, or designer inspiration. Our master ustads calculate fabric yardage, draft custom patterns, and replicate hand embellishments on wooden Adda frames.',
     features: [
       'Direct photo estimate & fabric calculation',
       'Hand zardozi, dabka, tilla, and resham threadwork',
       'Authentic fabric sourcing from Lahore bazaars',
       'Doorstep pickup & trial fitting service',
     ],
-    imageUrl: embroideredJacketImg,
+    imageUrl: customDesignsImg,
   },
 ];
 

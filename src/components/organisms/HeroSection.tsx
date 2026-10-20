@@ -228,10 +228,10 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
             return (
               <div
                 key={item.id}
-                className="group rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/60 transition-all duration-300 shadow-xl flex flex-col justify-between"
+                className="group rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 hover:border-amber-500/60 transition-all duration-300 shadow-xl flex flex-col justify-between h-full"
               >
                 <div>
-                  <div className="relative h-72 w-full overflow-hidden bg-stone-950">
+                  <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden bg-stone-950">
                     <picture>
                       <source
                         type="image/webp"
@@ -242,19 +242,25 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
                         alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
                         loading="lazy"
                         decoding="async"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (target.src !== '/images/services/simple-suit.webp') {
+                            target.src = '/images/services/simple-suit.webp';
+                          }
+                        }}
                         className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
                     </picture>
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-black/30 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/10 to-black/30 pointer-events-none" />
 
                     {item.tag && (
-                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-stone-950/90 border border-stone-700/80 text-[11px] font-semibold text-amber-300 backdrop-blur-md">
+                      <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-stone-950/90 border border-stone-700/80 text-[11px] font-semibold text-amber-300 backdrop-blur-md shadow-md">
                         {item.tag}
                       </div>
                     )}
 
-                    <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl bg-amber-500 text-neutral-950 font-mono font-bold text-xs sm:text-sm shadow-lg">
+                    <div className="absolute bottom-3 right-3 z-10 px-3 py-1.5 rounded-xl bg-amber-500 text-neutral-950 font-mono font-bold text-xs sm:text-sm shadow-lg">
                       {startingRateText}
                     </div>
                   </div>

@@ -93,6 +93,12 @@ Please let me know how to arrange custom stitching or fabric pickup in Lahore.`;
             src={currentPhoto.url}
             alt={currentPhoto.caption}
             decoding="async"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (target.src !== '/images/services/simple-suit.webp') {
+                target.src = '/images/services/simple-suit.webp';
+              }
+            }}
             className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl"
             referrerPolicy="no-referrer"
           />
