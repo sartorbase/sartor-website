@@ -101,6 +101,18 @@ app.get('/api/health', (_req: Request, res: Response) => {
   });
 });
 
+// 1b. Lead Capture Endpoint
+app.post('/api/leads', async (req: Request, res: Response) => {
+  try {
+    const lead = req.body;
+    console.log('[SARTOR Lead Captured at /api/leads]', JSON.stringify(lead));
+    res.json({ success: true, timestamp: new Date().toISOString() });
+  } catch (err: any) {
+    console.error('Error in /api/leads:', err);
+    res.status(500).json({ error: err.message || 'Failed to record lead.' });
+  }
+});
+
 // 2. Sitemap
 app.get('/sitemap.xml', (_req: Request, res: Response) => {
   res.setHeader('Content-Type', 'application/xml');

@@ -17,6 +17,7 @@ import {
   MapPin,
   Phone,
 } from 'lucide-react';
+import { MeasurementLeadMagnet } from '../components/MeasurementLeadMagnet';
 
 export const metadata: Metadata = {
   title: "Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR",
@@ -303,6 +304,9 @@ Please let me know how we can begin.`;
           </div>
         </div>
       </section>
+
+      {/* Digital Measurement Profile Lead Magnet Banner */}
+      <MeasurementLeadMagnet sourceContext="homepage" />
 
       {/* Footer */}
       <footer className="mt-auto bg-stone-950 border-t border-stone-850 py-12 px-4 sm:px-6">

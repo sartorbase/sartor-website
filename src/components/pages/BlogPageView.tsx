@@ -19,6 +19,7 @@ import {
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
 import { navigateTo } from '../../utils/navigation';
+import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -297,6 +298,11 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
               <MessageSquare className="w-5 h-5 fill-current" />
               <span>Ask SARTOR on WhatsApp</span>
             </a>
+          </div>
+
+          {/* Digital Measurement Profile Lead Magnet Banner */}
+          <div className="mt-14">
+            <MeasurementLeadMagnet sourceContext="blog" />
           </div>
 
           {/* Related Articles Navigation */}

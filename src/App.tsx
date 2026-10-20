@@ -7,6 +7,7 @@ import { SpecializationBanner } from './components/organisms/SpecializationBanne
 import { ServiceShowcase } from './components/organisms/ServiceShowcase';
 import { AboutTailoringSection } from './components/organisms/AboutTailoringSection';
 import { LocationMapSection } from './components/organisms/LocationMapSection';
+import { MeasurementLeadMagnet } from './components/organisms/MeasurementLeadMagnet';
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
 import { ServicesPageView } from './components/pages/ServicesPageView';
@@ -72,6 +73,9 @@ export function App() {
 
         {/* 5. Moon Tower Studio Location & Doorstep Pickup Coverage */}
         <LocationMapSection />
+
+        {/* 6. Digital Measurement Profile Lead Magnet Banner */}
+        <MeasurementLeadMagnet sourceContext="homepage" />
       </>
     );
   };

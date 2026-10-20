@@ -7,6 +7,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import { getPostBySlug, getAllPostSlugs } from '../../../lib/mdx';
 import { WhatsAppButton } from '../../../components/WhatsAppButton';
+import { MeasurementLeadMagnet } from '../../../components/MeasurementLeadMagnet';
 
 interface PageProps {
   params: Promise<{ slug: string }> | { slug: string };
@@ -284,6 +285,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             </Link>
           </div>
         </section>
+
+        {/* Digital Measurement Profile Lead Magnet Banner */}
+        <div className="mt-12">
+          <MeasurementLeadMagnet sourceContext="blog" />
+        </div>
 
         {/* Back Link */}
         <div className="mt-12 text-center">

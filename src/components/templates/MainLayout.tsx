@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider } from '../../context/ThemeContext';
 import { ChatUIProvider } from '../../context/ChatUIContext';
 import { WhatsAppFloatingButton } from '../molecules/WhatsAppButton';
+import { MeasurementStickyTrigger } from '../molecules/MeasurementStickyTrigger';
 import { Footer } from '../organisms/Footer';
 import { GeminiChatbot } from '../organisms/GeminiChatbot';
 import { Navbar } from '../organisms/Navbar';
@@ -31,6 +32,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
           {/* Floating Sticky WhatsApp Button (z-30, automatically hidden when Chatbot modal is open) */}
           <WhatsAppFloatingButton />
+
+          {/* Subtle Bottom-Left Floating Sticky Lead Magnet Pill & Exit-Intent Trigger (z-40) */}
+          <MeasurementStickyTrigger />
         </div>
       </ChatUIProvider>
     </ThemeProvider>
