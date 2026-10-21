@@ -119,6 +119,27 @@ app.get('/sitemap.xml', (_req: Request, res: Response) => {
   res.send(generateSitemapXml());
 });
 
+// 2b. Machine-Readable Knowledge Base for LLMs & AI Agents
+app.get('/llms.txt', (_req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+  const filePath = path.resolve(__dirname, 'public/llms.txt');
+  if (fs.existsSync(filePath)) {
+    res.send(fs.readFileSync(filePath, 'utf-8'));
+  } else {
+    res.status(404).send('Not Found');
+  }
+});
+
+app.get('/llms-full.txt', (_req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+  const filePath = path.resolve(__dirname, 'public/llms-full.txt');
+  if (fs.existsSync(filePath)) {
+    res.send(fs.readFileSync(filePath, 'utf-8'));
+  } else {
+    res.status(404).send('Not Found');
+  }
+});
+
 // 3. Server-side Gemini AI Stylist Chatbot Route
 app.post('/api/chat', async (req: Request, res: Response) => {
   try {

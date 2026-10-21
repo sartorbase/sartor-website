@@ -65,6 +65,8 @@ function markdownToHtml(md: string): string {
   let inTable = false;
   let inUl = false;
   let inOl = false;
+  let inCodeBlock = false;
+  let codeBuffer: string[] = [];
   let quoteBuffer: string[] = [];
 
   const flushQuote = () => {
@@ -98,6 +100,28 @@ function markdownToHtml(md: string): string {
   for (let i = 0; i < lines.length; i++) {
     const rawLine = lines[i];
     const trimmed = rawLine.trim();
+
+    if (trimmed.startsWith('```')) {
+      flushQuote();
+      if (inTable) { htmlLines.push('</tbody></table></div>'); inTable = false; }
+      if (inUl) { htmlLines.push('</ul>'); inUl = false; }
+      if (inOl) { htmlLines.push('</ol>'); inOl = false; }
+
+      if (inCodeBlock) {
+        htmlLines.push(`<pre class="my-6 p-4 sm:p-6 rounded-2xl bg-stone-900 border border-stone-800 text-amber-300 font-mono text-xs sm:text-sm overflow-x-auto leading-relaxed shadow-lg"><code>${escapeHtml(codeBuffer.join('\n'))}</code></pre>`);
+        codeBuffer = [];
+        inCodeBlock = false;
+      } else {
+        inCodeBlock = true;
+        codeBuffer = [];
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeBuffer.push(rawLine);
+      continue;
+    }
 
     if (trimmed.startsWith('>')) {
       if (inTable) { htmlLines.push('</tbody></table></div>'); inTable = false; }
@@ -233,8 +257,72 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       faqJsonLd = `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>`;
     }
 
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.title,
+      description: post.excerpt,
+      image: post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
+      author: {
+        '@type': 'Person',
+        name: post.author || 'Abdul Ghaffar, Master Tailor',
+        jobTitle: 'Master Tailor & Cutting Master',
+        worksFor: {
+          '@type': 'ClothingStore',
+          name: 'SARTOR Bespoke Atelier Lahore',
+          url: 'https://sartor.pk',
+        },
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'SARTOR Bespoke Atelier',
+        url: 'https://sartor.pk',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://sartor.pk/logo.webp',
+        },
+      },
+      datePublished: post.date,
+      dateModified: post.date || '2026-10-21',
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': articleUrl,
+      },
+    };
+    const articleJsonLd = `<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
+
+    const breadcrumbsSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://sartor.pk/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Journal',
+          item: 'https://sartor.pk/blog',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: post.title,
+          item: articleUrl,
+        },
+      ],
+    };
+    const breadcrumbsJsonLd = `<script type="application/ld+json">${JSON.stringify(breadcrumbsSchema)}</script>`;
+
     const ogImage = post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg';
     const ogImageTags = `
+<meta name="geo.region" content="PK-PB" />
+<meta name="geo.placename" content="Model Town, Lahore, Pakistan" />
+<meta name="geo.position" content="31.4826;74.3142" />
+<meta name="ICBM" content="31.4826, 74.3142" />
 <meta property="og:title" content="${escapeHtml(pageTitle)}" />
 <meta property="og:description" content="${escapeHtml(post.excerpt)}" />
 <meta property="og:image" content="${ogImage}" />
@@ -256,7 +344,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       transformedHtml = transformedHtml.replace('</head>', `<link rel="canonical" href="${articleUrl}" />\n</head>`);
     }
 
-    transformedHtml = transformedHtml.replace('</head>', `${ogImageTags}\n</head>`);
+    transformedHtml = transformedHtml.replace('</head>', `${ogImageTags}\n${articleJsonLd}\n${breadcrumbsJsonLd}\n</head>`);
 
     if (faqJsonLd) {
       transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}\n</head>`);

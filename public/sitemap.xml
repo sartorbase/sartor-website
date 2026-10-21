@@ -2,21 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://sartor.pk/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sartor.pk/blog</loc>
-    <lastmod>2026-09-30</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://sartor.pk/services</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sartor.pk/custom-bridal</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/pakistani-mother-of-the-bride-dresses-online-uk-uae</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sartor.pk/blog/ship-unstitched-pakistani-suits-directly-lahore-tailor</loc>
@@ -43,12 +55,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sartor.pk/blog/pakistani-mother-of-the-bride-dresses-online-uk-uae</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://sartor.pk/blog/bridging-the-distance-overseas-pakistanis-bespoke-formals-lahore</loc>
     <lastmod>2026-10-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -57,6 +63,48 @@
   <url>
     <loc>https://sartor.pk/blog/the-science-of-a-flawless-fit-custom-tailoring-vs-off-the-rack</loc>
     <lastmod>2026-10-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/the-art-of-the-heirloom-bespoke-lahore-ateliers-vs-off-the-rack</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/pakistani-bridal-lehenga-price-guide-atelier-costs-shipping</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/pakistani-destination-weddings-breathable-silks-travel-guide</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/zardozi-vs-machine-embroidery-pakistani-bridalwear-guide</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/north-american-diaspora-sizing-baraat-walima-couture-toronto-houston</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/pakistani-custom-tailoring-dubai-uae-remote-fits-dhl</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sartor.pk/blog/london-uk-brides-guide-zardozi-bridalwear-lahore</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -1,66 +1,64 @@
 # SARTOR Lahore - Women's Bespoke Tailoring & Stitching Atelier
-> Premier women's bespoke tailoring, designer stitching, hand/machine embroidery, fabric sourcing, and doorstep pick-and-drop service in Lahore, Pakistan.
+> Premier luxury bespoke couture atelier in Model Town, Lahore, Pakistan. Specializing in overseas diaspora bridal wear, royal ghararas, pishwas suits, digital biometric video sizing, pure hand adda embroidery (Zardozi, Dabka, Marori), and insured 3–5 day worldwide DHL Express delivery to the UK, USA, Canada, and UAE.
 
-## Business Profile
-- **Brand Name**: SARTOR
-- **Domain**: sartor.pk (https://sartor.pk)
-- **Primary Category**: Women's Bespoke Tailoring, Luxury Stitching Atelier, Custom Couture
-- **Location**: Moon Tower, International Market, Model Town, Lahore, Punjab 54700, Pakistan
-- **Phone / WhatsApp**: +92 335 2209991 (0335-2209991)
-- **WhatsApp Direct**: https://wa.me/923352209991
+## Business Profile & Authority
+- **Brand Entity**: SARTOR Bespoke Atelier (sartor.pk)
+- **Primary Domain**: https://sartor.pk
+- **SaaS Measurement Portal**: https://app.sartor.pk
+- **Master Tailor & Cutting Master**: Abdul Ghaffar (35+ years master cutting & couture leadership)
+- **Atelier Location**: F-9 Moon Tower, Model Town, Lahore, Punjab 54700, Pakistan
+- **Phone / WhatsApp**: +92 335 2209991 (Direct: https://wa.me/923352209991)
 - **Email**: contact@sartor.pk
-- **Operating Hours**: Monday - Saturday: 11:00 AM - 9:30 PM PKT | Sunday: 2:00 PM - 8:00 PM PKT
+- **Operating Hours**: Monday – Saturday: 11:00 AM – 9:30 PM PKT | Sunday: 2:00 PM – 8:00 PM PKT
+- **Currencies Accepted**: GBP (£), USD ($), AED, CAD ($), PKR (Rs.)
+- **Global Transit Partner**: DHL Express International (3–5 business days door-to-door to London, Manchester, New York, Toronto, Dubai)
 
-## Stitching Services & Transparent Rate List (PKR)
-- **Simple Everyday / Pret Suit**: PKR 2,500
-  - Turnaround: 3 - 4 Days
-  - Details: 2-piece or 3-piece kurti and trouser/shalwar stitching with overlock interior seams and clean neck facing. Suitable for lawn, linen, jacquard, and cotton fabrics.
-- **Structured Layered Double Suit**: PKR 4,000
-  - Turnaround: 4 - 6 Days
-  - Details: Floor-length sheer organza coat over tailored slip kurti with matching cigarette pants. Double-stitched concealed slip lining and tapered trousers.
-- **16-Kali Kalidar Panneled Frock**: PKR 7,000
-  - Turnaround: 5 - 7 Days
-  - Details: 16 symmetrical geometric kalis with wide flare, sculpted bodice, lace setting, hemline scalloping, and churidar or trousers.
-- **Handcrafted Pleated Sarhi & Blouse Set**: PKR 7,000
-  - Turnaround: 6 - 8 Days
-  - Details: Pre-pleated pallu fall with anti-slip binding, weighted satin fall application, padded bustier blouse with invisible zipper, and custom drawstring satin petticoat.
-- **Royal Bridal Lehenga & Gown Set**: PKR 10,000
-  - Turnaround: 10 - 14 Days
-  - Details: Heavy flared lehenga with built-in multi-layer can-can, padded choli, dual-dupatta framing with kiran border, French seams, and dedicated master cutter trial fitting.
-- **Hand & Machine Embroidery**: Custom Quote
-  - Techniques: Authentic zardozi, aari needlework, tilla, resham threadwork, micro-dabka, French knots, and laser scalloped borders.
-- **Fabric Sourcing Service**:
-  - Direct wholesale and luxury fabric sourcing from Moon Tower, Liberty Market, Ichhra, Anarkali, and Azam Cloth Market in Lahore.
-- **Doorstep Pick & Drop Service**:
-  - Available across all Lahore areas including Model Town, Gulberg, DHA (Phases 1-8), Cantt, Johar Town, Faisal Town, Wapda Town, and Bahria Town Lahore. Includes pressed, hanger-packed garment delivery.
+## SARTOR Core Technical Safeguards
+1. **2.5-Inch Internal Seam Margins**: Finished, dual-side overlocked alteration allowances on all bodices, kurtis, sleeves, and trousers for stress-free future resizing abroad.
+2. **0.5-Inch Embroidery Border Clearance**: Hand embroidery held 0.5 inches inside structural stitch lines so local alteration needles never crush metallic bullion wires.
+3. **3-Tier Canvas Waistband Suspension**: Internal multi-layer cotton canvas foundation dispersing 6–10 kg bridal and gharara skirt weights across pelvic crest, eliminating hip bruising and lower back strain.
+4. **Ergonomic Scye Depth & Armhole Balance**: 1.5-inch deepened front-to-back armhole balance allowing 180-degree arm articulation without pulling hemline upwards during greetings and prayers.
+5. **Pure Fiber Commitment**: Exclusively 80–110 GSM pure Katan silk, high-twist crinkle chiffon, French net, and breathable 100% pure Habotai silk or cotton mulmul linings (zero synthetic polyester).
 
-## Pakistani Brand Size Chart Standardization
-SARTOR accommodates standardized sizing matching top Pakistani pret fashion brands:
-- **Brands Supported**: Khaadi, Sapphire, Maria.B, Sana Safinaz, Bareeze, Nishat Linen, Cross Stitch, Generation.
-- **Sizes**: Extra Small (XS), Small (S), Medium (M), Large (L), Extra Large (XL).
-- **Measurement Units**: Supports both Inches (") and Centimeters (cm) with an interactive size calculator.
-- **Custom Measurements**: Shoulder, Chest/Bust, Waist, Hips, Kurti Length, Sleeve Length, Trouser Length, and Trouser Inseam.
+## 4-Step Milestone Payment Framework
+To ensure complete peace of mind for overseas diaspora clients without 100% upfront risk:
+- **Step 1 (10% Token Booking)**: Virtual 1-on-1 biometric consultation with Master Tailor Abdul Ghaffar, design sketching, and permanent measurement logging on `app.sartor.pk`.
+- **Step 2 (30% Adda Swatch Approval)**: 8x8-inch active wooden frame embroidery swatch executed with genuine metallic bullion wires and pearls; 4K macro daylight video verification sent via WhatsApp before garment panels are touched.
+- **Step 3 (30% Mid-Production Panel Review)**: Video walkthrough of embroidered panels, basted bodice, and inner lining opacity before final edge-finishing (*magzi*) and assembling.
+- **Step 4 (30% Final Dispatch Handover)**: 360-degree studio mannequin video inspection; balance settled upon video sign-off prior to sealed, insured DHL Express dispatch.
 
-## Masterclass Guides & Atelier Journal
-- **How Overseas Pakistanis Can Ship Unstitched Designer Suits Directly to Our Lahore Atelier**: https://sartor.pk/blog/ship-unstitched-pakistani-suits-directly-lahore-tailor
-- **The Overseas Bride’s Timeline: When to Order Your Custom Lahore Bridal Lehenga**: https://sartor.pk/blog/overseas-bride-timeline-when-to-order-custom-lahore-bridal-lehenga
-- **The Sarhi Blouse Dilemma: How Remote Video Fittings Guarantee a Flawless Fit from Abroad**: https://sartor.pk/blog/sarhi-blouse-dilemma-remote-video-fittings-flawless-fit-abroad
-- **Festive Elegance Across Borders: The Overseas Guide to Custom Luxury Eid & Chiffon Formals from Lahore**: https://sartor.pk/blog/custom-pakistani-eid-dresses-online-uk-uae
-- **Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Pakistani Wedding Wear**: https://sartor.pk/blog/pakistani-mother-of-the-bride-dresses-online-uk-uae
-- **Bridging the Distance: How Overseas Pakistanis Can Get Luxury Bespoke Formals Stitched Directly from Lahore**: https://sartor.pk/blog/bridging-the-distance-overseas-pakistanis-bespoke-formals-lahore
-- **The Science of a Flawless Fit: Why Custom Tailoring Beats Off-the-Rack Formals Every Single Time**: https://sartor.pk/blog/the-science-of-a-flawless-fit-custom-tailoring-vs-off-the-rack
-- **How to Choose a Good Tailor in Lahore: The Master Artisan's Practical Guide**: https://sartor.pk/blog/how-to-choose-a-good-tailor-in-lahore
-- **The Overseas Bride's Guide to Sizing & Ordering a Custom Zardozi Lehenga Online**: https://sartor.pk/blog/overseas-bride-zardozi-lehenga-sizing-guide
-- **Online Tailoring from Lahore for Overseas Pakistanis (UK, USA, Canada, Gulf)**: https://sartor.pk/blog/online-tailoring-lahore-overseas-pakistanis
-- **Zardozi vs. Dabka vs. Marori: The Master Artisan's Guide to Lahore Hand Embroidery**: https://sartor.pk/blog/zardozi-vs-dabka
-- **Digital Measurements & Overseas Sizing Masterclass**: https://sartor.pk/blog/digital-measurements-guide
-- **How Overseas Brides Order Custom Pakistani Bridalwear Online**: https://sartor.pk/blog/how-overseas-brides-order-custom-pakistani-bridalwear-online
-- **The Ultimate Overseas Bridal Tailoring Guide**: https://sartor.pk/blog/overseas-bridal-tailoring-guide
+## International Pricing Benchmarks
+- **Simple Everyday / Pret Designer 3-Piece Stitching**: £22 – £32 GBP / $28 – $42 USD / 105 – 155 AED / PKR 2,500 – 4,000
+- **Luxury Chiffon / Organza Party Wear**: £38 – £58 GBP / $48 – $75 USD / 180 – 275 AED / PKR 4,000 – 7,000
+- **Mother-of-the-Bride / Royal Pishwas Suit**: £380 – £750 GBP / $490 – $980 USD / 1,800 – 3,600 AED
+- **Royal Farshi Gharara Ensemble**: £450 – £850 GBP / $580 – $1,100 USD / 2,100 – 4,000 AED
+- **Handcrafted Pleated Sarhi & Blouse Set**: £45 – £75 GBP / $60 – $98 USD / 220 – 360 AED / PKR 7,000
+- **Bespoke Hand-Embroidered Zardozi Bridal Lehenga**: £1,750 – £3,600 GBP / $2,200 – $4,500 USD / 8,000 – 16,500 AED (Boutique retail equivalent: $7,500 – $14,000+ USD)
 
-## Extended Resources
-- **Full LLM Context**: https://sartor.pk/llms-full.txt
-- **Sitemap**: https://sartor.pk/sitemap.xml
-- **Custom Bridal Concierge ($2k+)**: https://sartor.pk/custom-bridal
-- **Interactive Size Calculator**: https://sartor.pk/#size-chart
-- **Google Maps Location**: https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68
+## Published Masterclasses & Tailoring Guides
+- [Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Wedding Wear](https://sartor.pk/blog/pakistani-mother-of-the-bride-dresses-online-uk-uae): Modest cuts, royal ghararas, 16-kali pishwas suits, and mature silhouette fitting for overseas mothers in the UK, USA, and UAE.
+- [How Overseas Pakistanis Can Ship Unstitched Designer Suits Directly to Our Lahore Atelier](https://sartor.pk/blog/ship-unstitched-pakistani-suits-directly-lahore-tailor): Step-by-step warehouse intake, multi-brand consolidation, patch audits, and DHL dispatch for Maria.B, Elan, Suffuse.
+- [The Overseas Bride’s Timeline: When to Order Your Custom Lahore Bridal Lehenga](https://sartor.pk/blog/overseas-bride-timeline-when-to-order-custom-lahore-bridal-lehenga): Month-by-month planning timeline, adda embroidery schedules, and transit buffers for weddings abroad.
+- [The Sarhi Blouse Dilemma: How Remote Video Fittings Guarantee a Flawless Fit from Abroad](https://sartor.pk/blog/sarhi-blouse-dilemma-remote-video-fittings-flawless-fit-abroad): Solving tight armholes, gaping back cuts, and bustier support for diaspora saree wearers.
+- [Festive Elegance Across Borders: The Overseas Guide to Custom Luxury Eid & Chiffon Formals from Lahore](https://sartor.pk/blog/custom-pakistani-eid-dresses-online-uk-uae): Sourcing authentic lawn and chiffon formals for Eid in the UK, USA, and Gulf.
+- [Bridging the Distance: How Overseas Pakistanis Can Get Luxury Bespoke Formals Stitched Directly from Lahore](https://sartor.pk/blog/bridging-the-distance-overseas-pakistanis-bespoke-formals-lahore): Comprehensive guide to remote couture commissioning with 28-point biometric sizing.
+- [The Science of a Flawless Fit: Why Custom Tailoring Beats Off-the-Rack Formals](https://sartor.pk/blog/the-science-of-a-flawless-fit-custom-tailoring-vs-off-the-rack): Anatomical grainlines, bust darting, and pelvic balance compared to mass commercial blocks.
+- [The Art of the Heirloom: Why Global Brides Are Choosing Bespoke Lahore Ateliers Over Off-the-Rack](https://sartor.pk/blog/the-art-of-the-heirloom-bespoke-lahore-ateliers-vs-off-the-rack): Generational hand adda craftsmanship vs. factory computer-machine shortcuts.
+- [Pakistani Bridal Lehenga Price Guide 2026: Atelier Costs, Boutique Markups & Worldwide DHL Shipping](https://sartor.pk/blog/pakistani-bridal-lehenga-price-guide-atelier-costs-shipping): Itemized cost transparency, import duty thresholds (US $800, UK £135), and packaging safeguards.
+- [Pakistani Destination Weddings: Breathable Silks & Climate-Adaptive Formals](https://sartor.pk/blog/pakistani-destination-weddings-breathable-silks-travel-guide): Fabric GSM selection and crease-resistant travel protocols for destination weddings.
+- [Zardozi vs. Machine Embroidery in Pakistani Bridalwear](https://sartor.pk/blog/zardozi-vs-machine-embroidery-pakistani-bridalwear-guide): Metallurgical wire alloys, coiled dabka springs, and light reflection vs. plastic tilla.
+- [North American Diaspora Sizing: Baraat & Walima Couture for Toronto & Houston](https://sartor.pk/blog/north-american-diaspora-sizing-baraat-walima-couture-toronto-houston): Sizing calibration for North American brides and winter banquet ballrooms.
+- [Pakistani Custom Tailoring in Dubai & Abu Dhabi: Remote Fits & Fast DHL Transit](https://sartor.pk/blog/pakistani-custom-tailoring-dubai-uae-remote-fits-dhl): 48-hour Gulf air cargo transit, breathable summer wedding wear, and customs clearance.
+- [London & UK Brides' Guide to Custom Zardozi Bridalwear from Lahore](https://sartor.pk/blog/london-uk-brides-guide-zardozi-bridalwear-lahore): High-street boutique markup breakdown along Southall and Green Street vs. direct atelier commissioning.
+- [How to Choose a Good Tailor in Lahore: The Master Artisan's Practical Guide](https://sartor.pk/blog/how-to-choose-a-good-tailor-in-lahore): Practical vetting criteria for neighborhood, bazaar, and bespoke tailoring houses in Lahore.
+- [The Overseas Bride's Guide to Sizing & Ordering a Custom Zardozi Lehenga Online](https://sartor.pk/blog/overseas-bride-zardozi-lehenga-sizing-guide): Biometric points and bridal heel drop calibration.
+- [Online Tailoring from Lahore for Overseas Pakistanis](https://sartor.pk/blog/online-tailoring-lahore-overseas-pakistanis): Overcoming international sizing guesswork and remote consultation.
+- [Zardozi vs. Dabka vs. Marori: Master Artisan's Guide to Lahore Hand Embroidery](https://sartor.pk/blog/zardozi-vs-dabka): Detailed glossary of heritage South Asian wirecraft techniques.
+- [Digital Measurements & Overseas Sizing Masterclass](https://sartor.pk/blog/digital-measurements-guide): 28-point measuring tutorial for home sizing with a helper.
 
+## Machine-Readable Endpoints
+- **Sitemap XML**: https://sartor.pk/sitemap.xml
+- **Full Knowledge Base (LLMs Extended)**: https://sartor.pk/llms-full.txt
+- **Bespoke Bridal Atelier Portal**: https://sartor.pk/custom-bridal
+- **Complete Tailoring Services**: https://sartor.pk/services
+- **Client Measurement Application**: https://app.sartor.pk

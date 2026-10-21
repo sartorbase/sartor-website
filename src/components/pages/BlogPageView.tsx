@@ -59,6 +59,95 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
 
     document.title = `${activePost.title} | SARTOR Atelier`;
 
+    // Update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', activePost.excerpt);
+    }
+
+    // Update canonical link
+    const canonicalUrl = `https://sartor.pk/blog/${activePost.slug}`;
+    let canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (canonicalTag) {
+      canonicalTag.setAttribute('href', canonicalUrl);
+    }
+
+    // Inject Article Schema
+    const articleScriptId = 'article-structured-data';
+    let articleScript = document.getElementById(articleScriptId);
+    if (!articleScript) {
+      articleScript = document.createElement('script');
+      articleScript.id = articleScriptId;
+      articleScript.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(articleScript);
+    }
+    articleScript.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: activePost.title,
+      description: activePost.excerpt,
+      image: activePost.coverImage ? `https://sartor.pk${activePost.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
+      author: {
+        '@type': 'Person',
+        name: activePost.author || 'Abdul Ghaffar, Master Tailor',
+        jobTitle: 'Master Tailor & Cutting Master',
+        worksFor: {
+          '@type': 'ClothingStore',
+          name: 'SARTOR Bespoke Atelier Lahore',
+          url: 'https://sartor.pk',
+        },
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'SARTOR Bespoke Atelier',
+        url: 'https://sartor.pk',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://sartor.pk/logo.webp',
+        },
+      },
+      datePublished: activePost.date,
+      dateModified: activePost.date || '2026-10-21',
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': canonicalUrl,
+      },
+    });
+
+    // Inject BreadcrumbList Schema
+    const breadcrumbScriptId = 'breadcrumb-structured-data';
+    let breadcrumbScript = document.getElementById(breadcrumbScriptId);
+    if (!breadcrumbScript) {
+      breadcrumbScript = document.createElement('script');
+      breadcrumbScript.id = breadcrumbScriptId;
+      breadcrumbScript.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(breadcrumbScript);
+    }
+    breadcrumbScript.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://sartor.pk/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Journal',
+          item: 'https://sartor.pk/blog',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: activePost.title,
+          item: canonicalUrl,
+        },
+      ],
+    });
+
     // Extract FAQs from markdown text
     const faqMatches: { question: string; answer: string }[] = [];
     const faqSectionMatch = activePost.content.match(/## Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
@@ -75,12 +164,12 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       }
     }
 
+    const faqScriptId = 'article-faq-schema';
     if (faqMatches.length > 0) {
-      const scriptId = 'article-faq-schema';
-      let existingScript = document.getElementById(scriptId);
+      let existingScript = document.getElementById(faqScriptId);
       if (!existingScript) {
         existingScript = document.createElement('script');
-        existingScript.id = scriptId;
+        existingScript.id = faqScriptId;
         existingScript.setAttribute('type', 'application/ld+json');
         document.head.appendChild(existingScript);
       }
@@ -96,12 +185,16 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
           },
         })),
       });
-
-      return () => {
-        const el = document.getElementById(scriptId);
-        if (el) el.remove();
-      };
     }
+
+    return () => {
+      const faqEl = document.getElementById(faqScriptId);
+      if (faqEl) faqEl.remove();
+      const artEl = document.getElementById(articleScriptId);
+      if (artEl) artEl.remove();
+      const bcEl = document.getElementById(breadcrumbScriptId);
+      if (bcEl) bcEl.remove();
+    };
   }, [activePost]);
 
   const handleCopyLink = () => {
