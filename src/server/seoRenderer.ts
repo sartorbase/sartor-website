@@ -233,6 +233,19 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       faqJsonLd = `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>`;
     }
 
+    const ogImage = post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg';
+    const ogImageTags = `
+<meta property="og:title" content="${escapeHtml(pageTitle)}" />
+<meta property="og:description" content="${escapeHtml(post.excerpt)}" />
+<meta property="og:image" content="${ogImage}" />
+<meta property="og:url" content="${articleUrl}" />
+<meta property="og:type" content="article" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${escapeHtml(pageTitle)}" />
+<meta name="twitter:description" content="${escapeHtml(post.excerpt)}" />
+<meta name="twitter:image" content="${ogImage}" />
+`;
+
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`);
@@ -243,11 +256,22 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       transformedHtml = transformedHtml.replace('</head>', `<link rel="canonical" href="${articleUrl}" />\n</head>`);
     }
 
+    transformedHtml = transformedHtml.replace('</head>', `${ogImageTags}\n</head>`);
+
     if (faqJsonLd) {
       transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}\n</head>`);
     }
 
-    transformedHtml = transformedHtml.replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${renderedBody}</main></div>`);
+    const heroImageHtml = post.coverImage
+      ? `<div class="mb-10 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
+          <picture>
+            <source type="image/webp" srcset="${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}" />
+            <img src="${post.coverImage}" alt="${escapeHtml(post.coverImageAlt || post.title)}" class="w-full h-full object-cover" />
+          </picture>
+        </div>`
+      : '';
+
+    transformedHtml = transformedHtml.replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${heroImageHtml}${renderedBody}</main></div>`);
 
     return { status: 200, html: transformedHtml };
   }

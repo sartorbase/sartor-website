@@ -879,26 +879,17 @@ Don't spend Chand Raat anxiously waiting for late alterations or struggling with
   },
   {
     slug: "pakistani-mother-of-the-bride-dresses-online-uk-uae",
-    title: "Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Pakistani Wedding Wear",
-    excerpt: "Shopping for a mother-of-the-bride or groom outfit from abroad? Discover how SARTOR crafts modest, regal bespoke formals in Lahore with custom coverage, video fittings, and international delivery.",
-    date: "2026-10-14",
+    title: "Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Wedding Wear",
+    excerpt: "Shopping for Pakistani mother of the bride dresses online UK UAE? Discover how SARTOR crafts modest, regal bespoke ghararas and pishwas suits in Lahore with mature silhouette fitting, video consultations, and express DHL delivery.",
+    date: "2026-10-21",
     author: "Abdul Ghaffar, Master Tailor",
     category: "Bridal Masterclass",
-    readingTime: "12 min read",
+    readingTime: "11 min read",
     tags: ["Pakistani Mother of the Bride", "Royal Gharara", "Bespoke Pishwas", "Modest Wedding Wear", "Overseas Sizing", "Lahore Atelier", "Luxury Formals"],
-    coverImage: "/images/walima-champagne-gown.jpg",
-    coverImageAlt: "Regal Pakistani mother of the bride bespoke champagne and gold pishwas ensemble crafted with antique zardozi at SARTOR Lahore atelier",
+    coverImage: "/images/pakistani-mother-of-the-bride-dresses-online-uk-uae.jpg",
+    coverImageAlt: "Regal Pakistani mother of the bride wearing an heirloom bespoke emerald green and antique gold embroidered pishwas and farshi gharara ensemble crafted at SARTOR Lahore atelier",
     content: `
----
-title: "Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Pakistani Wedding Wear"
-description: "Shopping for a mother-of-the-bride or groom outfit from abroad? Discover how SARTOR crafts modest, regal bespoke formals in Lahore with custom coverage, video fittings, and international delivery."
-date: "2026-10-14"
-category: "Bridal Masterclass"
-slug: "pakistani-mother-of-the-bride-dresses-online-uk-uae"
-tags: ["Pakistani Mother of the Bride", "Royal Gharara", "Bespoke Pishwas", "Modest Wedding Wear", "Overseas Sizing", "Lahore Atelier", "Luxury Formals"]
----
-
-# Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Pakistani Wedding Wear
+# Regal Elegance Abroad: The Overseas Mother-of-the-Bride’s Guide to Bespoke Wedding Wear
 
 When planning a family wedding from London, Birmingham, Dubai, Abu Dhabi, Toronto, or Houston, all eyes naturally focus on the bride and groom. Yet, the emotional and ceremonial anchor of every South Asian wedding is the mother of the bride or groom. From receiving guests at the Mehndi to blessing the couple on the Baraat stage, her presence demands an aura of dignified majesty and effortless grace.
 
