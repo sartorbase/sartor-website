@@ -40,7 +40,7 @@ export const MeasurementModal: React.FC<MeasurementModalProps> = ({
     name: '',
     email: '',
     phone: '',
-    city: 'London, UK',
+    city: '',
     interest: 'Bridal Lehenga & Couture',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -273,21 +273,14 @@ export const MeasurementModal: React.FC<MeasurementModalProps> = ({
                     </label>
                     <div className="relative">
                       <MapPin className="absolute left-3.5 top-3.5 w-4 h-4 text-stone-500" />
-                      <select
+                      <input
+                        type="text"
                         name="city"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-200 text-xs focus:outline-none transition-colors cursor-pointer"
-                      >
-                        <option value="London, UK">London, UK</option>
-                        <option value="Manchester / Birmingham, UK">Manchester / Birmingham, UK</option>
-                        <option value="Toronto / Mississauga, Canada">Toronto / Mississauga, Canada</option>
-                        <option value="New York / New Jersey, USA">New York / New Jersey, USA</option>
-                        <option value="Houston / Dallas, USA">Houston / Dallas, USA</option>
-                        <option value="Dubai / Abu Dhabi, UAE">Dubai / Abu Dhabi, UAE</option>
-                        <option value="Lahore, Pakistan">Lahore (Local Pickup)</option>
-                        <option value="Other Overseas">Other Overseas Hub</option>
-                      </select>
+                        placeholder="e.g. London, Dubai, Toronto"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-sm focus:outline-none transition-colors placeholder:text-stone-500"
+                      />
                     </div>
                   </div>
 

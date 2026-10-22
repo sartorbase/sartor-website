@@ -38,11 +38,11 @@ export const MeasurementStickyTrigger: React.FC<MeasurementStickyTriggerProps> =
 
   return (
     <>
-      {/* Floating Bottom-Left Pill Trigger */}
+      {/* Floating Bottom-Left Pill Trigger (positioned cleanly above AI Stylist button) */}
       {visible && (
         <aside
           aria-label="Create Free Size Profile Trigger"
-          className="fixed bottom-5 left-5 z-40 select-none animate-in fade-in slide-in-from-bottom-4 duration-500"
+          className="fixed bottom-[5.25rem] left-5 sm:left-6 z-40 select-none animate-in fade-in slide-in-from-bottom-4 duration-500"
         >
           <button
             type="button"
