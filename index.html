@@ -16,6 +16,13 @@
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preload" as="image" href="/logo.webp" type="image/webp" />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/how-to-choose-a-good-tailor-in-lahore.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
     <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Pakistani Tailor &amp; Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR</title>
@@ -40,52 +47,195 @@
     <meta name="twitter:title" content="Pakistani Tailor &amp; Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR" />
     <meta name="twitter:description" content="100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada &amp; UAE (3–5 Days)." />
     <meta name="twitter:image" content="https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg" />
-    <!-- Structured Data (Schema.org JSON-LD): ClothingStore / LocalBusiness -->
+    <!-- Structured Data (Schema.org JSON-LD): Comprehensive LocalBusiness & ClothingStore -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ClothingStore",
-      "name": "SARTOR Bespoke Atelier Lahore",
-      "alternateName": ["SARTOR", "Sartor Lahore", "Sartor Bespoke"],
-      "description": "Premier bespoke women's tailoring atelier in Moon Tower, Model Town, Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, and luxury couture with 1-on-1 video fittings and 3–5 day express DHL delivery to UK, USA, Canada & UAE.",
-      "url": "https://sartor.pk",
-      "logo": "https://sartor.pk/logo.webp",
-      "image": "https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg",
-      "telephone": "+923352209991",
-      "priceRange": "££ - £££",
-      "currenciesAccepted": "GBP, USD, AED, CAD, PKR",
-      "paymentAccepted": "Credit Card, Bank Transfer, Stripe",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "F-9 Moon Tower, Model Town",
-        "addressLocality": "Lahore",
-        "addressRegion": "Punjab",
-        "postalCode": "54700",
-        "addressCountry": "PK"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 31.4826,
-        "longitude": 74.3142
-      },
-      "openingHoursSpecification": [
+      "@graph": [
         {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-          "opens": "11:00",
-          "closes": "20:00"
+          "@type": ["LocalBusiness", "ClothingStore", "ProfessionalService"],
+          "@id": "https://sartor.pk/#localbusiness",
+          "name": "SARTOR Bespoke Atelier Lahore",
+          "alternateName": [
+            "SARTOR",
+            "Sartor Lahore",
+            "Sartor Bespoke Tailors",
+            "Sartor Model Town Lahore"
+          ],
+          "legalName": "SARTOR Bespoke Women's Tailoring & Haute Couture Atelier",
+          "description": "Premier bespoke Pakistani women's tailoring atelier at Moon Tower, Model Town, Lahore. Directed by Master Tailor Abdul Ghaffar with 35+ years of cutting master heritage. Specializing in bespoke Zardozi bridal lehengas, 16-kali and 24-kali flared kalidars, royal farshi ghararas, sarees, and unstitched luxury designer suit tailoring. Serving overseas Pakistani diaspora brides across London, New York, Houston, Toronto, and Dubai with 1-on-1 guided biometric video fittings and insured 3–5 day worldwide DHL Express delivery.",
+          "url": "https://sartor.pk",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://sartor.pk/logo.webp",
+            "width": 512,
+            "height": 512
+          },
+          "image": [
+            "https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg",
+            "https://sartor.pk/images/barat-crimson-bridal.jpg",
+            "https://sartor.pk/images/16-kali-vs-24-kali-lehenga-flare-grainline-guide.jpg",
+            "https://sartor.pk/images/pakistani-bridal-lehenga-cancan-canvas-waistband-blueprint.jpg"
+          ],
+          "telephone": "+923352209991",
+          "email": "contact@sartor.pk",
+          "priceRange": "££ - ££££",
+          "currenciesAccepted": "GBP, USD, AED, CAD, PKR",
+          "paymentAccepted": "Credit Card, Debit Card, Bank Wire Transfer, Stripe, Wise, Apple Pay",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "F-9 Moon Tower, International Market, Model Town",
+            "addressLocality": "Lahore",
+            "addressRegion": "Punjab",
+            "postalCode": "54700",
+            "addressCountry": "PK"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 31.4828,
+            "longitude": 74.3184
+          },
+          "hasMap": "https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "11:00",
+              "closes": "21:30"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": "Sunday",
+              "opens": "14:00",
+              "closes": "20:00"
+            }
+          ],
+          "founder": {
+            "@type": "Person",
+            "name": "Abdul Ghaffar",
+            "jobTitle": "Master Tailor & Head Cutting Master",
+            "worksFor": {
+              "@id": "https://sartor.pk/#localbusiness"
+            },
+            "description": "Master artisan with 35+ years specializing in anatomical grainline cutting, 3-tier canvas waistband suspensions, and bespoke royal Pakistani bridal couture."
+          },
+          "areaServed": [
+            {
+              "@type": "Country",
+              "name": "United Kingdom",
+              "containsPlace": [
+                { "@type": "City", "name": "London" },
+                { "@type": "City", "name": "Manchester" },
+                { "@type": "City", "name": "Birmingham" },
+                { "@type": "City", "name": "Leeds" },
+                { "@type": "City", "name": "Bradford" },
+                { "@type": "City", "name": "Slough" }
+              ]
+            },
+            {
+              "@type": "Country",
+              "name": "United States",
+              "containsPlace": [
+                { "@type": "City", "name": "New York" },
+                { "@type": "City", "name": "Houston" },
+                { "@type": "City", "name": "Dallas" },
+                { "@type": "City", "name": "Chicago" },
+                { "@type": "City", "name": "San Jose" },
+                { "@type": "City", "name": "Edison" }
+              ]
+            },
+            {
+              "@type": "Country",
+              "name": "Canada",
+              "containsPlace": [
+                { "@type": "City", "name": "Toronto" },
+                { "@type": "City", "name": "Mississauga" },
+                { "@type": "City", "name": "Calgary" },
+                { "@type": "City", "name": "Vancouver" },
+                { "@type": "City", "name": "Edmonton" }
+              ]
+            },
+            {
+              "@type": "Country",
+              "name": "United Arab Emirates",
+              "containsPlace": [
+                { "@type": "City", "name": "Dubai" },
+                { "@type": "City", "name": "Abu Dhabi" },
+                { "@type": "City", "name": "Sharjah" }
+              ]
+            },
+            {
+              "@type": "Country",
+              "name": "Pakistan",
+              "containsPlace": [
+                { "@type": "City", "name": "Lahore" },
+                { "@type": "City", "name": "Karachi" },
+                { "@type": "City", "name": "Islamabad" },
+                { "@type": "City", "name": "Rawalpindi" },
+                { "@type": "City", "name": "Faisalabad" }
+              ]
+            }
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Bespoke Couture & Tailoring Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Bespoke Hand-Embroidered Zardozi Bridal Lehengas",
+                  "description": "Heirloom bridal ensembles handcrafted on pure Katan silk with genuine metallic bullion dabka, kora, and 3-tier canvas waistband suspension."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "16-Kali & 24-Kali Flared Kalidars & Royal Pishwas",
+                  "description": "Graduated radial flared panels aligned along true vertical warp grainlines (Seedha Taar) to prevent seam twisting."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Royal Farshi Ghararas & Divided Shararas",
+                  "description": "Traditional Awadh flared silhouettes with hidden bias-cut silk elastic knee expansion channels for sitting ease."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Pre-Pleated Couture Sarees & Padded Blouses",
+                  "description": "Bespoke structured sweetheart blouses with interior cups, boning, and anti-slip weighted satin falls."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Unstitched Designer Suit Stitching for Overseas Diaspora",
+                  "description": "Intake, pattern customization, pure Habotai silk lining, and 2.5-inch hidden seam allowances for Maria.B, Elan, Suffuse, and Baroque collections."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "1-on-1 Guided Virtual Biometric Video Fitting Sessions",
+                  "description": "Real-time 28-point digital sizing consultation with Master Tailor Abdul Ghaffar ensuring 100% fit accuracy before shears cut cloth."
+                }
+              }
+            ]
+          },
+          "sameAs": [
+            "https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68",
+            "https://wa.me/923352209991",
+            "https://app.sartor.pk"
+          ]
         }
-      ],
-      "areaServed": [
-        { "@type": "Country", "name": "United Kingdom" },
-        { "@type": "Country", "name": "United States" },
-        { "@type": "Country", "name": "Canada" },
-        { "@type": "Country", "name": "United Arab Emirates" },
-        { "@type": "Country", "name": "Pakistan" }
-      ],
-      "sameAs": [
-        "https://wa.me/923352209991",
-        "https://app.sartor.pk"
       ]
     }
     </script>
