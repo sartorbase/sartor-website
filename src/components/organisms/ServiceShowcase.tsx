@@ -86,13 +86,17 @@ I saw "${suite.title}" in your portfolio and would like to consult on fabric opt
                   <picture>
                     <source
                       type="image/webp"
-                      srcSet={suite.primaryImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+                      srcSet={`${suite.primaryImage.replace(/\.(jpe?g|png)$/i, '.webp')} 800w, ${suite.primaryImage.replace(/\.(jpe?g|png)$/i, '.webp')} 400w`}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                     />
                     <img
                       src={suite.primaryImage}
                       alt={suite.title}
                       loading="lazy"
                       decoding="async"
+                      width={600}
+                      height={750}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                       onError={(e) => {
                         const target = e.currentTarget;
                         if (target.src !== '/images/services/simple-suit.webp') {

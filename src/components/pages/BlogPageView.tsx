@@ -290,7 +290,8 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
               <picture>
                 <source
                   type="image/webp"
-                  srcSet={activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+                  srcSet={`${activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 1200w, ${activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 640w`}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
                 />
                 <img
                   src={activePost.coverImage}
@@ -298,6 +299,9 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                   loading="eager"
                   decoding="async"
                   fetchPriority="high"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
                   className="w-full h-full object-cover"
                 />
               </picture>
@@ -465,13 +469,17 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                   <picture>
                     <source
                       type="image/webp"
-                      srcSet={post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
+                      srcSet={`${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 800w, ${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 400w`}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
                     />
                     <img
                       src={post.coverImage}
                       alt={post.coverImageAlt || post.title}
                       loading="lazy"
                       decoding="async"
+                      width={640}
+                      height={360}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </picture>

@@ -235,13 +235,17 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
                     <picture>
                       <source
                         type="image/webp"
-                        srcSet={item.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')}
+                        srcSet={`${item.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')} 800w, ${item.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')} 400w`}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
                       />
                       <img
                         src={item.imageUrl}
                         alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
                         loading="lazy"
                         decoding="async"
+                        width={600}
+                        height={750}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
                         onError={(e) => {
                           const target = e.currentTarget;
                           if (target.src !== '/images/services/simple-suit.webp') {
