@@ -20,14 +20,24 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const viewport: Viewport = {
-  themeColor: '#0c0a09',
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#0c0a09' },
+    { media: '(prefers-color-scheme: light)', color: '#0c0a09' },
+  ],
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-visual',
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.sartor.pk'),
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'SARTOR Atelier',
+  },
   title: {
     default: "SARTOR Bespoke Women's Tailoring & Luxury Couture Lahore",
     template: "%s | SARTOR Atelier Lahore",
@@ -154,6 +164,12 @@ export default function RootLayout({
         {/* Resource Hints: Preconnect to Critical Origins to Shave Mobile Handshake Latency */}
         <link rel="preconnect" href="https://www.sartor.pk" />
         <link rel="dns-prefetch" href="https://www.sartor.pk" />
+        
+        {/* Supabase API & CDN Storage Origin */}
+        <link rel="preconnect" href="https://yrbsfbkjokmsdfppukeh.supabase.co" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://yrbsfbkjokmsdfppukeh.supabase.co" />
+
+        {/* Vercel Speed Insights & Analytics */}
         <link rel="preconnect" href="https://vitals.vercel-insights.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
         

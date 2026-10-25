@@ -63,6 +63,10 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
+          {
+            key: 'Link',
+            value: '<https://yrbsfbkjokmsdfppukeh.supabase.co>; rel=preconnect; crossorigin, <https://vitals.vercel-insights.com>; rel=preconnect; crossorigin',
+          },
         ],
       },
     ];
