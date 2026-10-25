@@ -57,7 +57,10 @@ SARTOR is engineered specifically to eliminate the traditional risks of ordering
 - **Packaging Protocol**: Triple-layer archival packaging including unbuffered acid-free tissue paper interleaving between bullion coils, inverted roll technique for heavy flared lehengas, and sealed water-resistant shipping vaults.
 
 ## 5. Published Masterclasses & Atelier Knowledge Base
-1. **The Pakistani Bridal Lehenga Can-Can & Canvas Blueprint: 3-Tier Waistband Suspension vs. Scratchy Mesh**
+1. **16-Kali vs. 24-Kali Skirt Flares: Calculating Kalidar Panel Ratios, Yardage, and Grainline Alignment (Taar)**
+   - URL: https://sartor.pk/blog/16-kali-vs-24-kali-lehenga-flare-grainline-guide
+   - Key Facts: Mathematical formulas for waist-to-hem kalidar ratios (160"–190" A-line flare vs. 220"–260" circular imperial sweep), 44" vs. 54" panna fabric yardage requirements, preventing seam torquing (kaan) after dry cleaning via SARTOR's centered vertical warp grainline (Seedha Taar) protocol, radial arc hemline cutting, and 2.5-inch internal alteration margins.
+2. **The Pakistani Bridal Lehenga Can-Can & Canvas Blueprint: 3-Tier Waistband Suspension vs. Scratchy Mesh**
    - URL: https://sartor.pk/blog/pakistani-bridal-lehenga-cancan-canvas-waistband-blueprint
    - Key Facts: Engineering 3-tier 280 GSM woven cotton canvas waistband suspension with spiral steel boning, transferring 6–10 kg zardozi skirt weight onto the skeletal pelvic iliac crest; replacing scratchy industrial nylon mesh with modular detachable tiered crinoline, horsehair braid hemline rolls, and 100% pure Habotai silk skin buffers.
 2. **The Sharara vs. Gharara Masterclass: Drape Physics, Ruched Knee-Joints, and Fabric Requirements for Overseas Brides**
