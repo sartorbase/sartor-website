@@ -78,6 +78,27 @@ app.use((req: Request, res: Response, next) => {
     res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
   } else if (urlPath.startsWith('/assets/')) {
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  } else if (urlPath === '/sw.js') {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    const swPath = path.join(__dirname, 'dist', 'sw.js');
+    if (fs.existsSync(swPath)) {
+      return res.sendFile(swPath);
+    }
+  } else if (urlPath.startsWith('/workbox-')) {
+    const wbPath = path.join(__dirname, 'dist', path.basename(urlPath));
+    if (fs.existsSync(wbPath)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      return res.sendFile(wbPath);
+    }
+  } else if (urlPath === '/manifest.webmanifest' || urlPath === '/manifest.json') {
+    res.setHeader('Content-Type', 'application/manifest+json; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    const manifestPath = path.join(__dirname, 'dist', 'manifest.webmanifest');
+    if (fs.existsSync(manifestPath)) {
+      return res.sendFile(manifestPath);
+    }
   }
 
   next();

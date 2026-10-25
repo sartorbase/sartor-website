@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, MessageSquare, X } from 'lucide-react';
 import { SartorLogo } from '../atoms/SartorLogo';
+import { PWAInstallButton } from '../atoms/PWAInstallButton';
 import { buildWhatsAppLink } from '../../services/analytics';
 import { navigateTo } from '../../utils/navigation';
 
@@ -96,6 +97,7 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
         </nav>
 
         <div className="hidden sm:flex items-center gap-3">
+          <PWAInstallButton />
           <a
             href={whatsappUrl}
             target="_blank"
@@ -131,15 +133,18 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
               {link.label}
             </a>
           ))}
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-2.5 mt-3 rounded-xl bg-emerald-600 text-white font-medium text-xs shadow-md"
-          >
-            <MessageSquare className="w-4 h-4 fill-white" />
-            <span>Book Order on WhatsApp</span>
-          </a>
+          <div className="pt-2 flex flex-col gap-2">
+            <PWAInstallButton className="w-full justify-center py-2" />
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-emerald-600 text-white font-medium text-xs shadow-md"
+            >
+              <MessageSquare className="w-4 h-4 fill-white" />
+              <span>Book Order on WhatsApp</span>
+            </a>
+          </div>
         </div>
       )}
     </header>

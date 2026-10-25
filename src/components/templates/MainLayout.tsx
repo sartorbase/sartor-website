@@ -6,6 +6,7 @@ import { MeasurementStickyTrigger } from '../molecules/MeasurementStickyTrigger'
 import { Footer } from '../organisms/Footer';
 import { GeminiChatbot } from '../organisms/GeminiChatbot';
 import { Navbar } from '../organisms/Navbar';
+import { OfflineIndicator } from '../atoms/OfflineIndicator';
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -35,6 +36,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
           {/* Subtle Bottom-Left Floating Sticky Lead Magnet Pill & Exit-Intent Trigger (z-40) */}
           <MeasurementStickyTrigger />
+
+          {/* Offline Mode Status Banner */}
+          <OfflineIndicator />
         </div>
       </ChatUIProvider>
     </ThemeProvider>
