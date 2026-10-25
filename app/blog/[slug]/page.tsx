@@ -14,6 +14,13 @@ interface PageProps {
 }
 
 /**
+ * Ensure static pre-rendering at build time for instant Edge CDN cache hits (TTFB < 50ms)
+ */
+export const dynamic = 'force-static';
+export const dynamicParams = true;
+export const revalidate = 86400; // 24 hours ISR
+
+/**
  * Pre-generate static routes for all available MDX blog posts
  */
 export async function generateStaticParams() {

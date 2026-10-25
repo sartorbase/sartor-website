@@ -1,8 +1,23 @@
 import type { Metadata, Viewport } from 'next';
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MeasurementStickyTrigger } from '../components/MeasurementStickyTrigger';
 import './globals.css';
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-cormorant',
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-jakarta',
+});
 
 export const viewport: Viewport = {
   themeColor: '#0c0a09',
@@ -134,14 +149,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${cormorant.variable} ${jakarta.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
         />
       </head>
-      <body className="bg-stone-950 text-stone-100 antialiased selection:bg-amber-800 selection:text-white min-h-screen flex flex-col">
+      <body className="bg-stone-950 text-stone-100 font-sans antialiased selection:bg-amber-800 selection:text-white min-h-screen flex flex-col">
         {children}
         <MeasurementStickyTrigger />
         <Analytics />
