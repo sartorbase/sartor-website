@@ -151,6 +151,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${cormorant.variable} ${jakarta.variable}`}>
       <head>
+        {/* Resource Hints: Preconnect to Critical Origins to Shave Mobile Handshake Latency */}
+        <link rel="preconnect" href="https://www.sartor.pk" />
+        <link rel="dns-prefetch" href="https://www.sartor.pk" />
+        <link rel="preconnect" href="https://vitals.vercel-insights.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}

@@ -8,6 +8,7 @@ import rehypeSlug from 'rehype-slug';
 import { getPostBySlug, getAllPostSlugs } from '../../../lib/mdx';
 import { WhatsAppButton } from '../../../components/WhatsAppButton';
 import { MeasurementLeadMagnet } from '../../../components/MeasurementLeadMagnet';
+import { HeroImage } from '../../../components/HeroImage';
 
 interface PageProps {
   params: Promise<{ slug: string }> | { slug: string };
@@ -212,17 +213,19 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Main Cover Image (Hero) */}
+      {/* Main Cover Image (Hero - Optimized for Mobile LCP) */}
       {coverImage && (
         <div className="mx-auto max-w-4xl px-4 -mt-6 sm:-mt-8 sm:px-6">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-stone-800 bg-stone-900 shadow-2xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={coverImage}
-              alt={title}
-              className="h-full w-full object-cover"
-            />
-          </div>
+          <HeroImage
+            src={coverImage}
+            mobileSrc={post.frontmatter.imageWebp || coverImage}
+            alt={title}
+            priority={true}
+            aspectRatio="landscape"
+            mobileAspectRatio="landscape"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
+            containerClassName="rounded-2xl border border-stone-800 shadow-2xl"
+          />
         </div>
       )}
 
