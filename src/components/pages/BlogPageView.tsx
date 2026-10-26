@@ -37,10 +37,15 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      if (path.startsWith('/blog/')) {
-        const currentSlug = path.replace('/blog/', '').replace(/\/$/, '');
+      if (path.startsWith('/blog/') || path.startsWith('/journal/')) {
+        const currentSlug = path.replace(/^\/(blog|journal)\//, '').replace(/\/$/, '');
         setActiveSlug(currentSlug);
-      } else if (path === '/blog' || path === '/blog/') {
+      } else if (
+        path === '/blog' ||
+        path === '/blog/' ||
+        path === '/journal' ||
+        path === '/journal/'
+      ) {
         setActiveSlug(undefined);
       }
     };

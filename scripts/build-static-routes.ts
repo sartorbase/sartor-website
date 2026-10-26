@@ -38,6 +38,13 @@ async function buildStaticRoutes() {
   fs.writeFileSync(path.join(distDir, 'custom-bridal.html'), bridalSeo.html);
   console.log('Pre-rendered /custom-bridal/index.html & /custom-bridal.html');
 
+  // Pre-render /journal
+  const journalDir = path.join(distDir, 'journal');
+  fs.mkdirSync(journalDir, { recursive: true });
+  fs.writeFileSync(path.join(journalDir, 'index.html'), blogSeo.html);
+  fs.writeFileSync(path.join(distDir, 'journal.html'), blogSeo.html);
+  console.log('Pre-rendered /journal/index.html & /journal.html');
+
   // Pre-render each blog post
   for (const post of BLOG_POSTS) {
     const postDir = path.join(blogDir, post.slug);
@@ -45,7 +52,12 @@ async function buildStaticRoutes() {
     const postSeo = injectSeoIntoHtml(baseHtml, `/blog/${post.slug}`);
     fs.writeFileSync(path.join(postDir, 'index.html'), postSeo.html);
     fs.writeFileSync(path.join(blogDir, `${post.slug}.html`), postSeo.html);
-    console.log(`Pre-rendered /blog/${post.slug}/index.html & /blog/${post.slug}.html`);
+
+    const journalPostDir = path.join(journalDir, post.slug);
+    fs.mkdirSync(journalPostDir, { recursive: true });
+    fs.writeFileSync(path.join(journalPostDir, 'index.html'), postSeo.html);
+    fs.writeFileSync(path.join(journalDir, `${post.slug}.html`), postSeo.html);
+    console.log(`Pre-rendered /blog/${post.slug}/index.html & /journal/${post.slug}/index.html`);
   }
 
   // Generate sitemap.xml in dist/

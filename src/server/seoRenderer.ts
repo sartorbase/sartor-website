@@ -212,8 +212,8 @@ function markdownToHtml(md: string): string {
 export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status: number; html: string } {
   const cleanPath = pathname.toLowerCase().split('?')[0].split('#')[0];
 
-  if (cleanPath.startsWith('/blog/')) {
-    const slug = cleanPath.replace('/blog/', '').split('/')[0];
+  if (cleanPath.startsWith('/blog/') || cleanPath.startsWith('/journal/')) {
+    const slug = cleanPath.replace(/^\/(blog|journal)\//, '').split('/')[0];
     const post = getBlogPostBySlug(slug);
 
     if (!post) {
@@ -364,7 +364,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     return { status: 200, html: transformedHtml };
   }
 
-  if (cleanPath === '/blog') {
+  if (cleanPath === '/blog' || cleanPath === '/journal') {
     const pageTitle = 'Atelier Journal & Couture Guides | SARTOR Bespoke Lahore';
     const pageDesc = 'Insights on bespoke women tailoring, saree stitching, and Lahore couture.';
     const archiveUrl = 'https://sartor.pk/blog';

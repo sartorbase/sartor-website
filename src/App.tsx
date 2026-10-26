@@ -45,14 +45,19 @@ export function App() {
       return <ServicesPageView />;
     }
 
-    // 2. Blog Single Post route
-    if (currentPath.startsWith('/blog/')) {
-      const slug = currentPath.replace('/blog/', '').replace(/\/$/, '');
+    // 3. Blog & Journal Single Post route
+    if (currentPath.startsWith('/blog/') || currentPath.startsWith('/journal/')) {
+      const slug = currentPath.replace(/^\/(blog|journal)\//, '').replace(/\/$/, '');
       return <BlogPageView slug={slug} />;
     }
 
-    // 3. Blog Index route
-    if (currentPath === '/blog' || currentPath === '/blog/') {
+    // 4. Blog & Journal Index route
+    if (
+      currentPath === '/blog' ||
+      currentPath === '/blog/' ||
+      currentPath === '/journal' ||
+      currentPath === '/journal/'
+    ) {
       return <BlogPageView />;
     }
 
