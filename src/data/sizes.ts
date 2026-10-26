@@ -96,7 +96,7 @@ export const PRICING_LIST: PricingItem[] = [
       'Neckline & gala piping / button work',
       'Straight or cigarette trouser / shalwar',
       'Overlock & high-strength stitching',
-      'Turnaround: 3-5 business days',
+      'Turnaround: 7–10 business days (subject to seasonal queue)',
     ],
     imageUrl: simpleSuitImg,
   },

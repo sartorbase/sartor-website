@@ -17,7 +17,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Custom Bridal ($2k+)', href: '/custom-bridal', highlight: true },
     { label: 'Journal', href: '/blog' },
     { label: 'Stitching Rates', href: '/#pricing' },
-    { label: 'Portfolio', href: '/#portfolio' },
     { label: 'Size Chart', href: '/#size-chart' },
     { label: 'Studio Location', href: '/#location' },
   ];
