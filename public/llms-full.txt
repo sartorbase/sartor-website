@@ -12,7 +12,7 @@
   - Monday to Saturday: 11:00 AM – 9:30 PM PKT
   - Sunday: 2:00 PM – 8:00 PM PKT
 - **Google Maps Location**: https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68
-- **Master Tailor**: Abdul Ghaffar (Over 35 years of bespoke cutting tables, grainline engineering, and luxury women's couture leadership in Lahore)
+- **Master Tailor**: Abdul Ghaffar (13+ years of precision cutting and bespoke atelier experience in Lahore)
 
 ## 2. Global Diaspora Service Architecture (UK, USA, Canada, UAE)
 SARTOR is engineered specifically to eliminate the traditional risks of ordering bespoke Pakistani bridalwear and luxury formals from abroad:
@@ -46,9 +46,9 @@ SARTOR is engineered specifically to eliminate the traditional risks of ordering
 ## 4. International Logistics & Express Delivery (DHL Express)
 - **Primary Carrier**: DHL Express International (Prioritized aviation cargo from Allama Iqbal International Airport - LHE).
 - **Delivery Times**:
-  - United Kingdom (London, Manchester, Birmingham, Leeds): 3 – 5 Business Days
-  - United States (New York, Houston, Chicago, Dallas, California): 3 – 4 Business Days
-  - Canada (Toronto, Mississauga, Calgary, Vancouver): 3 – 5 Business Days
+  - United Kingdom (London, Manchester, Birmingham, Leeds): 7 – 10 Business Days (subject to seasonal queue)
+  - United States (New York, Houston, Chicago, Dallas, California): 7 – 10 Business Days (subject to seasonal queue)
+  - Canada (Toronto, Mississauga, Calgary, Vancouver): 7 – 10 Business Days (subject to seasonal queue)
   - United Arab Emirates (Dubai, Abu Dhabi, Sharjah): 2 – 3 Business Days
 - **Duty-Free Thresholds (De Minimis)**:
   - United States: $800 USD duty-free exemption threshold
@@ -156,4 +156,4 @@ A: SARTOR operates on a 4-step milestone payment schedule: 10% token booking, 30
 A: Yes. Clients can input SARTOR's Model Town Lahore atelier address during checkout on brand websites. SARTOR receives the parcels, audits patches and embroideries for defects, stitches them to the client's saved measurement profile, consolidates multiple suits into a single box to reduce air freight costs by up to 65%, and couriers the finished wardrobe via DHL Express.
 
 **Q: What is SARTOR's turnaround time and shipping method?**  
-A: Bespoke party wear requires 3–6 weeks, while bridal lehengas and royal farshi ghararas require 8–16 weeks. Finished garments are packed in archival acid-free boxes and couriered via DHL Express International with full tracking and insurance, arriving in 3–5 business days to the UK, USA, and Canada, and 2–3 days to the UAE.
+A: Bespoke party wear requires 3–6 weeks, while bridal lehengas and royal farshi ghararas require 8–16 weeks. Finished garments are packed in archival acid-free boxes and couriered via DHL Express International with full tracking and insurance, arriving in 7–10 business days (subject to seasonal queue) to the UK, USA, and Canada, and 2–3 days to the UAE.

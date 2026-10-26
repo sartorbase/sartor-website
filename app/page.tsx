@@ -21,7 +21,7 @@ import { MeasurementLeadMagnet } from '../components/MeasurementLeadMagnet';
 
 export const metadata: Metadata = {
   title: "Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR",
-  description: "Master bespoke Pakistani tailor in Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, & luxury couture. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+  description: "Master bespoke Pakistani tailor in Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, & luxury couture. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
   keywords: [
     "pakistani tailor",
     "bespoke tailors lahore",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Pakistani Tailor & Bespoke Tailors Lahore | Express Worldwide Shipping | SARTOR",
-    description: "Master bespoke Pakistani tailor in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+    description: "Master bespoke Pakistani tailor in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
     url: 'https://www.sartor.pk',
     siteName: 'SARTOR Bespoke Atelier Lahore',
     images: [
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Pakistani Tailor & Bespoke Tailors Lahore | SARTOR",
-    description: "100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+    description: "100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
     images: ['https://www.sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'],
   },
 };
@@ -87,7 +87,7 @@ Please let me know how we can begin.`;
           <span className="hidden md:inline text-stone-700">•</span>
           <span className="flex items-center gap-1.5 text-stone-300">
             <Truck className="w-3.5 h-3.5 text-amber-400" />
-            <strong className="text-stone-100">Insured DHL Express Shipping</strong> to USA, UK, Canada & UAE (3–5 Days)
+            <strong className="text-stone-100">Insured DHL Express Shipping</strong> to USA, UK, Canada & UAE (7–10 Business Days)
           </span>
           <span className="hidden md:inline text-stone-700">•</span>
           <span className="flex items-center gap-1.5 text-emerald-400">
@@ -170,7 +170,7 @@ Please let me know how we can begin.`;
           </h1>
 
           <p className="mt-6 text-base sm:text-lg text-stone-300 max-w-3xl mx-auto leading-relaxed">
-            From 16-kali flow kalidars to heirloom Zardozi bridal lehengas, SARTOR bridges heritage Lahore craftsmanship with effortless global delivery. Guided 3D video fittings, transparent adda production updates, and 3–5 day express door-to-door transit to London, New York, Toronto, Houston, and Dubai.
+            From 16-kali flow kalidars to heirloom Zardozi bridal lehengas, SARTOR bridges heritage Lahore craftsmanship with effortless global delivery. Guided 3D video fittings, transparent adda production updates, and 7–10 business day express door-to-door transit to London, New York, Toronto, Houston, and Dubai.
           </p>
 
           {/* Dual CTAs */}
@@ -204,7 +204,7 @@ Please let me know how we can begin.`;
 
             <div className="p-4 rounded-xl bg-stone-900/60 border border-stone-850">
               <Truck className="w-5 h-5 text-amber-400 mb-2" />
-              <div className="font-semibold text-stone-200 text-sm">3–5 Day DHL Express</div>
+              <div className="font-semibold text-stone-200 text-sm">7–10 Business Day DHL Express</div>
               <div className="text-xs text-stone-400 mt-1">Fully insured air freight with live tracking to USA, UK, UAE & CA</div>
             </div>
 

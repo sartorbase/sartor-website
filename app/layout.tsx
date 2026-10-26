@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     default: "SARTOR Bespoke Women's Tailoring & Luxury Couture Lahore",
     template: "%s | SARTOR Atelier Lahore",
   },
-  description: "Premier bespoke Pakistani women's tailoring atelier in Moon Tower, Model Town, Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Handcrafted bridal lehengas, 16-kali kalidars, sarees, and luxury pret. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+  description: "Premier bespoke Pakistani women's tailoring atelier in Moon Tower, Model Town, Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Handcrafted bridal lehengas, 16-kali kalidars, sarees, and luxury pret. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
   applicationName: "SARTOR Bespoke Atelier",
   authors: [{ name: "Abdul Ghaffar, Master Tailor" }],
   generator: "Next.js",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "SARTOR Bespoke Women's Tailoring & Luxury Couture Lahore",
-    description: "Premier bespoke tailoring atelier in Model Town, Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+    description: "Premier bespoke tailoring atelier in Model Town, Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
     url: 'https://www.sartor.pk',
     siteName: 'SARTOR Bespoke Atelier Lahore',
     locale: 'en_PK',
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "SARTOR Bespoke Women's Tailoring & Luxury Couture Lahore",
-    description: "Premier bespoke tailoring atelier in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls with Insured DHL Express (3–5 Days).",
+    description: "Premier bespoke tailoring atelier in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls with Insured DHL Express (7–10 Business Days).",
     images: ['https://www.sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'],
   },
   robots: {

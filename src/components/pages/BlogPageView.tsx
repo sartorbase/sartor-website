@@ -372,7 +372,7 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                 Abdul Ghaffar — Master Tailor, SARTOR
               </h3>
               <p className="mt-2 text-stone-400 text-sm leading-relaxed">
-                With 35+ years of cutting and pattern drafting at Lahore ateliers, Master Tailor Abdul Ghaffar oversees all garment drafting, seam margin preservation, and quality inspections at SARTOR Model Town.
+                With 13+ years of precision cutting and bespoke atelier experience at Lahore ateliers, Master Tailor Abdul Ghaffar oversees all garment drafting, seam margin preservation, and quality inspections at SARTOR Model Town.
               </p>
             </div>
           </div>

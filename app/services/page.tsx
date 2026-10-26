@@ -17,7 +17,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Tailor Model Town Lahore | Lehenga & Saree Tailor Near Me | SARTOR Atelier",
-  description: "Searching for the best tailor in Model Town or lehenga and saree tailor near me? SARTOR provides luxury bespoke stitching in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+  description: "Searching for the best tailor in Model Town or lehenga and saree tailor near me? SARTOR provides luxury bespoke stitching in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
   keywords: [
     "tailor model town",
     "lehenga tailoring near me",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Tailor Model Town | Lehenga & Saree Tailor Near Me | SARTOR",
-    description: "Bespoke tailoring in Model Town Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping (3–5 Days).",
+    description: "Bespoke tailoring in Model Town Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping (7–10 Business Days).",
     images: ['https://www.sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'],
   },
 };
@@ -83,7 +83,7 @@ Please let me know how to proceed.`;
           <span className="hidden md:inline text-stone-700">•</span>
           <span className="flex items-center gap-1.5 text-stone-300">
             <Truck className="w-3.5 h-3.5 text-amber-400" />
-            <strong className="text-stone-100">Insured DHL Express Shipping</strong> to USA, UK, Canada & UAE (3–5 Days)
+            <strong className="text-stone-100">Insured DHL Express Shipping</strong> to USA, UK, Canada & UAE (7–10 Business Days)
           </span>
           <span className="hidden md:inline text-stone-700">•</span>
           <span className="flex items-center gap-1.5 text-emerald-400">
@@ -170,7 +170,7 @@ Please let me know how to proceed.`;
             </div>
             <div className="flex items-center gap-2 bg-stone-900 border border-stone-800 px-4 py-2 rounded-full text-xs text-stone-300">
               <Truck className="w-4 h-4 text-amber-400" />
-              <span>Insured 3–5 Day Worldwide Express Delivery</span>
+              <span>Insured 7–10 Business Day Worldwide Express Delivery</span>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ export const AboutTailoringSection: React.FC = () => {
             </h2>
             <div className="space-y-4 text-stone-300 text-sm sm:text-base leading-relaxed">
               <p>
-                With over <strong className="text-stone-100 font-semibold">35 years of bespoke cutting experience</strong> in Lahore, Master Tailor Abdul Ghaffar has dressed generations of Pakistani brides, dignitaries, and fashion connoisseurs.
+                With <strong className="text-stone-100 font-semibold">13+ years of precision cutting and bespoke atelier experience</strong> in Lahore, Master Tailor Abdul Ghaffar has dressed generations of Pakistani brides, dignitaries, and fashion connoisseurs.
               </p>
               <p>
                 While modern commercial tailors often rush garments using rigid one-size cardboard blocks and cut corners on internal seam margins, SARTOR adheres strictly to classic Savile Row and Mughal tailoring fundamentals:

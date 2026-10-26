@@ -24,7 +24,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR",
-  description: "Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+  description: "Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
   keywords: [
     "custom bridal lehengas",
     "live video measurement calls",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Custom Bridal Lehengas | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR",
-    description: "Authentic Zardozi & Adda hand-embroidery on pure 80g/100g raw silk. Tailored to your exact fit with live video consultations and 3–5 day express worldwide delivery.",
+    description: "Authentic Zardozi & Adda hand-embroidery on pure 80g/100g raw silk. Tailored to your exact fit with live video consultations and 7–10 business day express worldwide delivery.",
     url: "https://sartor.pk/custom-bridal",
     siteName: "SARTOR Master Atelier Lahore",
     locale: "en_US",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Custom Bridal Lehengas | Live Video Measurement Calls & Insured Worldwide Delivery",
-    description: "100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
+    description: "100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (7–10 Business Days).",
     images: ["https://sartor.pk/images/barat-crimson-bridal.jpg"],
   },
 };
@@ -163,7 +163,7 @@ I would like to share my design references and schedule a live digital sizing se
 
             {/* Subheadline */}
             <p className="mt-6 text-neutral-300 text-base sm:text-lg md:text-xl max-w-3xl leading-relaxed font-sans">
-              Authentic Zardozi &amp; Adda hand-embroidery on pure raw silks. Designed in Lahore, delivered directly to your doorstep in 3–5 days.
+              Authentic Zardozi &amp; Adda hand-embroidery on pure raw silks. Designed in Lahore, delivered directly to your doorstep in 7–10 business days.
             </p>
 
             {/* Primary & Secondary Call to Action Buttons */}
@@ -233,7 +233,7 @@ I would like to share my design references and schedule a live digital sizing se
                     Insured DHL Shipping
                   </h4>
                   <p className="text-[11px] text-neutral-400 mt-1 leading-normal">
-                    Express 3–5 business day doorstep air courier to USA, UK, Canada &amp; UAE with signature tracking.
+                    Express 7–10 business days (subject to seasonal queue) doorstep air courier to USA, UK, Canada &amp; UAE with signature tracking.
                   </p>
                 </div>
               </div>
@@ -534,11 +534,11 @@ I would like to share my design references and schedule a live digital sizing se
                 Final Fitting Inspection &amp; Express Delivery
               </h3>
               <p className="text-xs text-neutral-300 mt-3 leading-relaxed">
-                Full 360° mannequin video walk-through matching your calibrated proportions. Final steam press, anti-tarnish archival box sealing, and insured DHL Express dispatch (3–5 days to US/UK/CA/UAE) with live air tracking.
+                Full 360° mannequin video walk-through matching your calibrated proportions. Final steam press, anti-tarnish archival box sealing, and insured DHL Express dispatch (7–10 Business Days) with live air tracking.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-neutral-800 text-[11px] font-mono text-emerald-400">
-              ✓ Insured 3–5 Day DHL Air Courier
+              ✓ Insured 7–10 Business Day DHL Air Courier
             </div>
           </div>
 
@@ -999,7 +999,7 @@ I would like to share my design references and schedule a live digital sizing se
                 For brides with urgent wedding dates, we offer an <strong>Express Atelier Service (4 to 6 weeks)</strong> by assigning multiple dedicated master karigars to work dual shifts on your adda frame.
               </p>
               <p>
-                International air shipping via DHL Express takes just <strong>3 to 5 business days</strong> door-to-door once dispatched from our Lahore workshop.
+                International air shipping via DHL Express takes just <strong>7–10 business days (subject to seasonal queue)</strong> door-to-door once dispatched from our Lahore workshop.
               </p>
             </div>
           </details>
@@ -1069,7 +1069,7 @@ I would like to share my design references and schedule a live digital sizing se
                 We partner with DHL Express and FedEx International Priority. Every bridal package is packed in a moisture-resistant archival preservation casing and dispatched with complete door-to-door insurance and signature verification.
               </p>
               <p>
-                Our export documentation team handles standard commercial invoices and customs declarations to ensure seamless international transit. Delivery directly to your doorstep takes 3 to 5 business days once cleared.
+                Our export documentation team handles standard commercial invoices and customs declarations to ensure seamless international transit. Delivery directly to your doorstep takes 7–10 business days (subject to seasonal queue) once cleared.
               </p>
             </div>
           </details>
@@ -1121,7 +1121,7 @@ I would like to share my design references and schedule a live digital sizing se
             </div>
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">GLOBAL EXPRESS</span>
-              <span>3–5 Days Via Insured DHL</span>
+              <span>7–10 Business Days Via Insured DHL</span>
             </div>
           </div>
 

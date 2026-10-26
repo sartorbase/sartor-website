@@ -31,7 +31,7 @@ export const ShowcaseLightbox: React.FC<ShowcaseLightboxProps> = ({
       if (e.key === 'ArrowRight') {
         setPhotoIndex((prev) => (prev < suite.gallery.length - 1 ? prev + 1 : 0));
       }
-    };
+    }
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
@@ -56,33 +56,14 @@ Please let me know how to arrange custom stitching or fabric pickup in Lahore.`;
   const whatsappUrl = buildWhatsAppLink(whatsappMsg, 'lightbox');
 
   return (
-    <div className="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="flex items-center justify-between text-stone-300">
-        <div>
-          <span className="text-xs font-mono uppercase tracking-widest text-amber-400">
-            {suite.categoryLabel}
-          </span>
-          <h3 className="font-serif text-lg font-bold text-stone-100">
-            {suite.title}
-          </h3>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/90 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center gap-6">
         <button
           onClick={onClose}
-          className="p-2 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-white hover:bg-stone-800 transition-colors"
+          className="absolute top-4 left-4 z-10 p-2 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-white hover:bg-stone-800 transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
-      </div>
-
-      <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
-        {suite.gallery.length > 1 && (
-          <button
-            onClick={() => setPhotoIndex((prev) => (prev > 0 ? prev - 1 : suite.gallery.length - 1))}
-            className="absolute left-2 z-10 p-2.5 rounded-full bg-stone-900/80 border border-stone-700 text-stone-300 hover:text-white"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-        )}
 
         <picture>
           <source
@@ -99,35 +80,43 @@ Please let me know how to arrange custom stitching or fabric pickup in Lahore.`;
                 target.src = '/images/services/simple-suit.webp';
               }
             }}
-            className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl"
+            className="object-contain max-h-[85vh] max-w-full rounded-xl shadow-2xl"
             referrerPolicy="no-referrer"
           />
         </picture>
 
         {suite.gallery.length > 1 && (
-          <button
-            onClick={() => setPhotoIndex((prev) => (prev < suite.gallery.length - 1 ? prev + 1 : 0))}
-            className="absolute right-2 z-10 p-2.5 rounded-full bg-stone-900/80 border border-stone-700 text-stone-300 hover:text-white"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+          <div className="absolute bottom-8 flex gap-2">
+            <button
+              onClick={() => setPhotoIndex((prev) => (prev > 0 ? prev - 1 : suite.gallery.length - 1))}
+              className="flex-1 py-2 rounded-full bg-stone-900/80 border border-stone-700 text-stone-300 hover:text-white transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setPhotoIndex((prev) => (prev < suite.gallery.length - 1 ? prev + 1 : 0))}
+              className="flex-1 py-2 rounded-full bg-stone-900/80 border border-stone-700 text-stone-300 hover:text-white transition-colors"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         )}
-      </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-stone-800 pt-4">
-        <p className="text-xs text-stone-300 max-w-xl text-center sm:text-left">
-          {currentPhoto.caption}
-        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full max-w-2xl text-center">
+          <p className="text-xs text-stone-300 max-w-xl text-center sm:text-left">
+            {currentPhoto.caption}
+          </p>
 
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs shadow-lg transition-colors"
-        >
-          <MessageSquare className="w-4 h-4 fill-white" />
-          <span>Inquire on WhatsApp</span>
-        </a>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs shadow-lg transition-colors"
+          >
+            <MessageSquare className="w-4 h-4 fill-white" />
+            <span>Inquire on WhatsApp</span>
+          </a>
+        </div>
       </div>
     </div>
   );
