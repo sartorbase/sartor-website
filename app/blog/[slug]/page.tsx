@@ -115,11 +115,30 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const { title, excerpt, date, author, coverImage, tags, category, readingTime } =
+  const { title, excerpt, date, author, coverImage, tags, category, readingTime, faqs } =
     post.frontmatter;
+
+  const faqSchema = faqs && faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null;
 
   return (
     <article className="min-h-screen bg-stone-950 text-stone-100 selection:bg-amber-500/30 selection:text-amber-200">
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       {/* Sticky Reader Navigation Header */}
       <header className="sticky top-0 z-40 border-b border-stone-800/80 bg-stone-950/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3.5 sm:px-6">

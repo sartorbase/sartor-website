@@ -2,6 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 export interface PostFrontmatter {
   title: string;
   excerpt: string;
@@ -12,6 +17,8 @@ export interface PostFrontmatter {
   coverImage?: string;
   category?: string;
   readingTime?: string;
+  faqs?: FAQItem[];
+  imageWebp?: string;
 }
 
 export interface Post {
@@ -70,6 +77,8 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     coverImage: (data.coverImage as string) || undefined,
     category: (data.category as string) || 'Bespoke Tailoring',
     readingTime: (data.readingTime as string) || estimateReadingTime(content),
+    faqs: Array.isArray(data.faqs) ? (data.faqs as FAQItem[]) : undefined,
+    imageWebp: (data.imageWebp as string) || undefined,
   };
 
   return {
