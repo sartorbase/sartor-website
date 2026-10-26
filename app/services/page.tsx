@@ -14,6 +14,7 @@ import {
   Layers,
   ArrowRight,
 } from 'lucide-react';
+import { WHATSAPP_INTL } from '../../lib/constants';
 
 export const metadata: Metadata = {
   title: "Tailor Model Town Lahore | Lehenga & Saree Tailor Near Me | SARTOR Atelier",
@@ -53,7 +54,6 @@ export const metadata: Metadata = {
   },
 };
 
-const WHATSAPP_INTL = '923352209991';
 
 function getWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_INTL}?text=${encodeURIComponent(message)}`;

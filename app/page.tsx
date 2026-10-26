@@ -18,6 +18,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { MeasurementLeadMagnet } from '../components/MeasurementLeadMagnet';
+import { WHATSAPP_INTL } from '../lib/constants';
 
 export const metadata: Metadata = {
   title: "Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR",
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
   },
 };
 
-const WHATSAPP_INTL = '923352209991';
+
 
 function getWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_INTL}?text=${encodeURIComponent(message)}`;

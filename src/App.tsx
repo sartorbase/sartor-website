@@ -4,7 +4,6 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { MainLayout } from './components/templates/MainLayout';
 import { HeroSection } from './components/organisms/HeroSection';
 import { SpecializationBanner } from './components/organisms/SpecializationBanner';
-import { ServiceShowcase } from './components/organisms/ServiceShowcase';
 import { AboutTailoringSection } from './components/organisms/AboutTailoringSection';
 import { LocationMapSection } from './components/organisms/LocationMapSection';
 import { MeasurementLeadMagnet } from './components/organisms/MeasurementLeadMagnet';
@@ -70,10 +69,7 @@ export function App() {
         {/* 2. Tailoring Discipline & Quality Banner */}
         <SpecializationBanner />
 
-        {/* 3. Masterpiece Portfolio Showcase */}
-        <ServiceShowcase />
-
-        {/* 4. Master Cutter Abdul Ghaffar & Size Chart */}
+        {/* 3. Master Cutter Abdul Ghaffar & Size Chart */}
         <AboutTailoringSection />
 
         {/* 5. Moon Tower Studio Location & Doorstep Pickup Coverage */}

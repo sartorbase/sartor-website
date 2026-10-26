@@ -1,0 +1,8 @@
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\@babel\plugin-transform-async-to-generator\LICENSE'
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\@babel\plugin-proposal-private-property-in-object\LICENSE'
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\@babel\plugin-bugfix-v8-static-class-fields-redefine-readonly\LICENSE'
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\@babel\plugin-bugfix-v8-spread-parameters-in-optional-chaining\LICENSE'
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\@babel\plugin-syntax-import-assertions\LICENSE'
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\gensync\LICENSE'
+npm warn tar TAR_ENTRY_ERROR UNKNOWN: unknown error, open 'F:\Sartor Website\sartor-website\node_modules\json5\dist\index.min.js'
+npm warn deprecated glob@11.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me

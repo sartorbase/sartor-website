@@ -21,6 +21,7 @@ import {
   X,
   ExternalLink,
 } from 'lucide-react';
+import { WHATSAPP_INTL } from '../../lib/constants';
 
 export const metadata: Metadata = {
   title: "Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR",
@@ -60,7 +61,6 @@ export const metadata: Metadata = {
   },
 };
 
-const WHATSAPP_INTL = '923352209991';
 
 function getWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_INTL}?text=${encodeURIComponent(message)}`;

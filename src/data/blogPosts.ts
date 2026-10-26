@@ -869,7 +869,7 @@ Explore how our master cutters balance heavy textiles in [the velvet lehenga pro
 > * **Live Daylight Adda Video Approvals:** Inspect live kora, dabka, and waistband foundations  
 > * **Milestone Escrow:** 10% token booking, 30% sample approval, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
 
 ---
 
@@ -1442,7 +1442,7 @@ In reality, luxury Western wedding venues—such as The Pierre in New York, The 
 > * **Live Daylight Adda Video Approvals:** Inspect live kora, dabka, and velvet pile direction  
 > * **Milestone Escrow:** 10% token booking, 30% sample approval, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
 
 ---
 
@@ -1710,7 +1710,7 @@ Every necklace style demands a mathematically calculated neckline geometry. Choo
 > * **Daylight Adda Video Verification:** Inspect bullion tones alongside your jewelry photos  
 > * **Milestone Escrow:** 10% token booking, 30% adda sample, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore SARTOR's Bespoke Tailoring Services](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore SARTOR's Bespoke Tailoring Services](/services)
 
 ---
 
@@ -1969,7 +1969,7 @@ At SARTOR, we strictly ban synthetic polyester slips in favor of natural, climat
 > * **Custom Fabric Sourcing:** Match pure silk linings, velvet extensions, and lace borders directly from Lahore  
 > * **Milestone Escrow:** 10% token booking, 30% fabric audit, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore SARTOR's Bespoke Tailoring Services](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore SARTOR's Bespoke Tailoring Services](/services)
 
 ---
 
@@ -2206,7 +2206,7 @@ Dual-Dupatta Weight Distribution & Anchoring Architecture:
 > * **Live Daylight Adda Video Approvals:** Inspect live kora, dabka, and kiran swatches on the frame  
 > * **Milestone Escrow:** 10% token booking, 30% sample approval, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
 
 ---
 
@@ -2436,7 +2436,7 @@ Light Refraction & Color Engineering at SARTOR Atelier:
 > * **Live Daylight Adda Video Approvals:** Inspect live kora, dabka, and silk swatches before cutting  
 > * **Milestone Escrow:** 10% token booking, 30% sample approval, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
 
 ---
 
@@ -3514,7 +3514,7 @@ Mature Silhouette Engineering at SARTOR:
 > * **Daylight Adda Video Approvals:** Inspect live kora, dabka, and zardozi embroidery before fabric assembly  
 > * **Milestone Escrow:** 10% token booking, 30% sample approval, 30% mid-production, 30% final dispatch  
 > 
-> [👉 Create Your Free Digital Measurement Profile on app.sartor.pk](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
+> [👉 Request Early Testing Access to our Pre-Beta Measurement Portal (app.sartor.pk)](https://app.sartor.pk) | [Explore All Bespoke Tailoring Services at SARTOR](/services)
 
 ---
 
