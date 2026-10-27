@@ -152,19 +152,19 @@ Please let me know how we can begin.`;
       </header>
 
       {/* Hero Section */}
-      <section className="relative w-full overflow-hidden bg-stone-950 py-16 md:py-24 border-b border-stone-850">
+      <section className="relative w-full overflow-hidden bg-stone-950 py-20 md:py-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(245,158,11,0.18),_transparent_60%)] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(251,191,36,0.08),_transparent_55%)] pointer-events-none" />
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-stone-800/20 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative w-full px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-5xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono mb-6">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>Pakistani Tailor of Choice for Diaspora Brides & Luxury Couture</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-stone-100 tracking-tight leading-tight max-w-5xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-serif font-bold text-stone-100 tracking-tight leading-tight">
             Bespoke Women's Tailoring &amp; Luxury Embroidery
           </h1>
 
