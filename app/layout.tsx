@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Plus_Jakarta_Sans } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MeasurementStickyTrigger } from '../components/MeasurementStickyTrigger';
+import { AnalyticsScripts } from '../components/Analytics';
 import './globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -161,6 +162,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${cormorant.variable} ${jakarta.variable}`}>
       <head>
+        {/* Google Fonts Preconnect */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
         {/* Resource Hints: Preconnect to Critical Origins to Shave Mobile Handshake Latency */}
         <link rel="preconnect" href="https://www.sartor.pk" />
         <link rel="dns-prefetch" href="https://www.sartor.pk" />
@@ -172,6 +177,12 @@ export default function RootLayout({
         {/* Vercel Speed Insights & Analytics */}
         <link rel="preconnect" href="https://vitals.vercel-insights.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+
+        {/* Google Tag Manager & Google Analytics */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         
         <script
           type="application/ld+json"
@@ -183,6 +194,7 @@ export default function RootLayout({
         <MeasurementStickyTrigger />
         <Analytics />
         <SpeedInsights />
+        <AnalyticsScripts />
       </body>
     </html>
   );

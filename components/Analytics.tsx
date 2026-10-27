@@ -51,9 +51,9 @@ export function AnalyticsScripts(): React.ReactElement {
 
       {/* ------------------------------------------------------------------ */}
       {/* 2. META (FACEBOOK) PIXEL                                          */}
-      {/* Asynchronously boots fbq without blocking thread execution        */}
+      {/* Loaded with lazyOnload to never block mobile main thread parsing  */}
       {/* ------------------------------------------------------------------ */}
-      <Script id="meta-pixel-init" strategy="afterInteractive">
+      <Script id="meta-pixel-init" strategy="lazyOnload">
         {`
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

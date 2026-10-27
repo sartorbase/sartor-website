@@ -1,8 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Ruler, Sparkles } from 'lucide-react';
-import { MeasurementModal } from './MeasurementModal';
+
+const MeasurementModal = dynamic(
+  () => import('./MeasurementModal').then((mod) => mod.MeasurementModal),
+  { ssr: false }
+);
 
 export interface MeasurementStickyTriggerProps {
   enableExitIntent?: boolean;
@@ -66,12 +71,14 @@ export const MeasurementStickyTrigger: React.FC<MeasurementStickyTriggerProps> =
         </aside>
       )}
 
-      {/* Measurement Modal */}
-      <MeasurementModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        source={modalSource}
-      />
+      {/* Measurement Modal (Deferred until opened) */}
+      {modalOpen && (
+        <MeasurementModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          source={modalSource}
+        />
+      )}
     </>
   );
 };

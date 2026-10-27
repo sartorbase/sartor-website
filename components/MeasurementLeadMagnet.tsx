@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import {
   Ruler,
   CheckCircle2,
@@ -11,7 +12,11 @@ import {
   Sparkles,
   ExternalLink,
 } from 'lucide-react';
-import { MeasurementModal } from './MeasurementModal';
+
+const MeasurementModal = dynamic(
+  () => import('./MeasurementModal').then((mod) => mod.MeasurementModal),
+  { ssr: false }
+);
 
 export interface MeasurementLeadMagnetProps {
   onOpenModal?: () => void;
@@ -127,8 +132,8 @@ export const MeasurementLeadMagnet: React.FC<MeasurementLeadMagnetProps> = ({
         </div>
       </section>
 
-      {/* Internal Modal if no external handler provided */}
-      {!onOpenModal && (
+      {/* Internal Modal if no external handler provided (Deferred until opened) */}
+      {!onOpenModal && internalModalOpen && (
         <MeasurementModal
           isOpen={internalModalOpen}
           onClose={() => setInternalModalOpen(false)}

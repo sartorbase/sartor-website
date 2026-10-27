@@ -284,10 +284,11 @@ I would like to share my design references and schedule a live digital sizing se
             <div className="group rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-amber-400/50 shadow-2xl transition-all duration-300 flex flex-col text-left">
               <div className="relative aspect-[4/3] bg-neutral-950 overflow-hidden">
                 <img
-                  src="/images/barat-crimson-bridal.jpg"
+                  src="/images/barat-crimson-bridal.webp"
                   alt="SARTOR Bespoke Crimson Velvet & Raw Silk Barat Bridal Lehenga with Zardozi Handwork"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                  loading="eager"
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
@@ -333,10 +334,11 @@ I would like to share my design references and schedule a live digital sizing se
             <div className="group rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-amber-400/50 shadow-2xl transition-all duration-300 flex flex-col text-left">
               <div className="relative aspect-[4/3] bg-neutral-950 overflow-hidden">
                 <img
-                  src="/images/walima-champagne-gown.jpg"
+                  src="/images/walima-champagne-gown.webp"
                   alt="SARTOR Champagne Gold & Sage Green Walima Bridal Couture Gown with Tilla Needlework"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                  loading="eager"
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
@@ -382,10 +384,11 @@ I would like to share my design references and schedule a live digital sizing se
             <div className="group rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-amber-400/50 shadow-2xl transition-all duration-300 flex flex-col text-left">
               <div className="relative aspect-[4/3] bg-neutral-950 overflow-hidden">
                 <img
-                  src="/images/mehndi-mustard-kalidar.jpg"
+                  src="/images/mehndi-mustard-kalidar.webp"
                   alt="SARTOR Festive Mustard Yellow & Emerald Green Kalidar Flared Bridal Lehenga for Mehndi"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                  loading="eager"
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />

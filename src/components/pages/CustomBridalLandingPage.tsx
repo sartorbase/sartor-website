@@ -243,7 +243,7 @@ I would like to share my design references and schedule a live digital sizing se
                     src="/images/barat-crimson-bridal.jpg"
                     alt="SARTOR Bespoke Crimson Velvet & Raw Silk Barat Bridal Lehenga with Zardozi Handwork"
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
                     referrerPolicy="no-referrer"
                   />
