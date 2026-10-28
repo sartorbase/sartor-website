@@ -60,7 +60,7 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex flex-col items-center">
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-stone-100 tracking-tight leading-[1.14]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif fallback-georgia font-bold text-stone-100 tracking-tight leading-[1.14]">
               Bespoke Women&apos;s Tailoring{' '}
               <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500">
                 &amp; Luxury Embroidery

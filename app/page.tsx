@@ -165,7 +165,7 @@ Please let me know how we can begin.`;
             <span>Pakistani Tailor of Choice for Diaspora Brides & Luxury Couture</span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-serif font-bold text-stone-100 tracking-tight leading-tight">
+          <h1 className="text-4xl md:text-6xl font-serif fallback-georgia font-bold text-stone-100 tracking-tight leading-tight">
             Bespoke Women's Tailoring &amp; Luxury Embroidery
           </h1>
 

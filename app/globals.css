@@ -24,9 +24,15 @@
     font-size: 16px;
   }
 
-  h1, h2, h3, h4, .font-serif {
-    font-family: var(--font-cormorant), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  h1, h2, h3, h4, .font-serif, .fallback-georgia {
+    font-family: var(--font-cormorant), Georgia, Cambria, "Times New Roman", Times, serif;
+    font-display: swap;
   }
+}
+
+.fallback-georgia {
+  font-family: var(--font-cormorant), Georgia, Cambria, "Times New Roman", Times, serif;
+  font-display: swap;
 }
 
 ::-webkit-scrollbar {

@@ -10,6 +10,7 @@ const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
+  preload: true,
   variable: '--font-cormorant',
 });
 
@@ -17,6 +18,7 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
+  preload: true,
   variable: '--font-jakarta',
 });
 
@@ -189,7 +191,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
         />
       </head>
-      <body className="bg-stone-950 text-stone-100 font-sans antialiased selection:bg-amber-800 selection:text-white min-h-screen flex flex-col">
+      <body className={`${cormorant.variable} ${jakarta.variable} bg-stone-950 text-stone-100 font-sans antialiased selection:bg-amber-800 selection:text-white min-h-screen flex flex-col`}>
         {children}
         <MeasurementStickyTrigger />
         <Analytics />
