@@ -1,25 +1,32 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import {
   MessageCircle,
   ShieldCheck,
   Video,
   Truck,
   Sparkles,
-  Scissors,
-  CheckCircle2,
-  ArrowRight,
-  Ruler,
-  Globe2,
-  Clock,
-  Star,
-  Layers,
   MapPin,
-  Phone,
 } from 'lucide-react';
-import { MeasurementLeadMagnet } from '../components/MeasurementLeadMagnet';
-import { SareeDrapingGuideSection } from '../components/SareeDrapingGuideSection';
 import { WHATSAPP_LINK } from '../lib/constants';
+
+// Surgical Dynamic Imports: Defer below-the-fold components to optimize mobile FCP & LCP
+const HomeServicesSection = dynamic(() => import('../components/HomeServicesSection'), {
+  ssr: true,
+});
+
+const SareeDrapingGuideSection = dynamic(() => import('../components/SareeDrapingGuideSection'), {
+  ssr: true,
+});
+
+const HomeFAQSection = dynamic(() => import('../components/HomeFAQSection'), {
+  ssr: false,
+});
+
+const MeasurementLeadMagnet = dynamic(() => import('../components/MeasurementLeadMagnet'), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR",
@@ -58,8 +65,6 @@ export const metadata: Metadata = {
     images: ['https://www.sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'],
   },
 };
-
-
 
 function getWhatsAppUrl(message: string): string {
   return `${WHATSAPP_LINK}?text=${encodeURIComponent(message)}`;
@@ -152,7 +157,7 @@ Please let me know how we can begin.`;
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Critical Hero Section (Immediate SSR paint with fallback-georgia system font) */}
       <section className="relative w-full overflow-hidden bg-stone-950 py-20 md:py-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(245,158,11,0.18),_transparent_60%)] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(251,191,36,0.08),_transparent_55%)] pointer-events-none" />
@@ -193,93 +198,16 @@ Please let me know how we can begin.`;
         </div>
       </section>
 
+      {/* Below-the-fold: Dynamically Loaded Services Grid */}
+      <HomeServicesSection />
 
-      {/* Tailoring Disciplines & Quick Access */}
-      <section className="py-16 bg-stone-900/40 border-b border-stone-850">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
-            <div>
-              <span className="text-amber-400 font-mono text-xs uppercase tracking-wider font-semibold">
-                Bespoke Services
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-100 mt-1">
-                Precision Women&apos;s Tailoring in Model Town, Lahore
-              </h2>
-            </div>
-            <a
-              href="/services"
-              className="text-amber-400 hover:text-amber-300 text-sm font-semibold flex items-center gap-1.5 mt-2 md:mt-0"
-            >
-              <span>View Full Services &amp; Pricing Directory</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1 */}
-            <div className="p-6 rounded-2xl bg-stone-900 border border-stone-800 hover:border-amber-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <span className="text-xs font-mono text-amber-400 font-semibold uppercase">High Couture</span>
-                <h3 className="text-xl font-serif font-bold text-stone-100 mt-1">
-                  Custom Bridal Lehengas &amp; Ghararas
-                </h3>
-                <p className="text-stone-300 text-sm mt-3 leading-relaxed">
-                  Authentic hand-embroidered Zardozi, kora, dabka, and marori on pure 80g/100g raw silk. Structured 3-tier canvas waistband suspension and custom flare.
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-stone-800 flex items-center justify-between">
-                <span className="text-stone-400 text-xs font-mono">Bespoke from $2,000+</span>
-                <a href="/custom-bridal" className="text-amber-400 text-xs font-semibold hover:underline">
-                  Bridal Suite &rarr;
-                </a>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="p-6 rounded-2xl bg-stone-900 border border-stone-800 hover:border-amber-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <span className="text-xs font-mono text-amber-400 font-semibold uppercase">Heritage Drapes</span>
-                <h3 className="text-xl font-serif font-bold text-stone-100 mt-1">
-                  Saree Stitching &amp; Fall Finishing
-                </h3>
-                <p className="text-stone-300 text-sm mt-3 leading-relaxed">
-                  Tailor-fitted blouses with bra-cup structuring, back tie-ups, seamless cotton falls, and pico edging. Perfect drape for organza, silk, and banarsi sarees.
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-stone-800 flex items-center justify-between">
-                <span className="text-stone-400 text-xs font-mono">Local &amp; Overseas Delivery</span>
-                <a href="/services" className="text-amber-400 text-xs font-semibold hover:underline">
-                  View Rates &rarr;
-                </a>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="p-6 rounded-2xl bg-stone-900 border border-stone-800 hover:border-amber-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <span className="text-xs font-mono text-amber-400 font-semibold uppercase">Festive Pret</span>
-                <h3 className="text-xl font-serif font-bold text-stone-100 mt-1">
-                  16-Kali Kalidars &amp; Luxury Suits
-                </h3>
-                <p className="text-stone-300 text-sm mt-3 leading-relaxed">
-                  Flawless panel alignment, bias-cut flare, pure malmal slip linings, and hand-embroidered necklines. Crafted to accentuate grace without bulk.
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-stone-800 flex items-center justify-between">
-                <span className="text-stone-400 text-xs font-mono">Free Lahore Pickup</span>
-                <a href="/services" className="text-amber-400 text-xs font-semibold hover:underline">
-                  Explore Designs &rarr;
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Saree Draping & Blouse Architecture Guide Section */}
+      {/* Below-the-fold: Dynamically Loaded Saree Draping & Blouse Architecture Section */}
       <SareeDrapingGuideSection />
 
-      {/* Digital Measurement Profile Lead Magnet Banner */}
+      {/* Below-the-fold: Dynamically Loaded Atelier FAQ Section */}
+      <HomeFAQSection />
+
+      {/* Below-the-fold: Dynamically Loaded Digital Measurement Lead Magnet */}
       <MeasurementLeadMagnet sourceContext="homepage" />
 
       {/* Footer */}
