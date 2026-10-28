@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import http from 'http';
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import compression from 'compression';
 import { GoogleGenAI } from '@google/genai';
@@ -11,8 +10,9 @@ import { injectSeoIntoHtml, generateSitemapXml } from './src/server/seoRenderer'
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Server-wide base root directory
+const appRoot = process.cwd();
+const __dirname = appRoot;
 
 function getCliPort(): number {
   const portIndex = process.argv.indexOf('--port');

@@ -6,6 +6,7 @@ import { HeroSection } from './components/organisms/HeroSection';
 import { SpecializationBanner } from './components/organisms/SpecializationBanner';
 import { AboutTailoringSection } from './components/organisms/AboutTailoringSection';
 import { LocationMapSection } from './components/organisms/LocationMapSection';
+import { SareeDrapingGuideSection } from './components/organisms/SareeDrapingGuideSection';
 import { MeasurementLeadMagnet } from './components/organisms/MeasurementLeadMagnet';
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
@@ -71,6 +72,9 @@ export function App() {
 
         {/* 3. Master Cutter Abdul Ghaffar & Size Chart */}
         <AboutTailoringSection />
+
+        {/* 4. Saree Draping & Blouse Architecture Guide */}
+        <SareeDrapingGuideSection />
 
         {/* 5. Moon Tower Studio Location & Doorstep Pickup Coverage */}
         <LocationMapSection />

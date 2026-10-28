@@ -18,6 +18,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { MeasurementLeadMagnet } from '../components/MeasurementLeadMagnet';
+import { SareeDrapingGuideSection } from '../components/SareeDrapingGuideSection';
 import { WHATSAPP_LINK } from '../lib/constants';
 
 export const metadata: Metadata = {
@@ -274,6 +275,9 @@ Please let me know how we can begin.`;
           </div>
         </div>
       </section>
+
+      {/* Saree Draping & Blouse Architecture Guide Section */}
+      <SareeDrapingGuideSection />
 
       {/* Digital Measurement Profile Lead Magnet Banner */}
       <MeasurementLeadMagnet sourceContext="homepage" />
