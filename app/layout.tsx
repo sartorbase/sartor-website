@@ -164,6 +164,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${cormorant.variable} ${jakarta.variable}`}>
       <head>
+        <style dangerouslySetInnerHTML={{ __html: `
+          body { background-color: #0c0a09; color: #f5f5f4; margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+          h1, .fallback-georgia { font-family: Georgia, Cambria, 'Times New Roman', Times, serif; font-display: swap; }
+        `}} />
         {/* Google Fonts Preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

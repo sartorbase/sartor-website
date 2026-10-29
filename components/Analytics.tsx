@@ -30,14 +30,14 @@ export function AnalyticsScripts(): React.ReactElement {
     <>
       {/* ------------------------------------------------------------------ */}
       {/* 1. GOOGLE TAG (gtag.js) - Google Ads & Google Analytics 4           */}
-      {/* Loaded with strategy="afterInteractive" to protect Core Web Vitals */}
+      {/* Loaded with strategy="lazyOnload" to eliminate render blocking and protect FCP */}
       {/* ------------------------------------------------------------------ */}
       <Script
         id="google-gtag-src"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${primaryGtagId}`}
       />
-      <Script id="google-gtag-init" strategy="afterInteractive">
+      <Script id="google-gtag-init" strategy="lazyOnload">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
