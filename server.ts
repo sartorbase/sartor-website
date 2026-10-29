@@ -326,7 +326,16 @@ async function startServer() {
     });
   } else {
     const distPath = path.resolve(__dirname, 'dist');
-    app.use(express.static(distPath, { index: false }));
+    app.use(express.static(distPath, {
+      index: false,
+      maxAge: '365d',
+      immutable: true,
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800');
+        }
+      },
+    }));
 
     app.use('*', (req: Request, res: Response) => {
       const url = req.originalUrl;
@@ -334,7 +343,10 @@ async function startServer() {
       if (fs.existsSync(indexHtmlPath)) {
         const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
         const { status, html } = injectSeoIntoHtml(baseHtml, url);
-        res.status(status).set({ 'Content-Type': 'text/html' }).end(html);
+        res.status(status).set({
+          'Content-Type': 'text/html',
+          'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800',
+        }).end(html);
       } else {
         res.status(404).send('Not Found');
       }

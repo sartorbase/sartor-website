@@ -28,6 +28,10 @@ const MeasurementLeadMagnet = dynamic(() => import('../components/MeasurementLea
   ssr: false,
 });
 
+// Route Caching & ISR: Cache pre-rendered HTML at Vercel Edge Network for 24 hours
+export const revalidate = 86400; // Cache for 24 hours at Edge
+export const dynamic = 'force-static';
+
 export const metadata: Metadata = {
   title: "Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR",
   description: "Master bespoke Pakistani tailor in Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, & luxury couture. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).",
