@@ -48,6 +48,7 @@ ${xmlEntries}
 
 function formatInline(text: string): string {
   let res = escapeHtml(text);
+  res = res.replace(/!\[(.*?)\]\((.*?)\)/g, '<div class="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]"><img src="$2" alt="$1" class="w-full h-full object-cover" loading="eager" /></div>');
   res = res.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-amber-300 text-xs font-mono">$1</code>');
   res = res.replace(/\*\*\*(.*?)\*\*\*/g, '<strong class="text-stone-100 font-bold"><em class="italic">$1</em></strong>');
   res = res.replace(/\*\*(.*?)\*\*/g, '<strong class="text-stone-100 font-bold">$1</strong>');
@@ -226,7 +227,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     // Extract FAQs for Schema.org JSON-LD
     const faqMatches: { question: string; answer: string }[] = [];
-    const faqSectionMatch = post.content.match(/## Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
+    const faqSectionMatch = post.content.match(/##\s*(?:\d+[\.\)]\s*)?Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
     if (faqSectionMatch) {
       const faqText = faqSectionMatch[1];
       const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;
@@ -350,7 +351,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}\n</head>`);
     }
 
-    const heroImageHtml = post.coverImage
+    const heroImageHtml = post.coverImage && !post.content.includes(post.coverImage)
       ? `<div class="mb-10 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
           <picture>
             <source type="image/webp" srcset="${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}" />
@@ -369,10 +370,28 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const pageDesc = 'Insights on bespoke women tailoring, saree stitching, and Lahore couture.';
     const archiveUrl = 'https://sartor.pk/blog';
 
+    const blogCardsHtml = `
+      <main class="max-w-6xl mx-auto px-4 py-12">
+        <h1 class="text-3xl font-serif font-bold text-amber-400 mb-8">Atelier Journal & Couture Guides</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          ${BLOG_POSTS.slice(0, 15).map(post => `
+            <article class="p-6 rounded-2xl bg-stone-900 border border-stone-800">
+              <span class="text-xs text-amber-400 uppercase tracking-widest font-mono">${escapeHtml(post.category)}</span>
+              <h2 class="text-xl font-serif font-bold text-stone-100 my-2">
+                <a href="/blog/${post.slug}" class="hover:text-amber-300 transition-colors">${escapeHtml(post.title)}</a>
+              </h2>
+              <p class="text-stone-400 text-sm line-clamp-3">${escapeHtml(post.excerpt)}</p>
+            </article>
+          `).join('')}
+        </div>
+      </main>
+    `;
+
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(pageDesc)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${archiveUrl}" />`);
+      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${archiveUrl}" />`)
+      .replace('<div id="root"></div>', `<div id="root">${blogCardsHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
   }

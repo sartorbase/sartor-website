@@ -41,17 +41,17 @@ export function HeroImage({
   ...props
 }: HeroImageProps) {
   const desktopAspectClasses = {
-    landscape: 'sm:aspect-16/9',
-    cinematic: 'sm:aspect-21/9',
-    portrait: 'sm:aspect-4/5',
+    landscape: 'sm:aspect-[16/9] sm:aspect-video',
+    cinematic: 'sm:aspect-[21/9]',
+    portrait: 'sm:aspect-[4/5]',
     square: 'sm:aspect-square',
-  }[aspectRatio];
+  }[aspectRatio] || 'sm:aspect-[16/9]';
 
   const mobileAspectClasses = {
-    portrait: 'aspect-3/4',
+    portrait: 'aspect-[3/4]',
     square: 'aspect-square',
-    landscape: 'aspect-3/2',
-  }[mobileAspectRatio];
+    landscape: 'aspect-[16/9] aspect-video',
+  }[mobileAspectRatio] || 'aspect-[16/9]';
 
   // Micro-weight inline SVG shimmer placeholder (< 180 bytes)
   const shimmerBase64 =

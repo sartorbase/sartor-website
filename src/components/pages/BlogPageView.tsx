@@ -290,13 +290,12 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
           </header>
 
           {/* Cover Image */}
-          {activePost.coverImage && (
+          {activePost.coverImage && !activePost.content.includes(activePost.coverImage) && (
             <div className="mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
               <picture>
                 <source
                   type="image/webp"
-                  srcSet={`${activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 1200w, ${activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 640w`}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
+                  srcSet={activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
                 />
                 <img
                   src={activePost.coverImage}
@@ -306,7 +305,6 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                   fetchPriority="high"
                   width={1200}
                   height={675}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
                   className="w-full h-full object-cover"
                 />
               </picture>
@@ -318,6 +316,17 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
+                img: ({ src, alt, ...props }) => (
+                  <div className="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
+                    <img
+                      src={src}
+                      alt={alt || activePost.title}
+                      loading="eager"
+                      className="w-full h-full object-cover"
+                      {...props}
+                    />
+                  </div>
+                ),
                 blockquote: ({ children }) => (
                   <div className="my-6 p-6 rounded-2xl bg-stone-900/90 border-l-4 border-amber-500 border-stone-800 text-stone-200 shadow-lg font-sans">
                     {children}
@@ -474,17 +483,27 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                   <picture>
                     <source
                       type="image/webp"
-                      srcSet={`${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 800w, ${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} 400w`}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
+                      srcSet={post.coverImage.includes('?') 
+                        ? post.coverImage.replace(/\.(jpe?g|png)/i, '.webp') 
+                        : `${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}?v=20261031`}
                     />
                     <img
-                      src={post.coverImage}
+                      src={post.coverImage.includes('?') 
+                        ? post.coverImage 
+                        : `${post.coverImage}?v=20261031`}
                       alt={post.coverImageAlt || post.title}
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
                       width={640}
                       height={360}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (!target.dataset.fallbackTried) {
+                          target.dataset.fallbackTried = 'true';
+                          target.src = '/images/padded-saree-blouse-blueprint-scye-depth-boning.jpg';
+                        }
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </picture>

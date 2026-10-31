@@ -73,6 +73,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: excerpt,
       images: coverImage ? [coverImage] : undefined,
     },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 

@@ -5,7 +5,7 @@
 - **Business Entity**: SARTOR Bespoke Women's Tailoring & Haute Couture Atelier
 - **Official Domains**: https://sartor.pk (Primary) | https://app.sartor.pk (SaaS Biometric Portal)
 - **Atelier Address**: F-9 Moon Tower, International Market, Model Town, Lahore, Punjab 54700, Pakistan
-- **Phone / WhatsApp**: +92 332 0500904 (International: +92-335-2209991 / Local dial: 0332-0500904)
+- **Phone / WhatsApp**: +92 332 0500904 (International: +92-332-0500904 / Local dial: 0332-0500904)
 - **Primary Ordering & Inquiries**: WhatsApp Direct Link: https://wa.me/923320500904
 - **Email**: contact@sartor.pk
 - **Operating Hours**:
@@ -89,6 +89,9 @@ SARTOR is engineered specifically to eliminate the traditional risks of ordering
 2. **The Overseas Pakistani Bridal Dupatta Guide: Weight Distribution, Drape Physics, and Secure Styling for 12-Hour Celebrations**
    - URL: https://sartor.pk/blog/overseas-pakistani-bridal-dupatta-weight-distribution-guide
    - Key Facts: Architectural dual-dupatta system transferring 85% of garment weight to skeletal shoulder frame, featherweight 35–45 GSM silk organza head veil (<650g) with hand-stitched flexible comb anchor and reinforced eyelet tabs, heavyweight 80–110 GSM Katan silk shoulder drape (2.5–4kg) bearing full antique zardozi/dabka, and 12-hour tension-free bridal comfort abroad.
+1. **The Scye Depth Equation: Why Overseas Saree Blouses Gape at the Back**
+   - URL: https://sartor.pk/blog/the-scye-depth-equation-why-saree-blouses-gape-at-the-back
+   - Key Facts: Anatomical scye depth formula, thoracic spine curvature compensation, asymmetric anterior-to-posterior armscye ratios, internal German Rigilene boning channels, 2.0-inch seam margins, and eliminating back dori strings for overseas diaspora clients.
 2. **The Ultimate Pakistani Bridal Lehenga Color Palette Guide for Overseas Brides**
    - URL: https://sartor.pk/blog/pakistani-bridal-lehenga-color-palette-guide-overseas-venues
    - Key Facts: Light absorption physics of pure 80–110 GSM Katan silk vs synthetic satin, blue-undertone imperial crimsons for tungsten Western ballrooms, champagne/oyster/sage for high-CRI Dubai marble halls, antique hollow dabka coils vs machine tilla flash glare, and 4-step milestone escrow payments.

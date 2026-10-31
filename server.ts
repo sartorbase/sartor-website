@@ -57,25 +57,38 @@ app.use((req: Request, res: Response, next) => {
   const acceptHeader = req.headers.accept || '';
   const supportsWebp = acceptHeader.includes('image/webp');
 
-  if (/\.(jpe?g|png)$/i.test(urlPath)) {
+  if (/\.(jpe?g|png|webp)$/i.test(urlPath)) {
     res.setHeader('Vary', 'Accept');
     res.setHeader('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
 
-    if (supportsWebp) {
+    // 1. If client supports WebP and requested JPG/PNG, try WebP first
+    if (supportsWebp && /\.(jpe?g|png)$/i.test(urlPath)) {
       const webpRelPath = urlPath.replace(/\.(jpe?g|png)$/i, '.webp');
-      const candidates = [
-        path.join(__dirname, 'dist', webpRelPath),
+      const webpCandidates = [
         path.join(__dirname, 'public', webpRelPath),
+        path.join(__dirname, 'dist', webpRelPath),
       ];
-      for (const cand of candidates) {
-        if (fs.existsSync(cand)) {
+      for (const cand of webpCandidates) {
+        if (fs.existsSync(cand) && !fs.statSync(cand).isDirectory()) {
           res.setHeader('Content-Type', 'image/webp');
           return res.sendFile(cand);
         }
       }
     }
-  } else if (/\.webp$/i.test(urlPath)) {
-    res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+
+    // 2. Direct file match in public or dist
+    const directCandidates = [
+      path.join(__dirname, 'public', urlPath),
+      path.join(__dirname, 'dist', urlPath),
+    ];
+    for (const cand of directCandidates) {
+      if (fs.existsSync(cand) && !fs.statSync(cand).isDirectory()) {
+        const ext = path.extname(cand).toLowerCase();
+        const contentType = ext === '.webp' ? 'image/webp' : ext === '.png' ? 'image/png' : 'image/jpeg';
+        res.setHeader('Content-Type', contentType);
+        return res.sendFile(cand);
+      }
+    }
   } else if (urlPath.startsWith('/assets/')) {
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
   } else if (urlPath === '/sw.js') {
