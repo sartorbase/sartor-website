@@ -13,6 +13,8 @@ import {
   ExternalLink,
 } from 'lucide-react';
 
+import { SITE_CONFIG } from '../src/config/site';
+
 const MeasurementModal = dynamic(
   () => import('./MeasurementModal').then((mod) => mod.MeasurementModal),
   { ssr: false }
@@ -39,9 +41,9 @@ export const MeasurementLeadMagnet: React.FC<MeasurementLeadMagnetProps> = ({
     }
   };
 
-  const whatsappVideoCallUrl = `https://wa.me/923352209991?text=${encodeURIComponent(
+  const whatsappVideoCallUrl = SITE_CONFIG.whatsapp.getLink(
     'Hi SARTOR team, I want to schedule a guided video fitting call for my measurement profile.'
-  )}`;
+  );
 
   return (
     <>

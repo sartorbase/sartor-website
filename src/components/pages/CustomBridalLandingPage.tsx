@@ -14,6 +14,7 @@ import {
   Scissors,
 } from 'lucide-react';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 import { navigateTo } from '../../utils/navigation';
 
 export const CustomBridalLandingPage: React.FC = () => {
@@ -1079,7 +1080,7 @@ I would like to share my design references and schedule a live digital sizing se
           <div className="mt-8 pt-8 border-t border-neutral-800/80 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono text-neutral-400 text-center">
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">DIRECT WHATSAPP</span>
-              <span>+92 335 2209991</span>
+              <span>{SITE_CONFIG.whatsapp.display}</span>
             </div>
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">ATELIER LOCATION</span>

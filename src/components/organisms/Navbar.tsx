@@ -3,6 +3,7 @@ import { Menu, MessageSquare, X } from 'lucide-react';
 import { SartorLogo } from '../atoms/SartorLogo';
 import { PWAInstallButton } from '../atoms/PWAInstallButton';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 import { navigateTo } from '../../utils/navigation';
 
 export interface NavbarProps {
@@ -104,7 +105,7 @@ Please guide me on stitching rates, timeframes, and doorstep fabric pickup in La
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-md transition-colors"
           >
             <MessageSquare className="w-3.5 h-3.5 fill-white" />
-            <span>WhatsApp (0335-2209991)</span>
+            <span>WhatsApp ({SITE_CONFIG.whatsapp.local})</span>
           </a>
         </div>
 

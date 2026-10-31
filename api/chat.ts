@@ -24,7 +24,7 @@ Your expertise covers:
    - Located at Moon Tower, International Market, Block C, Model Town, Lahore.
    - Dedicated doorstep fabric pickup and delivery across Lahore (DHA, Gulberg, Model Town, Cantt, Johar Town, Bahria, etc.).
    - Standard turnaround: 5 to 7 days for pret/casual; 2 to 3 weeks for bridal/ceremonial with express options.
-   - Direct WhatsApp order & consultation line: +92 335 2209991 (0335-2209991).
+   - Direct WhatsApp order & consultation line: +92 332 0500904 (0332-0500904).
 5. Real-Time Google Search Grounding:
    - When asked about current Pakistani fashion trends, upcoming wedding season styles, designer lawn/winter releases, colors of the season, or fabric market rates in Lahore (Liberty, Ichhra, Anarkali), provide fresh, accurate, and trendsetting advice!
    - Ground your answers with real fashion insights, silhouettes, and styling recommendations.
@@ -34,7 +34,7 @@ Tone & Style:
 - Welcoming with authentic Pakistani hospitality (e.g., "Assalam-o-Alaikum", "Khushamdeed").
 - Seamlessly understand both English and Roman Urdu / Urdu fashion terms (e.g., daman, gala, bazu, tilla, kali, dupatta, churidar).
 - Format responses clearly using markdown (headings, bullet points, bold accents).
-- When appropriate, encourage the client to send their design inspiration or book an appointment via WhatsApp (+92 335 2209991).`;
+- When appropriate, encourage the client to send their design inspiration or book an appointment via WhatsApp (+92 332 0500904).`;
 
 let aiClient: GoogleGenAI | null = null;
 let lastKeyUsed: string | null = null;
@@ -90,7 +90,7 @@ export default async function handler(req: any, res: any) {
     if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length === 0) {
       // Return 200 JSON payload with graceful fallback message instead of throwing an unhandled exception or 500 error
       return res.status(200).json({
-        text: "Assalam-o-Alaikum! Welcome to Sartor Atelier. Our AI Fashion Stylist is currently preparing consultations. For immediate bespoke design inquiries, fabric yardage estimates, and stitching bookings, please contact our Master Tailors at Moon Tower, Model Town, Lahore directly via WhatsApp at 0335-2209991.",
+        text: "Assalam-o-Alaikum! Welcome to Sartor Atelier. Our AI Fashion Stylist is currently preparing consultations. For immediate bespoke design inquiries, fabric yardage estimates, and stitching bookings, please contact our Master Tailors at Moon Tower, Model Town, Lahore directly via WhatsApp at 0332-0500904.",
         error: 'Gemini API key is not configured. Please set GEMINI_API_KEY or VITE_GEMINI_API_KEY in your environment variables.',
         isApiKeyMissing: true,
         isQuotaExceeded: false,
@@ -144,7 +144,7 @@ export default async function handler(req: any, res: any) {
 
       // Return detailed JSON error details for debugging without throwing 500
       return res.status(200).json({
-        text: `I apologize, but I encountered an issue connecting with the styling service (${userFriendlyError}). You can also reach our atelier directly on WhatsApp at 0335-2209991.`,
+        text: `I apologize, but I encountered an issue connecting with the styling service (${userFriendlyError}). You can also reach our atelier directly on WhatsApp at 0332-0500904.`,
         error: userFriendlyError,
         details: {
           message: rawMessage,
@@ -179,7 +179,7 @@ export default async function handler(req: any, res: any) {
     console.error('Unhandled exception in /api/chat handler:', error);
     // Never crash or return 500; always return a graceful JSON payload
     return res.status(200).json({
-      text: 'Our AI Stylist is temporarily unavailable. Please contact Sartor Atelier directly at 0335-2209991.',
+      text: 'Our AI Stylist is temporarily unavailable. Please contact Sartor Atelier directly at 0332-0500904.',
       error: error?.message || 'An unexpected error occurred.',
       details: String(error),
       isApiKeyMissing: false,

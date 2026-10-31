@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { PRICING_LIST } from '../../data/sizes';
 import { analytics, buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 import { PricingItem } from '../../types';
 
 const easeCurve = [0.22, 1, 0.36, 1] as const;
@@ -44,7 +45,7 @@ Please guide me on sending fabric / fabric pickup in Lahore and sharing measurem
 
   const heroMainWhatsAppUrl = buildWhatsAppLink(
     `Assalam-o-Alaikum SARTOR Atelier,
-I would like to book an order for bespoke women's tailoring (0335-2209991).
+I would like to book an order for bespoke women's tailoring (${SITE_CONFIG.whatsapp.local}).
 Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and turnaround time.`,
     'hero_cta'
   );
@@ -81,7 +82,7 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base sm:text-lg shadow-xl shadow-emerald-950/50 hover:shadow-emerald-900/60 border border-emerald-400/40 transition-all text-center cursor-pointer"
               >
                 <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 fill-current shrink-0" />
-                <span>Book Order on WhatsApp (0335-2209991)</span>
+                <span>Book Order on WhatsApp ({SITE_CONFIG.whatsapp.local})</span>
               </a>
             </div>
           </div>

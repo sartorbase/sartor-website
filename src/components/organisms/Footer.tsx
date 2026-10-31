@@ -1,6 +1,7 @@
 import React from 'react';
 import { SartorLogo } from '../atoms/SartorLogo';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 import { navigateTo } from '../../utils/navigation';
 import { MessageSquare, MapPin, Phone, Clock, ShieldCheck, Sparkles, BookOpen } from 'lucide-react';
 
@@ -67,7 +68,7 @@ I would like to enquire about bespoke tailoring services and doorstep fabric col
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-700/30 hover:bg-emerald-700/50 border border-emerald-500/40 text-emerald-300 hover:text-emerald-200 text-sm font-semibold transition-all"
               >
                 <MessageSquare className="w-4 h-4 fill-current shrink-0" />
-                <span>WhatsApp: +92 335 2209991</span>
+                <span>WhatsApp: {SITE_CONFIG.whatsapp.display}</span>
               </a>
             </div>
           </div>
@@ -200,7 +201,7 @@ I would like to enquire about bespoke tailoring services and doorstep fabric col
               </p>
               <p className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>+92 335 2209991</span>
+                <span>{SITE_CONFIG.whatsapp.display}</span>
               </p>
               <p className="flex items-center gap-2.5">
                 <Clock className="w-4 h-4 text-amber-500 shrink-0" />
@@ -240,7 +241,7 @@ I would like to enquire about bespoke tailoring services and doorstep fabric col
               rel="noopener noreferrer"
               className="hover:text-emerald-400 text-emerald-500 font-semibold transition-colors"
             >
-              WhatsApp Support (0335-2209991)
+              WhatsApp Support ({SITE_CONFIG.whatsapp.local})
             </a>
           </p>
         </div>

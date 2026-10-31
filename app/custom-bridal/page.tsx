@@ -22,6 +22,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { WHATSAPP_INTL } from '../../lib/constants';
+import { SITE_CONFIG } from '../../src/config/site';
 
 export const metadata: Metadata = {
   title: "Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR",
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
 
 
 function getWhatsAppUrl(message: string): string {
-  return `https://wa.me/${WHATSAPP_INTL}?text=${encodeURIComponent(message)}`;
+  return SITE_CONFIG.whatsapp.getLink(message);
 }
 
 export default function CustomBridalPage() {
@@ -1116,7 +1117,7 @@ I would like to share my design references and schedule a live digital sizing se
           <div className="mt-8 pt-8 border-t border-neutral-800/80 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono text-neutral-400 text-center">
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">DIRECT WHATSAPP</span>
-              <span>+92 335 2209991</span>
+              <span>{SITE_CONFIG.whatsapp.display}</span>
             </div>
             <div>
               <span className="text-amber-400 block font-bold mb-0.5">ATELIER LOCATION</span>

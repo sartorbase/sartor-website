@@ -18,6 +18,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { saveLeadToSupabase } from '../lib/supabase';
+import { SITE_CONFIG } from '../src/config/site';
 
 export interface MeasurementModalProps {
   isOpen: boolean;
@@ -154,9 +155,9 @@ export const MeasurementModal: React.FC<MeasurementModalProps> = ({
     }
   };
 
-  const videoFittingWhatsAppUrl = `https://wa.me/923352209991?text=${encodeURIComponent(
+  const videoFittingWhatsAppUrl = SITE_CONFIG.whatsapp.getLink(
     `Hi SARTOR team, I want to schedule a guided video fitting call for my measurement profile. Name: ${formData.name || 'Client'}, City: ${formData.city || 'Overseas'}.`
-  )}`;
+  );
 
   if (!isOpen) return null;
 

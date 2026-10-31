@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Truck, ShieldCheck, MessageSquare, Navigation } from 'lucide-react';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 
 export const LocationMapSection: React.FC = () => {
   const pickupAreas = [
@@ -66,7 +67,7 @@ Number of Suits: [e.g. 2 lawn suits, 1 festive maxi]`,
                     <Phone className="w-4 h-4" />
                     <span>Direct Helpline</span>
                   </div>
-                  <p className="text-stone-300 font-bold">+92 335 2209991</p>
+                  <p className="text-stone-300 font-bold">{SITE_CONFIG.whatsapp.display}</p>
                   <p className="text-stone-400">Call &amp; WhatsApp</p>
                 </div>
               </div>

@@ -10,6 +10,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { WHATSAPP_LINK } from '../lib/constants';
+import { SITE_CONFIG } from '../src/config/site';
 
 // Surgical Dynamic Imports: Defer below-the-fold components to optimize mobile FCP & LCP
 const HomeServicesSection = dynamic(() => import('../components/HomeServicesSection'), {
@@ -219,7 +220,7 @@ Please let me know how we can begin.`;
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-stone-400">
           <div>
             <div className="font-serif text-base text-stone-200 font-bold">SARTOR Bespoke Atelier Lahore</div>
-            <div>Moon Tower, International Market, Model Town, Lahore, Pakistan | Tel: +92 335 2209991</div>
+            <div>Moon Tower, International Market, Model Town, Lahore, Pakistan | Tel: {SITE_CONFIG.whatsapp.display}</div>
           </div>
           <div className="flex flex-wrap items-center gap-6">
             <a href="/services" className="hover:text-amber-400 transition-colors">Services</a>

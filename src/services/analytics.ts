@@ -1,13 +1,13 @@
 import { track } from '@vercel/analytics';
+import { SITE_CONFIG } from '../config/site';
 
-export const SARTOR_PHONE_LOCAL = '0335-2209991';
-export const SARTOR_PHONE_INTL = '923352209991';
-export const SARTOR_PHONE_DISPLAY = '+92 335 2209991';
-export const SARTOR_GOOGLE_MAPS_LINK = 'https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68';
+export const SARTOR_PHONE_LOCAL = SITE_CONFIG.whatsapp.local;
+export const SARTOR_PHONE_INTL = SITE_CONFIG.whatsapp.number;
+export const SARTOR_PHONE_DISPLAY = SITE_CONFIG.whatsapp.display;
+export const SARTOR_GOOGLE_MAPS_LINK = SITE_CONFIG.address.googleMaps;
 
 export function buildWhatsAppLink(message: string, source?: string): string {
-  const encodedMsg = encodeURIComponent(message);
-  return `https://wa.me/${SARTOR_PHONE_INTL}?text=${encodedMsg}`;
+  return SITE_CONFIG.whatsapp.getLink(message, source);
 }
 
 export const analytics = {

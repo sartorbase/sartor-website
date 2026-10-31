@@ -4,6 +4,7 @@ import { TESTIMONIALS } from '../../data/testimonials';
 import { SectionHeading } from '../atoms/SectionHeading';
 import { TestimonialCard } from '../molecules/TestimonialCard';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 
 type FilterCategory = 'featured' | 'all' | 'bridal' | 'saree' | 'pret';
 
@@ -218,7 +219,7 @@ export const TestimonialsSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm tracking-wide shadow-lg shadow-emerald-950/50 border border-emerald-400/40 transition-all active:scale-95 cursor-pointer"
           >
             <MessageSquare className="w-4 h-4 fill-current shrink-0" />
-            <span>Book Order on WhatsApp (0335-2209991)</span>
+            <span>Book Order on WhatsApp ({SITE_CONFIG.whatsapp.local})</span>
           </a>
         </div>
 

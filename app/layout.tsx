@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MeasurementStickyTrigger } from '../components/MeasurementStickyTrigger';
 import { AnalyticsScripts } from '../components/Analytics';
+import { SITE_CONFIG } from '../src/config/site';
 import './globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -121,7 +122,7 @@ const jsonLdData = {
   image: 'https://www.sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg',
   '@id': 'https://www.sartor.pk/#organization',
   url: 'https://www.sartor.pk',
-  telephone: '+923352209991',
+  telephone: `+${SITE_CONFIG.whatsapp.number}`,
   priceRange: '$$$$',
   address: {
     '@type': 'PostalAddress',

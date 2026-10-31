@@ -15,6 +15,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { WHATSAPP_INTL } from '../../lib/constants';
+import { SITE_CONFIG } from '../../src/config/site';
 
 export const metadata: Metadata = {
   title: "Tailor Model Town Lahore | Lehenga & Saree Tailor Near Me | SARTOR Atelier",
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
 
 
 function getWhatsAppUrl(message: string): string {
-  return `https://wa.me/${WHATSAPP_INTL}?text=${encodeURIComponent(message)}`;
+  return SITE_CONFIG.whatsapp.getLink(message);
 }
 
 export default function ServicesPage() {
@@ -454,7 +455,7 @@ Please let me know how to proceed.`;
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-stone-400">
           <div>
             <div className="font-serif text-base text-stone-200 font-bold">SARTOR Bespoke Atelier Lahore</div>
-            <div>Moon Tower, Model Town, Lahore | WhatsApp: +92 335 2209991</div>
+            <div>Moon Tower, Model Town, Lahore | WhatsApp: {SITE_CONFIG.whatsapp.display}</div>
           </div>
           <div className="flex gap-6">
             <a href="/" className="hover:text-amber-400">Home</a>

@@ -1,5 +1,8 @@
-export const WHATSAPP_NUMBER = '923352209991'; // Primary WhatsApp number for Sartor Atelier
-export const WHATSAPP_INTL = WHATSAPP_NUMBER;
-export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
-export const SITE_URL = 'https://www.sartor.pk';
-export const APP_URL = 'https://app.sartor.pk';
+import { SITE_CONFIG } from '../src/config/site';
+
+export const WHATSAPP_NUMBER = SITE_CONFIG.whatsapp.number;
+export const WHATSAPP_INTL = SITE_CONFIG.whatsapp.number;
+export const WHATSAPP_LINK = SITE_CONFIG.whatsapp.base;
+export const SITE_URL = SITE_CONFIG.url;
+export const APP_URL = SITE_CONFIG.appUrl;
+export { SITE_CONFIG };

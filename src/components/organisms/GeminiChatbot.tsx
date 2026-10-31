@@ -17,6 +17,7 @@ import { useChatUI } from '../../context/ChatUIContext';
 import { sendGeminiChatMessage, openSartorChat } from '../../services/geminiChat';
 import { ChatMessage, GroundingSource, GeminiChatModel } from '../../types/chat';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { SITE_CONFIG } from '../../config/site';
 
 const QUICK_PROMPTS = [
   'How much fabric do I need for a 16-kali kalidar?',
@@ -282,7 +283,7 @@ export const GeminiChatbot: React.FC = () => {
                         className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-900/60 hover:bg-emerald-800/80 text-emerald-300 border border-emerald-600/40 text-xs font-semibold transition-colors"
                       >
                         <MessageSquare className="w-3 h-3" />
-                        <span>Send to WhatsApp (0335-2209991)</span>
+                        <span>Send to WhatsApp ({SITE_CONFIG.whatsapp.local})</span>
                       </a>
                     </div>
                   )}

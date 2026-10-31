@@ -27,7 +27,7 @@ I would like to enquire about bespoke women's tailoring, stitching rates, and do
         </span>
         <MessageSquare className="w-5 h-5 fill-current shrink-0" />
         <span className="text-sm font-bold tracking-wide hidden sm:inline-block">
-          WhatsApp Tailor (0335-2209991)
+          WhatsApp Tailor (0332-0500904)
         </span>
       </a>
     </div>
