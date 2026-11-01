@@ -48,7 +48,7 @@ ${xmlEntries}
 
 function formatInline(text: string): string {
   let res = escapeHtml(text);
-  res = res.replace(/!\[(.*?)\]\((.*?)\)/g, '<div class="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]"><img src="$2" alt="$1" class="w-full h-full object-cover" loading="eager" /></div>');
+  res = res.replace(/!\[(.*?)\]\((.*?)\)/g, '<span class="my-8 block w-full rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]"><img src="$2" alt="$1" class="w-full h-full object-cover" loading="eager" /></span>');
   res = res.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-amber-300 text-xs font-mono">$1</code>');
   res = res.replace(/\*\*\*(.*?)\*\*\*/g, '<strong class="text-stone-100 font-bold"><em class="italic">$1</em></strong>');
   res = res.replace(/\*\*(.*?)\*\*/g, '<strong class="text-stone-100 font-bold">$1</strong>');
@@ -195,6 +195,12 @@ function markdownToHtml(md: string): string {
     } else if (inOl) {
       htmlLines.push('</ol>');
       inOl = false;
+    }
+
+    const imgMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+    if (imgMatch) {
+      htmlLines.push(`<div class="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]"><img src="${imgMatch[2]}" alt="${escapeHtml(imgMatch[1])}" class="w-full h-full object-cover" loading="eager" /></div>`);
+      continue;
     }
 
     if (trimmed.length > 0) {

@@ -71,7 +71,9 @@ app.use((req: Request, res: Response, next) => {
       for (const cand of webpCandidates) {
         if (fs.existsSync(cand) && !fs.statSync(cand).isDirectory()) {
           res.setHeader('Content-Type', 'image/webp');
-          return res.sendFile(cand);
+          return res.sendFile(cand, (err) => {
+            if (err && !res.headersSent) next();
+          });
         }
       }
     }
@@ -86,7 +88,9 @@ app.use((req: Request, res: Response, next) => {
         const ext = path.extname(cand).toLowerCase();
         const contentType = ext === '.webp' ? 'image/webp' : ext === '.png' ? 'image/png' : 'image/jpeg';
         res.setHeader('Content-Type', contentType);
-        return res.sendFile(cand);
+        return res.sendFile(cand, (err) => {
+          if (err && !res.headersSent) next();
+        });
       }
     }
   } else if (urlPath.startsWith('/assets/')) {

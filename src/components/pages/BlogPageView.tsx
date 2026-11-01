@@ -316,8 +316,23 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
+                p: (props: any) => {
+                  const { children } = props;
+                  if (
+                    React.Children.count(children) === 1 &&
+                    React.isValidElement(children) &&
+                    (children.type === 'img' || (children.props as any)?.src)
+                  ) {
+                    return <>{children}</>;
+                  }
+                  return (
+                    <p className="my-4 text-stone-300 leading-relaxed font-sans text-base sm:text-lg">
+                      {children}
+                    </p>
+                  );
+                },
                 img: ({ src, alt, ...props }) => (
-                  <div className="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
+                  <span className="my-8 block w-full rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
                     <img
                       src={src}
                       alt={alt || activePost.title}
@@ -325,12 +340,12 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                       className="w-full h-full object-cover"
                       {...props}
                     />
-                  </div>
+                  </span>
                 ),
                 blockquote: ({ children }) => (
-                  <div className="my-6 p-6 rounded-2xl bg-stone-900/90 border-l-4 border-amber-500 border-stone-800 text-stone-200 shadow-lg font-sans">
+                  <blockquote className="my-6 p-6 rounded-2xl bg-stone-900/90 border-l-4 border-amber-500 border-stone-800 text-stone-200 shadow-lg font-sans not-italic">
                     {children}
-                  </div>
+                  </blockquote>
                 ),
                 table: ({ children }) => (
                   <div className="my-8 overflow-x-auto rounded-xl border border-stone-800 bg-stone-900/60 shadow-lg">
@@ -483,24 +498,23 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                   <picture>
                     <source
                       type="image/webp"
-                      srcSet={post.coverImage.includes('?') 
-                        ? post.coverImage.replace(/\.(jpe?g|png)/i, '.webp') 
-                        : `${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}?v=20261031`}
+                      srcSet={post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
                     />
                     <img
-                      src={post.coverImage.includes('?') 
-                        ? post.coverImage 
-                        : `${post.coverImage}?v=20261031`}
+                      src={post.coverImage}
                       alt={post.coverImageAlt || post.title}
                       loading="eager"
-                      decoding="async"
                       width={640}
                       height={360}
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         const target = e.currentTarget;
-                        if (!target.dataset.fallbackTried) {
-                          target.dataset.fallbackTried = 'true';
+                        const picture = target.parentElement;
+                        if (picture && picture.tagName.toLowerCase() === 'picture') {
+                          const sources = picture.querySelectorAll('source');
+                          sources.forEach((s) => s.remove());
+                        }
+                        if (target.src !== '/images/padded-saree-blouse-blueprint-scye-depth-boning.jpg') {
                           target.src = '/images/padded-saree-blouse-blueprint-scye-depth-boning.jpg';
                         }
                       }}
