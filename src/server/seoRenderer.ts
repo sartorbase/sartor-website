@@ -382,6 +382,14 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           ${BLOG_POSTS.slice(0, 15).map(post => `
             <article class="p-6 rounded-2xl bg-stone-900 border border-stone-800">
+              ${post.coverImage ? `
+                <div class="relative aspect-[16/9] mb-4 rounded-xl overflow-hidden bg-stone-950">
+                  <picture>
+                    <source type="image/webp" srcset="${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}" />
+                    <img src="${post.coverImage}" alt="${escapeHtml(post.coverImageAlt || post.title)}" class="w-full h-full object-cover" loading="lazy" />
+                  </picture>
+                </div>
+              ` : ''}
               <span class="text-xs text-amber-400 uppercase tracking-widest font-mono">${escapeHtml(post.category)}</span>
               <h2 class="text-xl font-serif font-bold text-stone-100 my-2">
                 <a href="/blog/${post.slug}" class="hover:text-amber-300 transition-colors">${escapeHtml(post.title)}</a>
