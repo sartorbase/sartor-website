@@ -9,6 +9,7 @@ import { getPostBySlug, getAllPostSlugs } from '../../../lib/mdx';
 import { WhatsAppButton } from '../../../components/WhatsAppButton';
 import { MeasurementLeadMagnet } from '../../../components/MeasurementLeadMagnet';
 import { HeroImage } from '../../../components/HeroImage';
+import { ArticleScrollProgress } from '../../../components/ArticleScrollProgress';
 
 interface PageProps {
   params: Promise<{ slug: string }> | { slug: string };
@@ -143,6 +144,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <article className="min-h-screen bg-stone-950 text-stone-100 selection:bg-amber-500/30 selection:text-amber-200">
+      {/* Dynamic Scroll Progress Indicator & Reading Status Tracker */}
+      <ArticleScrollProgress readingTime={readingTime} title={title} />
+
       {faqSchema && (
         <script
           type="application/ld+json"

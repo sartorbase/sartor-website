@@ -20,6 +20,7 @@ import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../../data/blogPost
 import { buildWhatsAppLink } from '../../services/analytics';
 import { navigateTo } from '../../utils/navigation';
 import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
+import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -223,6 +224,12 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
 
     return (
       <div className="min-h-screen bg-stone-950 text-stone-100 py-12 px-4 sm:px-6 lg:px-8">
+        {/* Dynamic Scroll Progress Indicator & Reading Status Tracker */}
+        <ArticleScrollProgress
+          readingTime={activePost.readingTime}
+          title={activePost.title}
+        />
+
         <div className="max-w-4xl mx-auto">
           {/* Back Navigation Bar */}
           <div className="mb-8 flex items-center justify-between gap-4">
