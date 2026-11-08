@@ -5,11 +5,13 @@ import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
-import { getPostBySlug, getAllPostSlugs } from '../../../lib/mdx';
+import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from '../../../lib/mdx';
 import { WhatsAppButton } from '../../../components/WhatsAppButton';
 import { MeasurementLeadMagnet } from '../../../components/MeasurementLeadMagnet';
 import { HeroImage } from '../../../components/HeroImage';
 import { ArticleScrollProgress } from '../../../components/ArticleScrollProgress';
+import { RelatedArticlesSection } from '../../../components/RelatedArticlesSection';
+import type { BlogPostData } from '../../../src/data/blogPosts';
 
 interface PageProps {
   params: Promise<{ slug: string }> | { slug: string };
@@ -128,6 +130,20 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const { title, excerpt, date, author, coverImage, tags, category, readingTime, faqs } =
     post.frontmatter;
+
+  const rawRelatedPosts = await getRelatedPosts(slug, 3);
+  const relatedArticles: BlogPostData[] = rawRelatedPosts.map((p) => ({
+    slug: p.slug,
+    title: p.frontmatter.title,
+    excerpt: p.frontmatter.excerpt,
+    date: p.frontmatter.date,
+    author: p.frontmatter.author,
+    tags: p.frontmatter.tags || [],
+    coverImage: p.frontmatter.coverImage,
+    category: p.frontmatter.category || 'Atelier Masterclass',
+    readingTime: p.frontmatter.readingTime || '10 min read',
+    content: p.content,
+  }));
 
   const faqSchema = faqs && faqs.length > 0 ? {
     '@context': 'https://schema.org',
@@ -333,6 +349,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mt-12">
           <MeasurementLeadMagnet sourceContext="blog" />
         </div>
+
+        {/* Related Articles Section (Suggested 3 articles based on shared category and tags) */}
+        <RelatedArticlesSection
+          articles={relatedArticles}
+          currentCategory={category}
+        />
 
         {/* Back Link */}
         <div className="mt-12 text-center">

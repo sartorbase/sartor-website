@@ -102,7 +102,7 @@ export default async function BlogPage() {
             {posts.map((post) => (
               <article
                 key={post.slug}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-stone-800/80 bg-stone-900/40 transition-all duration-300 hover:border-amber-500/40 hover:bg-stone-900/70 hover:shadow-xl hover:shadow-amber-500/5"
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-stone-800/80 bg-stone-900/40 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-amber-500/50 hover:bg-stone-900/70 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_20px_-3px_rgba(245,158,11,0.2)] will-change-transform"
               >
                 {/* Cover Image */}
                 {post.frontmatter.coverImage && (

@@ -1,4 +1,4 @@
-import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../data/blogPosts';
+import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../data/blogPosts';
 
 function escapeHtml(str: string): string {
   return str
@@ -366,7 +366,31 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
         </div>`
       : '';
 
-    transformedHtml = transformedHtml.replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${heroImageHtml}${renderedBody}</main></div>`);
+    const relatedPosts = getRelatedPosts(post.slug, 3);
+    const relatedSectionHtml = relatedPosts.length > 0 ? `
+      <section class="mt-16 pt-10 border-t border-stone-800">
+        <h3 class="font-serif font-bold text-2xl text-stone-100 mb-6">Related Masterclasses &amp; Guides</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          ${relatedPosts.map(rel => `
+            <article class="p-5 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col justify-between">
+              <div>
+                <span class="text-xs text-amber-400 font-mono uppercase">${escapeHtml(rel.category)}</span>
+                <h4 class="font-serif font-bold text-stone-100 text-base my-2">
+                  <a href="/blog/${rel.slug}" class="hover:text-amber-300 transition-colors">${escapeHtml(rel.title)}</a>
+                </h4>
+                <p class="text-stone-400 text-xs line-clamp-2">${escapeHtml(rel.excerpt)}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-stone-800 flex items-center justify-between text-xs text-amber-400 font-semibold">
+                <span>Read Masterclass</span>
+                <span>&rarr;</span>
+              </div>
+            </article>
+          `).join('')}
+        </div>
+      </section>
+    ` : '';
+
+    transformedHtml = transformedHtml.replace('<div id="root"></div>', `<div id="root"><main class="max-w-3xl mx-auto px-4 py-12">${heroImageHtml}${renderedBody}${relatedSectionHtml}</main></div>`);
 
     return { status: 200, html: transformedHtml };
   }

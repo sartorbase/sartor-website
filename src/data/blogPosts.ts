@@ -5690,3 +5690,51 @@ export function getBlogPostBySlug(slug: string): BlogPostData | undefined {
   }
   return BLOG_POSTS.find((p) => p.slug === slug);
 }
+
+/**
+ * Suggests related blog posts based on shared category and overlapping tags.
+ * Falls back to latest posts if matching count is below requested limit.
+ */
+export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPostData[] {
+  const currentPost = getBlogPostBySlug(currentSlug);
+  if (!currentPost) {
+    return BLOG_POSTS.filter((p) => p.slug !== currentSlug).slice(0, limit);
+  }
+
+  const currentCategory = (currentPost.category || '').toLowerCase().trim();
+  const currentTags = (currentPost.tags || []).map((t) => t.toLowerCase().trim());
+
+  const candidates = BLOG_POSTS.filter((post) => post.slug !== currentPost.slug);
+
+  const scored = candidates.map((post) => {
+    let score = 0;
+    const postCategory = (post.category || '').toLowerCase().trim();
+    const postTags = (post.tags || []).map((t) => t.toLowerCase().trim());
+
+    // 1. Shared Category Match (+4 points)
+    if (currentCategory && postCategory === currentCategory) {
+      score += 4;
+    }
+
+    // 2. Shared Tags Overlap (+2 points per shared tag)
+    for (const tag of postTags) {
+      if (currentTags.includes(tag)) {
+        score += 2;
+      }
+    }
+
+    return { post, score };
+  });
+
+  // Sort primarily by relevance score, secondarily by date recency
+  scored.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    const dateA = new Date(a.post.date || 0).getTime();
+    const dateB = new Date(b.post.date || 0).getTime();
+    return dateB - dateA;
+  });
+
+  return scored.slice(0, limit).map((item) => item.post);
+}

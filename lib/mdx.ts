@@ -111,3 +111,50 @@ export async function getAllPostSlugs(): Promise<{ slug: string }[]> {
     slug: file.replace(/\.(mdx|md)$/, ''),
   }));
 }
+
+/**
+ * Get up to `limit` related posts for a given slug based on shared category and tags.
+ */
+export async function getRelatedPosts(currentSlug: string, limit: number = 3): Promise<Post[]> {
+  const currentPost = await getPostBySlug(currentSlug);
+  const allPosts = await getAllPosts();
+
+  if (!currentPost) {
+    return allPosts.filter((p) => p.slug !== currentSlug).slice(0, limit);
+  }
+
+  const currentCategory = (currentPost.frontmatter.category || '').toLowerCase().trim();
+  const currentTags = (currentPost.frontmatter.tags || []).map((t) => t.toLowerCase().trim());
+
+  const candidates = allPosts.filter((p) => p.slug !== currentPost.slug);
+
+  const scored = candidates.map((post) => {
+    let score = 0;
+    const postCategory = (post.frontmatter.category || '').toLowerCase().trim();
+    const postTags = (post.frontmatter.tags || []).map((t) => t.toLowerCase().trim());
+
+    if (currentCategory && postCategory === currentCategory) {
+      score += 4;
+    }
+
+    for (const tag of postTags) {
+      if (currentTags.includes(tag)) {
+        score += 2;
+      }
+    }
+
+    return { post, score };
+  });
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    const dateA = new Date(a.post.frontmatter.date || 0).getTime();
+    const dateB = new Date(b.post.frontmatter.date || 0).getTime();
+    return dateB - dateA;
+  });
+
+  return scored.slice(0, limit).map((s) => s.post);
+}
+

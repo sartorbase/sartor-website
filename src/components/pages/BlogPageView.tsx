@@ -16,11 +16,12 @@ import {
   ShieldCheck,
   Scissors,
 } from 'lucide-react';
-import { BLOG_POSTS, BlogPostData, getBlogPostBySlug } from '../../data/blogPosts';
+import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
 import { navigateTo } from '../../utils/navigation';
 import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
+import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -438,37 +439,11 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             <MeasurementLeadMagnet sourceContext="blog" />
           </div>
 
-          {/* Related Articles Navigation */}
-          <div className="mt-16 pt-10 border-t border-stone-800">
-            <h3 className="font-serif font-bold text-lg text-stone-100 mb-6 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-amber-400" />
-              <span>Continue Reading in Atelier Journal</span>
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {BLOG_POSTS.filter((p) => p.slug !== activePost.slug).map((post) => (
-                <div
-                  key={post.slug}
-                  onClick={() => navigateTo(`/blog/${post.slug}`)}
-                  className="p-5 rounded-xl bg-stone-900/60 hover:bg-stone-900 border border-stone-800 hover:border-amber-500/40 transition-all cursor-pointer group"
-                >
-                  <span className="text-[11px] font-mono uppercase text-amber-400 block mb-1">
-                    {post.category}
-                  </span>
-                  <h4 className="font-serif font-bold text-stone-100 group-hover:text-amber-300 transition-colors text-sm line-clamp-2">
-                    {post.title}
-                  </h4>
-                  <p className="mt-2 text-stone-400 text-xs line-clamp-2">
-                    {post.excerpt}
-                  </p>
-                  <div className="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
-                    <span>Read Article</span>
-                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Related Articles Section (Suggested 3 articles based on shared category and tags) */}
+          <RelatedArticlesSection
+            articles={getRelatedPosts(activePost.slug, 3)}
+            currentCategory={activePost.category}
+          />
         </div>
       </div>
     );
@@ -498,7 +473,7 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             <article
               key={post.slug}
               onClick={() => navigateTo(`/blog/${post.slug}`)}
-              className="group rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-950/20 transition-all flex flex-col cursor-pointer"
+              className="group rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_20px_-3px_rgba(245,158,11,0.2)] flex flex-col cursor-pointer will-change-transform"
             >
               {post.coverImage && (
                 <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
