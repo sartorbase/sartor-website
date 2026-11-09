@@ -402,7 +402,12 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     const blogCardsHtml = `
       <main class="max-w-6xl mx-auto px-4 py-12">
-        <h1 class="text-3xl font-serif font-bold text-amber-400 mb-8">Atelier Journal & Couture Guides</h1>
+        <h1 class="text-3xl font-serif font-bold text-amber-400 mb-8">Atelier Journal &amp; Couture Guides</h1>
+        <div class="mb-10 max-w-4xl">
+          <div class="relative flex items-center">
+            <input type="text" placeholder="Search masterclasses by title or tag (e.g., Walima, Zardozi, Scye Depth, Lehenga)..." class="w-full pl-4 pr-4 py-3.5 bg-stone-900 border border-stone-800 rounded-2xl text-stone-100 text-sm" />
+          </div>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           ${BLOG_POSTS.slice(0, 15).map(post => `
             <article class="p-6 rounded-2xl bg-stone-900 border border-stone-800">

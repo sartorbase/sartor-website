@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPosts } from '../../lib/mdx';
 import { WhatsAppButton } from '../../components/WhatsAppButton';
+import { BlogSearchGrid } from '../../components/BlogSearchGrid';
+import type { BlogPostData } from '../../src/data/blogPosts';
 
 export const metadata: Metadata = {
   title: "Atelier Journal & Couture Guides | SARTOR Bespoke Lahore",
@@ -35,6 +37,20 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const posts = await getAllPosts();
+
+  const normalizedPosts: BlogPostData[] = posts.map((post) => ({
+    slug: post.slug,
+    title: post.frontmatter.title,
+    excerpt: post.frontmatter.excerpt,
+    date: post.frontmatter.date,
+    author: post.frontmatter.author,
+    tags: post.frontmatter.tags || [],
+    coverImage: post.frontmatter.coverImage,
+    coverImageAlt: post.frontmatter.coverImageAlt || post.frontmatter.title,
+    category: post.frontmatter.category || 'Atelier Masterclass',
+    readingTime: post.frontmatter.readingTime || '8 min read',
+    content: post.content,
+  }));
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 selection:bg-amber-500/30 selection:text-amber-200">
@@ -91,98 +107,9 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      {/* Blog Posts Grid */}
+      {/* Interactive Blog Search & Posts Grid */}
       <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        {posts.length === 0 ? (
-          <div className="rounded-2xl border border-stone-800 bg-stone-900/50 p-12 text-center">
-            <p className="text-stone-400">No blog posts found in /content/posts/.</p>
-          </div>
-        ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
-            {posts.map((post) => (
-              <article
-                key={post.slug}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-stone-800/80 bg-stone-900/40 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-amber-500/50 hover:bg-stone-900/70 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_20px_-3px_rgba(245,158,11,0.2)] will-change-transform"
-              >
-                {/* Cover Image */}
-                {post.frontmatter.coverImage && (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-900">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={post.frontmatter.coverImage}
-                      alt={post.frontmatter.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
-                    {post.frontmatter.category && (
-                      <span className="absolute top-4 left-4 rounded-md border border-stone-700/60 bg-stone-900/90 px-2.5 py-1 text-xs font-semibold tracking-wider text-amber-300 uppercase backdrop-blur-sm">
-                        {post.frontmatter.category}
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                <div className="flex flex-1 flex-col justify-between p-6 sm:p-8">
-                  <div>
-                    {/* Post Meta */}
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-stone-400">
-                      <time dateTime={post.frontmatter.date}>
-                        {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </time>
-                      {post.frontmatter.readingTime && (
-                        <>
-                          <span>•</span>
-                          <span>{post.frontmatter.readingTime}</span>
-                        </>
-                      )}
-                      <span>•</span>
-                      <span className="text-stone-300">{post.frontmatter.author}</span>
-                    </div>
-
-                    {/* Post Title */}
-                    <h2 className="mt-3 font-serif text-xl font-semibold text-stone-100 transition-colors group-hover:text-amber-300 sm:text-2xl">
-                      <Link href={`/blog/${post.slug}`} className="focus:outline-none">
-                        <span className="absolute inset-0" aria-hidden="true" />
-                        {post.frontmatter.title}
-                      </Link>
-                    </h2>
-
-                    {/* Excerpt */}
-                    <p className="mt-3 text-sm leading-relaxed text-stone-300 line-clamp-3">
-                      {post.frontmatter.excerpt}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-4 border-t border-stone-800/80">
-                    {/* Tags */}
-                    {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {post.frontmatter.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-full bg-stone-800/90 px-2.5 py-0.5 text-[11px] font-medium text-stone-300"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex items-center justify-between text-xs font-semibold text-amber-400 group-hover:text-amber-300">
-                      <span>Read Full Masterclass</span>
-                      <span className="transition-transform group-hover:translate-x-1">→</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+        <BlogSearchGrid posts={normalizedPosts} />
 
         {/* Global Conversion CTA Banner */}
         <section className="mt-20 overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-br from-stone-900 via-stone-900/95 to-amber-950/30 p-8 sm:p-12 text-center shadow-2xl">

@@ -22,6 +22,7 @@ import { navigateTo } from '../../utils/navigation';
 import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
+import { BlogSearchGrid } from '../organisms/BlogSearchGrid';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -467,83 +468,8 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
           </p>
         </div>
 
-        {/* Blog Post Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {BLOG_POSTS.map((post) => (
-            <article
-              key={post.slug}
-              onClick={() => navigateTo(`/blog/${post.slug}`)}
-              className="group rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_20px_-3px_rgba(245,158,11,0.2)] flex flex-col cursor-pointer will-change-transform"
-            >
-              {post.coverImage && (
-                <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
-                  <picture>
-                    <source
-                      type="image/webp"
-                      srcSet={post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
-                    />
-                    <img
-                      src={post.coverImage}
-                      alt={post.coverImageAlt || post.title}
-                      loading="eager"
-                      width={640}
-                      height={360}
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        const picture = target.parentElement;
-                        if (picture && picture.tagName.toLowerCase() === 'picture') {
-                          const sources = picture.querySelectorAll('source');
-                          sources.forEach((s) => s.remove());
-                        }
-                        if (target.src !== '/images/padded-saree-blouse-blueprint-scye-depth-boning.jpg') {
-                          target.src = '/images/padded-saree-blouse-blueprint-scye-depth-boning.jpg';
-                        }
-                      }}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </picture>
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-700 text-stone-200 text-xs font-semibold">
-                    {post.category}
-                  </div>
-                </div>
-              )}
-
-              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 text-xs text-stone-400 mb-3">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {post.date}
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {post.readingTime}
-                    </span>
-                  </div>
-
-                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-100 group-hover:text-amber-300 transition-colors leading-snug mb-3">
-                    {post.title}
-                  </h2>
-
-                  <p className="text-stone-300 text-sm leading-relaxed mb-6 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-stone-800 flex items-center justify-between">
-                  <span className="text-xs text-stone-400 font-medium">{post.author}</span>
-                  <span className="text-xs font-bold text-amber-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    <span>Read Full Guide</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        {/* Interactive Search Bar & Blog Post Cards Grid */}
+        <BlogSearchGrid />
       </div>
     </div>
   );

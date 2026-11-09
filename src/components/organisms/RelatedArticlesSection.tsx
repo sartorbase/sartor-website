@@ -37,7 +37,7 @@ export const RelatedArticlesSection: React.FC<RelatedArticlesSectionProps> = ({
           onClick={() => navigateTo('/blog')}
           className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-stone-400 hover:text-amber-400 transition-colors self-start sm:self-auto cursor-pointer"
         >
-          <span>View All 45 Guides</span>
+          <span>View All Masterclasses</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
