@@ -11,6 +11,7 @@ import { MeasurementLeadMagnet } from '../../../components/MeasurementLeadMagnet
 import { HeroImage } from '../../../components/HeroImage';
 import { ArticleScrollProgress } from '../../../components/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../../../components/RelatedArticlesSection';
+import { ArticleHeroImageViewer } from '../../../components/ArticleHeroImageViewer';
 import type { BlogPostData } from '../../../src/data/blogPosts';
 
 interface PageProps {
@@ -93,16 +94,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  * Custom MDX Component mapping
  */
 const mdxComponents = {
-  // Enhanced responsive images
-  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      {...props}
-      alt={props.alt || 'Sartor Atelier Visual Proof'}
-      className="my-8 w-full rounded-2xl border border-stone-800 object-cover shadow-2xl"
-      loading="lazy"
-    />
-  ),
+  // Enhanced responsive images with inspection viewer & watermark download
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    if (!props.src) return null;
+    return (
+      <ArticleHeroImageViewer
+        src={props.src}
+        alt={props.alt || 'Sartor Atelier Visual Proof'}
+        title={props.alt || 'Sartor Couture Design Inspiration'}
+        className="my-8"
+      />
+    );
+  },
   // Blockquotes with atelier styling
   blockquote: (props: React.BlockquoteHTMLAttributes<HTMLElement>) => (
     <div className="my-8 rounded-2xl border border-stone-800/80 border-l-4 border-l-amber-600 bg-stone-900/90 p-5 sm:p-7 shadow-lg shadow-stone-950/10">
@@ -262,18 +265,17 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Main Cover Image (Hero - Optimized for Mobile LCP) */}
+      {/* Main Cover Image (Hero - with Interactive Fullscreen Viewer & Watermarked Download) */}
       {coverImage && (
         <div className="mx-auto max-w-4xl px-4 -mt-6 sm:-mt-8 sm:px-6">
-          <HeroImage
+          <ArticleHeroImageViewer
             src={coverImage}
-            mobileSrc={post.frontmatter.imageWebp || coverImage}
             alt={title}
-            priority={true}
-            aspectRatio="landscape"
-            mobileAspectRatio="landscape"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 896px"
-            containerClassName="rounded-2xl border border-stone-800 shadow-2xl"
+            title={title}
+            slug={slug}
+            category={category}
+            readingTime={readingTime}
+            author={author}
           />
         </div>
       )}

@@ -23,6 +23,7 @@ import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
 import { BlogSearchGrid } from '../organisms/BlogSearchGrid';
+import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -298,26 +299,17 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             </div>
           </header>
 
-          {/* Cover Image */}
+          {/* Cover Hero Image with Interactive Fullscreen Viewer & Watermarked Download */}
           {activePost.coverImage && !activePost.content.includes(activePost.coverImage) && (
-            <div className="mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
-              <picture>
-                <source
-                  type="image/webp"
-                  srcSet={activePost.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}
-                />
-                <img
-                  src={activePost.coverImage}
-                  alt={activePost.coverImageAlt || activePost.title}
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority="high"
-                  width={1200}
-                  height={675}
-                  className="w-full h-full object-cover"
-                />
-              </picture>
-            </div>
+            <ArticleHeroImageViewer
+              src={activePost.coverImage}
+              alt={activePost.coverImageAlt || activePost.title}
+              title={activePost.title}
+              slug={activePost.slug}
+              category={activePost.category}
+              readingTime={activePost.readingTime}
+              author={activePost.author}
+            />
           )}
 
           {/* Markdown Content with Editorial Component Styling */}
@@ -340,17 +332,21 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                     </p>
                   );
                 },
-                img: ({ src, alt, ...props }) => (
-                  <span className="my-8 block w-full rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
-                    <img
+                img: ({ src, alt }: any) => {
+                  if (!src) return null;
+                  return (
+                    <ArticleHeroImageViewer
                       src={src}
                       alt={alt || activePost.title}
-                      loading="eager"
-                      className="w-full h-full object-cover"
-                      {...props}
+                      title={activePost.title}
+                      slug={activePost.slug}
+                      category={activePost.category}
+                      readingTime={activePost.readingTime}
+                      author={activePost.author}
+                      className="my-8"
                     />
-                  </span>
-                ),
+                  );
+                },
                 blockquote: ({ children }) => (
                   <blockquote className="my-6 p-6 rounded-2xl bg-stone-900/90 border-l-4 border-amber-500 border-stone-800 text-stone-200 shadow-lg font-sans not-italic">
                     {children}
