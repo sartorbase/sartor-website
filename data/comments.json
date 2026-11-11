@@ -1,5 +1,23 @@
 [
   {
+    "id": "cmt_velvet_01",
+    "slug": "royal-plum-velvet-bridal-lehenga-zardozi-architecture-guide",
+    "authorName": "Dr. Ayla Qureshi",
+    "location": "Yorkville, Toronto, Canada",
+    "content": "Assalam-o-Alaikum Master Ghaffar. We are hosting our Barat at The Fairmont Royal York in December. My main anxiety is whether the heavy metallic zardozi border will weigh down the front hem so much that it curls under my 100mm heels when walking across ballroom carpet? How does the 75mm horsehair braid prevent this?",
+    "createdAt": "2026-11-11T10:50:00.000Z",
+    "status": "approved",
+    "likes": 22,
+    "isVerifiedClient": true,
+    "topic": "Velvet Hem Curling & Carpet Walking",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "Wa Alaikum Assalam Dr. Ayla Sahiba. Heavy metallic dabka and kora bullion introduce natural bending torque that pulls velvet hems inward into a tube. At SARTOR, we encase a 75mm heavy-gauge German horsehair crinoline braid inside the lower circumference and back it with a 3-inch pure Habotai silk facing. The horsehair acts as a flexible horizontal spring that keeps the hemline 100% flat and floating outward. We also engineer a 1.25-inch anterior rise so your 100mm heels have effortless stride clearance.",
+      "createdAt": "2026-11-11T11:15:00.000Z"
+    }
+  },
+  {
     "id": "cmt_groom_01",
     "slug": "pakistani-groom-sherwani-prince-coat-architecture-guide",
     "authorName": "Bilal Siddiqui",
