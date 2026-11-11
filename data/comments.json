@@ -1,5 +1,23 @@
 [
   {
+    "id": "cmt_groom_01",
+    "slug": "pakistani-groom-sherwani-prince-coat-architecture-guide",
+    "authorName": "Bilal Siddiqui",
+    "location": "Marylebone, London, UK",
+    "content": "Assalam-o-Alaikum Master Tailor Abdul Ghaffar. I am getting married at The Dorchester in Mayfair this winter. How do you measure the chest pitch remotely so the floating canvas does not bow out when sitting during the Nikkah contract signing?",
+    "createdAt": "2026-11-11T09:45:00.000Z",
+    "status": "approved",
+    "likes": 16,
+    "isVerifiedClient": true,
+    "topic": "Chest Canvas & Seated Posture",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "Wa Alaikum Assalam Bilal Sahib. We capture both standing erect posture and seated 90-degree thoracic compression during our video consultation. Because we hand-pad the natural horsehair canvas with diagonal pick-stitching rather than synthetic glue, the chest canvas flexes with your ribcage rather than bowing into an awkward buckle. We also courier a calico toile fitting shell to your London address via DHL Express to verify ease before cutting your ivory raw silk.",
+      "createdAt": "2026-11-11T10:15:00.000Z"
+    }
+  },
+  {
     "id": "cmt_1794384771685_2o4h6",
     "slug": "royal-shendi-rust-amber-kalidar-marori-guide",
     "authorName": "Aleeza Khan",
