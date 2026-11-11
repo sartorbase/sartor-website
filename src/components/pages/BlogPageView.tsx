@@ -24,6 +24,7 @@ import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
 import { BlogSearchGrid } from '../organisms/BlogSearchGrid';
 import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
+import { BlogCommentsSection } from '../organisms/BlogCommentsSection';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -435,6 +436,9 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
           <div className="mt-14">
             <MeasurementLeadMagnet sourceContext="blog" />
           </div>
+
+          {/* Interactive Comments & Atelier Moderation Section */}
+          <BlogCommentsSection slug={activePost.slug} title={activePost.title} />
 
           {/* Related Articles Section (Suggested 3 articles based on shared category and tags) */}
           <RelatedArticlesSection

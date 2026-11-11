@@ -1,0 +1,119 @@
+[
+  {
+    "id": "cmt_1794384771685_2o4h6",
+    "slug": "royal-shendi-rust-amber-kalidar-marori-guide",
+    "authorName": "Aleeza Khan",
+    "location": "London, UK",
+    "topic": "Turnaround & DHL",
+    "content": "What is the turnaround time for a bespoke Shendi kalidar if we need it by next month in the UK?",
+    "createdAt": "2026-11-11T08:12:51.685Z",
+    "status": "approved",
+    "likes": 9,
+    "flagCount": 1,
+    "isVerifiedClient": false,
+    "flagReason": "Needs technical tailor clarification on urgent UK rush timeline",
+    "flaggedAt": "2026-11-11T08:12:55.079Z",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "Our standard timeline is 6 to 8 weeks for hand-couched marori cording, but for priority diaspora bridal orders with upcoming wedding dates in London, our Model Town atelier operates an expedited 3-week production queue with 3-day express DHL door-to-door delivery.",
+      "createdAt": "2026-11-11T08:12:59.151Z"
+    }
+  },
+  {
+    "id": "cmt_shendi_01",
+    "slug": "royal-shendi-rust-amber-kalidar-marori-guide",
+    "authorName": "Dr. Samina Tariq",
+    "location": "Mayfair, London, UK",
+    "content": "Assalam-o-Alaikum Master Ghaffar. We are hosting an 850-guest Shendi at Grosvenor House this autumn. My main concern is whether the 24-kali radial sweep in 80 GSM khaddi georgette will withstand rapid choreographed spinning without catching under high 85mm block heels? Do you pre-hem with the horsehair canvas before or after the 72-hour gravity hang?",
+    "createdAt": "2026-11-10T14:32:00.000Z",
+    "status": "approved",
+    "likes": 28,
+    "isVerifiedClient": true,
+    "topic": "Hem Clearance & Dance Mobility",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "Wa Alaikum Assalam Dr. Samina Sahiba. We strictly execute the 72-hour gravitational suspension protocol BEFORE measuring the finished floor drop. Because khaddi georgette contains high-twist crepe yarns, gravitational relaxation occurs in the first 48 hours. Only after laser-leveling the circumference on a weighted dress form do our master artisans bind the 75mm structural horsehair braid with a 1.25-inch anterior rise, ensuring complete clearance over your 85mm block heels during rapid twirls.",
+      "createdAt": "2026-11-10T17:15:00.000Z"
+    }
+  },
+  {
+    "id": "cmt_shendi_02",
+    "slug": "royal-shendi-rust-amber-kalidar-marori-guide",
+    "authorName": "Zainab Al-Maktoum",
+    "location": "Downtown Dubai, UAE",
+    "content": "Can the emerald-green dual dupatta drape be pre-stitched with concealed snap buttons onto the left shoulder so it does not slide during the family entrance?",
+    "createdAt": "2026-11-11T08:20:00.000Z",
+    "status": "approved",
+    "likes": 14,
+    "isVerifiedClient": false,
+    "topic": "Dupatta Suspension"
+  },
+  {
+    "id": "cmt_mehndi_01",
+    "slug": "royal-mustard-mehndi-lehenga-gota-choli-guide",
+    "authorName": "Natasha Malik",
+    "location": "Dallas, TX, USA",
+    "content": "I had a previous choli rip right along the armpit during our Luddi dance at my cousin's wedding. How does the 0.75-inch diamond underarm gusset prevent tearing when raising arms completely overhead?",
+    "createdAt": "2026-11-09T18:45:00.000Z",
+    "status": "approved",
+    "likes": 35,
+    "isVerifiedClient": true,
+    "topic": "Armscye Engineering",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "A standard armhole is a rigid circular seam. When you lift your arms overhead, the anterior deltoid pulls upward with up to 30 lbs of shear force, which snaps cotton lockstitches. Our 0.75-inch diamond silk gusset inserts an elastic pivot directly under the axilla, allowing 180-degree vertical extension without shifting the choli waistband or putting tensile stress on the silk fibers.",
+      "createdAt": "2026-11-09T20:10:00.000Z"
+    }
+  },
+  {
+    "id": "cmt_mehndi_02",
+    "slug": "royal-mustard-mehndi-lehenga-gota-choli-guide",
+    "authorName": "Farah Qureshi",
+    "location": "Mississauga, ON, Canada",
+    "content": "Does hand-beaten copper gota tarnish in humid indoor hall conditions after 6 months if stored in Canada?",
+    "createdAt": "2026-11-10T11:05:00.000Z",
+    "status": "approved",
+    "likes": 6,
+    "isVerifiedClient": false,
+    "topic": "Embroidery Care"
+  },
+  {
+    "id": "cmt_scye_01",
+    "slug": "the-scye-depth-equation-why-saree-blouses-gape-at-the-back",
+    "authorName": "Amina Hashmi",
+    "location": "Houston, TX, USA",
+    "content": "Every tailor I tried in Houston cuts the blouse armhole like a shirt sleeve, leaving that hideous fabric fold under the arm. If I courier my best-fitting sample blouse from the US to your Moon Tower atelier in Lahore, can you replicate the exact armscye perimeter on my festive brocades?",
+    "createdAt": "2026-11-08T16:10:00.000Z",
+    "status": "approved",
+    "likes": 42,
+    "isVerifiedClient": true,
+    "topic": "Sample Blouse Cloning",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "Wa Alaikum Assalam Amina Sahiba. Yes, absolutely. Over 40% of our North American clients courier an unpicked master sample or well-fitted existing blouse to Shop F-9 Moon Tower. We trace the 3D armscye curvature onto stiff drafting paper, measure the exact scye depth and apex-to-shoulder pitch, and grade it across all your incoming unstitched fabrics. We also leave a generous 2.0-inch internal seam margin on all side panels.",
+      "createdAt": "2026-11-08T19:30:00.000Z"
+    }
+  },
+  {
+    "id": "cmt_unstitched_01",
+    "slug": "pakistani-designer-unstitched-suit-tailoring-lahore",
+    "authorName": "Khadija Raza",
+    "location": "Southall, London, UK",
+    "content": "Can I order 6 unstitched designer lawn and festive suits directly from Maria B and Sana Safinaz and put SARTOR's Lahore address for delivery?",
+    "createdAt": "2026-11-07T09:12:00.000Z",
+    "status": "approved",
+    "likes": 19,
+    "isVerifiedClient": true,
+    "topic": "Direct Brand Delivery Intake",
+    "atelierReply": {
+      "author": "Master Tailor Abdul Ghaffar",
+      "role": "Head of Atelier, SARTOR Lahore",
+      "content": "Assalam-o-Alaikum Khadija Sahiba. Yes! Simply enter: 'SARTOR Atelier (Attn: Master Ghaffar), Shop F-9, Moon Tower, Block 30-M, Model Town, Lahore, Pakistan (+92 332 0500904)' at checkout. As soon as the couriers deliver your parcels, our team photographs the parcels, unboxes them on WhatsApp video, inspects all fabric yardages and embroidered patches, and logs them into your digital order file.",
+      "createdAt": "2026-11-07T12:00:00.000Z"
+    }
+  }
+]

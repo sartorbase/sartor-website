@@ -12,6 +12,7 @@ import { HeroImage } from '../../../components/HeroImage';
 import { ArticleScrollProgress } from '../../../components/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../../../components/RelatedArticlesSection';
 import { ArticleHeroImageViewer } from '../../../components/ArticleHeroImageViewer';
+import { BlogCommentsSection } from '../../../components/BlogCommentsSection';
 import type { BlogPostData } from '../../../src/data/blogPosts';
 
 interface PageProps {
@@ -351,6 +352,9 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mt-12">
           <MeasurementLeadMagnet sourceContext="blog" />
         </div>
+
+        {/* Interactive Blog Comments with Atelier Moderation */}
+        <BlogCommentsSection slug={slug} title={title} />
 
         {/* Related Articles Section (Suggested 3 articles based on shared category and tags) */}
         <RelatedArticlesSection

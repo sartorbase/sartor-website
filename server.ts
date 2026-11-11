@@ -151,6 +151,233 @@ app.post('/api/leads', async (req: Request, res: Response) => {
   }
 });
 
+// 1c. Atelier Blog Comments & Moderation Engine
+const commentsFilePath = path.resolve(__dirname, 'data/comments.json');
+
+function loadComments(): any[] {
+  try {
+    if (fs.existsSync(commentsFilePath)) {
+      const data = fs.readFileSync(commentsFilePath, 'utf-8');
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    console.error('Error reading comments file:', err);
+  }
+  return [];
+}
+
+function saveComments(comments: any[]): void {
+  try {
+    const dir = path.dirname(commentsFilePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(commentsFilePath, JSON.stringify(comments, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving comments file:', err);
+  }
+}
+
+// GET comments by post slug or all
+app.get('/api/comments', (req: Request, res: Response) => {
+  try {
+    const { slug, includeAll } = req.query;
+    let comments = loadComments();
+
+    if (slug) {
+      comments = comments.filter((c: any) => c.slug === slug);
+    }
+
+    if (includeAll !== 'true') {
+      // Normal public feed: hide rejected items
+      comments = comments.filter((c: any) => c.status !== 'rejected');
+    }
+
+    // Sort newest first
+    comments.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+    // Hide private email addresses from public response
+    const sanitized = comments.map((c: any) => {
+      const { authorEmail, ...rest } = c;
+      return rest;
+    });
+
+    res.json({ success: true, comments: sanitized, count: sanitized.length });
+  } catch (err: any) {
+    console.error('Error fetching comments:', err);
+    res.status(500).json({ error: 'Failed to retrieve comments.' });
+  }
+});
+
+// POST new comment
+app.post('/api/comments', (req: Request, res: Response) => {
+  try {
+    const { slug, authorName, authorEmail, location, content, topic } = req.body;
+
+    if (!slug || !authorName || !content) {
+      res.status(400).json({ error: 'Post slug, author name, and comment content are required.' });
+      return;
+    }
+
+    if (content.trim().length < 5) {
+      res.status(400).json({ error: 'Comment content is too short (minimum 5 characters).' });
+      return;
+    }
+
+    const comments = loadComments();
+    const newComment = {
+      id: `cmt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      slug: String(slug).trim(),
+      authorName: String(authorName).trim().slice(0, 80),
+      authorEmail: authorEmail ? String(authorEmail).trim().slice(0, 120) : undefined,
+      location: location ? String(location).trim().slice(0, 80) : 'Diaspora Client',
+      topic: topic ? String(topic).trim().slice(0, 80) : undefined,
+      content: String(content).trim().slice(0, 2000),
+      createdAt: new Date().toISOString(),
+      status: 'approved',
+      likes: 0,
+      flagCount: 0,
+      isVerifiedClient: false,
+    };
+
+    comments.unshift(newComment);
+    saveComments(comments);
+
+    // Return sanitized comment (without email)
+    const { authorEmail: _omitted, ...safeComment } = newComment;
+    res.status(201).json({ success: true, comment: safeComment, message: 'Comment submitted successfully.' });
+  } catch (err: any) {
+    console.error('Error posting comment:', err);
+    res.status(500).json({ error: 'Failed to submit comment.' });
+  }
+});
+
+// POST flag comment for atelier review
+app.post('/api/comments/:id/flag', (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { reason = 'Reported for atelier inspection' } = req.body;
+
+    const comments = loadComments();
+    const target = comments.find((c: any) => c.id === id);
+
+    if (!target) {
+      res.status(404).json({ error: 'Comment not found.' });
+      return;
+    }
+
+    target.status = 'flagged';
+    target.flagCount = (target.flagCount || 0) + 1;
+    target.flagReason = String(reason).trim().slice(0, 200);
+    target.flaggedAt = new Date().toISOString();
+
+    saveComments(comments);
+
+    const { authorEmail: _omitted, ...safeTarget } = target;
+    res.json({
+      success: true,
+      message: 'Comment has been flagged for Atelier Master Tailor review.',
+      comment: safeTarget,
+    });
+  } catch (err: any) {
+    console.error('Error flagging comment:', err);
+    res.status(500).json({ error: 'Failed to flag comment.' });
+  }
+});
+
+// POST like/unlike comment
+app.post('/api/comments/:id/like', (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { action = 'like' } = req.body;
+
+    const comments = loadComments();
+    const target = comments.find((c: any) => c.id === id);
+
+    if (!target) {
+      res.status(404).json({ error: 'Comment not found.' });
+      return;
+    }
+
+    if (action === 'unlike') {
+      target.likes = Math.max(0, (target.likes || 1) - 1);
+    } else {
+      target.likes = (target.likes || 0) + 1;
+    }
+
+    saveComments(comments);
+
+    const { authorEmail: _omitted, ...safeTarget } = target;
+    res.json({
+      success: true,
+      likes: target.likes,
+      comment: safeTarget,
+    });
+  } catch (err: any) {
+    console.error('Error toggling comment like:', err);
+    res.status(500).json({ error: 'Failed to update like count.' });
+  }
+});
+
+// POST atelier moderation action (approve, reject, delete, reply)
+app.post('/api/comments/:id/moderate', (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { action, replyContent, authorName } = req.body;
+
+    const comments = loadComments();
+    const index = comments.findIndex((c: any) => c.id === id);
+
+    if (index === -1) {
+      res.status(404).json({ error: 'Comment not found.' });
+      return;
+    }
+
+    const comment = comments[index];
+
+    if (action === 'delete') {
+      comments.splice(index, 1);
+      saveComments(comments);
+      res.json({ success: true, message: 'Comment permanently deleted.', id });
+      return;
+    }
+
+    if (action === 'approve') {
+      comment.status = 'approved';
+      comment.flagReason = undefined;
+    } else if (action === 'flag') {
+      comment.status = 'flagged';
+      comment.flagReason = req.body.reason || 'Flagged by Atelier Moderator';
+      comment.flaggedAt = new Date().toISOString();
+    } else if (action === 'reject') {
+      comment.status = 'rejected';
+    } else if (action === 'reply') {
+      if (!replyContent || replyContent.trim().length === 0) {
+        res.status(400).json({ error: 'Reply content is required.' });
+        return;
+      }
+      comment.atelierReply = {
+        author: authorName || 'Master Tailor Abdul Ghaffar',
+        role: 'Head of Atelier, SARTOR Lahore',
+        content: String(replyContent).trim().slice(0, 2000),
+        createdAt: new Date().toISOString(),
+      };
+      comment.status = 'approved';
+    } else {
+      res.status(400).json({ error: 'Invalid moderation action.' });
+      return;
+    }
+
+    saveComments(comments);
+
+    const { authorEmail: _omitted, ...safeComment } = comment;
+    res.json({ success: true, comment: safeComment, message: `Comment action "${action}" completed.` });
+  } catch (err: any) {
+    console.error('Error moderating comment:', err);
+    res.status(500).json({ error: 'Failed to execute moderation action.' });
+  }
+});
+
 // 2. Sitemap
 app.get('/sitemap.xml', (_req: Request, res: Response) => {
   res.setHeader('Content-Type', 'application/xml');
