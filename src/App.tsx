@@ -8,6 +8,7 @@ import { AboutTailoringSection } from './components/organisms/AboutTailoringSect
 import { LocationMapSection } from './components/organisms/LocationMapSection';
 import { SareeDrapingGuideSection } from './components/organisms/SareeDrapingGuideSection';
 import { MeasurementLeadMagnet } from './components/organisms/MeasurementLeadMagnet';
+import { BridalFaqSection } from './components/organisms/BridalFaqSection';
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
 import { ServicesPageView } from './components/pages/ServicesPageView';
@@ -124,7 +125,10 @@ export function App() {
         {/* 5. Moon Tower Studio Location & Doorstep Pickup Coverage */}
         <LocationMapSection />
 
-        {/* 6. Digital Measurement Profile Lead Magnet Banner */}
+        {/* 6. Programmatic Bridal Tailoring FAQs & FAQPage Grounding */}
+        <BridalFaqSection />
+
+        {/* 7. Digital Measurement Profile Lead Magnet Banner */}
         <MeasurementLeadMagnet sourceContext="homepage" />
       </>
     );

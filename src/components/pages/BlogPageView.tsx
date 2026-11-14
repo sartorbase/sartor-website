@@ -23,6 +23,7 @@ import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
 import { BlogSearchGrid } from '../organisms/BlogSearchGrid';
+import { DIASPORA_IN_LANGUAGE } from '../../seo/geoSchemas';
 import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../organisms/BlogCommentsSection';
 
@@ -97,7 +98,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       headline: activePost.title,
       description: activePost.excerpt,
       keywords: activePost.tags?.join(', '),
-      inLanguage: 'en-US',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       image: activePost.coverImage ? `https://sartor.pk${activePost.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
       author: {
         '@type': 'Person',
@@ -147,6 +148,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
     breadcrumbScript.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       itemListElement: [
         {
           '@type': 'ListItem',
@@ -197,6 +199,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       existingScript.textContent = JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
+        inLanguage: [...DIASPORA_IN_LANGUAGE],
         mainEntity: faqMatches.map((faq) => ({
           '@type': 'Question',
           name: faq.question,

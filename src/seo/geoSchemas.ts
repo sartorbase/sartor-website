@@ -2,6 +2,7 @@ export interface DiasporaRegionSpec {
   id: string;
   countryName: string;
   countryCode: string;
+  languageTag: string;
   wikiUrl: string;
   currency: string;
   transitDaysMin: number;
@@ -11,6 +12,11 @@ export interface DiasporaRegionSpec {
   serviceName: string;
   serviceDescription: string;
 }
+
+/**
+ * Explicit BCP-47 language codes communicating diaspora support across UK, USA, Canada, UAE, and Lahore.
+ */
+export const DIASPORA_IN_LANGUAGE = ['en-GB', 'en-US', 'en-CA', 'en-AE', 'en-PK'] as const;
 
 export const LAHORE_ATELIER_ADDRESS = {
   '@type': 'PostalAddress',
@@ -43,6 +49,7 @@ export const DIASPORA_REGIONS: DiasporaRegionSpec[] = [
     id: 'https://sartor.pk/#diaspora-uk',
     countryName: 'United Kingdom',
     countryCode: 'GB',
+    languageTag: 'en-GB',
     wikiUrl: 'https://en.wikipedia.org/wiki/United_Kingdom',
     currency: 'GBP',
     transitDaysMin: 3,
@@ -57,6 +64,7 @@ export const DIASPORA_REGIONS: DiasporaRegionSpec[] = [
     id: 'https://sartor.pk/#diaspora-usa',
     countryName: 'United States',
     countryCode: 'US',
+    languageTag: 'en-US',
     wikiUrl: 'https://en.wikipedia.org/wiki/United_States',
     currency: 'USD',
     transitDaysMin: 3,
@@ -71,6 +79,7 @@ export const DIASPORA_REGIONS: DiasporaRegionSpec[] = [
     id: 'https://sartor.pk/#diaspora-canada',
     countryName: 'Canada',
     countryCode: 'CA',
+    languageTag: 'en-CA',
     wikiUrl: 'https://en.wikipedia.org/wiki/Canada',
     currency: 'CAD',
     transitDaysMin: 3,
@@ -85,6 +94,7 @@ export const DIASPORA_REGIONS: DiasporaRegionSpec[] = [
     id: 'https://sartor.pk/#diaspora-uae',
     countryName: 'United Arab Emirates',
     countryCode: 'AE',
+    languageTag: 'en-AE',
     wikiUrl: 'https://en.wikipedia.org/wiki/United_Arab_Emirates',
     currency: 'AED',
     transitDaysMin: 2,
@@ -110,6 +120,8 @@ export function buildLahoreLocationSchema() {
     email: 'contact@sartor.pk',
     priceRange: 'PKR 2,500 - PKR 1,250,000 | £22 - £4,500 | $28 - $6,200',
     currenciesAccepted: 'PKR, GBP, USD, CAD, AED',
+    inLanguage: [...DIASPORA_IN_LANGUAGE],
+    knowsLanguage: [...DIASPORA_IN_LANGUAGE, 'ur'],
     address: LAHORE_ATELIER_ADDRESS,
     geo: LAHORE_GEO_COORDINATES,
     hasMap: 'https://maps.app.goo.gl/7JKsRY1k9Aw4MJC68',
@@ -164,6 +176,10 @@ export function buildDiasporaServiceSchemas(pageUrl: string) {
     serviceType: 'Bespoke Pakistani Tailoring & Remote Bridal Couture',
     description: region.serviceDescription,
     url: pageUrl,
+    inLanguage: [
+      region.languageTag,
+      ...DIASPORA_IN_LANGUAGE.filter((lang) => lang !== region.languageTag),
+    ],
     provider: { '@id': 'https://sartor.pk/#localbusiness' },
     availableAtOrFrom: { '@id': 'https://sartor.pk/#lahore-location' },
     audience: {
@@ -256,6 +272,7 @@ export function buildPrimaryBreadcrumbSchema(pageUrl: string) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     '@id': `${pageUrl}#breadcrumb`,
+    inLanguage: [...DIASPORA_IN_LANGUAGE],
     itemListElement: baseItems,
   };
 }
@@ -270,7 +287,7 @@ export function buildLocationAndDiasporaGraph(pageUrl: string) {
         '@type': 'WebPage',
         '@id': `${pageUrl}#geo-targeting`,
         url: pageUrl,
-        inLanguage: 'en',
+        inLanguage: [...DIASPORA_IN_LANGUAGE],
         isPartOf: { '@id': 'https://sartor.pk/#website' },
         about: { '@id': 'https://sartor.pk/#lahore-location' },
         breadcrumb: { '@id': `${pageUrl}#breadcrumb` },

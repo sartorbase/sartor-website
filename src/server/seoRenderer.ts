@@ -1,5 +1,15 @@
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../data/blogPosts';
-import { buildLocationAndDiasporaGraph, buildPrimaryBreadcrumbSchema } from '../seo/geoSchemas';
+import {
+  buildLocationAndDiasporaGraph,
+  buildPrimaryBreadcrumbSchema,
+  DIASPORA_IN_LANGUAGE,
+} from '../seo/geoSchemas';
+import { buildHomepageFaqPageSchema, getTopHomepageBridalFaqs } from '../seo/faqAggregator';
+import {
+  ATELIER_SERVICES,
+  buildServicesCatalogGraph,
+  SERVICES_CATALOG_SCHEMA_ID,
+} from '../seo/servicesCatalog';
 
 function escapeHtml(str: string): string {
   return str
@@ -253,6 +263,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       const schemaData = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
+        inLanguage: [...DIASPORA_IN_LANGUAGE],
         mainEntity: faqMatches.map((faq) => ({
           '@type': 'Question',
           name: faq.question,
@@ -271,7 +282,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       headline: post.title,
       description: post.excerpt,
       keywords: post.tags?.join(', '),
-      inLanguage: 'en-US',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       image: post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
       author: {
         '@type': 'Person',
@@ -306,6 +317,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': articleUrl,
+        inLanguage: [...DIASPORA_IN_LANGUAGE],
       },
     };
     const articleJsonLd = `<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
@@ -313,6 +325,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const breadcrumbsSchema = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       itemListElement: [
         {
           '@type': 'ListItem',
@@ -413,13 +426,14 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
   const applyPageHead = (
     html: string,
-    opts: { title: string; description: string; url: string; schemas?: object[] }
+    opts: { title: string; description: string; url: string; schemas?: object[]; schemaTags?: string[] }
   ): string => {
     const geoGraph = buildLocationAndDiasporaGraph(opts.url);
     const breadcrumbSchema = buildPrimaryBreadcrumbSchema(opts.url);
     const schemaScripts = [
       `<script id="location-diaspora-structured-data" type="application/ld+json">${JSON.stringify(geoGraph)}</script>`,
       `<script id="primary-breadcrumb-structured-data" type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`,
+      ...(opts.schemaTags || []),
       ...(opts.schemas || []).map((s) => `<script type="application/ld+json">${JSON.stringify(s)}</script>`),
     ].join('\n');
 
@@ -455,7 +469,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       name: pageTitle,
       description: pageDesc,
       url: archiveUrl,
-      inLanguage: 'en-US',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       isPartOf: { '@id': 'https://sartor.pk/#website' },
       mainEntity: {
         '@type': 'ItemList',
@@ -529,6 +543,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       '@context': 'https://schema.org',
       '@type': 'Service',
       serviceType: 'Bespoke Pakistani Bridal Lehenga & Zardozi Couture Tailoring',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       provider: { '@id': 'https://sartor.pk/#localbusiness' },
       areaServed: ['United States', 'United Kingdom', 'Canada', 'United Arab Emirates', 'Pakistan'],
       description: bridalDesc,
@@ -543,6 +558,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const bridalFaqSchema = {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       mainEntity: bridalFaqs.map((f) => ({
         '@type': 'Question',
         name: f.q,
@@ -554,6 +570,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       '@type': 'WebPage',
       url: bridalUrl,
       name: bridalTitle,
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'blockquote'] },
     };
 
@@ -606,18 +623,12 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       }
     ];
 
-    const servicesSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      serviceType: 'Custom Pakistani Tailoring, Saree Stitching, Unstitched Suit Tailoring & Groom Sherwanis',
-      provider: { '@id': 'https://sartor.pk/#localbusiness' },
-      areaServed: ['Lahore', 'United Kingdom', 'United States', 'Canada', 'United Arab Emirates'],
-      description: servicesDesc,
-      url: servicesUrl,
-    };
+    const servicesCatalogGraph = buildServicesCatalogGraph(ATELIER_SERVICES);
+    const servicesCatalogSchemaTag = `<script id="${SERVICES_CATALOG_SCHEMA_ID}" type="application/ld+json">${JSON.stringify(servicesCatalogGraph)}</script>`;
     const servicesFaqSchema = {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       mainEntity: servicesFaqs.map((f) => ({
         '@type': 'Question',
         name: f.q,
@@ -627,17 +638,27 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     const servicesSsrHtml = `
       <main class="max-w-5xl mx-auto px-4 py-12 text-stone-100">
-        <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">Master Bespoke Tailoring Services in Model Town, Lahore &amp; Worldwide</h1>
+        <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">Master Bespoke Tailoring Services in Lahore</h1>
         <blockquote class="my-6 p-6 rounded-2xl bg-stone-900 border-l-4 border-amber-500 text-stone-200">
-          <strong>Quick Answer:</strong> Located at Shop F-9, Moon Tower, International Market, Model Town, Lahore, Master Tailor Abdul Ghaffar provides precision cutting for bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits (Maria.B, Elan, Suffuse), and floating-canvas groom sherwanis—backed by 2-inch internal seam allowances, 28-point digital profiles at <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, complimentary Lahore doorstep pickup, and 3–5 day insured DHL Express delivery.
+          <strong>Quick Answer:</strong> Located at Shop F-9, Moon Tower, International Market, Model Town, Lahore, Master Tailor Abdul Ghaffar provides precision cutting for bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits (Maria.B, Elan, Suffuse), farshi ghararas, and floating-canvas groom sherwanis—backed by 2-inch internal seam allowances, 28-point digital profiles at <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, complimentary Lahore doorstep pickup, and 3–5 day insured DHL Express delivery.
         </blockquote>
-        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Transparent Service Tiers &amp; Turnaround Times</h2>
-        <ul class="list-disc ml-6 space-y-2 text-stone-300">
-          <li><strong>Everyday &amp; Designer Unstitched Suits:</strong> PKR 2,500–4,000+ (5–10 business days)</li>
-          <li><strong>16-Kali Kalidar &amp; Pleated Saree + Boned Blouse Sets:</strong> PKR 7,000+ / £45–£75 (7–10+ business days)</li>
-          <li><strong>Bespoke Groom Sherwanis &amp; Pure Boski Kurta-Shalwar:</strong> $380–$1,450 / £300–£1,150 (10–14 business days stitching)</li>
-          <li><strong>Custom Zardozi Bridal Lehengas &amp; Farshi Ghararas:</strong> PKR 10,000+ stitching / $2,200–$4,500 complete bespoke</li>
-        </ul>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Bespoke Tailoring &amp; Couture Service Offerings</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          ${ATELIER_SERVICES.map(
+            (svc) => `
+            <article id="${svc.id}" class="p-6 rounded-2xl bg-stone-900 border border-stone-800">
+              <span class="text-xs font-mono text-amber-400 uppercase">${escapeHtml(svc.categoryLabel)}</span>
+              <h3 class="text-xl font-serif font-bold text-stone-100 mt-1 mb-2">${escapeHtml(svc.name)}</h3>
+              <p class="text-stone-300 text-sm mb-3">${escapeHtml(svc.description)}</p>
+              <ul class="list-disc ml-5 text-xs text-stone-400 space-y-1 mb-3">
+                ${svc.features.map((feat) => `<li>${escapeHtml(feat)}</li>`).join('')}
+              </ul>
+              <p class="text-xs font-mono text-stone-200 font-semibold">${escapeHtml(svc.priceDisplay)}</p>
+              <p class="text-xs mt-2"><a href="/blog/${svc.relatedBlogSlug}" class="text-amber-400 underline">${escapeHtml(svc.relatedBlogLabel)}</a></p>
+            </article>
+          `
+          ).join('')}
+        </div>
         <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Frequently Asked Questions</h2>
         ${servicesFaqs.map((f) => `<h3 class="text-lg font-serif font-semibold text-stone-100 mt-6 mb-2">${escapeHtml(f.q)}</h3><p class="text-stone-300">${escapeHtml(f.a)}</p>`).join('')}
       </main>
@@ -648,6 +669,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       '@type': 'WebPage',
       url: servicesUrl,
       name: servicesTitle,
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'blockquote'] },
     };
 
@@ -655,7 +677,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: servicesTitle,
       description: servicesDesc,
       url: servicesUrl,
-      schemas: [servicesSchema, servicesFaqSchema, servicesSpeakable],
+      schemaTags: [servicesCatalogSchemaTag],
+      schemas: [servicesFaqSchema, servicesSpeakable],
     }).replace('<div id="root"></div>', `<div id="root">${servicesSsrHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
@@ -666,35 +689,15 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const homeDesc = 'Master bespoke Pakistani tailor at Model Town, Lahore led by Abdul Ghaffar. Handcrafted bridal lehengas, 16-kali kalidars, sarees, unstitched designer suits & custom groom sherwanis. 28-point digital measurements on app.sartor.pk, 2-inch seam margins & 3–5 day DHL Express shipping.';
     const homeUrl = 'https://sartor.pk/';
 
-    const homeFaqs = [
-      {
-        q: 'What is SARTOR Lahore and who leads pattern drafting?',
-        a: 'SARTOR (sartor.pk) is a bespoke luxury tailoring atelier at Shop F-9, Moon Tower, Block 30-M, International Market, Model Town, Lahore, Pakistan, led by Master Tailor Abdul Ghaffar (13+ years precision leadership, 35+ years heritage). We serve Lahore doorstep pickups and overseas clients in the UK, USA, Canada, UAE, Australia, and Europe.'
-      },
-      {
-        q: 'How does SARTOR guarantee remote bespoke fit without an in-person visit?',
-        a: 'Clients log 28 anatomical coordinates on app.sartor.pk during a live video measurement call with Master Tailor Abdul Ghaffar, review mid-production baste-fitting checkpoints before lining closure, and receive 1.5–2.5 inch silk-bound internal seam allowances.'
-      },
-      {
-        q: 'How do 4-step milestone payments and international shipping work?',
-        a: 'Payments follow a 10/30/30/30 milestone structure (10% booking, 30% 4K adda swatch approval, 30% mid-production baste/panel check, 30% final dispatch). Garments arrive via insured DHL Express in 3–5 business days ($800 US / £135 UK threshold compliance).'
-      }
-    ];
-
-    const homeFaqSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: homeFaqs.map((f) => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a },
-      })),
-    };
+    const homeFaqs = getTopHomepageBridalFaqs(8);
+    const homeFaqSchema = buildHomepageFaqPageSchema(homeFaqs);
+    const homeFaqSchemaTag = `<script id="homepage-faq-schema" type="application/ld+json">${JSON.stringify(homeFaqSchema)}</script>`;
     const homeSpeakable = {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
       url: homeUrl,
       name: homeTitle,
+      inLanguage: [...DIASPORA_IN_LANGUAGE],
       speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'blockquote'] },
     };
 
@@ -715,8 +718,13 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
         <ul class="list-disc ml-6 space-y-2 text-stone-300">
           ${BLOG_POSTS.slice(0, 12).map((p) => `<li><a href="/blog/${p.slug}" class="text-amber-400 hover:underline">${escapeHtml(p.title)}</a> — ${escapeHtml(p.excerpt)}</li>`).join('')}
         </ul>
-        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Frequently Asked Questions</h2>
-        ${homeFaqs.map((f) => `<h3 class="text-lg font-serif font-semibold text-stone-100 mt-6 mb-2">${escapeHtml(f.q)}</h3><p class="text-stone-300">${escapeHtml(f.a)}</p>`).join('')}
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Bridal Tailoring Engineering FAQs</h2>
+        ${homeFaqs
+          .map(
+            (f) =>
+              `<article class="mt-6 pb-4 border-b border-stone-800"><h3 class="text-lg font-serif font-semibold text-stone-100 mb-2">${escapeHtml(f.question)}</h3><p class="text-stone-300">${escapeHtml(f.answer)}</p><p class="text-xs text-amber-400 mt-2"><a href="/blog/${f.sourceSlug}">Source Masterclass: ${escapeHtml(f.sourceTitle)}</a></p></article>`
+          )
+          .join('')}
       </main>
     `;
 
@@ -724,7 +732,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: homeTitle,
       description: homeDesc,
       url: homeUrl,
-      schemas: [homeFaqSchema, homeSpeakable],
+      schemaTags: [homeFaqSchemaTag],
+      schemas: [homeSpeakable],
     }).replace('<div id="root"></div>', `<div id="root">${homeSsrHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
