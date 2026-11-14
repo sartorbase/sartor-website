@@ -231,9 +231,9 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const pageTitle = `${post.title} | SARTOR Atelier`;
     const renderedBody = markdownToHtml(post.content);
 
-    // Extract FAQs for Schema.org JSON-LD
+    // Extract FAQs for Schema.org JSON-LD (supports numbered headings and optional (FAQ) suffix)
     const faqMatches: { question: string; answer: string }[] = [];
-    const faqSectionMatch = post.content.match(/##\s*(?:\d+[\.\)]\s*)?Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
+    const faqSectionMatch = post.content.match(/##\s*(?:\d+[\.\)]\s*)?Frequently Asked Questions(?:\s*\(FAQ\))?([\s\S]*?)(?:\n---|\n##\s+[^#]|$)/i);
     if (faqSectionMatch) {
       const faqText = faqSectionMatch[1];
       const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;
@@ -269,6 +269,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       '@type': 'Article',
       headline: post.title,
       description: post.excerpt,
+      keywords: post.tags?.join(', '),
+      inLanguage: 'en-US',
       image: post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
       author: {
         '@type': 'Person',
@@ -289,8 +291,17 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
           url: 'https://sartor.pk/logo.webp',
         },
       },
+      isPartOf: {
+        '@type': 'Blog',
+        '@id': 'https://sartor.pk/blog',
+        name: 'SARTOR Atelier Journal & Masterclasses',
+      },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['h1', 'blockquote'],
+      },
       datePublished: post.date,
-      dateModified: post.date || '2026-10-21',
+      dateModified: post.date || '2026-11-14',
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': articleUrl,
@@ -326,6 +337,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     const ogImage = post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg';
     const ogImageTags = `
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 <meta name="geo.region" content="PK-PB" />
 <meta name="geo.placename" content="Model Town, Lahore, Pakistan" />
 <meta name="geo.position" content="31.4826;74.3142" />
@@ -409,7 +421,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          ${BLOG_POSTS.slice(0, 15).map(post => `
+          ${BLOG_POSTS.map(post => `
             <article class="p-6 rounded-2xl bg-stone-900 border border-stone-800">
               ${post.coverImage ? `
                 <div class="relative aspect-[16/9] mb-4 rounded-xl overflow-hidden bg-stone-950">

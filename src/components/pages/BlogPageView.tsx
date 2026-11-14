@@ -96,6 +96,8 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       '@type': 'Article',
       headline: activePost.title,
       description: activePost.excerpt,
+      keywords: activePost.tags?.join(', '),
+      inLanguage: 'en-US',
       image: activePost.coverImage ? `https://sartor.pk${activePost.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
       author: {
         '@type': 'Person',
@@ -116,8 +118,17 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
           url: 'https://sartor.pk/logo.webp',
         },
       },
+      isPartOf: {
+        '@type': 'Blog',
+        '@id': 'https://sartor.pk/blog',
+        name: 'SARTOR Atelier Journal & Masterclasses',
+      },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['h1', 'blockquote'],
+      },
       datePublished: activePost.date,
-      dateModified: activePost.date || '2026-10-21',
+      dateModified: activePost.date || '2026-11-14',
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': canonicalUrl,
@@ -158,9 +169,9 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       ],
     });
 
-    // Extract FAQs from markdown text
+    // Extract FAQs from markdown text (supports numbered headings and optional (FAQ) suffix)
     const faqMatches: { question: string; answer: string }[] = [];
-    const faqSectionMatch = activePost.content.match(/## Frequently Asked Questions([\s\S]*?)(?:---|\n## About the Author|$)/i);
+    const faqSectionMatch = activePost.content.match(/##\s*(?:\d+[\.\)]\s*)?Frequently Asked Questions(?:\s*\(FAQ\))?([\s\S]*?)(?:\n---|\n##\s+[^#]|$)/i);
     if (faqSectionMatch) {
       const faqText = faqSectionMatch[1];
       const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;

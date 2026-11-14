@@ -9,6 +9,12 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
 User-agent: ClaudeBot
 Allow: /
 
