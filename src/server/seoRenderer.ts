@@ -1,4 +1,5 @@
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../data/blogPosts';
+import { buildLocationAndDiasporaGraph, buildPrimaryBreadcrumbSchema } from '../seo/geoSchemas';
 
 function escapeHtml(str: string): string {
   return str
@@ -355,7 +356,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
-      .replace(/<meta[\s\S]*?name="description"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`)
+      .replace(/<meta[^>]*name="description"[^>]*>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`)
       .replace(/<meta\s+property="og:(?:title|description|image|url|type)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
       .replace(/<meta\s+name="twitter:(?:card|title|description|image)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
       .replace(/<meta\s+name="(?:robots|geo\.[^"]+|ICBM)"\s+content="[^"]*"\s*\/?>\s*/gi, '');
@@ -414,20 +415,33 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     html: string,
     opts: { title: string; description: string; url: string; schemas?: object[] }
   ): string => {
-    const schemaScripts = (opts.schemas || [])
-      .map((s) => `<script type="application/ld+json">${JSON.stringify(s)}</script>`)
-      .join('\n');
+    const geoGraph = buildLocationAndDiasporaGraph(opts.url);
+    const breadcrumbSchema = buildPrimaryBreadcrumbSchema(opts.url);
+    const schemaScripts = [
+      `<script id="location-diaspora-structured-data" type="application/ld+json">${JSON.stringify(geoGraph)}</script>`,
+      `<script id="primary-breadcrumb-structured-data" type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`,
+      ...(opts.schemas || []).map((s) => `<script type="application/ld+json">${JSON.stringify(s)}</script>`),
+    ].join('\n');
+
+    const hreflangTags = [
+      `<link rel="alternate" hreflang="x-default" href="${opts.url}" />`,
+      `<link rel="alternate" hreflang="en-PK" href="${opts.url}" />`,
+      `<link rel="alternate" hreflang="en-GB" href="${opts.url}" />`,
+      `<link rel="alternate" hreflang="en-US" href="${opts.url}" />`,
+      `<link rel="alternate" hreflang="en-CA" href="${opts.url}" />`,
+      `<link rel="alternate" hreflang="en-AE" href="${opts.url}" />`,
+    ].join('\n');
 
     return html
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(opts.title)}</title>`)
-      .replace(/<meta[\s\S]*?name="description"[\s\S]*?content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(opts.description)}" />`)
+      .replace(/<meta[^>]*name="description"[^>]*>/i, `<meta name="description" content="${escapeHtml(opts.description)}" />`)
       .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${opts.url}" />`)
       .replace(/<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i, `<meta property="og:title" content="${escapeHtml(opts.title)}" />`)
       .replace(/<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(opts.description)}" />`)
       .replace(/<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i, `<meta property="og:url" content="${opts.url}" />`)
       .replace(/<meta\s+name="twitter:title"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:title" content="${escapeHtml(opts.title)}" />`)
       .replace(/<meta\s+name="twitter:description"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(opts.description)}" />`)
-      .replace('</head>', `${schemaScripts}\n</head>`);
+      .replace('</head>', `${hreflangTags}\n${schemaScripts}\n</head>`);
   };
 
   if (cleanPath === '/blog' || cleanPath === '/journal') {

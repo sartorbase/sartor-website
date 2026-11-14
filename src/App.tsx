@@ -11,6 +11,7 @@ import { MeasurementLeadMagnet } from './components/organisms/MeasurementLeadMag
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
 import { ServicesPageView } from './components/pages/ServicesPageView';
+import { buildLocationAndDiasporaGraph, buildPrimaryBreadcrumbSchema } from './seo/geoSchemas';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
@@ -33,6 +34,50 @@ export function App() {
       window.removeEventListener('app-navigate', handleRouteChange);
     };
   }, []);
+
+  // Synchronize Lahore Location & UK/USA/Canada/UAE Diaspora Schema across primary SPA routes
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const normalized = currentPath.toLowerCase().replace(/\/+$/, '') || '/';
+    const isPrimary =
+      normalized === '/' ||
+      normalized === '/services' ||
+      normalized === '/custom-bridal' ||
+      normalized === '/blog' ||
+      normalized === '/journal';
+
+    if (!isPrimary) {
+      const primaryBcEl = document.getElementById('primary-breadcrumb-structured-data');
+      if (primaryBcEl) primaryBcEl.remove();
+      return;
+    }
+
+    const canonicalUrl = `https://sartor.pk${normalized === '/' ? '/' : normalized}`;
+    const canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (canonicalEl) {
+      canonicalEl.setAttribute('href', canonicalUrl);
+    }
+
+    const scriptId = 'location-diaspora-structured-data';
+    let scriptEl = document.getElementById(scriptId);
+    if (!scriptEl) {
+      scriptEl = document.createElement('script');
+      scriptEl.id = scriptId;
+      scriptEl.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(scriptEl);
+    }
+    scriptEl.textContent = JSON.stringify(buildLocationAndDiasporaGraph(canonicalUrl));
+
+    const bcScriptId = 'primary-breadcrumb-structured-data';
+    let bcEl = document.getElementById(bcScriptId);
+    if (!bcEl) {
+      bcEl = document.createElement('script');
+      bcEl.id = bcScriptId;
+      bcEl.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(bcEl);
+    }
+    bcEl.textContent = JSON.stringify(buildPrimaryBreadcrumbSchema(canonicalUrl));
+  }, [currentPath]);
 
   const renderContent = () => {
     // 1. Custom Bridal landing route
