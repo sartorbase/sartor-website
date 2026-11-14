@@ -355,7 +355,10 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
-      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`);
+      .replace(/<meta[\s\S]*?name="description"[\s\S]*?content="[\s\S]*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`)
+      .replace(/<meta\s+property="og:(?:title|description|image|url|type)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
+      .replace(/<meta\s+name="twitter:(?:card|title|description|image)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
+      .replace(/<meta\s+name="(?:robots|geo\.[^"]+|ICBM)"\s+content="[^"]*"\s*\/?>\s*/gi, '');
 
     if (transformedHtml.includes('<link rel="canonical"')) {
       transformedHtml = transformedHtml.replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${articleUrl}" />`);
@@ -407,19 +410,55 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     return { status: 200, html: transformedHtml };
   }
 
+  const applyPageHead = (
+    html: string,
+    opts: { title: string; description: string; url: string; schemas?: object[] }
+  ): string => {
+    const schemaScripts = (opts.schemas || [])
+      .map((s) => `<script type="application/ld+json">${JSON.stringify(s)}</script>`)
+      .join('\n');
+
+    return html
+      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(opts.title)}</title>`)
+      .replace(/<meta[\s\S]*?name="description"[\s\S]*?content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(opts.description)}" />`)
+      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${opts.url}" />`)
+      .replace(/<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i, `<meta property="og:title" content="${escapeHtml(opts.title)}" />`)
+      .replace(/<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(opts.description)}" />`)
+      .replace(/<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i, `<meta property="og:url" content="${opts.url}" />`)
+      .replace(/<meta\s+name="twitter:title"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:title" content="${escapeHtml(opts.title)}" />`)
+      .replace(/<meta\s+name="twitter:description"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(opts.description)}" />`)
+      .replace('</head>', `${schemaScripts}\n</head>`);
+  };
+
   if (cleanPath === '/blog' || cleanPath === '/journal') {
-    const pageTitle = 'Atelier Journal & Couture Guides | SARTOR Bespoke Lahore';
-    const pageDesc = 'Insights on bespoke women tailoring, saree stitching, and Lahore couture.';
+    const pageTitle = 'Atelier Journal & Couture Masterclasses | SARTOR Bespoke Lahore';
+    const pageDesc = 'Explore 60+ technical masterclasses by Master Tailor Abdul Ghaffar on Pakistani bridal lehengas, zardozi, groom sherwanis, remote video fittings, and bespoke tailoring.';
     const archiveUrl = 'https://sartor.pk/blog';
+
+    const collectionSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: pageTitle,
+      description: pageDesc,
+      url: archiveUrl,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': 'https://sartor.pk/#website' },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: BLOG_POSTS.length,
+        itemListElement: BLOG_POSTS.slice(0, 30).map((p, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: p.title,
+          url: `https://sartor.pk/blog/${p.slug}`,
+        })),
+      },
+    };
 
     const blogCardsHtml = `
       <main class="max-w-6xl mx-auto px-4 py-12">
-        <h1 class="text-3xl font-serif font-bold text-amber-400 mb-8">Atelier Journal &amp; Couture Guides</h1>
-        <div class="mb-10 max-w-4xl">
-          <div class="relative flex items-center">
-            <input type="text" placeholder="Search masterclasses by title or tag (e.g., Walima, Zardozi, Scye Depth, Lehenga)..." class="w-full pl-4 pr-4 py-3.5 bg-stone-900 border border-stone-800 rounded-2xl text-stone-100 text-sm" />
-          </div>
-        </div>
+        <h1 class="text-3xl font-serif font-bold text-amber-400 mb-4">Atelier Journal &amp; Couture Masterclasses</h1>
+        <p class="text-stone-300 mb-8 max-w-3xl">Authored by Master Tailor Abdul Ghaffar at Shop F-9, Moon Tower, Model Town, Lahore. Complete architectural engineering guides for overseas Pakistani brides, grooms, and bespoke formals across the UK, USA, Canada, and UAE.</p>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           ${BLOG_POSTS.map(post => `
             <article class="p-6 rounded-2xl bg-stone-900 border border-stone-800">
@@ -442,50 +481,237 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       </main>
     `;
 
-    let transformedHtml = baseHtml
-      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
-      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(pageDesc)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${archiveUrl}" />`)
-      .replace('<div id="root"></div>', `<div id="root">${blogCardsHtml}</div>`);
+    const transformedHtml = applyPageHead(baseHtml, {
+      title: pageTitle,
+      description: pageDesc,
+      url: archiveUrl,
+      schemas: [collectionSchema],
+    }).replace('<div id="root"></div>', `<div id="root">${blogCardsHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
   }
 
   if (cleanPath === '/custom-bridal') {
     const bridalTitle = 'Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR';
-    const bridalDesc = 'Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).';
+    const bridalDesc = 'Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 28-point digital measurements, pre-closure baste-fit video checkpoints, 2-inch seam margins, and 10/30/30/30 escrow milestones with 3–5 day DHL Express shipping.';
     const bridalUrl = 'https://sartor.pk/custom-bridal';
 
-    let transformedHtml = baseHtml
-      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(bridalTitle)}</title>`)
-      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(bridalDesc)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${bridalUrl}" />`);
+    const bridalFaqs = [
+      {
+        q: 'How does SARTOR guarantee a bridal lehenga fits overseas clients without flying to Lahore?',
+        a: 'Master Tailor Abdul Ghaffar conducts a live 28-point biometric video measurement call logged on app.sartor.pk, executes a mid-production baste-fitting video checkpoint before closing the pure Habotai silk lining, and leaves 2-inch internal silk-bound seam margins plus 3-column brass hook-and-eye canvas waistbands.'
+      },
+      {
+        q: 'How do SARTOR 10/30/30/30 milestone payments protect overseas brides?',
+        a: 'You pay 10% booking token to reserve your adda slot, 30% upon approving a 4K daylight video of an 8x8-inch hand-embroidered swatch, 30% after inspecting your baste-fitted choli and waistband live on video prior to lining closure, and the final 30% after 360-degree mannequin sign-off before DHL Express dispatch.'
+      },
+      {
+        q: 'What are the turnaround times and DHL Express transit speeds to the USA, UK, Canada, and UAE?',
+        a: 'Full hand-embroidered Zardozi bridal lehengas require 10 to 14 weeks on wooden adda frames (precision bespoke stitching of prepared yardage takes 7–10+ business days). Insured DHL Express and FedEx Priority arrive in 3–5 business days (2–3 days to UAE), structured cleanly around $800 US and £135 UK customs rules.'
+      }
+    ];
+
+    const bridalServiceSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Bespoke Pakistani Bridal Lehenga & Zardozi Couture Tailoring',
+      provider: { '@id': 'https://sartor.pk/#localbusiness' },
+      areaServed: ['United States', 'United Kingdom', 'Canada', 'United Arab Emirates', 'Pakistan'],
+      description: bridalDesc,
+      url: bridalUrl,
+      offers: {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'USD',
+        lowPrice: '2000',
+        highPrice: '6200',
+      },
+    };
+    const bridalFaqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: bridalFaqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    };
+    const bridalSpeakable = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: bridalUrl,
+      name: bridalTitle,
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'blockquote'] },
+    };
+
+    const bridalSsrHtml = `
+      <main class="max-w-5xl mx-auto px-4 py-12 text-stone-100">
+        <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">Bespoke Pakistani Bridal Couture — Tailored to Your Exact Fit with Live Video Consultations</h1>
+        <blockquote class="my-6 p-6 rounded-2xl bg-stone-900 border-l-4 border-amber-500 text-stone-200">
+          <strong>Quick Answer:</strong> SARTOR Model Town Lahore (Shop F-9, Moon Tower, led by Master Tailor Abdul Ghaffar) crafts heirloom pure Katan silk Zardozi bridal lehengas ($2,000+ / £1,750+) with 28-point digital measurements on <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, pre-closure baste-fit video checkpoints, 2-inch internal seam allowances, 3-tier canvas hook-and-eye waistbands, 10/30/30/30 milestone payments, and 3–5 day insured DHL Express shipping worldwide.
+        </blockquote>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">4-Step Milestone Escrow Workflow (10 / 30 / 30 / 30)</h2>
+        <ul class="list-disc ml-6 space-y-2 text-stone-300">
+          <li><strong>Step 1 (10% Booking):</strong> 28-point biometric video sizing logged on <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>.</li>
+          <li><strong>Step 2 (30% Adda Swatch):</strong> 4K daylight macro video approval of your 8x8-inch Kora/Dabka swatch before cutting panels.</li>
+          <li><strong>Step 3 (30% Baste-Fit Checkpoint):</strong> Live steel-ruler inspection of your basted choli and waistband before sealing the pure Habotai silk lining.</li>
+          <li><strong>Step 4 (30% Final Dispatch):</strong> 360-degree studio mannequin sign-off ahead of insured 3–5 day DHL Express delivery ($800 US / £135 UK threshold compliant).</li>
+        </ul>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Frequently Asked Questions</h2>
+        ${bridalFaqs.map((f) => `<h3 class="text-lg font-serif font-semibold text-stone-100 mt-6 mb-2">${escapeHtml(f.q)}</h3><p class="text-stone-300">${escapeHtml(f.a)}</p>`).join('')}
+        <p class="mt-8 text-sm text-stone-400">Explore <a href="/services" class="text-amber-400 underline">all tailoring services</a>, <a href="/blog" class="text-amber-400 underline">60 tailoring masterclasses</a>, or book on <a href="https://wa.me/923320500904" class="text-emerald-400 underline">WhatsApp (+92 332 0500904)</a>.</p>
+      </main>
+    `;
+
+    const transformedHtml = applyPageHead(baseHtml, {
+      title: bridalTitle,
+      description: bridalDesc,
+      url: bridalUrl,
+      schemas: [bridalServiceSchema, bridalFaqSchema, bridalSpeakable],
+    }).replace('<div id="root"></div>', `<div id="root">${bridalSsrHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
   }
 
   if (cleanPath === '/services') {
-    const servicesTitle = 'Tailor Model Town Lahore | Lehenga & Saree Tailor Near Me | SARTOR Atelier';
-    const servicesDesc = 'Searching for the best tailor in Model Town or lehenga and saree tailor near me? SARTOR provides luxury bespoke stitching in Lahore. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).';
+    const servicesTitle = 'Tailor Model Town Lahore | Lehenga, Saree & Bespoke Groom Sherwani Tailoring | SARTOR';
+    const servicesDesc = 'Master bespoke tailoring in Model Town, Lahore & online worldwide: bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits, and custom Jamawar groom sherwanis. Guided video fittings, 2-inch seam margins, and 3–5 day DHL Express shipping.';
     const servicesUrl = 'https://sartor.pk/services';
 
-    let transformedHtml = baseHtml
-      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(servicesTitle)}</title>`)
-      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(servicesDesc)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${servicesUrl}" />`);
+    const servicesFaqs = [
+      {
+        q: 'What bespoke tailoring disciplines and transparent rates does SARTOR Lahore offer?',
+        a: 'SARTOR at Shop F-9, Moon Tower, Model Town, Lahore stitches everyday pret suits (PKR 2,500+), double suits (PKR 4,000+), 16-kali kalidars (PKR 7,000+), pre-pleated sarees and boned blouses (PKR 7,000+), bespoke Jamawar groom sherwanis and Boski menswear ($380–$1,450), and custom Zardozi bridal lehengas (PKR 10,000+ stitching / $2,200–$4,500 full couture).'
+      },
+      {
+        q: 'Do you offer free fabric pickup in Lahore and express shipping overseas?',
+        a: 'Yes. We provide complimentary doorstep fabric pickup across Model Town, DHA, Gulberg, Cantt, Johar Town, and Bahria Town in Lahore, plus parcel consolidation for Maria.B, Elan, and Suffuse orders shipped via 3–5 day insured DHL Express to the USA, UK, Canada, and UAE.'
+      },
+      {
+        q: 'How fast is SARTOR stitching turnaround?',
+        a: 'Precision bespoke stitching completes in 7–10+ business days depending on seasonal atelier queue and garment complexity, while full hand-embroidered adda bridals require 10–14 weeks.'
+      }
+    ];
+
+    const servicesSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Custom Pakistani Tailoring, Saree Stitching, Unstitched Suit Tailoring & Groom Sherwanis',
+      provider: { '@id': 'https://sartor.pk/#localbusiness' },
+      areaServed: ['Lahore', 'United Kingdom', 'United States', 'Canada', 'United Arab Emirates'],
+      description: servicesDesc,
+      url: servicesUrl,
+    };
+    const servicesFaqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: servicesFaqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    };
+
+    const servicesSsrHtml = `
+      <main class="max-w-5xl mx-auto px-4 py-12 text-stone-100">
+        <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">Master Bespoke Tailoring Services in Model Town, Lahore &amp; Worldwide</h1>
+        <blockquote class="my-6 p-6 rounded-2xl bg-stone-900 border-l-4 border-amber-500 text-stone-200">
+          <strong>Quick Answer:</strong> Located at Shop F-9, Moon Tower, International Market, Model Town, Lahore, Master Tailor Abdul Ghaffar provides precision cutting for bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits (Maria.B, Elan, Suffuse), and floating-canvas groom sherwanis—backed by 2-inch internal seam allowances, 28-point digital profiles at <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, complimentary Lahore doorstep pickup, and 3–5 day insured DHL Express delivery.
+        </blockquote>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Transparent Service Tiers &amp; Turnaround Times</h2>
+        <ul class="list-disc ml-6 space-y-2 text-stone-300">
+          <li><strong>Everyday &amp; Designer Unstitched Suits:</strong> PKR 2,500–4,000+ (5–10 business days)</li>
+          <li><strong>16-Kali Kalidar &amp; Pleated Saree + Boned Blouse Sets:</strong> PKR 7,000+ / £45–£75 (7–10+ business days)</li>
+          <li><strong>Bespoke Groom Sherwanis &amp; Pure Boski Kurta-Shalwar:</strong> $380–$1,450 / £300–£1,150 (10–14 business days stitching)</li>
+          <li><strong>Custom Zardozi Bridal Lehengas &amp; Farshi Ghararas:</strong> PKR 10,000+ stitching / $2,200–$4,500 complete bespoke</li>
+        </ul>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Frequently Asked Questions</h2>
+        ${servicesFaqs.map((f) => `<h3 class="text-lg font-serif font-semibold text-stone-100 mt-6 mb-2">${escapeHtml(f.q)}</h3><p class="text-stone-300">${escapeHtml(f.a)}</p>`).join('')}
+      </main>
+    `;
+
+    const servicesSpeakable = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: servicesUrl,
+      name: servicesTitle,
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'blockquote'] },
+    };
+
+    const transformedHtml = applyPageHead(baseHtml, {
+      title: servicesTitle,
+      description: servicesDesc,
+      url: servicesUrl,
+      schemas: [servicesSchema, servicesFaqSchema, servicesSpeakable],
+    }).replace('<div id="root"></div>', `<div id="root">${servicesSsrHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
   }
 
   if (cleanPath === '/' || cleanPath === '') {
     const homeTitle = 'Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR';
-    const homeDesc = 'Master bespoke Pakistani tailor in Lahore. Handcrafted bridal lehengas, 16-kali kalidars, sarees, & luxury couture. 100% Guaranteed Custom Fit via Guided Video Calls. Insured DHL Express Shipping to USA, UK, Canada & UAE (3–5 Days).';
+    const homeDesc = 'Master bespoke Pakistani tailor at Model Town, Lahore led by Abdul Ghaffar. Handcrafted bridal lehengas, 16-kali kalidars, sarees, unstitched designer suits & custom groom sherwanis. 28-point digital measurements on app.sartor.pk, 2-inch seam margins & 3–5 day DHL Express shipping.';
     const homeUrl = 'https://sartor.pk/';
 
-    let transformedHtml = baseHtml
-      .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(homeTitle)}</title>`)
-      .replace(/<meta\s+name="description"\s+content=".*?"\s*\/?>/i, `<meta name="description" content="${escapeHtml(homeDesc)}" />`)
-      .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${homeUrl}" />`);
+    const homeFaqs = [
+      {
+        q: 'What is SARTOR Lahore and who leads pattern drafting?',
+        a: 'SARTOR (sartor.pk) is a bespoke luxury tailoring atelier at Shop F-9, Moon Tower, Block 30-M, International Market, Model Town, Lahore, Pakistan, led by Master Tailor Abdul Ghaffar (13+ years precision leadership, 35+ years heritage). We serve Lahore doorstep pickups and overseas clients in the UK, USA, Canada, UAE, Australia, and Europe.'
+      },
+      {
+        q: 'How does SARTOR guarantee remote bespoke fit without an in-person visit?',
+        a: 'Clients log 28 anatomical coordinates on app.sartor.pk during a live video measurement call with Master Tailor Abdul Ghaffar, review mid-production baste-fitting checkpoints before lining closure, and receive 1.5–2.5 inch silk-bound internal seam allowances.'
+      },
+      {
+        q: 'How do 4-step milestone payments and international shipping work?',
+        a: 'Payments follow a 10/30/30/30 milestone structure (10% booking, 30% 4K adda swatch approval, 30% mid-production baste/panel check, 30% final dispatch). Garments arrive via insured DHL Express in 3–5 business days ($800 US / £135 UK threshold compliance).'
+      }
+    ];
+
+    const homeFaqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: homeFaqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    };
+    const homeSpeakable = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: homeUrl,
+      name: homeTitle,
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'blockquote'] },
+    };
+
+    const homeSsrHtml = `
+      <main class="max-w-5xl mx-auto px-4 py-12 text-stone-100">
+        <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">SARTOR — Bespoke Pakistani Couture, Bridal Lehengas &amp; Precision Tailoring in Lahore</h1>
+        <blockquote class="my-6 p-6 rounded-2xl bg-stone-900 border-l-4 border-amber-500 text-stone-200">
+          <strong>Quick Answer:</strong> Led by Master Tailor Abdul Ghaffar at Shop F-9, Moon Tower, Block 30-M, International Market, Model Town, Lahore, SARTOR engineers custom bridal lehengas, 16-kali kalidars, pre-pleated sarees, unstitched designer suits, and floating-canvas groom sherwanis with 28-point biometric sizing on <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, 2-inch internal seam allowances, 10/30/30/30 milestone approvals, and 3–5 day insured DHL Express delivery to the USA, UK, Canada, and UAE.
+        </blockquote>
+        <nav aria-label="Primary sections" class="my-6 flex flex-wrap gap-4 text-amber-400 underline">
+          <a href="/custom-bridal">Custom Bridal Couture</a>
+          <a href="/services">Lahore Tailoring Services &amp; Rates</a>
+          <a href="/blog">Atelier Journal (${BLOG_POSTS.length} Masterclasses)</a>
+          <a href="https://app.sartor.pk">Pre-Beta Digital Measurement Portal</a>
+          <a href="/llms.txt">LLM Knowledge Index</a>
+        </nav>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Latest Tailoring &amp; Bridal Masterclasses</h2>
+        <ul class="list-disc ml-6 space-y-2 text-stone-300">
+          ${BLOG_POSTS.slice(0, 12).map((p) => `<li><a href="/blog/${p.slug}" class="text-amber-400 hover:underline">${escapeHtml(p.title)}</a> — ${escapeHtml(p.excerpt)}</li>`).join('')}
+        </ul>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Frequently Asked Questions</h2>
+        ${homeFaqs.map((f) => `<h3 class="text-lg font-serif font-semibold text-stone-100 mt-6 mb-2">${escapeHtml(f.q)}</h3><p class="text-stone-300">${escapeHtml(f.a)}</p>`).join('')}
+      </main>
+    `;
+
+    const transformedHtml = applyPageHead(baseHtml, {
+      title: homeTitle,
+      description: homeDesc,
+      url: homeUrl,
+      schemas: [homeFaqSchema, homeSpeakable],
+    }).replace('<div id="root"></div>', `<div id="root">${homeSsrHtml}</div>`);
 
     return { status: 200, html: transformedHtml };
   }

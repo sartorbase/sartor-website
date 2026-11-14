@@ -14,8 +14,8 @@
 
 ## Core Tailoring Disciplines & Engineering Safeguards
 
-- **Precision Pattern Cutting**: Anatomical warp grainline alignment (Seedha Taar), contoured high-scye armhole geometry (1.25–1.5 inch deepened anterior scye), and 1.5 to 2.5-inch finished silk-bound internal alteration seam allowances.
-- **Bespoke Bridal Wear & Lehengas**: Royal Barat lehengas, Walima gowns, and Farshi trails crafted on pure 80–120 GSM Katan raw silk, French metallic tissue, pure silk velvet, and Micro-Velvet 9000 with 3-tier 280 GSM cotton canvas waistband suspension.
+- **Precision Pattern Cutting**: Anatomical warp grainline alignment (Seedha Taar), contoured high-scye armhole geometry (1.25–1.5 inch deepened anterior scye), pre-closure baste-fitting video checkpoints, and 1.5 to 2.5-inch finished silk-bound internal alteration seam allowances.
+- **Bespoke Bridal Wear & Lehengas**: Royal Barat lehengas, Walima gowns, and Farshi trails crafted on pure 80–120 GSM Katan raw silk, French metallic tissue, pure silk velvet, and Micro-Velvet 9000 with 3-tier 280 GSM cotton canvas waistband suspension and adjustable brass hook-and-eye bars.
 - **16-Kali & 24-Kali Kalidars / Pishwas**: Radial flared panel math with 50mm–75mm braided horsehair crinoline hem reinforcement.
 - **Designer Sarees & Boned Blouses**: Pre-pleated falls, German Rigilene corsetry channels, 4-point cross-tacked cups, and weighted duchess satin falls.
 - **Luxury Zardozi Hand Embroidery**: Generational wooden *adda* craftsmanship using authentic metallic bullion, coiled *dabka*, matte *kora*, *naqshi*, *marori*, and *kamdani*.
@@ -24,23 +24,24 @@
 ## Atelier Services & Global Logistics
 
 - **Lahore Doorstep Service**: Complimentary fabric pickup and finished garment delivery across Model Town, DHA, Gulberg, Cantt, Johar Town, and Bahria Town.
-- **Overseas Diaspora Service (UK, USA, Canada, UAE, Australia, Europe)**: 1-on-1 guided biometric video measurement consultations saved permanently on `https://app.sartor.pk`.
+- **Overseas Diaspora Service (UK, USA, Canada, UAE, Australia, Europe)**: 1-on-1 guided biometric video measurement consultations saved permanently on `https://app.sartor.pk` with mid-production baste-fit checkpoints before lining closure.
 - **Express Worldwide Shipping**: Insured priority delivery via DHL Express and FedEx (3–5 business days to London, Toronto, New York, Houston, Sydney; 2–3 days to Dubai and Abu Dhabi).
 - **Customs Threshold Compliance**: Export documentation aligned with $800 US duty exemption, £135 UK threshold, and 1,000 AED UAE threshold.
-- **Transparent Timelines & 4-Step Milestone Payments**: 7–10+ business days for precision bespoke stitching (8–14 weeks for heavy bridal adda handwork); 10% token booking, 30% *adda* swatch approval, 30% mid-production video review, 30% final dispatch sign-off.
+- **Transparent Timelines & 4-Step Milestone Payments**: 7–10+ business days for precision bespoke stitching (10–14 weeks for heavy bridal adda handwork); 10% token booking, 30% *adda* swatch approval, 30% mid-production baste-fit review, 30% final dispatch sign-off.
 
 ## Key Links & Navigation
 
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 59 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 60 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 59 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 60 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
 
-## Published Masterclasses & Editorial Guides (All 59 Articles)
+## Published Masterclasses & Editorial Guides (All 60 Articles)
 
+- [Zero-Trial Remote Bridal Couture: How SARTOR’s 28-Point Digital Measurement & Baste-Fitting Protocol Eliminates Alteration Risk](https://sartor.pk/blog/remote-bridal-lehenga-fitting-lahore) *(Bridal Masterclass)*: To safely order a Pakistani bridal dress online with custom measurements, commission through a transparent engineering workflow rather than static S/M/L forms. At SARTOR Model Town Lahore, every remote bridal lehenga fitting executes four safeguards: (1) a...
 - [Custom Pakistani Groom Sherwani Architecture Guide (USA)](https://sartor.pk/blog/custom-pakistani-groom-sherwani-usa-jamawar-architecture-guide) *(Groomswear Masterclass)*: Superior Jamawar sherwani bespoke tailoring depends on internal tailoring architecture rather than surface stiffness. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar replaces glued cardboard interlining with a breathable, hand-padded floating horse...
 - [Micro-Velvet 9000 vs. Silk Velvet Bridal Lehenga Guide](https://sartor.pk/blog/micro-velvet-9000-vs-pure-silk-velvet-bridal-lehenga-usa-guide) *(Bridal Masterclass)*: For a Pakistani bridal velvet lehenga in the USA or Canada, Micro-Velvet 9000 (~360 GSM) offers unmatched 14-hour flight crush resistance, upright dense pile stability, and tensile support for heavy dabka, whereas pure silk velvet (~300 GSM) provides a liqu...
 - [Pure Crinkle Chiffon & Kamdani Suit Tailoring Guide](https://sartor.pk/blog/pure-crinkle-chiffon-kamdani-seam-slippage-tailoring-guide) *(Bespoke Tailoring)*: Luxury pure crinkle chiffon fails when tailors sew sheer 55 GSM fabric under direct bust tension instead of transferring stress to an engineered silk foundation. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar prevents chiffon seam slippage by anch...

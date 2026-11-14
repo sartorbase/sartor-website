@@ -562,7 +562,11 @@ async function startServer() {
 </script>`;
         template = template.replace('<head>', '<head>' + wsHmrShim);
         const { status, html } = injectSeoIntoHtml(template, url);
-        res.status(status).set({ 'Content-Type': 'text/html' }).end(html);
+        res.status(status).set({
+          'Content-Type': 'text/html',
+          'Link': '</llms.txt>; rel="alternate"; type="text/markdown"',
+          'X-Robots-Tag': 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+        }).end(html);
       } catch (e: any) {
         vite.ssrFixStacktrace(e);
         next(e);
@@ -589,6 +593,8 @@ async function startServer() {
         const { status, html } = injectSeoIntoHtml(baseHtml, url);
         res.status(status).set({
           'Content-Type': 'text/html',
+          'Link': '</llms.txt>; rel="alternate"; type="text/markdown"',
+          'X-Robots-Tag': 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
           'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800',
         }).end(html);
       } else {
