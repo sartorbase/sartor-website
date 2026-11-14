@@ -234,46 +234,72 @@ export function buildDiasporaServiceSchemas(pageUrl: string) {
   }));
 }
 
-export function buildPrimaryBreadcrumbSchema(pageUrl: string) {
+export interface BreadcrumbTrailItem {
+  position: number;
+  name: string;
+  item: string;
+  path: string;
+}
+
+export function getPrimaryBreadcrumbItems(pageUrl: string): BreadcrumbTrailItem[] {
   const cleanUrl = pageUrl.replace(/\/+$/, '');
-  const baseItems: Array<{ '@type': string; position: number; name: string; item: string }> = [
+  const baseItems: BreadcrumbTrailItem[] = [
     {
-      '@type': 'ListItem',
       position: 1,
       name: 'Home',
       item: 'https://sartor.pk/',
+      path: '/',
     },
   ];
 
   if (cleanUrl === 'https://sartor.pk/services') {
     baseItems.push({
-      '@type': 'ListItem',
       position: 2,
       name: 'Bespoke Tailoring Services',
       item: 'https://sartor.pk/services',
+      path: '/services',
     });
   } else if (cleanUrl === 'https://sartor.pk/custom-bridal') {
-    baseItems.push({
-      '@type': 'ListItem',
-      position: 2,
-      name: 'Custom Bridal Couture',
-      item: 'https://sartor.pk/custom-bridal',
-    });
+    baseItems.push(
+      {
+        position: 2,
+        name: 'Bespoke Tailoring Services',
+        item: 'https://sartor.pk/services',
+        path: '/services',
+      },
+      {
+        position: 3,
+        name: 'Custom Bridal Couture',
+        item: 'https://sartor.pk/custom-bridal',
+        path: '/custom-bridal',
+      }
+    );
   } else if (cleanUrl === 'https://sartor.pk/blog' || cleanUrl === 'https://sartor.pk/journal') {
     baseItems.push({
-      '@type': 'ListItem',
       position: 2,
       name: 'Atelier Journal & Masterclasses',
       item: 'https://sartor.pk/blog',
+      path: '/blog',
     });
   }
+
+  return baseItems;
+}
+
+export function buildPrimaryBreadcrumbSchema(pageUrl: string) {
+  const trailItems = getPrimaryBreadcrumbItems(pageUrl);
 
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     '@id': `${pageUrl}#breadcrumb`,
     inLanguage: [...DIASPORA_IN_LANGUAGE],
-    itemListElement: baseItems,
+    itemListElement: trailItems.map(({ position, name, item }) => ({
+      '@type': 'ListItem',
+      position,
+      name,
+      item,
+    })),
   };
 }
 

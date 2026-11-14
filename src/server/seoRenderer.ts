@@ -3,6 +3,7 @@ import {
   buildLocationAndDiasporaGraph,
   buildPrimaryBreadcrumbSchema,
   DIASPORA_IN_LANGUAGE,
+  getPrimaryBreadcrumbItems,
 } from '../seo/geoSchemas';
 import { buildHomepageFaqPageSchema, getTopHomepageBridalFaqs } from '../seo/faqAggregator';
 import {
@@ -10,6 +11,12 @@ import {
   buildServicesCatalogGraph,
   SERVICES_CATALOG_SCHEMA_ID,
 } from '../seo/servicesCatalog';
+import { TESTIMONIALS } from '../data/testimonials';
+import {
+  buildLahoreReviewSchema,
+  getLahoreReviewSummary,
+  LAHORE_REVIEW_SCHEMA_ID,
+} from '../seo/reviewSchema';
 
 function escapeHtml(str: string): string {
   return str
@@ -18,6 +25,19 @@ function escapeHtml(str: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function renderSsrBreadcrumbHtml(pageUrl: string): string {
+  const items = getPrimaryBreadcrumbItems(pageUrl);
+  return `<nav aria-label="Breadcrumb" class="mb-6 text-xs text-stone-400"><ol class="flex flex-wrap items-center gap-2">${items
+    .map((crumb, idx) => {
+      const isLast = idx === items.length - 1;
+      const sep = idx > 0 ? '<span aria-hidden="true" class="text-stone-600">&rsaquo;</span>' : '';
+      return isLast
+        ? `${sep}<li><span aria-current="page" class="text-amber-300 font-semibold">${escapeHtml(crumb.name)}</span></li>`
+        : `${sep}<li><a href="${crumb.path}" class="text-stone-400 hover:text-amber-300 underline">${escapeHtml(crumb.name)}</a></li>`;
+    })
+    .join('')}</ol></nav>`;
 }
 
 export function generateSitemapXml(): string {
@@ -576,6 +596,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     const bridalSsrHtml = `
       <main class="max-w-5xl mx-auto px-4 py-12 text-stone-100">
+        ${renderSsrBreadcrumbHtml(bridalUrl)}
         <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">Bespoke Pakistani Bridal Couture — Tailored to Your Exact Fit with Live Video Consultations</h1>
         <blockquote class="my-6 p-6 rounded-2xl bg-stone-900 border-l-4 border-amber-500 text-stone-200">
           <strong>Quick Answer:</strong> SARTOR Model Town Lahore (Shop F-9, Moon Tower, led by Master Tailor Abdul Ghaffar) crafts heirloom pure Katan silk Zardozi bridal lehengas ($2,000+ / £1,750+) with 28-point digital measurements on <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, pre-closure baste-fit video checkpoints, 2-inch internal seam allowances, 3-tier canvas hook-and-eye waistbands, 10/30/30/30 milestone payments, and 3–5 day insured DHL Express shipping worldwide.
@@ -638,6 +659,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
     const servicesSsrHtml = `
       <main class="max-w-5xl mx-auto px-4 py-12 text-stone-100">
+        ${renderSsrBreadcrumbHtml(servicesUrl)}
         <h1 class="text-4xl font-serif font-bold text-stone-100 mb-4">Master Bespoke Tailoring Services in Lahore</h1>
         <blockquote class="my-6 p-6 rounded-2xl bg-stone-900 border-l-4 border-amber-500 text-stone-200">
           <strong>Quick Answer:</strong> Located at Shop F-9, Moon Tower, International Market, Model Town, Lahore, Master Tailor Abdul Ghaffar provides precision cutting for bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits (Maria.B, Elan, Suffuse), farshi ghararas, and floating-canvas groom sherwanis—backed by 2-inch internal seam allowances, 28-point digital profiles at <a href="https://app.sartor.pk" class="text-amber-400 underline">app.sartor.pk</a>, complimentary Lahore doorstep pickup, and 3–5 day insured DHL Express delivery.
@@ -692,6 +714,9 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     const homeFaqs = getTopHomepageBridalFaqs(8);
     const homeFaqSchema = buildHomepageFaqPageSchema(homeFaqs);
     const homeFaqSchemaTag = `<script id="homepage-faq-schema" type="application/ld+json">${JSON.stringify(homeFaqSchema)}</script>`;
+    const homeReviewSummary = getLahoreReviewSummary(TESTIMONIALS);
+    const homeReviewSchema = buildLahoreReviewSchema(TESTIMONIALS);
+    const homeReviewSchemaTag = `<script id="${LAHORE_REVIEW_SCHEMA_ID}" type="application/ld+json">${JSON.stringify(homeReviewSchema)}</script>`;
     const homeSpeakable = {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
@@ -718,6 +743,13 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
         <ul class="list-disc ml-6 space-y-2 text-stone-300">
           ${BLOG_POSTS.slice(0, 12).map((p) => `<li><a href="/blog/${p.slug}" class="text-amber-400 hover:underline">${escapeHtml(p.title)}</a> — ${escapeHtml(p.excerpt)}</li>`).join('')}
         </ul>
+        <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Authentic Client Reviews from Lahore &amp; Overseas (${homeReviewSummary.averageRating.toFixed(2)} / 5.0 across ${homeReviewSummary.reviewCount} Reviews)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          ${TESTIMONIALS.map(
+            (rev) =>
+              `<article id="testimonial-card-${rev.id}" class="p-5 rounded-2xl bg-stone-900 border border-stone-800"><div class="text-amber-400 font-mono text-xs mb-1">Rated ${rev.rating.toFixed(1)} / 5.0 &bull; ${escapeHtml(rev.orderType || 'Verified Client')}</div><p class="text-stone-200 text-sm mb-3">&ldquo;${escapeHtml(rev.quote)}&rdquo;</p><p class="text-xs text-stone-400"><strong>${escapeHtml(rev.clientName)}</strong> (${escapeHtml(rev.location)}) &mdash; ${escapeHtml(rev.suitCrafted)}</p></article>`
+          ).join('')}
+        </div>
         <h2 class="text-2xl font-serif font-bold text-amber-400 mt-10 mb-4">Bridal Tailoring Engineering FAQs</h2>
         ${homeFaqs
           .map(
@@ -732,7 +764,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: homeTitle,
       description: homeDesc,
       url: homeUrl,
-      schemaTags: [homeFaqSchemaTag],
+      schemaTags: [homeFaqSchemaTag, homeReviewSchemaTag],
       schemas: [homeSpeakable],
     }).replace('<div id="root"></div>', `<div id="root">${homeSsrHtml}</div>`);
 

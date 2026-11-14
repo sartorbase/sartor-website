@@ -4,17 +4,9 @@ import remarkGfm from 'remark-gfm';
 import {
   Calendar,
   Clock,
-  User,
   ArrowLeft,
-  Share2,
   BookOpen,
   MessageSquare,
-  Sparkles,
-  Tag,
-  Check,
-  ChevronRight,
-  ShieldCheck,
-  Scissors,
 } from 'lucide-react';
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
@@ -26,6 +18,7 @@ import { BlogSearchGrid } from '../organisms/BlogSearchGrid';
 import { DIASPORA_IN_LANGUAGE } from '../../seo/geoSchemas';
 import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../organisms/BlogCommentsSection';
+import { ArticleShareBar } from '../molecules/ArticleShareBar';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -33,7 +26,6 @@ export interface BlogPageViewProps {
 
 export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
   const [activeSlug, setActiveSlug] = useState<string | undefined>(slug);
-  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     setActiveSlug(slug);
@@ -221,14 +213,6 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
     };
   }, [activePost]);
 
-  const handleCopyLink = () => {
-    if (typeof window !== 'undefined') {
-      navigator.clipboard.writeText(window.location.href);
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
-    }
-  };
-
   // If viewing a single post
   if (activePost) {
     const postWhatsAppMsg = `*SARTOR ATELIER JOURNAL ENQUIRY*
@@ -259,22 +243,12 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
               <span>Back to Atelier Journal</span>
             </button>
 
-            <button
-              onClick={handleCopyLink}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-stone-850 text-stone-300 border border-stone-800 text-xs transition-colors cursor-pointer"
-            >
-              {copiedLink ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Link Copied</span>
-                </>
-              ) : (
-                <>
-                  <Share2 className="w-3.5 h-3.5" />
-                  <span>Share Guide</span>
-                </>
-              )}
-            </button>
+            <ArticleShareBar
+              title={activePost.title}
+              excerpt={activePost.excerpt}
+              slug={activePost.slug}
+              variant="compact"
+            />
           </div>
 
           {/* Article Header */}
@@ -403,8 +377,16 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             </ReactMarkdown>
           </article>
 
+          {/* Web Share API & Social Share Bar */}
+          <ArticleShareBar
+            title={activePost.title}
+            excerpt={activePost.excerpt}
+            slug={activePost.slug}
+            variant="full"
+          />
+
           {/* Author Block */}
-          <div className="mt-16 p-8 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div className="mt-10 p-8 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col sm:flex-row items-center sm:items-start gap-6">
             <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 text-stone-950 flex items-center justify-center font-serif font-bold text-2xl shrink-0 shadow-lg">
               AG
             </div>

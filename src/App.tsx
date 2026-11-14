@@ -9,6 +9,7 @@ import { LocationMapSection } from './components/organisms/LocationMapSection';
 import { SareeDrapingGuideSection } from './components/organisms/SareeDrapingGuideSection';
 import { MeasurementLeadMagnet } from './components/organisms/MeasurementLeadMagnet';
 import { BridalFaqSection } from './components/organisms/BridalFaqSection';
+import { TestimonialsSection } from './components/organisms/TestimonialsSection';
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
 import { ServicesPageView } from './components/pages/ServicesPageView';
@@ -125,10 +126,13 @@ export function App() {
         {/* 5. Moon Tower Studio Location & Doorstep Pickup Coverage */}
         <LocationMapSection />
 
-        {/* 6. Programmatic Bridal Tailoring FAQs & FAQPage Grounding */}
+        {/* 6. Lahore Atelier Client Reviews & LocalBusiness ReviewSchema */}
+        <TestimonialsSection />
+
+        {/* 7. Programmatic Bridal Tailoring FAQs & FAQPage Grounding */}
         <BridalFaqSection />
 
-        {/* 7. Digital Measurement Profile Lead Magnet Banner */}
+        {/* 8. Digital Measurement Profile Lead Magnet Banner */}
         <MeasurementLeadMagnet sourceContext="homepage" />
       </>
     );

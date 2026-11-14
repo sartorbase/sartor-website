@@ -17,6 +17,7 @@ import {
 } from '../../seo/servicesCatalog';
 import { navigateTo } from '../../utils/navigation';
 import { SITE_CONFIG } from '../../config/site';
+import { BreadcrumbSchema } from '../molecules/BreadcrumbSchema';
 
 export const ServicesPageView: React.FC = () => {
   const serviceWhatsAppMsg = (serviceName: string) => `*TAILORING SERVICE INQUIRY - SARTOR LAHORE*
@@ -81,6 +82,11 @@ Please let me know how to proceed.`;
       {/* Main Hero Banner */}
       <section className="py-16 sm:py-20 border-b border-stone-850 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto text-center">
+          <BreadcrumbSchema
+            pageUrl={`${SITE_CONFIG.url}/services`}
+            className="mb-5 flex justify-center"
+          />
+
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono mb-4">
             <Scissors className="w-3.5 h-3.5 text-amber-400" />
             <span>Moon Tower, Model Town, Lahore • Doorstep Pickup &amp; Worldwide Dispatch</span>
