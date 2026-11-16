@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import {
   Maximize2,
   ZoomIn,
@@ -14,6 +14,7 @@ import {
 import Image from '../../utils/nextImage';
 import { downloadImageWithSartorWatermark } from '../../utils/watermark';
 import { SHIMMER_BLUR_DATA_URL, DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
+import { ImageSkeleton } from '../atoms/ImageSkeleton';
 
 export interface ArticleHeroImageViewerProps {
   src: string;
@@ -47,11 +48,29 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLImageElement | null>(null);
+  const modalImgRef = useRef<HTMLImageElement | null>(null);
   const [imgSrc, setImgSrc] = useState(src || DEFAULT_BRIDAL_FALLBACK_IMAGE);
+  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
+  const [isModalLoaded, setIsModalLoaded] = useState(false);
 
   useEffect(() => {
     setImgSrc(src || DEFAULT_BRIDAL_FALLBACK_IMAGE);
+    setIsHeroLoaded(false);
+    setIsModalLoaded(false);
   }, [src]);
+
+  useLayoutEffect(() => {
+    if (heroImgRef.current && heroImgRef.current.complete && heroImgRef.current.naturalWidth > 0) {
+      setIsHeroLoaded(true);
+    }
+  }, [imgSrc]);
+
+  useLayoutEffect(() => {
+    if (isOpen && modalImgRef.current && modalImgRef.current.complete && modalImgRef.current.naturalWidth > 0) {
+      setIsModalLoaded(true);
+    }
+  }, [isOpen, imgSrc]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -182,7 +201,10 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
         className={`group relative mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 ${aspectRatio} cursor-zoom-in select-none ${className}`}
         onClick={() => setIsOpen(true)}
       >
+        <ImageSkeleton variant="hero" isLoaded={isHeroLoaded} className="z-[1]" />
+
         <Image
+          ref={heroImgRef}
           src={imgSrc}
           alt={alt || title}
           fill
@@ -192,9 +214,12 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
           placeholder="blur"
           blurDataURL={SHIMMER_BLUR_DATA_URL}
           referrerPolicy="no-referrer"
+          onLoad={() => setIsHeroLoaded(true)}
           onError={() => {
             if (imgSrc !== DEFAULT_BRIDAL_FALLBACK_IMAGE) {
               setImgSrc(DEFAULT_BRIDAL_FALLBACK_IMAGE);
+            } else {
+              setIsHeroLoaded(true);
             }
           }}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -388,18 +413,24 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
                 transformOrigin: 'center center',
               }}
             >
-              <Image
-                src={imgSrc}
-                alt={alt || title}
-                width={1400}
-                height={788}
-                priority
-                sizes="(max-width: 768px) 95vw, 1280px"
-                quality={90}
-                referrerPolicy="no-referrer"
-                draggable={false}
-                className="max-h-[80vh] max-w-[95vw] w-auto h-auto object-contain rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] border border-stone-800/80 pointer-events-auto"
-              />
+              <div className="relative rounded-xl overflow-hidden bg-stone-900 border border-stone-800/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]">
+                <ImageSkeleton variant="hero" isLoaded={isModalLoaded} className="z-[1]" />
+                <Image
+                  ref={modalImgRef}
+                  src={imgSrc}
+                  alt={alt || title}
+                  width={1400}
+                  height={788}
+                  priority
+                  sizes="(max-width: 768px) 95vw, 1280px"
+                  quality={90}
+                  referrerPolicy="no-referrer"
+                  draggable={false}
+                  onLoad={() => setIsModalLoaded(true)}
+                  onError={() => setIsModalLoaded(true)}
+                  className="max-h-[80vh] max-w-[95vw] w-auto h-auto object-contain pointer-events-auto"
+                />
+              </div>
             </div>
           </div>
 

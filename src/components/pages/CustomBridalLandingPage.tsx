@@ -248,15 +248,17 @@ I would like to share my design references and schedule a live digital sizing se
                   src="/images/barat-crimson-bridal.jpg"
                   alt="SARTOR Bespoke Crimson Velvet & Raw Silk Barat Bridal Lehenga with Zardozi Handwork"
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, 33vw"
                   quality={85}
+                  skeletonVariant="card"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none z-[2]" />
+                <span className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
                   Barat Main Bridal
                 </span>
-                <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-amber-400 text-neutral-950 font-mono font-bold text-xs shadow-lg">
+                <span className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded-lg bg-amber-400 text-neutral-950 font-mono font-bold text-xs shadow-lg">
                   $2,800 USD / £2,200 GBP
                 </span>
               </div>
@@ -298,15 +300,17 @@ I would like to share my design references and schedule a live digital sizing se
                   src="/images/walima-champagne-gown.jpg"
                   alt="SARTOR Champagne Gold & Sage Green Walima Bridal Couture Gown with Tilla Needlework"
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, 33vw"
                   quality={85}
+                  skeletonVariant="card"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none z-[2]" />
+                <span className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
                   Walima Reception
                 </span>
-                <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-amber-400 text-neutral-950 font-mono font-bold text-xs shadow-lg">
+                <span className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded-lg bg-amber-400 text-neutral-950 font-mono font-bold text-xs shadow-lg">
                   $3,200 USD / £2,500 GBP
                 </span>
               </div>
@@ -348,15 +352,17 @@ I would like to share my design references and schedule a live digital sizing se
                   src="/images/mehndi-mustard-kalidar.jpg"
                   alt="SARTOR Festive Mustard Yellow & Emerald Green Kalidar Flared Bridal Lehenga for Mehndi"
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, 33vw"
                   quality={85}
+                  skeletonVariant="card"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none z-[2]" />
+                <span className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
                   Mehndi &amp; Sangeet
                 </span>
-                <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-amber-400 text-neutral-950 font-mono font-bold text-xs shadow-lg">
+                <span className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded-lg bg-amber-400 text-neutral-950 font-mono font-bold text-xs shadow-lg">
                   $2,200 USD / £1,750 GBP
                 </span>
               </div>

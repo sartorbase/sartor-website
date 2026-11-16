@@ -63,14 +63,15 @@ export const RelatedArticlesSection: React.FC<RelatedArticlesSectionProps> = ({
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   quality={80}
+                  skeletonVariant="card"
                   fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent pointer-events-none z-[2]" />
 
                 {/* Quiet Category Tag */}
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-stone-950/85 backdrop-blur-md border border-stone-800 text-stone-300 text-[11px] font-mono uppercase tracking-wider font-semibold">
+                <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded bg-stone-950/85 backdrop-blur-md border border-stone-800 text-stone-300 text-[11px] font-mono uppercase tracking-wider font-semibold">
                   {post.category || 'Atelier Masterclass'}
                 </div>
               </div>

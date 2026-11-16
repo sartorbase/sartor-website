@@ -23,3 +23,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #78716c;
 }
+
+@keyframes sartor-skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-sartor-shimmer {
+  animation: sartor-skeleton-shimmer 1.65s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}

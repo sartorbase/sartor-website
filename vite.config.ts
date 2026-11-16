@@ -55,6 +55,7 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff,woff2}'],
+        globIgnores: ['**/*-640w.webp', '**/*-1080w.webp'],
         runtimeCaching: [
           {
             // Cache measurement guide images and service showcases offline
@@ -118,25 +119,27 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['next/image'],
-    esbuildOptions: {
-      define: {
-        'process.env.__NEXT_IMAGE_OPTS': JSON.stringify({
-          deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
-          imageSizes: [32, 48, 64, 96, 128, 256, 384],
-          path: '/_next/image',
-          loader: 'default',
-          dangerouslyAllowSVG: false,
-          unoptimized: false,
-          qualities: [75, 80, 85, 90],
-          remotePatterns: [
-            { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
-            { protocol: 'https', hostname: 'sartor.pk', pathname: '/**' },
-          ],
-        }),
-        'process.env.NEXT_RUNTIME': JSON.stringify(''),
-        'process.env.NEXT_DEPLOYMENT_ID': JSON.stringify(''),
-        'process.env.NEXT_SUPPORTS_IMMUTABLE_ASSETS': JSON.stringify(''),
-        'process.platform': JSON.stringify('browser'),
+    rolldownOptions: {
+      transform: {
+        define: {
+          'process.env.__NEXT_IMAGE_OPTS': JSON.stringify({
+            deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+            imageSizes: [32, 48, 64, 96, 128, 256, 384],
+            path: '/_next/image',
+            loader: 'default',
+            dangerouslyAllowSVG: false,
+            unoptimized: false,
+            qualities: [75, 80, 85, 90],
+            remotePatterns: [
+              { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+              { protocol: 'https', hostname: 'sartor.pk', pathname: '/**' },
+            ],
+          }),
+          'process.env.NEXT_RUNTIME': JSON.stringify(''),
+          'process.env.NEXT_DEPLOYMENT_ID': JSON.stringify(''),
+          'process.env.NEXT_SUPPORTS_IMMUTABLE_ASSETS': JSON.stringify(''),
+          'process.platform': JSON.stringify('browser'),
+        },
       },
     },
   },

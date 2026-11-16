@@ -13,13 +13,46 @@ import {
 import { BLOG_POSTS, BlogPostData } from '../../data/blogPosts';
 import { navigateTo } from '../../utils/navigation';
 import { LazyImage } from '../atoms/LazyImage';
+import { ImageSkeleton } from '../atoms/ImageSkeleton';
 import { DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
 
 export interface BlogSearchGridProps {
   posts?: BlogPostData[];
   onPostClick?: (slug: string) => void;
+  isLoading?: boolean;
   className?: string;
 }
+
+export const BlogPostGridSkeleton: React.FC<{ count?: number }> = ({ count = 4 }) => (
+  <div
+    aria-busy="true"
+    aria-label="Loading blog masterclasses"
+    className="grid grid-cols-1 md:grid-cols-2 gap-8"
+  >
+    {Array.from({ length: count }).map((_, idx) => (
+      <div
+        key={idx}
+        className="rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden flex flex-col"
+      >
+        <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
+          <ImageSkeleton variant="card" isLoaded={false} />
+        </div>
+        <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-4">
+          <div className="space-y-3">
+            <div className="h-3 w-36 rounded bg-stone-800 animate-pulse" />
+            <div className="h-6 w-4/5 rounded bg-stone-800 animate-pulse" />
+            <div className="h-4 w-full rounded bg-stone-800/70 animate-pulse" />
+            <div className="h-4 w-2/3 rounded bg-stone-800/70 animate-pulse" />
+          </div>
+          <div className="pt-4 border-t border-stone-800 flex items-center justify-between">
+            <div className="h-3 w-24 rounded bg-stone-800 animate-pulse" />
+            <div className="h-3 w-24 rounded bg-stone-800 animate-pulse" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 // Curated topic filters that map to common high-intent categories and tags
 interface TopicFilter {
@@ -52,6 +85,7 @@ const SUGGESTED_SEARCHES = [
 export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
   posts = BLOG_POSTS,
   onPostClick,
+  isLoading = false,
   className = '',
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -242,8 +276,10 @@ export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
         </div>
       </div>
 
-      {/* Empty State when no articles match filter */}
-      {filteredPosts.length === 0 ? (
+      {/* Loading Skeleton or Empty State or Blog Cards Grid */}
+      {isLoading ? (
+        <BlogPostGridSkeleton count={6} />
+      ) : filteredPosts.length === 0 ? (
         <div className="max-w-2xl mx-auto rounded-3xl border border-stone-800 bg-stone-900/60 p-10 sm:p-14 text-center shadow-2xl">
           <div className="w-14 h-14 mx-auto rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
             <Search className="w-6 h-6" />
@@ -298,28 +334,27 @@ export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
                 onClick={() => handleCardClick(post.slug)}
                 className="group rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_20px_-3px_rgba(245,158,11,0.2)] flex flex-col cursor-pointer will-change-transform"
               >
-                {/* Cover Image with Next.js Responsive Optimization */}
-                {post.coverImage && (
-                  <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
-                    <LazyImage
-                      src={coverImg}
-                      alt={post.coverImageAlt || post.title}
-                      fill
-                      priority={idx < 2}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 560px"
-                      quality={85}
-                      fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                {/* Cover Image with Next.js Responsive Optimization & Zero-CLS Skeleton */}
+                <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
+                  <LazyImage
+                    src={coverImg}
+                    alt={post.coverImageAlt || post.title}
+                    fill
+                    priority={idx < 2}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 560px"
+                    quality={85}
+                    skeletonVariant="card"
+                    fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none z-[2]" />
 
-                    {/* Category Badge */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-stone-950/85 backdrop-blur-md border border-stone-700/80 text-stone-200 text-xs font-semibold">
-                      {post.category || 'Atelier Masterclass'}
-                    </div>
+                  {/* Category Badge */}
+                  <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-stone-950/85 backdrop-blur-md border border-stone-700/80 text-stone-200 text-xs font-semibold">
+                    {post.category || 'Atelier Masterclass'}
                   </div>
-                )}
+                </div>
 
                 {/* Card Body */}
                 <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">

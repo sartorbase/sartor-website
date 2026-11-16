@@ -1,11 +1,10 @@
 import React from 'react';
-import Image from '../../utils/nextImage';
 import { Layers } from 'lucide-react';
 import { analytics } from '../../services/analytics';
 import { Fabric } from '../../types';
 import { Badge } from '../atoms/Badge';
+import { LazyImage } from '../atoms/LazyImage';
 import { WhatsAppButton } from './WhatsAppButton';
-import { SHIMMER_BLUR_DATA_URL } from '../../utils/imagePlaceholder';
 
 export interface FabricCardProps {
   fabric: Fabric;
@@ -27,35 +26,33 @@ export const FabricCard: React.FC<FabricCardProps> = ({ fabric, onSelect }) => {
     >
       {/* Visual Header / Image Swatch */}
       <div className="relative aspect-4/3 overflow-hidden bg-stone-950 cursor-pointer" onClick={handleInspect}>
-        <Image
+        <LazyImage
           src={fabric.imageUrl}
           alt={fabric.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
           quality={80}
-          placeholder="blur"
-          blurDataURL={SHIMMER_BLUR_DATA_URL}
-          referrerPolicy="no-referrer"
+          skeletonVariant="swatch"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none z-[2]" />
 
         {/* Swatch color orb */}
         <div
-          className="absolute top-3 left-3 w-6 h-6 rounded-full border-2 border-stone-900 shadow-md"
+          className="absolute top-3 left-3 z-10 w-6 h-6 rounded-full border-2 border-stone-900 shadow-md"
           style={{ backgroundColor: fabric.swatchColor }}
           title={`Swatch color tone: ${fabric.name}`}
         />
 
         {/* Grade Badge */}
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 z-10">
           <Badge variant={fabric.priceGrade === 'Imperial Bespoke' ? 'gold' : 'stone'}>
             {fabric.priceGrade}
           </Badge>
         </div>
 
         {/* Code Tag */}
-        <div className="absolute bottom-2.5 left-3 text-[11px] font-mono tracking-wider text-stone-300 bg-stone-950/80 px-2 py-0.5 rounded border border-stone-800 backdrop-blur-sm">
+        <div className="absolute bottom-2.5 left-3 z-10 text-[11px] font-mono tracking-wider text-stone-300 bg-stone-950/80 px-2 py-0.5 rounded border border-stone-800 backdrop-blur-sm">
           {fabric.code}
         </div>
       </div>

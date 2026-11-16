@@ -90,10 +90,11 @@ I saw "${suite.title}" in your portfolio and would like to consult on fabric opt
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                     quality={85}
+                    skeletonVariant="portrait"
                     fallbackSrc="/images/services/simple-suit.jpg"
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none z-[2]" />
 
                   {/* Badge */}
                   <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-stone-950/90 backdrop-blur-md border border-stone-700/80 text-stone-200 text-xs font-semibold shadow-md">

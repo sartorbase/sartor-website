@@ -222,7 +222,7 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PRICING_LIST.map((item) => {
+          {PRICING_LIST.map((item, idx) => {
             const isStartingRate = typeof item.pricePKR === 'number';
             const startingRateText = isStartingRate ? `Starting at ${item.priceDisplay}` : 'Custom Estimate';
 
@@ -237,12 +237,14 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
                       src={item.imageUrl}
                       alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
                       fill
+                      priority={idx < 3}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
                       quality={85}
+                      skeletonVariant="portrait"
                       fallbackSrc="/images/services/simple-suit.jpg"
                       className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/10 to-black/30 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/10 to-black/30 pointer-events-none z-[2]" />
 
                     {item.tag && (
                       <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-stone-950/90 border border-stone-700/80 text-[11px] font-semibold text-amber-300 backdrop-blur-md shadow-md">

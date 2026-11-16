@@ -30,14 +30,23 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;');
 }
 
-const SSR_IMAGE_WIDTHS = [640, 750, 1080, 1200] as const;
+const SSR_IMAGE_WIDTHS = [640, 1080, 1400] as const;
 
 function buildOptimizedSsrImageUrl(rawSrc: string, width: number, quality = 85): string {
   const normalized = rawSrc.trim();
-  if (!normalized || normalized.startsWith('data:') || normalized.startsWith('/_next/image')) {
+  if (!normalized || normalized.startsWith('data:') || normalized.startsWith('blob:')) {
     return normalized;
   }
-  return `/_next/image?url=${encodeURIComponent(normalized)}&w=${width}&q=${quality}`;
+  const cleanPath = normalized.split('?')[0].split('#')[0];
+  if (cleanPath.startsWith('/images/') && /\.(jpe?g|png|webp)$/i.test(cleanPath)) {
+    const baseNoExt = cleanPath
+      .replace(/-(?:640|1080)w\.webp$/i, '')
+      .replace(/\.(jpe?g|png|webp)$/i, '');
+    if (width <= 640) return `${baseNoExt}-640w.webp?w=${width}&q=${quality}`;
+    if (width <= 1080) return `${baseNoExt}-1080w.webp?w=${width}&q=${quality}`;
+    return `${baseNoExt}.webp?w=${width}&q=${quality}`;
+  }
+  return `${cleanPath}?w=${width}&q=${quality}`;
 }
 
 function buildOptimizedSsrImageTag(opts: {
@@ -53,7 +62,7 @@ function buildOptimizedSsrImageTag(opts: {
   const quality = opts.quality ?? 85;
   const width = opts.width ?? 1200;
   const height = opts.height ?? 675;
-  const defaultSrc = buildOptimizedSsrImageUrl(opts.src, 1200, quality);
+  const defaultSrc = buildOptimizedSsrImageUrl(opts.src, 1400, quality);
   const srcSet = SSR_IMAGE_WIDTHS.map(
     (w) => `${buildOptimizedSsrImageUrl(opts.src, w, quality)} ${w}w`
   ).join(', ');

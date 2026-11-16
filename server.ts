@@ -53,7 +53,7 @@ app.use(
 app.use(express.json());
 
 // Smart WebP Content Negotiation & Static Image Caching Middleware
-app.use((req: Request, res: Response, next) => {
+app.use(async (req: Request, res: Response, next) => {
   const urlPath = req.path;
   const acceptHeader = req.headers.accept || '';
   const supportsWebp = acceptHeader.includes('image/webp');
@@ -92,6 +92,31 @@ app.use((req: Request, res: Response, next) => {
         return res.sendFile(cand, (err) => {
           if (err && !res.headersSent) next();
         });
+      }
+    }
+
+    // 3. On-the-fly resize fallback if a -640w.webp / -1080w.webp asset hasn't been pre-generated yet
+    const responsiveMatch = urlPath.match(/^(.*)-(640|1080)w\.webp$/i);
+    if (responsiveMatch) {
+      const basePath = responsiveMatch[1];
+      const targetWidth = Number(responsiveMatch[2]);
+      for (const ext of ['.webp', '.jpg', '.jpeg', '.png']) {
+        for (const rootDir of ['public', 'dist']) {
+          const sourceCand = path.join(__dirname, rootDir, `${basePath}${ext}`);
+          if (fs.existsSync(sourceCand) && !fs.statSync(sourceCand).isDirectory()) {
+            try {
+              const resized = await sharp(sourceCand)
+                .rotate()
+                .resize({ width: targetWidth, withoutEnlargement: true })
+                .webp({ quality: targetWidth <= 640 ? 78 : 82, effort: 4 })
+                .toBuffer();
+              res.setHeader('Content-Type', 'image/webp');
+              return res.send(resized);
+            } catch {
+              // continue to next handler on error
+            }
+          }
+        }
       }
     }
   } else if (urlPath.startsWith('/assets/')) {

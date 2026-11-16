@@ -32,16 +32,32 @@ async function optimizeImages() {
         const image = sharp(filePath);
         const metadata = await image.metadata();
 
-        // 1. Generate ultra-efficient WebP
+        // 1. Generate ultra-efficient WebP (up to 1400w)
         let webpPipeline = sharp(filePath);
         if (metadata.width && metadata.width > 1400) {
           webpPipeline = webpPipeline.resize({ width: 1400, withoutEnlargement: true });
         }
         const webpBuffer = await webpPipeline
-          .webp({ quality: 80, effort: 6, smartSubsample: true })
+          .webp({ quality: 82, effort: 6, smartSubsample: true })
           .toBuffer();
         fs.writeFileSync(webpPath, webpBuffer);
         totalWebp += webpBuffer.length;
+
+        // 1b. Generate responsive static breakpoints (-640w.webp and -1080w.webp) for Vercel & static CDN
+        if (dir.startsWith('public/images')) {
+          const responsiveWidths = [
+            { width: 640, quality: 78 },
+            { width: 1080, quality: 82 },
+          ] as const;
+          for (const variant of responsiveWidths) {
+            const variantPath = path.join(dir, `${baseName}-${variant.width}w.webp`);
+            const variantBuffer = await sharp(filePath)
+              .resize({ width: variant.width, withoutEnlargement: true })
+              .webp({ quality: variant.quality, effort: 5, smartSubsample: true })
+              .toBuffer();
+            fs.writeFileSync(variantPath, variantBuffer);
+          }
+        }
 
         // 2. Optimize original format in place with mozjpeg / png compression
         let optimizedBuffer: Buffer;
