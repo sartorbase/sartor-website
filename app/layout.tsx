@@ -165,6 +165,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${cormorant.variable} ${jakarta.variable}`}>
       <head>
+        <meta name="p:domain_verify" content="67ba7153f1a778a68c7c7f201463be6a"/>
         <style dangerouslySetInnerHTML={{ __html: `
           body { background-color: #0c0a09; color: #f5f5f4; margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
           h1, .fallback-georgia { font-family: Georgia, Cambria, 'Times New Roman', Times, serif; font-display: swap; }
