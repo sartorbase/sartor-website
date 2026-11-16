@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import Image from '../../utils/nextImage';
 import { Eye, Filter, Layers, MessageSquare, Search, Sparkles, X } from 'lucide-react';
 import { FABRICS } from '../../data/fabrics';
 import { analytics, buildWhatsAppLink } from '../../services/analytics';
 import { Fabric, FabricCategory } from '../../types';
+import { SHIMMER_BLUR_DATA_URL } from '../../utils/imagePlaceholder';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 import { SectionHeading } from '../atoms/SectionHeading';
@@ -184,19 +186,17 @@ export const FabricGallery: React.FC = () => {
             {/* Modal Body */}
             <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
               <div className="relative rounded-xl overflow-hidden aspect-square border border-stone-800 bg-stone-950">
-                <picture>
-                  <source
-                    type="image/webp"
-                    srcSet={activeModalFabric.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')}
-                  />
-                  <img
-                    src={activeModalFabric.imageUrl}
-                    alt={activeModalFabric.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
+                <Image
+                  src={activeModalFabric.imageUrl}
+                  alt={activeModalFabric.name}
+                  fill
+                  sizes="(max-width: 640px) 90vw, 320px"
+                  quality={85}
+                  placeholder="blur"
+                  blurDataURL={SHIMMER_BLUR_DATA_URL}
+                  referrerPolicy="no-referrer"
+                  className="object-cover"
+                />
                 <div className="absolute bottom-2 left-2">
                   <Badge variant={activeModalFabric.priceGrade === 'Imperial Bespoke' ? 'gold' : 'stone'}>
                     {activeModalFabric.priceGrade}

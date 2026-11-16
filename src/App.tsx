@@ -13,7 +13,11 @@ import { TestimonialsSection } from './components/organisms/TestimonialsSection'
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
 import { ServicesPageView } from './components/pages/ServicesPageView';
-import { buildLocationAndDiasporaGraph, buildPrimaryBreadcrumbSchema } from './seo/geoSchemas';
+import {
+  buildLocationAndDiasporaGraph,
+  buildPrimaryBreadcrumbSchema,
+  PRIMARY_ROUTE_SEO,
+} from './seo/geoSchemas';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
@@ -37,16 +41,17 @@ export function App() {
     };
   }, []);
 
-  // Synchronize Lahore Location & UK/USA/Canada/UAE Diaspora Schema across primary SPA routes
+  // Synchronize Lahore Location, Diaspora Schema, BreadcrumbList & Primary Head Meta across SPA routes
   useEffect(() => {
     if (typeof document === 'undefined') return;
-    const normalized = currentPath.toLowerCase().replace(/\/+$/, '') || '/';
+    const raw = currentPath.toLowerCase().split('?')[0].split('#')[0];
+    const normalized = raw.length > 1 ? raw.replace(/\/+$/, '') : raw || '/';
+    const routeKey = normalized === '/journal' ? '/blog' : normalized;
     const isPrimary =
-      normalized === '/' ||
-      normalized === '/services' ||
-      normalized === '/custom-bridal' ||
-      normalized === '/blog' ||
-      normalized === '/journal';
+      routeKey === '/' ||
+      routeKey === '/services' ||
+      routeKey === '/custom-bridal' ||
+      routeKey === '/blog';
 
     if (!isPrimary) {
       const primaryBcEl = document.getElementById('primary-breadcrumb-structured-data');
@@ -54,10 +59,33 @@ export function App() {
       return;
     }
 
-    const canonicalUrl = `https://sartor.pk${normalized === '/' ? '/' : normalized}`;
+    const meta = PRIMARY_ROUTE_SEO[routeKey];
+    document.title = meta.title;
+
+    const setMetaTag = (attr: 'name' | 'property', key: string, value: string) => {
+      let el = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', value);
+    };
+
+    setMetaTag('name', 'description', meta.description);
+    setMetaTag('property', 'og:type', meta.ogType);
+    setMetaTag('property', 'og:title', meta.title);
+    setMetaTag('property', 'og:description', meta.description);
+    setMetaTag('property', 'og:image', meta.ogImage);
+    setMetaTag('property', 'og:image:alt', meta.ogImageAlt);
+    setMetaTag('property', 'og:url', meta.canonicalUrl);
+    setMetaTag('name', 'twitter:title', meta.title);
+    setMetaTag('name', 'twitter:description', meta.description);
+    setMetaTag('name', 'twitter:image', meta.ogImage);
+
     const canonicalEl = document.querySelector('link[rel="canonical"]');
     if (canonicalEl) {
-      canonicalEl.setAttribute('href', canonicalUrl);
+      canonicalEl.setAttribute('href', meta.canonicalUrl);
     }
 
     const scriptId = 'location-diaspora-structured-data';
@@ -68,7 +96,7 @@ export function App() {
       scriptEl.setAttribute('type', 'application/ld+json');
       document.head.appendChild(scriptEl);
     }
-    scriptEl.textContent = JSON.stringify(buildLocationAndDiasporaGraph(canonicalUrl));
+    scriptEl.textContent = JSON.stringify(buildLocationAndDiasporaGraph(meta.canonicalUrl));
 
     const bcScriptId = 'primary-breadcrumb-structured-data';
     let bcEl = document.getElementById(bcScriptId);
@@ -78,7 +106,7 @@ export function App() {
       bcEl.setAttribute('type', 'application/ld+json');
       document.head.appendChild(bcEl);
     }
-    bcEl.textContent = JSON.stringify(buildPrimaryBreadcrumbSchema(canonicalUrl));
+    bcEl.textContent = JSON.stringify(buildPrimaryBreadcrumbSchema(meta.canonicalUrl));
   }, [currentPath]);
 
   const renderContent = () => {

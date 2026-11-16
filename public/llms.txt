@@ -34,13 +34,14 @@
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 60 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 61 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 60 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 61 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
 
-## Published Masterclasses & Editorial Guides (All 60 Articles)
+## Published Masterclasses & Editorial Guides (All 61 Articles)
 
+- [The Weightless Walima: How 60 GSM Pure Silk Organza & French Seam Grading Prevent Transparency & Tear at Outdoor Summer Receptions](https://sartor.pk/blog/silk-organza-walima-gown-editorial-drape-uk-usa-guide) *(Bridal Masterclass)*: An effortless outdoor summer silk organza Walima gown depends on 60 GSM pure mulberry silk organza paired with breathable matte Habotai silk slip grading rather than scratchy polyester organza. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar fi...
 - [Zero-Trial Remote Bridal Couture: How SARTOR’s 28-Point Digital Measurement & Baste-Fitting Protocol Eliminates Alteration Risk](https://sartor.pk/blog/remote-bridal-lehenga-fitting-lahore) *(Bridal Masterclass)*: To safely order a Pakistani bridal dress online with custom measurements, commission through a transparent engineering workflow rather than static S/M/L forms. At SARTOR Model Town Lahore, every remote bridal lehenga fitting executes four safeguards: (1) a...
 - [Custom Pakistani Groom Sherwani Architecture Guide (USA)](https://sartor.pk/blog/custom-pakistani-groom-sherwani-usa-jamawar-architecture-guide) *(Groomswear Masterclass)*: Superior Jamawar sherwani bespoke tailoring depends on internal tailoring architecture rather than surface stiffness. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar replaces glued cardboard interlining with a breathable, hand-padded floating horse...
 - [Micro-Velvet 9000 vs. Silk Velvet Bridal Lehenga Guide](https://sartor.pk/blog/micro-velvet-9000-vs-pure-silk-velvet-bridal-lehenga-usa-guide) *(Bridal Masterclass)*: For a Pakistani bridal velvet lehenga in the USA or Canada, Micro-Velvet 9000 (~360 GSM) offers unmatched 14-hour flight crush resistance, upright dense pile stability, and tensile support for heavy dabka, whereas pure silk velvet (~300 GSM) provides a liqu...

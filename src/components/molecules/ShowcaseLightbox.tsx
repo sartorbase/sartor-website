@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import Image from '../../utils/nextImage';
 import { X, ChevronLeft, ChevronRight, MessageSquare } from 'lucide-react';
 import { BespokeSuite } from '../../data/showcaseGallery';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { DEFAULT_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
 
 export interface ShowcaseLightboxProps {
   suite: BespokeSuite;
@@ -49,6 +51,11 @@ export const ShowcaseLightbox: React.FC<ShowcaseLightboxProps> = ({
     caption: suite.title,
     angle: 'Full Silhouette',
   };
+  const [imgSrc, setImgSrc] = useState(currentPhoto.url || DEFAULT_FALLBACK_IMAGE);
+
+  useEffect(() => {
+    setImgSrc(currentPhoto.url || DEFAULT_FALLBACK_IMAGE);
+  }, [currentPhoto.url]);
 
   const whatsappMsg = `Assalam-o-Alaikum SARTOR Atelier,
 I was viewing your portfolio photo for *${suite.title}* (${currentPhoto.angle}).
@@ -84,25 +91,22 @@ Please let me know how to arrange custom stitching or fabric pickup in Lahore.`;
           </button>
         )}
 
-        <picture>
-          <source
-            type="image/webp"
-            srcSet={currentPhoto.url.replace(/\.(jpe?g|png)$/i, '.webp')}
-          />
-          <img
-            src={currentPhoto.url}
-            alt={currentPhoto.caption}
-            decoding="async"
-            onError={(e) => {
-              const target = e.currentTarget;
-              if (target.src !== '/images/services/simple-suit.webp') {
-                target.src = '/images/services/simple-suit.webp';
-              }
-            }}
-            className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl"
-            referrerPolicy="no-referrer"
-          />
-        </picture>
+        <Image
+          src={imgSrc}
+          alt={currentPhoto.caption}
+          width={1200}
+          height={1500}
+          priority
+          sizes="(max-width: 768px) 95vw, 900px"
+          quality={90}
+          onError={() => {
+            if (imgSrc !== DEFAULT_FALLBACK_IMAGE) {
+              setImgSrc(DEFAULT_FALLBACK_IMAGE);
+            }
+          }}
+          className="max-h-[70vh] max-w-full w-auto h-auto object-contain rounded-xl shadow-2xl"
+          referrerPolicy="no-referrer"
+        />
 
         {suite.gallery.length > 1 && (
           <button

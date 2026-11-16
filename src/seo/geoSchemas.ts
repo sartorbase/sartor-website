@@ -18,6 +18,73 @@ export interface DiasporaRegionSpec {
  */
 export const DIASPORA_IN_LANGUAGE = ['en-GB', 'en-US', 'en-CA', 'en-AE', 'en-PK'] as const;
 
+export function stripMarkdownForPlainText(input: string): string {
+  return input
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*\*([^*]+)\*\*\*/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/^\s*[-*]\s+/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function toAbsoluteSiteUrl(urlOrPath?: string, fallback = 'https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'): string {
+  if (!urlOrPath) return fallback;
+  if (/^https?:\/\//i.test(urlOrPath)) return urlOrPath;
+  return `https://sartor.pk${urlOrPath.startsWith('/') ? urlOrPath : `/${urlOrPath}`}`;
+}
+
+export interface PrimaryRouteSeoMeta {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  ogImage: string;
+  ogImageAlt: string;
+  ogType: 'website';
+}
+
+export const PRIMARY_ROUTE_SEO: Record<'/' | '/services' | '/custom-bridal' | '/blog', PrimaryRouteSeoMeta> = {
+  '/': {
+    title: 'Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR',
+    description:
+      'Master bespoke Pakistani tailor at Model Town, Lahore led by Abdul Ghaffar. Handcrafted bridal lehengas, 16-kali kalidars, sarees, unstitched designer suits & custom groom sherwanis. 28-point digital measurements on app.sartor.pk, 2-inch seam margins & 3–5 day DHL Express shipping.',
+    canonicalUrl: 'https://sartor.pk/',
+    ogImage: 'https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg',
+    ogImageAlt: 'SARTOR Bespoke Couture Atelier Lahore — Master Tailor Abdul Ghaffar',
+    ogType: 'website',
+  },
+  '/services': {
+    title: 'Tailor Model Town Lahore | Lehenga, Saree & Bespoke Groom Sherwani Tailoring | SARTOR',
+    description:
+      'Master bespoke tailoring in Model Town, Lahore & online worldwide: bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits, and custom Jamawar groom sherwanis. Guided video fittings, 2-inch seam margins, and 3–5 day DHL Express shipping.',
+    canonicalUrl: 'https://sartor.pk/services',
+    ogImage: 'https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg',
+    ogImageAlt: 'Bespoke Pakistani Tailoring Disciplines & Rates — SARTOR Model Town Lahore',
+    ogType: 'website',
+  },
+  '/custom-bridal': {
+    title: 'Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR',
+    description:
+      'Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 28-point digital measurements, pre-closure baste-fit video checkpoints, 2-inch seam margins, and 10/30/30/30 escrow milestones with 3–5 day DHL Express shipping.',
+    canonicalUrl: 'https://sartor.pk/custom-bridal',
+    ogImage: 'https://sartor.pk/images/royal-crimson-barat-lehenga-zardozi-architecture-guide.jpg',
+    ogImageAlt: 'Bespoke Hand-Embroidered Pakistani Zardozi Bridal Lehenga — SARTOR Lahore',
+    ogType: 'website',
+  },
+  '/blog': {
+    title: 'Atelier Journal & Couture Masterclasses | SARTOR Bespoke Lahore',
+    description:
+      'Explore 61 technical masterclasses by Master Tailor Abdul Ghaffar on Pakistani bridal lehengas, zardozi, groom sherwanis, remote video fittings, and bespoke tailoring for diaspora clients.',
+    canonicalUrl: 'https://sartor.pk/blog',
+    ogImage: 'https://sartor.pk/images/silk-organza-walima-gown-editorial-drape-uk-usa-guide.jpg',
+    ogImageAlt: 'SARTOR Atelier Journal & Pakistani Couture Masterclasses',
+    ogType: 'website',
+  },
+};
+
 export const LAHORE_ATELIER_ADDRESS = {
   '@type': 'PostalAddress',
   streetAddress: 'Shop F-9, Moon Tower, Block 30-M, International Market, Model Town',

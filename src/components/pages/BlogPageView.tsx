@@ -15,7 +15,11 @@ import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
 import { BlogSearchGrid } from '../organisms/BlogSearchGrid';
-import { DIASPORA_IN_LANGUAGE } from '../../seo/geoSchemas';
+import {
+  DIASPORA_IN_LANGUAGE,
+  stripMarkdownForPlainText,
+  toAbsoluteSiteUrl,
+} from '../../seo/geoSchemas';
 import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../organisms/BlogCommentsSection';
 import { ArticleShareBar } from '../molecules/ArticleShareBar';
@@ -60,16 +64,37 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
   useEffect(() => {
     if (!activePost || typeof document === 'undefined') return;
 
-    document.title = `${activePost.title} | SARTOR Atelier`;
+    const pageTitle = `${activePost.title} | SARTOR Atelier`;
+    document.title = pageTitle;
 
-    // Update meta description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', activePost.excerpt);
-    }
-
-    // Update canonical link
+    // Update meta description & social preview tags for SPA article navigation
+    const articleImageUrl = toAbsoluteSiteUrl(
+      activePost.coverImage,
+      'https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'
+    );
     const canonicalUrl = `https://sartor.pk/blog/${activePost.slug}`;
+
+    const setMetaTag = (attr: 'name' | 'property', key: string, value: string) => {
+      let el = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', value);
+    };
+
+    setMetaTag('name', 'description', activePost.excerpt);
+    setMetaTag('property', 'og:type', 'article');
+    setMetaTag('property', 'og:title', pageTitle);
+    setMetaTag('property', 'og:description', activePost.excerpt);
+    setMetaTag('property', 'og:image', articleImageUrl);
+    setMetaTag('property', 'og:image:alt', activePost.coverImageAlt || activePost.title);
+    setMetaTag('property', 'og:url', canonicalUrl);
+    setMetaTag('name', 'twitter:title', pageTitle);
+    setMetaTag('name', 'twitter:description', activePost.excerpt);
+    setMetaTag('name', 'twitter:image', articleImageUrl);
+
     let canonicalTag = document.querySelector('link[rel="canonical"]');
     if (canonicalTag) {
       canonicalTag.setAttribute('href', canonicalUrl);
@@ -91,7 +116,7 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       description: activePost.excerpt,
       keywords: activePost.tags?.join(', '),
       inLanguage: [...DIASPORA_IN_LANGUAGE],
-      image: activePost.coverImage ? `https://sartor.pk${activePost.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
+      image: articleImageUrl,
       author: {
         '@type': 'Person',
         name: activePost.author || 'Abdul Ghaffar, Master Tailor',
@@ -171,8 +196,8 @@ export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
       const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;
       let match;
       while ((match = qaRegex.exec(faqText)) !== null) {
-        const question = match[1].trim();
-        const answer = match[2].trim().replace(/\n+/g, ' ');
+        const question = stripMarkdownForPlainText(match[1]);
+        const answer = stripMarkdownForPlainText(match[2]);
         if (question && answer) {
           faqMatches.push({ question, answer });
         }

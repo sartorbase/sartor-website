@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
 import compression from 'compression';
+import sharp from 'sharp';
 import { GoogleGenAI } from '@google/genai';
 import { ATELIER_SYSTEM_INSTRUCTION } from './src/constants/atelierPrompt';
 import { injectSeoIntoHtml, generateSitemapXml } from './src/server/seoRenderer';
@@ -121,13 +122,124 @@ app.use((req: Request, res: Response, next) => {
   next();
 });
 
-// Canonical 301 Redirect Middleware (apex sartor.pk -> https://www.sartor.pk)
+// Canonical 301 Redirect Middleware (www.sartor.pk -> https://sartor.pk matching canonical & sitemap)
 app.use((req: Request, res: Response, next) => {
-  const host = req.headers.host || '';
-  if (host === 'sartor.pk') {
-    return res.redirect(301, `https://www.sartor.pk${req.originalUrl || req.url}`);
+  const host = (req.headers.host || '').split(':')[0].toLowerCase();
+  if (host === 'www.sartor.pk') {
+    return res.redirect(301, `https://sartor.pk${req.originalUrl || req.url}`);
   }
   next();
+});
+
+// Next.js-compatible Sharp Image Optimization Endpoint (/_next/image?url=...&w=...&q=...)
+const ALLOWED_IMAGE_WIDTHS = new Set([16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048]);
+const REMOTE_IMAGE_HOST_ALLOWLIST = new Set(['images.unsplash.com', 'sartor.pk']);
+const optimizedImageCache = new Map<string, { buffer: Buffer; contentType: string }>();
+const MAX_OPTIMIZED_IMAGE_CACHE = 250;
+
+app.get('/_next/image', async (req: Request, res: Response) => {
+  try {
+    const rawUrl = typeof req.query.url === 'string' ? req.query.url : '';
+    const requestedWidth = Number(req.query.w) || 1200;
+    const requestedQuality = Math.min(95, Math.max(50, Number(req.query.q) || 80));
+
+    if (!rawUrl) {
+      return res.status(400).send('Missing "url" parameter.');
+    }
+
+    // Snap width cleanly to allowed Next.js widths
+    let width = 1200;
+    if (ALLOWED_IMAGE_WIDTHS.has(requestedWidth)) {
+      width = requestedWidth;
+    } else {
+      const sortedWidths = Array.from(ALLOWED_IMAGE_WIDTHS).sort((a, b) => a - b);
+      width = sortedWidths.find((w) => w >= requestedWidth) || 1920;
+    }
+
+    const accept = (req.headers.accept || '').toLowerCase();
+    const targetFormat = accept.includes('image/avif')
+      ? 'avif'
+      : accept.includes('image/webp')
+        ? 'webp'
+        : 'jpeg';
+
+    const cacheKey = `${rawUrl}|${width}|${requestedQuality}|${targetFormat}`;
+    const cached = optimizedImageCache.get(cacheKey);
+    if (cached) {
+      optimizedImageCache.delete(cacheKey);
+      optimizedImageCache.set(cacheKey, cached);
+      res.set({
+        'Content-Type': cached.contentType,
+        'Vary': 'Accept',
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'X-Sartor-Image-Cache': 'HIT',
+      });
+      return res.send(cached.buffer);
+    }
+
+    let sourceBuffer: Buffer | null = null;
+
+    if (rawUrl.startsWith('/') && !rawUrl.startsWith('//')) {
+      const cleanRelPath = decodeURIComponent(rawUrl.split('?')[0]);
+      const allowedRoots = [path.resolve(__dirname, 'public'), path.resolve(__dirname, 'dist')];
+      for (const rootDir of allowedRoots) {
+        const resolved = path.resolve(rootDir, cleanRelPath.replace(/^\/+/, ''));
+        if (resolved.startsWith(rootDir + path.sep) && fs.existsSync(resolved) && !fs.statSync(resolved).isDirectory()) {
+          sourceBuffer = fs.readFileSync(resolved);
+          break;
+        }
+      }
+    } else if (/^https?:\/\//i.test(rawUrl)) {
+      const parsed = new URL(rawUrl);
+      if (!REMOTE_IMAGE_HOST_ALLOWLIST.has(parsed.hostname)) {
+        return res.status(400).send('Remote image host not allowed.');
+      }
+      const remoteRes = await fetch(parsed.toString(), { signal: AbortSignal.timeout(8000) });
+      if (!remoteRes.ok) {
+        return res.status(404).send('Remote image not found.');
+      }
+      sourceBuffer = Buffer.from(await remoteRes.arrayBuffer());
+    } else {
+      return res.status(400).send('Invalid "url" parameter.');
+    }
+
+    if (!sourceBuffer) {
+      return res.status(404).send('Source image not found.');
+    }
+
+    let pipeline = sharp(sourceBuffer).rotate().resize({ width, withoutEnlargement: true });
+    let contentType = 'image/jpeg';
+
+    if (targetFormat === 'avif') {
+      pipeline = pipeline.avif({ quality: Math.min(85, requestedQuality), effort: 3 });
+      contentType = 'image/avif';
+    } else if (targetFormat === 'webp') {
+      pipeline = pipeline.webp({ quality: requestedQuality, effort: 4, smartSubsample: true });
+      contentType = 'image/webp';
+    } else {
+      pipeline = pipeline.jpeg({ quality: requestedQuality, mozjpeg: true, progressive: true });
+      contentType = 'image/jpeg';
+    }
+
+    const outBuffer = await pipeline.toBuffer();
+
+    if (optimizedImageCache.size >= MAX_OPTIMIZED_IMAGE_CACHE) {
+      const oldestKey = optimizedImageCache.keys().next().value;
+      if (oldestKey) optimizedImageCache.delete(oldestKey);
+    }
+    optimizedImageCache.set(cacheKey, { buffer: outBuffer, contentType });
+
+    res.set({
+      'Content-Type': contentType,
+      'Vary': 'Accept',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'X-Sartor-Image-Cache': 'MISS',
+    });
+    return res.send(outBuffer);
+  } catch (err) {
+    console.error('Error in /_next/image optimizer:', err);
+    return res.status(500).send('Image optimization failed.');
+  }
 });
 
 // 1. Health check
@@ -563,9 +675,12 @@ async function startServer() {
         template = template.replace('<head>', '<head>' + wsHmrShim);
         const { status, html } = injectSeoIntoHtml(template, url);
         res.status(status).set({
-          'Content-Type': 'text/html',
-          'Link': '</llms.txt>; rel="alternate"; type="text/markdown"',
-          'X-Robots-Tag': 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+          'Content-Type': 'text/html; charset=utf-8',
+          'Link': '</llms.txt>; rel="alternate"; type="text/markdown", </llms-full.txt>; rel="alternate"; type="text/markdown"',
+          'X-Robots-Tag':
+            status === 404
+              ? 'noindex, nofollow'
+              : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
         }).end(html);
       } catch (e: any) {
         vite.ssrFixStacktrace(e);
@@ -592,10 +707,16 @@ async function startServer() {
         const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
         const { status, html } = injectSeoIntoHtml(baseHtml, url);
         res.status(status).set({
-          'Content-Type': 'text/html',
-          'Link': '</llms.txt>; rel="alternate"; type="text/markdown"',
-          'X-Robots-Tag': 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-          'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800',
+          'Content-Type': 'text/html; charset=utf-8',
+          'Link': '</llms.txt>; rel="alternate"; type="text/markdown", </llms-full.txt>; rel="alternate"; type="text/markdown"',
+          'X-Robots-Tag':
+            status === 404
+              ? 'noindex, nofollow'
+              : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+          'Cache-Control':
+            status === 404
+              ? 'no-cache'
+              : 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800',
         }).end(html);
       } else {
         res.status(404).send('Not Found');

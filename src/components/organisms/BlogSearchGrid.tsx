@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { BLOG_POSTS, BlogPostData } from '../../data/blogPosts';
 import { navigateTo } from '../../utils/navigation';
+import { LazyImage } from '../atoms/LazyImage';
+import { DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
 
 export interface BlogSearchGridProps {
   posts?: BlogPostData[];
@@ -287,9 +289,8 @@ export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
       ) : (
         /* Blog Post Cards Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredPosts.map((post) => {
-            const coverImg = post.coverImage || '/images/royal-crimson-barat-lehenga-zardozi-architecture-guide.jpg';
-            const webpImg = coverImg.replace(/\.(jpe?g|png)$/i, '.webp');
+          {filteredPosts.map((post, idx) => {
+            const coverImg = post.coverImage || DEFAULT_BRIDAL_FALLBACK_IMAGE;
 
             return (
               <article
@@ -297,33 +298,19 @@ export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
                 onClick={() => handleCardClick(post.slug)}
                 className="group rounded-2xl bg-stone-900 border border-stone-800 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9),0_0_20px_-3px_rgba(245,158,11,0.2)] flex flex-col cursor-pointer will-change-transform"
               >
-                {/* Cover Image with WebP Picture */}
+                {/* Cover Image with Next.js Responsive Optimization */}
                 {post.coverImage && (
                   <div className="relative aspect-[16/9] bg-stone-950 overflow-hidden">
-                    <picture>
-                      <source type="image/webp" srcSet={webpImg} />
-                      <img
-                        src={coverImg}
-                        alt={post.coverImageAlt || post.title}
-                        loading="lazy"
-                        decoding="async"
-                        width={640}
-                        height={360}
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          const picture = target.parentElement;
-                          if (picture && picture.tagName.toLowerCase() === 'picture') {
-                            const sources = picture.querySelectorAll('source');
-                            sources.forEach((s) => s.remove());
-                          }
-                          if (target.src !== '/images/royal-crimson-barat-lehenga-zardozi-architecture-guide.jpg') {
-                            target.src = '/images/royal-crimson-barat-lehenga-zardozi-architecture-guide.jpg';
-                          }
-                        }}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </picture>
+                    <LazyImage
+                      src={coverImg}
+                      alt={post.coverImageAlt || post.title}
+                      fill
+                      priority={idx < 2}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 560px"
+                      quality={85}
+                      fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
 

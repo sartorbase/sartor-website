@@ -1,5 +1,5 @@
 import { BLOG_POSTS, BlogPostData } from '../data/blogPosts';
-import { DIASPORA_IN_LANGUAGE } from './geoSchemas';
+import { DIASPORA_IN_LANGUAGE, stripMarkdownForPlainText } from './geoSchemas';
 
 export type BridalFaqTopic =
   | 'Remote Fitting & Escrow'
@@ -46,19 +46,6 @@ const BRIDAL_CATEGORIES = new Set([
   'Overseas Tailoring',
   'Measurement Masterclass',
 ]);
-
-function stripMarkdownForPlainText(input: string): string {
-  return input
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/\*\*\*([^*]+)\*\*\*/g, '$1')
-    .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .replace(/\*([^*]+)\*/g, '$1')
-    .replace(/^\s*[-*]\s+/gm, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
 
 function classifyBridalTopic(question: string, answer: string, slug: string): BridalFaqTopic {
   const haystack = `${slug} ${question} ${answer}`.toLowerCase();

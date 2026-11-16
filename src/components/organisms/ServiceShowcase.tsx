@@ -3,6 +3,7 @@ import { Sparkles, MessageSquare, Eye, ZoomIn, CheckCircle2 } from 'lucide-react
 import { BESPOKE_SUITES, BespokeSuite } from '../../data/showcaseGallery';
 import { ShowcaseLightbox } from '../molecules/ShowcaseLightbox';
 import { buildWhatsAppLink } from '../../services/analytics';
+import { LazyImage } from '../atoms/LazyImage';
 
 export const ServiceShowcase: React.FC = () => {
   const [selectedSuite, setSelectedSuite] = useState<BespokeSuite | null>(null);
@@ -83,30 +84,15 @@ I saw "${suite.title}" in your portfolio and would like to consult on fabric opt
                   className="relative aspect-[4/5] sm:aspect-[3/4] bg-stone-950 overflow-hidden cursor-pointer"
                   onClick={() => setSelectedSuite(suite)}
                 >
-                  <picture>
-                    <source
-                      type="image/webp"
-                      srcSet={`${suite.primaryImage.replace(/\.(jpe?g|png)$/i, '.webp')} 800w, ${suite.primaryImage.replace(/\.(jpe?g|png)$/i, '.webp')} 400w`}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                    />
-                    <img
-                      src={suite.primaryImage}
-                      alt={suite.title}
-                      loading="lazy"
-                      decoding="async"
-                      width={600}
-                      height={750}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        if (target.src !== '/images/services/simple-suit.webp') {
-                          target.src = '/images/services/simple-suit.webp';
-                        }
-                      }}
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                    />
-                  </picture>
+                  <LazyImage
+                    src={suite.primaryImage}
+                    alt={suite.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    quality={85}
+                    fallbackSrc="/images/services/simple-suit.jpg"
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
 
                   {/* Badge */}

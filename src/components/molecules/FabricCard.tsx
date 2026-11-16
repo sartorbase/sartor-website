@@ -1,9 +1,11 @@
 import React from 'react';
-import { ExternalLink, Layers, Sparkles } from 'lucide-react';
+import Image from '../../utils/nextImage';
+import { Layers } from 'lucide-react';
 import { analytics } from '../../services/analytics';
 import { Fabric } from '../../types';
 import { Badge } from '../atoms/Badge';
 import { WhatsAppButton } from './WhatsAppButton';
+import { SHIMMER_BLUR_DATA_URL } from '../../utils/imagePlaceholder';
 
 export interface FabricCardProps {
   fabric: Fabric;
@@ -25,19 +27,17 @@ export const FabricCard: React.FC<FabricCardProps> = ({ fabric, onSelect }) => {
     >
       {/* Visual Header / Image Swatch */}
       <div className="relative aspect-4/3 overflow-hidden bg-stone-950 cursor-pointer" onClick={handleInspect}>
-        <picture>
-          <source
-            type="image/webp"
-            srcSet={fabric.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')}
-          />
-          <img
-            src={fabric.imageUrl}
-            alt={fabric.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
+        <Image
+          src={fabric.imageUrl}
+          alt={fabric.name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+          quality={80}
+          placeholder="blur"
+          blurDataURL={SHIMMER_BLUR_DATA_URL}
+          referrerPolicy="no-referrer"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent pointer-events-none" />
 
         {/* Swatch color orb */}

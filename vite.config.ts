@@ -58,12 +58,14 @@ export default defineConfig({
         runtimeCaching: [
           {
             // Cache measurement guide images and service showcases offline
-            urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/i,
+            urlPattern: ({ url }) =>
+              /\.(?:png|jpg|jpeg|svg|webp|avif)$/i.test(url.pathname) ||
+              url.pathname === '/_next/image',
             handler: 'CacheFirst',
             options: {
               cacheName: 'sartor-images-cache',
               expiration: {
-                maxEntries: 60,
+                maxEntries: 120,
                 maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
               },
               cacheableResponse: {
@@ -95,6 +97,49 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    'process.env.__NEXT_IMAGE_OPTS': JSON.stringify({
+      deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+      imageSizes: [32, 48, 64, 96, 128, 256, 384],
+      path: '/_next/image',
+      loader: 'default',
+      dangerouslyAllowSVG: false,
+      unoptimized: false,
+      qualities: [75, 80, 85, 90],
+      remotePatterns: [
+        { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+        { protocol: 'https', hostname: 'sartor.pk', pathname: '/**' },
+      ],
+    }),
+    'process.env.NEXT_RUNTIME': JSON.stringify(''),
+    'process.env.NEXT_DEPLOYMENT_ID': JSON.stringify(''),
+    'process.env.NEXT_SUPPORTS_IMMUTABLE_ASSETS': JSON.stringify(''),
+    'process.platform': JSON.stringify('browser'),
+  },
+  optimizeDeps: {
+    include: ['next/image'],
+    esbuildOptions: {
+      define: {
+        'process.env.__NEXT_IMAGE_OPTS': JSON.stringify({
+          deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+          imageSizes: [32, 48, 64, 96, 128, 256, 384],
+          path: '/_next/image',
+          loader: 'default',
+          dangerouslyAllowSVG: false,
+          unoptimized: false,
+          qualities: [75, 80, 85, 90],
+          remotePatterns: [
+            { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+            { protocol: 'https', hostname: 'sartor.pk', pathname: '/**' },
+          ],
+        }),
+        'process.env.NEXT_RUNTIME': JSON.stringify(''),
+        'process.env.NEXT_DEPLOYMENT_ID': JSON.stringify(''),
+        'process.env.NEXT_SUPPORTS_IMMUTABLE_ASSETS': JSON.stringify(''),
+        'process.platform': JSON.stringify('browser'),
+      },
+    },
+  },
   server: {
     port: 3000,
     host: true,

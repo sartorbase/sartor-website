@@ -17,6 +17,7 @@ import { buildWhatsAppLink } from '../../services/analytics';
 import { SITE_CONFIG } from '../../config/site';
 import { navigateTo } from '../../utils/navigation';
 import { BreadcrumbSchema } from '../molecules/BreadcrumbSchema';
+import { LazyImage } from '../atoms/LazyImage';
 
 export const CustomBridalLandingPage: React.FC = () => {
   const primaryHeroMsg = `*OVERSEAS CUSTOM BRIDAL CONSULTATION ($2,000+)*
@@ -243,17 +244,14 @@ I would like to share my design references and schedule a live digital sizing se
             {/* Look 1: Barat Main Bridal */}
             <div className="group rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-amber-400/50 shadow-2xl transition-all duration-300 flex flex-col text-left">
               <div className="relative aspect-[4/3] bg-neutral-950 overflow-hidden">
-                <picture>
-                  <source type="image/webp" srcSet="/images/barat-crimson-bridal.webp" />
-                  <img
-                    src="/images/barat-crimson-bridal.jpg"
-                    alt="SARTOR Bespoke Crimson Velvet & Raw Silk Barat Bridal Lehenga with Zardozi Handwork"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                  />
-                </picture>
+                <LazyImage
+                  src="/images/barat-crimson-bridal.jpg"
+                  alt="SARTOR Bespoke Crimson Velvet & Raw Silk Barat Bridal Lehenga with Zardozi Handwork"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={85}
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
                 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
                   Barat Main Bridal
@@ -296,17 +294,14 @@ I would like to share my design references and schedule a live digital sizing se
             {/* Look 2: Walima Couture Gown */}
             <div className="group rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-amber-400/50 shadow-2xl transition-all duration-300 flex flex-col text-left">
               <div className="relative aspect-[4/3] bg-neutral-950 overflow-hidden">
-                <picture>
-                  <source type="image/webp" srcSet="/images/walima-champagne-gown.webp" />
-                  <img
-                    src="/images/walima-champagne-gown.jpg"
-                    alt="SARTOR Champagne Gold & Sage Green Walima Bridal Couture Gown with Tilla Needlework"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                  />
-                </picture>
+                <LazyImage
+                  src="/images/walima-champagne-gown.jpg"
+                  alt="SARTOR Champagne Gold & Sage Green Walima Bridal Couture Gown with Tilla Needlework"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={85}
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
                 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
                   Walima Reception
@@ -349,17 +344,14 @@ I would like to share my design references and schedule a live digital sizing se
             {/* Look 3: Festive Mehndi Kalidar */}
             <div className="group rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-800 hover:border-amber-400/50 shadow-2xl transition-all duration-300 flex flex-col text-left">
               <div className="relative aspect-[4/3] bg-neutral-950 overflow-hidden">
-                <picture>
-                  <source type="image/webp" srcSet="/images/mehndi-mustard-kalidar.webp" />
-                  <img
-                    src="/images/mehndi-mustard-kalidar.jpg"
-                    alt="SARTOR Festive Mustard Yellow & Emerald Green Kalidar Flared Bridal Lehenga for Mehndi"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                  />
-                </picture>
+                <LazyImage
+                  src="/images/mehndi-mustard-kalidar.jpg"
+                  alt="SARTOR Festive Mustard Yellow & Emerald Green Kalidar Flared Bridal Lehenga for Mehndi"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={85}
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
                 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-neutral-950/85 backdrop-blur-md text-[10px] font-mono uppercase tracking-wider text-amber-300 border border-amber-400/30">
                   Mehndi &amp; Sangeet

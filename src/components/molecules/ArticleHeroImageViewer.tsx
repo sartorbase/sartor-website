@@ -11,7 +11,9 @@ import {
   Eye,
   Loader2,
 } from 'lucide-react';
+import Image from '../../utils/nextImage';
 import { downloadImageWithSartorWatermark } from '../../utils/watermark';
+import { SHIMMER_BLUR_DATA_URL, DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
 
 export interface ArticleHeroImageViewerProps {
   src: string;
@@ -45,7 +47,11 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const webpSrc = src.replace(/\.(jpe?g|png)$/i, '.webp');
+  const [imgSrc, setImgSrc] = useState(src || DEFAULT_BRIDAL_FALLBACK_IMAGE);
+
+  useEffect(() => {
+    setImgSrc(src || DEFAULT_BRIDAL_FALLBACK_IMAGE);
+  }, [src]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -176,27 +182,23 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
         className={`group relative mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 ${aspectRatio} cursor-zoom-in select-none ${className}`}
         onClick={() => setIsOpen(true)}
       >
-        <picture>
-          <source type="image/webp" srcSet={webpSrc} />
-          <img
-            src={src}
-            alt={alt || title}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            width={1200}
-            height={675}
-            onError={(e) => {
-              const target = e.currentTarget;
-              const picture = target.parentElement;
-              if (picture && picture.tagName.toLowerCase() === 'picture') {
-                const sources = picture.querySelectorAll('source');
-                sources.forEach((s) => s.remove());
-              }
-            }}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        </picture>
+        <Image
+          src={imgSrc}
+          alt={alt || title}
+          fill
+          priority
+          sizes="(max-width: 768px) 100vw, 896px"
+          quality={90}
+          placeholder="blur"
+          blurDataURL={SHIMMER_BLUR_DATA_URL}
+          referrerPolicy="no-referrer"
+          onError={() => {
+            if (imgSrc !== DEFAULT_BRIDAL_FALLBACK_IMAGE) {
+              setImgSrc(DEFAULT_BRIDAL_FALLBACK_IMAGE);
+            }
+          }}
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+        />
 
         {/* Ambient Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-stone-950/40 pointer-events-none" />
@@ -386,11 +388,17 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
                 transformOrigin: 'center center',
               }}
             >
-              <img
-                src={src}
+              <Image
+                src={imgSrc}
                 alt={alt || title}
+                width={1400}
+                height={788}
+                priority
+                sizes="(max-width: 768px) 95vw, 1280px"
+                quality={90}
+                referrerPolicy="no-referrer"
                 draggable={false}
-                className="max-h-[80vh] max-w-[95vw] object-contain rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] border border-stone-800/80 pointer-events-auto"
+                className="max-h-[80vh] max-w-[95vw] w-auto h-auto object-contain rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] border border-stone-800/80 pointer-events-auto"
               />
             </div>
           </div>

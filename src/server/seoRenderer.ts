@@ -4,6 +4,9 @@ import {
   buildPrimaryBreadcrumbSchema,
   DIASPORA_IN_LANGUAGE,
   getPrimaryBreadcrumbItems,
+  PRIMARY_ROUTE_SEO,
+  stripMarkdownForPlainText,
+  toAbsoluteSiteUrl,
 } from '../seo/geoSchemas';
 import { buildHomepageFaqPageSchema, getTopHomepageBridalFaqs } from '../seo/faqAggregator';
 import {
@@ -25,6 +28,39 @@ function escapeHtml(str: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+const SSR_IMAGE_WIDTHS = [640, 750, 1080, 1200] as const;
+
+function buildOptimizedSsrImageUrl(rawSrc: string, width: number, quality = 85): string {
+  const normalized = rawSrc.trim();
+  if (!normalized || normalized.startsWith('data:') || normalized.startsWith('/_next/image')) {
+    return normalized;
+  }
+  return `/_next/image?url=${encodeURIComponent(normalized)}&w=${width}&q=${quality}`;
+}
+
+function buildOptimizedSsrImageTag(opts: {
+  src: string;
+  alt: string;
+  sizes: string;
+  width?: number;
+  height?: number;
+  quality?: number;
+  priority?: boolean;
+  className?: string;
+}): string {
+  const quality = opts.quality ?? 85;
+  const width = opts.width ?? 1200;
+  const height = opts.height ?? 675;
+  const defaultSrc = buildOptimizedSsrImageUrl(opts.src, 1200, quality);
+  const srcSet = SSR_IMAGE_WIDTHS.map(
+    (w) => `${buildOptimizedSsrImageUrl(opts.src, w, quality)} ${w}w`
+  ).join(', ');
+  const loadingAttr = opts.priority ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
+  const classAttr = opts.className || 'w-full h-full object-cover';
+
+  return `<img src="${escapeHtml(defaultSrc)}" srcset="${escapeHtml(srcSet)}" sizes="${escapeHtml(opts.sizes)}" alt="${escapeHtml(opts.alt)}" width="${width}" height="${height}" class="${classAttr}" ${loadingAttr} decoding="async" referrerpolicy="no-referrer" />`;
 }
 
 function renderSsrBreadcrumbHtml(pageUrl: string): string {
@@ -79,7 +115,18 @@ ${xmlEntries}
 
 function formatInline(text: string): string {
   let res = escapeHtml(text);
-  res = res.replace(/!\[(.*?)\]\((.*?)\)/g, '<span class="my-8 block w-full rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]"><img src="$2" alt="$1" class="w-full h-full object-cover" loading="eager" /></span>');
+  res = res.replace(/!\[(.*?)\]\((.*?)\)/g, (_m, alt: string, src: string) => {
+    const imgHtml = buildOptimizedSsrImageTag({
+      src,
+      alt,
+      sizes: '(max-width: 768px) 100vw, 896px',
+      width: 1200,
+      height: 675,
+      quality: 85,
+      priority: false,
+    });
+    return `<span class="my-8 block w-full rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">${imgHtml}</span>`;
+  });
   res = res.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-amber-300 text-xs font-mono">$1</code>');
   res = res.replace(/\*\*\*(.*?)\*\*\*/g, '<strong class="text-stone-100 font-bold"><em class="italic">$1</em></strong>');
   res = res.replace(/\*\*(.*?)\*\*/g, '<strong class="text-stone-100 font-bold">$1</strong>');
@@ -230,7 +277,16 @@ function markdownToHtml(md: string): string {
 
     const imgMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
     if (imgMatch) {
-      htmlLines.push(`<div class="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]"><img src="${imgMatch[2]}" alt="${escapeHtml(imgMatch[1])}" class="w-full h-full object-cover" loading="eager" /></div>`);
+      const imgHtml = buildOptimizedSsrImageTag({
+        src: imgMatch[2],
+        alt: imgMatch[1],
+        sizes: '(max-width: 768px) 100vw, 896px',
+        width: 1200,
+        height: 675,
+        quality: 85,
+        priority: false,
+      });
+      htmlLines.push(`<div class="my-8 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">${imgHtml}</div>`);
       continue;
     }
 
@@ -248,21 +304,28 @@ function markdownToHtml(md: string): string {
 }
 
 export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status: number; html: string } {
-  const cleanPath = pathname.toLowerCase().split('?')[0].split('#')[0];
+  const rawPath = pathname.toLowerCase().split('?')[0].split('#')[0];
+  const cleanPath = rawPath.length > 1 ? rawPath.replace(/\/+$/, '') : rawPath;
 
   if (cleanPath.startsWith('/blog/') || cleanPath.startsWith('/journal/')) {
     const slug = cleanPath.replace(/^\/(blog|journal)\//, '').split('/')[0];
     const post = getBlogPostBySlug(slug);
 
     if (!post) {
-      return { status: 404, html: baseHtml };
+      const notFoundHtml = baseHtml
+        .replace(/<title>.*?<\/title>/, '<title>Article Not Found | SARTOR Atelier</title>')
+        .replace(
+          /<meta\s+name="(?:robots|googlebot)"\s+content="[^"]*"\s*\/?>\s*/gi,
+          '<meta name="robots" content="noindex, nofollow" />\n'
+        );
+      return { status: 404, html: notFoundHtml };
     }
 
     const articleUrl = `https://sartor.pk/blog/${post.slug}`;
     const pageTitle = `${post.title} | SARTOR Atelier`;
     const renderedBody = markdownToHtml(post.content);
 
-    // Extract FAQs for Schema.org JSON-LD (supports numbered headings and optional (FAQ) suffix)
+    // Extract FAQs for Schema.org JSON-LD (plain text without raw markdown syntax)
     const faqMatches: { question: string; answer: string }[] = [];
     const faqSectionMatch = post.content.match(/##\s*(?:\d+[\.\)]\s*)?Frequently Asked Questions(?:\s*\(FAQ\))?([\s\S]*?)(?:\n---|\n##\s+[^#]|$)/i);
     if (faqSectionMatch) {
@@ -270,8 +333,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       const qaRegex = /###\s+(.+?)\n([\s\S]*?)(?=\n###|\n---|$)/g;
       let match;
       while ((match = qaRegex.exec(faqText)) !== null) {
-        const question = match[1].trim();
-        const answer = match[2].trim().replace(/\n+/g, ' ');
+        const question = stripMarkdownForPlainText(match[1]);
+        const answer = stripMarkdownForPlainText(match[2]);
         if (question && answer) {
           faqMatches.push({ question, answer });
         }
@@ -296,6 +359,11 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       faqJsonLd = `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>`;
     }
 
+    const articleImageUrl = toAbsoluteSiteUrl(
+      post.coverImage,
+      'https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'
+    );
+
     const articleSchema = {
       '@context': 'https://schema.org',
       '@type': 'Article',
@@ -303,7 +371,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       description: post.excerpt,
       keywords: post.tags?.join(', '),
       inLanguage: [...DIASPORA_IN_LANGUAGE],
-      image: post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg',
+      image: articleImageUrl,
       author: {
         '@type': 'Person',
         name: post.author || 'Abdul Ghaffar, Master Tailor',
@@ -369,9 +437,11 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     };
     const breadcrumbsJsonLd = `<script type="application/ld+json">${JSON.stringify(breadcrumbsSchema)}</script>`;
 
-    const ogImage = post.coverImage ? `https://sartor.pk${post.coverImage}` : 'https://sartor.pk/images/sartor-logo.jpg';
+    const ogImage = articleImageUrl;
+    const ogImageAlt = escapeHtml(post.coverImageAlt || post.title);
     const ogImageTags = `
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 <meta name="geo.region" content="PK-PB" />
 <meta name="geo.placename" content="Model Town, Lahore, Pakistan" />
 <meta name="geo.position" content="31.4826;74.3142" />
@@ -379,20 +449,30 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 <meta property="og:title" content="${escapeHtml(pageTitle)}" />
 <meta property="og:description" content="${escapeHtml(post.excerpt)}" />
 <meta property="og:image" content="${ogImage}" />
+<meta property="og:image:alt" content="${ogImageAlt}" />
 <meta property="og:url" content="${articleUrl}" />
 <meta property="og:type" content="article" />
+<meta property="article:published_time" content="${escapeHtml(post.date || '2026-11-16')}" />
+<meta property="article:author" content="${escapeHtml(post.author || 'Master Tailor Abdul Ghaffar')}" />
+<meta property="article:section" content="${escapeHtml(post.category || 'Bespoke Tailoring')}" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${escapeHtml(pageTitle)}" />
 <meta name="twitter:description" content="${escapeHtml(post.excerpt)}" />
 <meta name="twitter:image" content="${ogImage}" />
+<link rel="alternate" hreflang="x-default" href="${articleUrl}" />
+<link rel="alternate" hreflang="en-PK" href="${articleUrl}" />
+<link rel="alternate" hreflang="en-GB" href="${articleUrl}" />
+<link rel="alternate" hreflang="en-US" href="${articleUrl}" />
+<link rel="alternate" hreflang="en-CA" href="${articleUrl}" />
+<link rel="alternate" hreflang="en-AE" href="${articleUrl}" />
 `;
 
     let transformedHtml = baseHtml
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`)
       .replace(/<meta[^>]*name="description"[^>]*>/i, `<meta name="description" content="${escapeHtml(post.excerpt)}" />`)
-      .replace(/<meta\s+property="og:(?:title|description|image|url|type)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
+      .replace(/<meta\s+property="og:(?:title|description|image|image:alt|url|type)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
       .replace(/<meta\s+name="twitter:(?:card|title|description|image)"\s+content="[^"]*"\s*\/?>\s*/gi, '')
-      .replace(/<meta\s+name="(?:robots|geo\.[^"]+|ICBM)"\s+content="[^"]*"\s*\/?>\s*/gi, '');
+      .replace(/<meta\s+name="(?:robots|googlebot|geo\.[^"]+|ICBM)"\s+content="[^"]*"\s*\/?>\s*/gi, '');
 
     if (transformedHtml.includes('<link rel="canonical"')) {
       transformedHtml = transformedHtml.replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${articleUrl}" />`);
@@ -406,12 +486,28 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}\n</head>`);
     }
 
+    if (post.coverImage && !post.content.includes(post.coverImage)) {
+      const preloadHref = buildOptimizedSsrImageUrl(post.coverImage, 1200, 90);
+      const preloadSrcSet = SSR_IMAGE_WIDTHS.map(
+        (w) => `${buildOptimizedSsrImageUrl(post.coverImage!, w, 90)} ${w}w`
+      ).join(', ');
+      transformedHtml = transformedHtml.replace(
+        '</head>',
+        `<link rel="preload" as="image" href="${escapeHtml(preloadHref)}" imagesrcset="${escapeHtml(preloadSrcSet)}" imagesizes="(max-width: 768px) 100vw, 896px" fetchpriority="high" />\n</head>`
+      );
+    }
+
     const heroImageHtml = post.coverImage && !post.content.includes(post.coverImage)
       ? `<div class="mb-10 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
-          <picture>
-            <source type="image/webp" srcset="${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}" />
-            <img src="${post.coverImage}" alt="${escapeHtml(post.coverImageAlt || post.title)}" class="w-full h-full object-cover" />
-          </picture>
+          ${buildOptimizedSsrImageTag({
+            src: post.coverImage,
+            alt: post.coverImageAlt || post.title,
+            sizes: '(max-width: 768px) 100vw, 896px',
+            width: 1200,
+            height: 675,
+            quality: 90,
+            priority: true,
+          })}
         </div>`
       : '';
 
@@ -446,7 +542,15 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
 
   const applyPageHead = (
     html: string,
-    opts: { title: string; description: string; url: string; schemas?: object[]; schemaTags?: string[] }
+    opts: {
+      title: string;
+      description: string;
+      url: string;
+      ogImage?: string;
+      ogImageAlt?: string;
+      schemas?: object[];
+      schemaTags?: string[];
+    }
   ): string => {
     const geoGraph = buildLocationAndDiasporaGraph(opts.url);
     const breadcrumbSchema = buildPrimaryBreadcrumbSchema(opts.url);
@@ -466,7 +570,7 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       `<link rel="alternate" hreflang="en-AE" href="${opts.url}" />`,
     ].join('\n');
 
-    return html
+    let updated = html
       .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(opts.title)}</title>`)
       .replace(/<meta[^>]*name="description"[^>]*>/i, `<meta name="description" content="${escapeHtml(opts.description)}" />`)
       .replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, `<link rel="canonical" href="${opts.url}" />`)
@@ -474,14 +578,28 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       .replace(/<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(opts.description)}" />`)
       .replace(/<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i, `<meta property="og:url" content="${opts.url}" />`)
       .replace(/<meta\s+name="twitter:title"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:title" content="${escapeHtml(opts.title)}" />`)
-      .replace(/<meta\s+name="twitter:description"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(opts.description)}" />`)
-      .replace('</head>', `${hreflangTags}\n${schemaScripts}\n</head>`);
+      .replace(/<meta\s+name="twitter:description"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(opts.description)}" />`);
+
+    if (opts.ogImage) {
+      updated = updated
+        .replace(/<meta\s+property="og:image"\s+content=".*?"\s*\/?>/i, `<meta property="og:image" content="${opts.ogImage}" />`)
+        .replace(/<meta\s+name="twitter:image"\s+content=".*?"\s*\/?>/i, `<meta name="twitter:image" content="${opts.ogImage}" />`);
+    }
+    if (opts.ogImageAlt) {
+      updated = updated.replace(
+        /<meta\s+property="og:image:alt"\s+content=".*?"\s*\/?>/i,
+        `<meta property="og:image:alt" content="${escapeHtml(opts.ogImageAlt)}" />`
+      );
+    }
+
+    return updated.replace('</head>', `${hreflangTags}\n${schemaScripts}\n</head>`);
   };
 
   if (cleanPath === '/blog' || cleanPath === '/journal') {
-    const pageTitle = 'Atelier Journal & Couture Masterclasses | SARTOR Bespoke Lahore';
-    const pageDesc = 'Explore 60+ technical masterclasses by Master Tailor Abdul Ghaffar on Pakistani bridal lehengas, zardozi, groom sherwanis, remote video fittings, and bespoke tailoring.';
-    const archiveUrl = 'https://sartor.pk/blog';
+    const blogMeta = PRIMARY_ROUTE_SEO['/blog'];
+    const pageTitle = blogMeta.title;
+    const pageDesc = blogMeta.description;
+    const archiveUrl = blogMeta.canonicalUrl;
 
     const collectionSchema = {
       '@context': 'https://schema.org',
@@ -508,14 +626,19 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
         <h1 class="text-3xl font-serif font-bold text-amber-400 mb-4">Atelier Journal &amp; Couture Masterclasses</h1>
         <p class="text-stone-300 mb-8 max-w-3xl">Authored by Master Tailor Abdul Ghaffar at Shop F-9, Moon Tower, Model Town, Lahore. Complete architectural engineering guides for overseas Pakistani brides, grooms, and bespoke formals across the UK, USA, Canada, and UAE.</p>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          ${BLOG_POSTS.map(post => `
+          ${BLOG_POSTS.map((post, idx) => `
             <article class="p-6 rounded-2xl bg-stone-900 border border-stone-800">
               ${post.coverImage ? `
                 <div class="relative aspect-[16/9] mb-4 rounded-xl overflow-hidden bg-stone-950">
-                  <picture>
-                    <source type="image/webp" srcset="${post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')}" />
-                    <img src="${post.coverImage}" alt="${escapeHtml(post.coverImageAlt || post.title)}" class="w-full h-full object-cover" loading="lazy" />
-                  </picture>
+                  ${buildOptimizedSsrImageTag({
+                    src: post.coverImage,
+                    alt: post.coverImageAlt || post.title,
+                    sizes: '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 560px',
+                    width: 1120,
+                    height: 630,
+                    quality: 85,
+                    priority: idx < 2,
+                  })}
                 </div>
               ` : ''}
               <span class="text-xs text-amber-400 uppercase tracking-widest font-mono">${escapeHtml(post.category)}</span>
@@ -533,6 +656,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: pageTitle,
       description: pageDesc,
       url: archiveUrl,
+      ogImage: blogMeta.ogImage,
+      ogImageAlt: blogMeta.ogImageAlt,
       schemas: [collectionSchema],
     }).replace('<div id="root"></div>', `<div id="root">${blogCardsHtml}</div>`);
 
@@ -540,9 +665,10 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
   }
 
   if (cleanPath === '/custom-bridal') {
-    const bridalTitle = 'Custom Bridal Lehengas Lahore | Live Video Measurement Calls & Insured Worldwide Delivery | SARTOR';
-    const bridalDesc = 'Commission bespoke Pakistani custom bridal lehengas with authentic hand-embroidered Zardozi on pure raw silk. 28-point digital measurements, pre-closure baste-fit video checkpoints, 2-inch seam margins, and 10/30/30/30 escrow milestones with 3–5 day DHL Express shipping.';
-    const bridalUrl = 'https://sartor.pk/custom-bridal';
+    const bridalMeta = PRIMARY_ROUTE_SEO['/custom-bridal'];
+    const bridalTitle = bridalMeta.title;
+    const bridalDesc = bridalMeta.description;
+    const bridalUrl = bridalMeta.canonicalUrl;
 
     const bridalFaqs = [
       {
@@ -618,6 +744,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: bridalTitle,
       description: bridalDesc,
       url: bridalUrl,
+      ogImage: bridalMeta.ogImage,
+      ogImageAlt: bridalMeta.ogImageAlt,
       schemas: [bridalServiceSchema, bridalFaqSchema, bridalSpeakable],
     }).replace('<div id="root"></div>', `<div id="root">${bridalSsrHtml}</div>`);
 
@@ -625,9 +753,10 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
   }
 
   if (cleanPath === '/services') {
-    const servicesTitle = 'Tailor Model Town Lahore | Lehenga, Saree & Bespoke Groom Sherwani Tailoring | SARTOR';
-    const servicesDesc = 'Master bespoke tailoring in Model Town, Lahore & online worldwide: bridal lehengas, pre-pleated sarees, 16-kali kalidars, unstitched designer suits, and custom Jamawar groom sherwanis. Guided video fittings, 2-inch seam margins, and 3–5 day DHL Express shipping.';
-    const servicesUrl = 'https://sartor.pk/services';
+    const servicesMeta = PRIMARY_ROUTE_SEO['/services'];
+    const servicesTitle = servicesMeta.title;
+    const servicesDesc = servicesMeta.description;
+    const servicesUrl = servicesMeta.canonicalUrl;
 
     const servicesFaqs = [
       {
@@ -699,6 +828,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: servicesTitle,
       description: servicesDesc,
       url: servicesUrl,
+      ogImage: servicesMeta.ogImage,
+      ogImageAlt: servicesMeta.ogImageAlt,
       schemaTags: [servicesCatalogSchemaTag],
       schemas: [servicesFaqSchema, servicesSpeakable],
     }).replace('<div id="root"></div>', `<div id="root">${servicesSsrHtml}</div>`);
@@ -707,9 +838,10 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
   }
 
   if (cleanPath === '/' || cleanPath === '') {
-    const homeTitle = 'Pakistani Tailor & Bespoke Tailors Lahore | Express USA/UK/UAE Shipping | SARTOR';
-    const homeDesc = 'Master bespoke Pakistani tailor at Model Town, Lahore led by Abdul Ghaffar. Handcrafted bridal lehengas, 16-kali kalidars, sarees, unstitched designer suits & custom groom sherwanis. 28-point digital measurements on app.sartor.pk, 2-inch seam margins & 3–5 day DHL Express shipping.';
-    const homeUrl = 'https://sartor.pk/';
+    const homeMeta = PRIMARY_ROUTE_SEO['/'];
+    const homeTitle = homeMeta.title;
+    const homeDesc = homeMeta.description;
+    const homeUrl = homeMeta.canonicalUrl;
 
     const homeFaqs = getTopHomepageBridalFaqs(8);
     const homeFaqSchema = buildHomepageFaqPageSchema(homeFaqs);
@@ -764,6 +896,8 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       title: homeTitle,
       description: homeDesc,
       url: homeUrl,
+      ogImage: homeMeta.ogImage,
+      ogImageAlt: homeMeta.ogImageAlt,
       schemaTags: [homeFaqSchemaTag, homeReviewSchemaTag],
       schemas: [homeSpeakable],
     }).replace('<div id="root"></div>', `<div id="root">${homeSsrHtml}</div>`);
@@ -771,5 +905,11 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
     return { status: 200, html: transformedHtml };
   }
 
-  return { status: 200, html: baseHtml };
+  const notFoundHtml = baseHtml
+    .replace(/<title>.*?<\/title>/, '<title>Page Not Found | SARTOR Atelier</title>')
+    .replace(
+      /<meta\s+name="(?:robots|googlebot)"\s+content="[^"]*"\s*\/?>\s*/gi,
+      '<meta name="robots" content="noindex, nofollow" />\n'
+    );
+  return { status: 404, html: notFoundHtml };
 }

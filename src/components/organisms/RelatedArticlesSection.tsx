@@ -2,6 +2,8 @@ import React from 'react';
 import { BookOpen, Calendar, Clock, ChevronRight, Sparkles } from 'lucide-react';
 import { BlogPostData } from '../../data/blogPosts';
 import { navigateTo } from '../../utils/navigation';
+import { LazyImage } from '../atoms/LazyImage';
+import { DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
 
 export interface RelatedArticlesSectionProps {
   articles: BlogPostData[];
@@ -46,7 +48,6 @@ export const RelatedArticlesSection: React.FC<RelatedArticlesSectionProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((post) => {
           const coverImg = post.coverImage || '/images/royal-bridal-peshwas-angrakha-flare-zardozi-guide.jpg';
-          const webpImg = coverImg.replace(/\.(jpe?g|png)$/i, '.webp');
 
           return (
             <article
@@ -56,30 +57,15 @@ export const RelatedArticlesSection: React.FC<RelatedArticlesSectionProps> = ({
             >
               {/* Card Image */}
               <div className="relative aspect-[16/10] bg-stone-950 overflow-hidden">
-                <picture>
-                  <source type="image/webp" srcSet={webpImg} />
-                  <img
-                    src={coverImg}
-                    alt={post.coverImageAlt || post.title}
-                    loading="lazy"
-                    decoding="async"
-                    width={480}
-                    height={300}
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      const picture = target.parentElement;
-                      if (picture && picture.tagName.toLowerCase() === 'picture') {
-                        const sources = picture.querySelectorAll('source');
-                        sources.forEach((s) => s.remove());
-                      }
-                      if (target.src !== '/images/royal-bridal-peshwas-angrakha-flare-zardozi-guide.jpg') {
-                        target.src = '/images/royal-bridal-peshwas-angrakha-flare-zardozi-guide.jpg';
-                      }
-                    }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </picture>
+                <LazyImage
+                  src={coverImg}
+                  alt={post.coverImageAlt || post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={80}
+                  fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent pointer-events-none" />
 

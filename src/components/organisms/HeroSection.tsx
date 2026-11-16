@@ -12,6 +12,7 @@ import { PRICING_LIST } from '../../data/sizes';
 import { analytics, buildWhatsAppLink } from '../../services/analytics';
 import { SITE_CONFIG } from '../../config/site';
 import { PricingItem } from '../../types';
+import { LazyImage } from '../atoms/LazyImage';
 
 const easeCurve = [0.22, 1, 0.36, 1] as const;
 
@@ -232,30 +233,15 @@ Please guide me on doorstep fabric pickup in Lahore, sharing measurements, and t
               >
                 <div>
                   <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden bg-stone-950">
-                    <picture>
-                      <source
-                        type="image/webp"
-                        srcSet={`${item.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')} 800w, ${item.imageUrl.replace(/\.(jpe?g|png)$/i, '.webp')} 400w`}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
-                      />
-                      <img
-                        src={item.imageUrl}
-                        alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
-                        loading="lazy"
-                        decoding="async"
-                        width={600}
-                        height={750}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          if (target.src !== '/images/services/simple-suit.webp') {
-                            target.src = '/images/services/simple-suit.webp';
-                          }
-                        }}
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                        referrerPolicy="no-referrer"
-                      />
-                    </picture>
+                    <LazyImage
+                      src={item.imageUrl}
+                      alt={`${item.title} - SARTOR Lahore Bespoke Tailoring`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
+                      quality={85}
+                      fallbackSrc="/images/services/simple-suit.jpg"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/10 to-black/30 pointer-events-none" />
 
                     {item.tag && (
