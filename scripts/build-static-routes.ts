@@ -65,10 +65,9 @@ async function buildStaticRoutes() {
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml);
   console.log('Generated dist/sitemap.xml');
 
-  // Generate rss.xml and feed.xml in dist/
-  const rssXml = generateRssFeedXml();
-  fs.writeFileSync(path.join(distDir, 'rss.xml'), rssXml);
-  fs.writeFileSync(path.join(distDir, 'feed.xml'), rssXml);
+  // Generate rss.xml and feed.xml in dist/ (matches Vercel apex->www redirect)
+  fs.writeFileSync(path.join(distDir, 'rss.xml'), generateRssFeedXml('https://www.sartor.pk/rss.xml'));
+  fs.writeFileSync(path.join(distDir, 'feed.xml'), generateRssFeedXml('https://www.sartor.pk/feed.xml'));
   console.log('Generated dist/rss.xml & dist/feed.xml');
 }
 

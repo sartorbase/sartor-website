@@ -522,12 +522,19 @@ app.get('/sitemap.xml', (_req: Request, res: Response) => {
   res.send(generateSitemapXml());
 });
 
-app.get(['/rss.xml', '/feed.xml'], (_req: Request, res: Response) => {
+app.get(['/rss.xml', '/feed.xml'], (req: Request, res: Response) => {
   try {
-    const rssXml = generateRssFeedXml();
+    const rawProto = (req.headers['x-forwarded-proto'] as string) || req.protocol || 'https';
+    const proto = rawProto.split(',')[0].trim() || 'https';
+    const rawHost = (req.headers['x-forwarded-host'] as string) || req.get('host') || 'sartor.pk';
+    const safeHost = (rawHost.split(',')[0].trim() || 'sartor.pk').replace(/[^a-zA-Z0-9.:-]/g, '');
+    const selfUrl = `${proto === 'http' || proto === 'https' ? proto : 'https'}://${safeHost}${req.path}`;
+
+    const rssXml = generateRssFeedXml(selfUrl);
     res.status(200).set({
       'Content-Type': 'application/xml; charset=utf-8',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+      'Vary': 'Host, X-Forwarded-Host, X-Forwarded-Proto',
       'X-Content-Type-Options': 'nosniff',
     }).send(rssXml);
   } catch (err) {

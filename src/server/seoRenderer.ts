@@ -127,6 +127,7 @@ ${xmlEntries}
 
 function escapeXml(value: string): string {
   return value
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -134,23 +135,28 @@ function escapeXml(value: string): string {
     .replace(/'/g, '&apos;');
 }
 
+function toSafeCdata(value: string): string {
+  const sanitized = value.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '').trim();
+  return `<![CDATA[${sanitized.replace(/\]\]>/g, ']]]]><![CDATA[>')}]]>`;
+}
+
 function toRssTimestamp(dateStr: string): number {
   const parsed = Date.parse(dateStr);
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-export function generateRssFeedXml(): string {
+export function generateRssFeedXml(selfUrl = 'https://sartor.pk/rss.xml'): string {
   const siteUrl = 'https://sartor.pk';
   const channelTitle = 'SARTOR Lahore Atelier & Fashion-Tech Journal';
   const channelDescription =
     'Bespoke Pakistani bridal couture, wooden adda Zardozi handwork masterclasses, 28-point biometric sizing guides, and diaspora tailoring logistics from Master Tailor Abdul Ghaffar in Model Town, Lahore.';
+  const authorEmailFormat = 'contact@sartor.pk (Abdul Ghaffar, Master Tailor)';
 
   interface RssEntry {
     title: string;
     slug: string;
     description: string;
     date: string;
-    author?: string;
     category?: string;
   }
 
@@ -200,7 +206,6 @@ export function generateRssFeedXml(): string {
             slug,
             description,
             date,
-            author: typeof data.author === 'string' ? data.author.trim() : undefined,
             category: typeof data.category === 'string' ? data.category.trim() : undefined,
           });
         } catch {
@@ -219,7 +224,6 @@ export function generateRssFeedXml(): string {
       slug: post.slug,
       description: post.excerpt || post.title,
       date: post.date,
-      author: post.author,
       category: post.category,
     });
   }
@@ -240,15 +244,15 @@ export function generateRssFeedXml(): string {
       const pubTs = toRssTimestamp(post.date);
       const pubDate = (pubTs > 0 ? new Date(pubTs) : new Date()).toUTCString();
       const categoryNode = post.category
-        ? `\n      <category>${escapeXml(post.category)}</category>`
+        ? `\n      <category>${toSafeCdata(post.category)}</category>`
         : '';
       return `    <item>
-      <title>${escapeXml(post.title)}</title>
+      <title>${toSafeCdata(post.title)}</title>
       <link>${escapeXml(link)}</link>
-      <description>${escapeXml(post.description)}</description>
+      <description>${toSafeCdata(post.description)}</description>
       <pubDate>${escapeXml(pubDate)}</pubDate>
       <guid isPermaLink="true">${escapeXml(link)}</guid>
-      <author>contact@sartor.pk (${escapeXml(post.author || 'Abdul Ghaffar, Master Tailor')})</author>${categoryNode}
+      <author>${escapeXml(authorEmailFormat)}</author>${categoryNode}
     </item>`;
     })
     .join('\n');
@@ -256,13 +260,13 @@ export function generateRssFeedXml(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(channelTitle)}</title>
+    <title>${toSafeCdata(channelTitle)}</title>
     <link>${siteUrl}</link>
-    <description>${escapeXml(channelDescription)}</description>
+    <description>${toSafeCdata(channelDescription)}</description>
     <language>en</language>
     <lastBuildDate>${escapeXml(lastBuildDate)}</lastBuildDate>
     <ttl>60</ttl>
-    <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="${escapeXml(selfUrl)}" rel="self" type="application/rss+xml" />
 ${itemsXml}
   </channel>
 </rss>`;
