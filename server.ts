@@ -528,9 +528,9 @@ app.get(['/rss.xml', '/feed.xml'], (req: Request, res: Response) => {
     const proto = rawProto.split(',')[0].trim() || 'https';
     const rawHost = (req.headers['x-forwarded-host'] as string) || req.get('host') || 'sartor.pk';
     const safeHost = (rawHost.split(',')[0].trim() || 'sartor.pk').replace(/[^a-zA-Z0-9.:-]/g, '');
-    const selfUrl = `${proto === 'http' || proto === 'https' ? proto : 'https'}://${safeHost}${req.path}`;
+    const baseUrl = `${proto === 'http' || proto === 'https' ? proto : 'https'}://${safeHost}`;
 
-    const rssXml = generateRssFeedXml(selfUrl);
+    const rssXml = generateRssFeedXml(baseUrl, req.path);
     res.status(200).set({
       'Content-Type': 'application/xml; charset=utf-8',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',

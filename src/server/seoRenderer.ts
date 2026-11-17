@@ -145,8 +145,28 @@ function toRssTimestamp(dateStr: string): number {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-export function generateRssFeedXml(selfUrl = 'https://sartor.pk/rss.xml'): string {
-  const siteUrl = 'https://sartor.pk';
+export function generateRssFeedXml(
+  baseUrl: string = 'https://sartor.pk',
+  feedPath: string = '/rss.xml'
+): string {
+  const cleanedInput = (baseUrl || 'https://sartor.pk').trim().replace(/\/+$/, '');
+  let siteUrl = cleanedInput;
+  let selfUrl: string;
+
+  if (/\.xml$/i.test(cleanedInput)) {
+    try {
+      const parsed = new URL(cleanedInput);
+      siteUrl = `${parsed.protocol}//${parsed.host}`;
+      selfUrl = parsed.toString();
+    } catch {
+      siteUrl = 'https://sartor.pk';
+      selfUrl = `${siteUrl}/rss.xml`;
+    }
+  } else {
+    const normalizedPath = feedPath.startsWith('/') ? feedPath : `/${feedPath}`;
+    selfUrl = `${siteUrl}${normalizedPath}`;
+  }
+
   const channelTitle = 'SARTOR Lahore Atelier & Fashion-Tech Journal';
   const channelDescription =
     'Bespoke Pakistani bridal couture, wooden adda Zardozi handwork masterclasses, 28-point biometric sizing guides, and diaspora tailoring logistics from Master Tailor Abdul Ghaffar in Model Town, Lahore.';
@@ -261,7 +281,7 @@ export function generateRssFeedXml(selfUrl = 'https://sartor.pk/rss.xml'): strin
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${toSafeCdata(channelTitle)}</title>
-    <link>${siteUrl}</link>
+    <link>${escapeXml(siteUrl)}</link>
     <description>${toSafeCdata(channelDescription)}</description>
     <language>en</language>
     <lastBuildDate>${escapeXml(lastBuildDate)}</lastBuildDate>
