@@ -70,6 +70,14 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://www.sartor.pk',
+    types: {
+      'application/rss+xml': [
+        {
+          url: 'https://sartor.pk/rss.xml',
+          title: 'SARTOR Lahore Atelier & Fashion-Tech Journal',
+        },
+      ],
+    },
   },
   openGraph: {
     title: "SARTOR Bespoke Women's Tailoring & Luxury Couture Lahore",

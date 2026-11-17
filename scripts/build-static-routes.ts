@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { BLOG_POSTS } from '../src/data/blogPosts';
-import { injectSeoIntoHtml, generateSitemapXml } from '../src/server/seoRenderer';
+import { injectSeoIntoHtml, generateSitemapXml, generateRssFeedXml } from '../src/server/seoRenderer';
 
 async function buildStaticRoutes() {
   const distDir = path.resolve(process.cwd(), 'dist');
@@ -64,6 +64,12 @@ async function buildStaticRoutes() {
   const sitemapXml = generateSitemapXml();
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml);
   console.log('Generated dist/sitemap.xml');
+
+  // Generate rss.xml and feed.xml in dist/
+  const rssXml = generateRssFeedXml();
+  fs.writeFileSync(path.join(distDir, 'rss.xml'), rssXml);
+  fs.writeFileSync(path.join(distDir, 'feed.xml'), rssXml);
+  console.log('Generated dist/rss.xml & dist/feed.xml');
 }
 
 buildStaticRoutes().catch((err) => {

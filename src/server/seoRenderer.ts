@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../data/blogPosts';
 import {
   buildLocationAndDiasporaGraph,
@@ -120,6 +123,149 @@ export function generateSitemapXml(): string {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${xmlEntries}
 </urlset>`;
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function toRssTimestamp(dateStr: string): number {
+  const parsed = Date.parse(dateStr);
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+export function generateRssFeedXml(): string {
+  const siteUrl = 'https://sartor.pk';
+  const channelTitle = 'SARTOR Lahore Atelier & Fashion-Tech Journal';
+  const channelDescription =
+    'Bespoke Pakistani bridal couture, wooden adda Zardozi handwork masterclasses, 28-point biometric sizing guides, and diaspora tailoring logistics from Master Tailor Abdul Ghaffar in Model Town, Lahore.';
+
+  interface RssEntry {
+    title: string;
+    slug: string;
+    description: string;
+    date: string;
+    author?: string;
+    category?: string;
+  }
+
+  const postsBySlug = new Map<string, RssEntry>();
+  const cwd = process.cwd();
+  const candidateDirs = [
+    path.join(cwd, 'src', 'content', 'blog'),
+    path.join(cwd, 'content', 'posts'),
+  ];
+
+  for (const dir of candidateDirs) {
+    try {
+      if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) continue;
+      const files = fs.readdirSync(dir).filter((f) => /\.(mdx|md)$/i.test(f));
+      for (const file of files) {
+        try {
+          const raw = fs.readFileSync(path.join(dir, file), 'utf8');
+          const { data } = matter(raw);
+          if (data.draft === true || data.published === false) continue;
+
+          const fileSlug = file.replace(/\.(mdx|md)$/i, '').trim();
+          const slug =
+            typeof data.slug === 'string' && data.slug.trim().length > 0
+              ? data.slug.trim()
+              : fileSlug;
+          if (!slug || postsBySlug.has(slug)) continue;
+
+          const title =
+            typeof data.title === 'string' && data.title.trim().length > 0
+              ? data.title.trim()
+              : slug;
+          const description =
+            typeof data.description === 'string' && data.description.trim().length > 0
+              ? data.description.trim()
+              : typeof data.excerpt === 'string' && data.excerpt.trim().length > 0
+                ? data.excerpt.trim()
+                : title;
+          const date =
+            data.date instanceof Date
+              ? data.date.toISOString()
+              : typeof data.date === 'string' && data.date.trim().length > 0
+                ? data.date.trim()
+                : new Date().toISOString();
+
+          postsBySlug.set(slug, {
+            title,
+            slug,
+            description,
+            date,
+            author: typeof data.author === 'string' ? data.author.trim() : undefined,
+            category: typeof data.category === 'string' ? data.category.trim() : undefined,
+          });
+        } catch {
+          // Skip malformed frontmatter file safely
+        }
+      }
+    } catch {
+      // Directory unreadable; fallback continues safely
+    }
+  }
+
+  for (const post of BLOG_POSTS) {
+    if (!post.slug || postsBySlug.has(post.slug)) continue;
+    postsBySlug.set(post.slug, {
+      title: post.title,
+      slug: post.slug,
+      description: post.excerpt || post.title,
+      date: post.date,
+      author: post.author,
+      category: post.category,
+    });
+  }
+
+  const sortedPosts = Array.from(postsBySlug.values()).sort(
+    (a, b) => toRssTimestamp(b.date) - toRssTimestamp(a.date)
+  );
+
+  const lastBuildDate = (
+    sortedPosts.length > 0 && toRssTimestamp(sortedPosts[0].date) > 0
+      ? new Date(toRssTimestamp(sortedPosts[0].date))
+      : new Date()
+  ).toUTCString();
+
+  const itemsXml = sortedPosts
+    .map((post) => {
+      const link = `${siteUrl}/blog/${encodeURIComponent(post.slug)}`;
+      const pubTs = toRssTimestamp(post.date);
+      const pubDate = (pubTs > 0 ? new Date(pubTs) : new Date()).toUTCString();
+      const categoryNode = post.category
+        ? `\n      <category>${escapeXml(post.category)}</category>`
+        : '';
+      return `    <item>
+      <title>${escapeXml(post.title)}</title>
+      <link>${escapeXml(link)}</link>
+      <description>${escapeXml(post.description)}</description>
+      <pubDate>${escapeXml(pubDate)}</pubDate>
+      <guid isPermaLink="true">${escapeXml(link)}</guid>
+      <author>contact@sartor.pk (${escapeXml(post.author || 'Abdul Ghaffar, Master Tailor')})</author>${categoryNode}
+    </item>`;
+    })
+    .join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${escapeXml(channelTitle)}</title>
+    <link>${siteUrl}</link>
+    <description>${escapeXml(channelDescription)}</description>
+    <language>en</language>
+    <lastBuildDate>${escapeXml(lastBuildDate)}</lastBuildDate>
+    <ttl>60</ttl>
+    <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />
+${itemsXml}
+  </channel>
+</rss>`;
 }
 
 function formatInline(text: string): string {

@@ -7,7 +7,7 @@ import compression from 'compression';
 import sharp from 'sharp';
 import { GoogleGenAI } from '@google/genai';
 import { ATELIER_SYSTEM_INSTRUCTION } from './src/constants/atelierPrompt';
-import { injectSeoIntoHtml, generateSitemapXml } from './src/server/seoRenderer';
+import { injectSeoIntoHtml, generateSitemapXml, generateRssFeedXml } from './src/server/seoRenderer';
 
 dotenv.config();
 
@@ -515,10 +515,27 @@ app.post('/api/comments/:id/moderate', (req: Request, res: Response) => {
   }
 });
 
-// 2. Sitemap
+// 2. Sitemap & RSS Feed
 app.get('/sitemap.xml', (_req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'application/xml');
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400');
   res.send(generateSitemapXml());
+});
+
+app.get(['/rss.xml', '/feed.xml'], (_req: Request, res: Response) => {
+  try {
+    const rssXml = generateRssFeedXml();
+    res.status(200).set({
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+      'X-Content-Type-Options': 'nosniff',
+    }).send(rssXml);
+  } catch (err) {
+    console.error('Error generating RSS feed:', err);
+    res.status(500).set('Content-Type', 'application/xml; charset=utf-8').send(
+      '<?xml version="1.0" encoding="UTF-8"?><error>Failed to generate RSS feed</error>'
+    );
+  }
 });
 
 // 2b. Machine-Readable Knowledge Base for LLMs & AI Agents
