@@ -23,6 +23,7 @@ import {
   getLahoreReviewSummary,
   LAHORE_REVIEW_SCHEMA_ID,
 } from '../seo/reviewSchema';
+import { DEFAULT_BRIDAL_FALLBACK_IMAGE, sanitizeImageSrc } from '../utils/imagePlaceholder';
 
 function escapeHtml(str: string): string {
   return str
@@ -35,21 +36,24 @@ function escapeHtml(str: string): string {
 
 const SSR_IMAGE_WIDTHS = [640, 1080, 1400] as const;
 
-function buildOptimizedSsrImageUrl(rawSrc: string, width: number, quality = 85): string {
-  const normalized = rawSrc.trim();
-  if (!normalized || normalized.startsWith('data:') || normalized.startsWith('blob:')) {
-    return normalized;
+function buildOptimizedSsrImageUrl(rawSrc: string, width: number, _quality = 85): string {
+  const sanitized = sanitizeImageSrc(rawSrc, DEFAULT_BRIDAL_FALLBACK_IMAGE);
+  if (!sanitized || sanitized.startsWith('data:') || sanitized.startsWith('blob:')) {
+    return sanitized;
   }
-  const cleanPath = normalized.split('?')[0].split('#')[0];
+  if (/^https?:\/\//i.test(sanitized)) {
+    return sanitized;
+  }
+  const cleanPath = sanitized.split('?')[0].split('#')[0];
   if (cleanPath.startsWith('/images/') && /\.(jpe?g|png|webp)$/i.test(cleanPath)) {
     const baseNoExt = cleanPath
       .replace(/-(?:640|1080)w\.webp$/i, '')
       .replace(/\.(jpe?g|png|webp)$/i, '');
-    if (width <= 640) return `${baseNoExt}-640w.webp?w=${width}&q=${quality}`;
-    if (width <= 1080) return `${baseNoExt}-1080w.webp?w=${width}&q=${quality}`;
-    return `${baseNoExt}.webp?w=${width}&q=${quality}`;
+    if (width <= 640) return `${baseNoExt}-640w.webp`;
+    if (width <= 1080) return `${baseNoExt}-1080w.webp`;
+    return `${baseNoExt}.webp`;
   }
-  return `${cleanPath}?w=${width}&q=${quality}`;
+  return cleanPath;
 }
 
 function buildOptimizedSsrImageTag(opts: {
@@ -665,10 +669,18 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       transformedHtml = transformedHtml.replace('</head>', `${faqJsonLd}\n</head>`);
     }
 
-    if (post.coverImage && !post.content.includes(post.coverImage)) {
-      const preloadHref = buildOptimizedSsrImageUrl(post.coverImage, 1200, 90);
+    const safeHeroCover = post.coverImage
+      ? sanitizeImageSrc(post.coverImage, DEFAULT_BRIDAL_FALLBACK_IMAGE)
+      : '';
+    const heroNotEmbeddedInBody =
+      Boolean(safeHeroCover) &&
+      !post.content.includes(post.coverImage || '') &&
+      !post.content.includes(safeHeroCover);
+
+    if (heroNotEmbeddedInBody) {
+      const preloadHref = buildOptimizedSsrImageUrl(safeHeroCover, 1200, 90);
       const preloadSrcSet = SSR_IMAGE_WIDTHS.map(
-        (w) => `${buildOptimizedSsrImageUrl(post.coverImage!, w, 90)} ${w}w`
+        (w) => `${buildOptimizedSsrImageUrl(safeHeroCover, w, 90)} ${w}w`
       ).join(', ');
       transformedHtml = transformedHtml.replace(
         '</head>',
@@ -676,10 +688,10 @@ export function injectSeoIntoHtml(baseHtml: string, pathname: string): { status:
       );
     }
 
-    const heroImageHtml = post.coverImage && !post.content.includes(post.coverImage)
+    const heroImageHtml = heroNotEmbeddedInBody
       ? `<div class="mb-10 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 aspect-[16/9]">
           ${buildOptimizedSsrImageTag({
-            src: post.coverImage,
+            src: safeHeroCover,
             alt: post.coverImageAlt || post.title,
             sizes: '(max-width: 768px) 100vw, 896px',
             width: 1200,

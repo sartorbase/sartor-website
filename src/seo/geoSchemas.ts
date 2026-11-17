@@ -1,3 +1,5 @@
+import { sanitizeImageSrc } from '../utils/imagePlaceholder';
+
 export interface DiasporaRegionSpec {
   id: string;
   countryName: string;
@@ -33,8 +35,9 @@ export function stripMarkdownForPlainText(input: string): string {
 
 export function toAbsoluteSiteUrl(urlOrPath?: string, fallback = 'https://sartor.pk/images/how-to-choose-a-good-tailor-in-lahore.jpg'): string {
   if (!urlOrPath) return fallback;
-  if (/^https?:\/\//i.test(urlOrPath)) return urlOrPath;
-  return `https://sartor.pk${urlOrPath.startsWith('/') ? urlOrPath : `/${urlOrPath}`}`;
+  const sanitized = sanitizeImageSrc(urlOrPath, fallback);
+  if (/^https?:\/\//i.test(sanitized)) return sanitized;
+  return `https://sartor.pk${sanitized.startsWith('/') ? sanitized : `/${sanitized}`}`;
 }
 
 export interface PrimaryRouteSeoMeta {

@@ -10,10 +10,15 @@ import {
   Sparkles,
   Eye,
   Loader2,
+  ImageOff,
 } from 'lucide-react';
 import Image from '../../utils/nextImage';
 import { downloadImageWithSartorWatermark } from '../../utils/watermark';
-import { SHIMMER_BLUR_DATA_URL, DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
+import {
+  SHIMMER_BLUR_DATA_URL,
+  DEFAULT_BRIDAL_FALLBACK_IMAGE,
+  sanitizeImageSrc,
+} from '../../utils/imagePlaceholder';
 import { ImageSkeleton } from '../atoms/ImageSkeleton';
 
 export interface ArticleHeroImageViewerProps {
@@ -24,18 +29,78 @@ export interface ArticleHeroImageViewerProps {
   category?: string;
   readingTime?: string;
   author?: string;
+  fallbackSrc?: string;
   className?: string;
   aspectRatio?: string;
 }
 
-export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
+interface HeroImageErrorBoundaryProps {
+  resetKey: string;
+  fallbackTitle: string;
+  aspectRatio: string;
+  className: string;
+  children: React.ReactNode;
+}
+
+interface HeroImageErrorBoundaryState {
+  hasError: boolean;
+}
+
+class HeroImageErrorBoundary extends React.Component<
+  HeroImageErrorBoundaryProps,
+  HeroImageErrorBoundaryState
+> {
+  constructor(props: HeroImageErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): HeroImageErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidUpdate(prevProps: HeroImageErrorBoundaryProps) {
+    if (this.state.hasError && prevProps.resetKey !== this.props.resetKey) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error('ArticleHeroImageViewer caught render error:', error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div
+          className={`relative mb-12 rounded-2xl overflow-hidden border border-stone-800 bg-stone-900/95 shadow-2xl ${this.props.aspectRatio} flex flex-col items-center justify-center p-6 text-center ${this.props.className}`}
+        >
+          <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-3">
+            <ImageOff className="w-5 h-5" />
+          </div>
+          <p className="font-serif text-base sm:text-lg font-semibold text-stone-200 max-w-md">
+            {this.props.fallbackTitle}
+          </p>
+          <p className="mt-1 text-xs text-stone-400">
+            SARTOR Bespoke Atelier Visual Preview Unavailable
+          </p>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+const ArticleHeroImageViewerInner: React.FC<ArticleHeroImageViewerProps> = ({
   src,
   alt,
   title,
   slug = 'couture-guide',
   category,
-  readingTime,
+  readingTime: _readingTime,
   author = 'Abdul Ghaffar, Master Tailor',
+  fallbackSrc = DEFAULT_BRIDAL_FALLBACK_IMAGE,
   className = '',
   aspectRatio = 'aspect-[16/9]',
 }) => {
@@ -46,19 +111,28 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [downloadError, setDownloadError] = useState(false);
+
+  const safeFallbackSrc = sanitizeImageSrc(fallbackSrc, DEFAULT_BRIDAL_FALLBACK_IMAGE);
+  const sanitizedPropSrc = sanitizeImageSrc(src, safeFallbackSrc);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const heroImgRef = useRef<HTMLImageElement | null>(null);
   const modalImgRef = useRef<HTMLImageElement | null>(null);
-  const [imgSrc, setImgSrc] = useState(src || DEFAULT_BRIDAL_FALLBACK_IMAGE);
+  const [imgSrc, setImgSrc] = useState(sanitizedPropSrc);
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
+  const [isHeroDegraded, setIsHeroDegraded] = useState(false);
   const [isModalLoaded, setIsModalLoaded] = useState(false);
+  const [isModalDegraded, setIsModalDegraded] = useState(false);
 
   useEffect(() => {
-    setImgSrc(src || DEFAULT_BRIDAL_FALLBACK_IMAGE);
+    setImgSrc(sanitizedPropSrc);
     setIsHeroLoaded(false);
+    setIsHeroDegraded(false);
     setIsModalLoaded(false);
-  }, [src]);
+    setIsModalDegraded(false);
+    setDownloadError(false);
+  }, [sanitizedPropSrc]);
 
   useLayoutEffect(() => {
     if (heroImgRef.current && heroImgRef.current.complete && heroImgRef.current.naturalWidth > 0) {
@@ -175,11 +249,12 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
 
   const handleDownload = async (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (isDownloading) return;
+    if (isDownloading || isHeroDegraded) return;
 
     try {
       setIsDownloading(true);
-      await downloadImageWithSartorWatermark(src, {
+      setDownloadError(false);
+      await downloadImageWithSartorWatermark(imgSrc, {
         title,
         slug,
         designer: author,
@@ -189,6 +264,8 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
       setTimeout(() => setDownloadSuccess(false), 3000);
     } catch (err) {
       console.error('Failed to download watermarked image:', err);
+      setDownloadError(true);
+      setTimeout(() => setDownloadError(false), 3000);
     } finally {
       setIsDownloading(false);
     }
@@ -198,32 +275,52 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
     <>
       {/* Inline Article Hero Image Container */}
       <div
-        className={`group relative mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 ${aspectRatio} cursor-zoom-in select-none ${className}`}
-        onClick={() => setIsOpen(true)}
+        className={`group relative mb-12 rounded-2xl overflow-hidden border border-stone-800 shadow-2xl bg-stone-900 ${aspectRatio} ${
+          isHeroDegraded ? 'cursor-default' : 'cursor-zoom-in'
+        } select-none ${className}`}
+        onClick={() => {
+          if (!isHeroDegraded) setIsOpen(true);
+        }}
       >
         <ImageSkeleton variant="hero" isLoaded={isHeroLoaded} className="z-[1]" />
 
-        <Image
-          ref={heroImgRef}
-          src={imgSrc}
-          alt={alt || title}
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 896px"
-          quality={90}
-          placeholder="blur"
-          blurDataURL={SHIMMER_BLUR_DATA_URL}
-          referrerPolicy="no-referrer"
-          onLoad={() => setIsHeroLoaded(true)}
-          onError={() => {
-            if (imgSrc !== DEFAULT_BRIDAL_FALLBACK_IMAGE) {
-              setImgSrc(DEFAULT_BRIDAL_FALLBACK_IMAGE);
-            } else {
-              setIsHeroLoaded(true);
-            }
-          }}
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        {isHeroDegraded ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/20">
+            <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-3">
+              <ImageOff className="w-5 h-5" />
+            </div>
+            <p className="font-serif text-base sm:text-lg font-semibold text-stone-200 max-w-lg">
+              {alt || title}
+            </p>
+            <p className="mt-1 text-xs text-stone-400">
+              Editorial photography temporarily unavailable
+            </p>
+          </div>
+        ) : (
+          <Image
+            ref={heroImgRef}
+            src={imgSrc}
+            alt={alt || title}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 896px"
+            quality={90}
+            placeholder="blur"
+            blurDataURL={SHIMMER_BLUR_DATA_URL}
+            referrerPolicy="no-referrer"
+            onLoad={() => setIsHeroLoaded(true)}
+            onError={() => {
+              if (imgSrc !== safeFallbackSrc) {
+                setImgSrc(safeFallbackSrc);
+                setIsHeroLoaded(false);
+              } else {
+                setIsHeroDegraded(true);
+                setIsHeroLoaded(true);
+              }
+            }}
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        )}
 
         {/* Ambient Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-stone-950/40 pointer-events-none" />
@@ -239,30 +336,34 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
           {/* Action Pills */}
           <div className="flex items-center gap-2">
             {/* Download with Watermark button */}
-            <button
-              type="button"
-              onClick={handleDownload}
-              title="Download High-Res with SARTOR Watermark"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-950/85 hover:bg-amber-500 hover:text-stone-950 text-stone-200 border border-stone-700/80 hover:border-amber-400 text-xs font-semibold backdrop-blur-md transition-all shadow-xl cursor-pointer"
-            >
-              {isDownloading ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span className="hidden sm:inline">Watermarking...</span>
-                </>
-              ) : downloadSuccess ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400 font-bold">Saved!</span>
-                </>
-              ) : (
-                <>
-                  <Download className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Save with Sartor Watermark</span>
-                  <span className="sm:hidden">Save</span>
-                </>
-              )}
-            </button>
+            {!isHeroDegraded && (
+              <button
+                type="button"
+                onClick={handleDownload}
+                title="Download High-Res with SARTOR Watermark"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-950/85 hover:bg-amber-500 hover:text-stone-950 text-stone-200 border border-stone-700/80 hover:border-amber-400 text-xs font-semibold backdrop-blur-md transition-all shadow-xl cursor-pointer"
+              >
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span className="hidden sm:inline">Watermarking...</span>
+                  </>
+                ) : downloadSuccess ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-emerald-400 font-bold">Saved!</span>
+                  </>
+                ) : downloadError ? (
+                  <span className="text-amber-300 font-medium">Unavailable</span>
+                ) : (
+                  <>
+                    <Download className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Save with Sartor Watermark</span>
+                    <span className="sm:hidden">Save</span>
+                  </>
+                )}
+              </button>
+            )}
 
             {/* Inspect / Fullscreen Button */}
             <button
@@ -415,21 +516,43 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
             >
               <div className="relative rounded-xl overflow-hidden bg-stone-900 border border-stone-800/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)]">
                 <ImageSkeleton variant="hero" isLoaded={isModalLoaded} className="z-[1]" />
-                <Image
-                  ref={modalImgRef}
-                  src={imgSrc}
-                  alt={alt || title}
-                  width={1400}
-                  height={788}
-                  priority
-                  sizes="(max-width: 768px) 95vw, 1280px"
-                  quality={90}
-                  referrerPolicy="no-referrer"
-                  draggable={false}
-                  onLoad={() => setIsModalLoaded(true)}
-                  onError={() => setIsModalLoaded(true)}
-                  className="max-h-[80vh] max-w-[95vw] w-auto h-auto object-contain pointer-events-auto"
-                />
+                {isModalDegraded ? (
+                  <div className="w-[min(88vw,780px)] aspect-[16/9] flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/20">
+                    <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-4">
+                      <ImageOff className="w-6 h-6" />
+                    </div>
+                    <p className="font-serif text-lg sm:text-xl font-semibold text-stone-100 max-w-lg">
+                      {alt || title}
+                    </p>
+                    <p className="mt-2 text-xs sm:text-sm text-stone-400 max-w-md">
+                      High-resolution image preview could not be loaded. Use Esc or Close to return to the article.
+                    </p>
+                  </div>
+                ) : (
+                  <Image
+                    ref={modalImgRef}
+                    src={imgSrc}
+                    alt={alt || title}
+                    width={1400}
+                    height={788}
+                    priority
+                    sizes="(max-width: 768px) 95vw, 1280px"
+                    quality={90}
+                    referrerPolicy="no-referrer"
+                    draggable={false}
+                    onLoad={() => setIsModalLoaded(true)}
+                    onError={() => {
+                      if (imgSrc !== safeFallbackSrc) {
+                        setImgSrc(safeFallbackSrc);
+                        setIsModalLoaded(false);
+                      } else {
+                        setIsModalDegraded(true);
+                        setIsModalLoaded(true);
+                      }
+                    }}
+                    className="max-h-[80vh] max-w-[95vw] w-auto h-auto object-contain pointer-events-auto"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -452,6 +575,23 @@ export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = ({
         </div>
       )}
     </>
+  );
+};
+
+export const ArticleHeroImageViewer: React.FC<ArticleHeroImageViewerProps> = (props) => {
+  const safeResetKey = sanitizeImageSrc(
+    props.src,
+    sanitizeImageSrc(props.fallbackSrc, DEFAULT_BRIDAL_FALLBACK_IMAGE)
+  );
+  return (
+    <HeroImageErrorBoundary
+      resetKey={safeResetKey}
+      fallbackTitle={props.alt || props.title}
+      aspectRatio={props.aspectRatio || 'aspect-[16/9]'}
+      className={props.className || ''}
+    >
+      <ArticleHeroImageViewerInner {...props} />
+    </HeroImageErrorBoundary>
   );
 };
 

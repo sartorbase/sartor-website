@@ -3,7 +3,7 @@ import { BookOpen, Calendar, Clock, ChevronRight, Sparkles } from 'lucide-react'
 import { BlogPostData } from '../../data/blogPosts';
 import { navigateTo } from '../../utils/navigation';
 import { LazyImage } from '../atoms/LazyImage';
-import { DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
+import { DEFAULT_BRIDAL_FALLBACK_IMAGE, sanitizeImageSrc } from '../../utils/imagePlaceholder';
 
 export interface RelatedArticlesSectionProps {
   articles: BlogPostData[];
@@ -47,7 +47,10 @@ export const RelatedArticlesSection: React.FC<RelatedArticlesSectionProps> = ({
       {/* 3-Card Responsive Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((post) => {
-          const coverImg = post.coverImage || '/images/royal-bridal-peshwas-angrakha-flare-zardozi-guide.jpg';
+          const coverImg = sanitizeImageSrc(
+            post.coverImage,
+            DEFAULT_BRIDAL_FALLBACK_IMAGE
+          );
 
           return (
             <article

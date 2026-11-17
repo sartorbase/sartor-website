@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { sanitizeImageSrc } from '../src/utils/imagePlaceholder';
 
 export interface FAQItem {
   question: string;
@@ -74,11 +75,11 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     author: (data.author as string) || 'Sartor Master Atelier',
     slug: (data.slug as string) || decodedSlug,
     tags: Array.isArray(data.tags) ? (data.tags as string[]) : [],
-    coverImage: (data.coverImage as string) || undefined,
+    coverImage: data.coverImage ? sanitizeImageSrc(String(data.coverImage)) : undefined,
     category: (data.category as string) || 'Bespoke Tailoring',
     readingTime: (data.readingTime as string) || estimateReadingTime(content),
     faqs: Array.isArray(data.faqs) ? (data.faqs as FAQItem[]) : undefined,
-    imageWebp: (data.imageWebp as string) || undefined,
+    imageWebp: data.imageWebp ? sanitizeImageSrc(String(data.imageWebp)) : undefined,
   };
 
   return {

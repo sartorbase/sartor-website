@@ -8,12 +8,16 @@ import rehypeSlug from 'rehype-slug';
 import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from '../../../lib/mdx';
 import { WhatsAppButton } from '../../../components/WhatsAppButton';
 import { MeasurementLeadMagnet } from '../../../components/MeasurementLeadMagnet';
-import { HeroImage } from '../../../components/HeroImage';
 import { ArticleScrollProgress } from '../../../components/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../../../components/RelatedArticlesSection';
 import { ArticleHeroImageViewer } from '../../../components/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../../../components/BlogCommentsSection';
 import type { BlogPostData } from '../../../src/data/blogPosts';
+import {
+  DEFAULT_BRIDAL_FALLBACK_IMAGE,
+  sanitizeImageSrc,
+  toCanonicalSartorImageUrl,
+} from '../../../src/utils/imagePlaceholder';
 
 interface PageProps {
   params: Promise<{ slug: string }> | { slug: string };
@@ -48,35 +52,43 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const { title, excerpt, date, author, coverImage, tags } = post.frontmatter;
+  const canonicalUrl = `https://www.sartor.pk/blog/${slug}`;
+  const canonicalCoverImage = toCanonicalSartorImageUrl(
+    coverImage,
+    'https://www.sartor.pk',
+    DEFAULT_BRIDAL_FALLBACK_IMAGE
+  );
 
   return {
     title: `${title} | SARTOR Atelier Journal`,
     description: excerpt,
     authors: [{ name: author }],
     keywords: tags,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${title} | SARTOR Atelier`,
       description: excerpt,
       type: 'article',
+      url: canonicalUrl,
       publishedTime: date,
       authors: [author],
       tags: tags,
-      images: coverImage
-        ? [
-            {
-              url: coverImage,
-              width: 1200,
-              height: 630,
-              alt: title,
-            },
-          ]
-        : undefined,
+      images: [
+        {
+          url: canonicalCoverImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: title,
       description: excerpt,
-      images: coverImage ? [coverImage] : undefined,
+      images: [canonicalCoverImage],
     },
     robots: {
       index: true,
@@ -95,12 +107,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  * Custom MDX Component mapping
  */
 const mdxComponents = {
-  // Enhanced responsive images with inspection viewer & watermark download
+  // Enhanced responsive images with inspection viewer, path sanitization & error boundary fallback
   img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
-    if (!props.src) return null;
+    if (typeof props.src !== 'string' || !props.src.trim()) return null;
+    const safeSrc = sanitizeImageSrc(props.src, DEFAULT_BRIDAL_FALLBACK_IMAGE);
     return (
       <ArticleHeroImageViewer
-        src={props.src}
+        src={safeSrc}
+        fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
         alt={props.alt || 'Sartor Atelier Visual Proof'}
         title={props.alt || 'Sartor Couture Design Inspiration'}
         className="my-8"
@@ -134,6 +148,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const { title, excerpt, date, author, coverImage, tags, category, readingTime, faqs } =
     post.frontmatter;
+  const safeCoverImage = coverImage
+    ? sanitizeImageSrc(coverImage, DEFAULT_BRIDAL_FALLBACK_IMAGE)
+    : undefined;
 
   const rawRelatedPosts = await getRelatedPosts(slug, 3);
   const relatedArticles: BlogPostData[] = rawRelatedPosts.map((p) => ({
@@ -143,7 +160,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     date: p.frontmatter.date,
     author: p.frontmatter.author,
     tags: p.frontmatter.tags || [],
-    coverImage: p.frontmatter.coverImage,
+    coverImage: sanitizeImageSrc(p.frontmatter.coverImage, DEFAULT_BRIDAL_FALLBACK_IMAGE),
     category: p.frontmatter.category || 'Atelier Masterclass',
     readingTime: p.frontmatter.readingTime || '10 min read',
     content: p.content,
@@ -266,11 +283,12 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Main Cover Image (Hero - with Interactive Fullscreen Viewer & Watermarked Download) */}
-      {coverImage && (
+      {/* Main Cover Image (Hero - with Interactive Fullscreen Viewer, Error Boundary & Fallback) */}
+      {safeCoverImage && (
         <div className="mx-auto max-w-4xl px-4 -mt-6 sm:-mt-8 sm:px-6">
           <ArticleHeroImageViewer
-            src={coverImage}
+            src={safeCoverImage}
+            fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
             alt={title}
             title={title}
             slug={slug}

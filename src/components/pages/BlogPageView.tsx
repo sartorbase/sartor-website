@@ -10,7 +10,11 @@ import {
 } from 'lucide-react';
 import { BLOG_POSTS, BlogPostData, getBlogPostBySlug, getRelatedPosts } from '../../data/blogPosts';
 import { buildWhatsAppLink } from '../../services/analytics';
-import { navigateTo } from '../../utils/navigation';
+import {
+  extractBlogSlug,
+  navigateTo,
+  normalizeRoutePath,
+} from '../../utils/navigation';
 import { MeasurementLeadMagnet } from '../organisms/MeasurementLeadMagnet';
 import { ArticleScrollProgress } from '../molecules/ArticleScrollProgress';
 import { RelatedArticlesSection } from '../organisms/RelatedArticlesSection';
@@ -20,6 +24,10 @@ import {
   stripMarkdownForPlainText,
   toAbsoluteSiteUrl,
 } from '../../seo/geoSchemas';
+import {
+  DEFAULT_BRIDAL_FALLBACK_IMAGE,
+  sanitizeImageSrc,
+} from '../../utils/imagePlaceholder';
 import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../organisms/BlogCommentsSection';
 import { ArticleShareBar } from '../molecules/ArticleShareBar';
@@ -28,32 +36,42 @@ export interface BlogPageViewProps {
   slug?: string;
 }
 
+const cleanSlugProp = (rawSlug?: string): string | undefined => {
+  if (!rawSlug) return undefined;
+  const cleaned = rawSlug.split('?')[0].split('#')[0].replace(/^\/+|\/+$/g, '').trim();
+  if (!cleaned) return undefined;
+  try {
+    return decodeURIComponent(cleaned);
+  } catch {
+    return cleaned;
+  }
+};
+
 export const BlogPageView: React.FC<BlogPageViewProps> = ({ slug }) => {
-  const [activeSlug, setActiveSlug] = useState<string | undefined>(slug);
+  const [activeSlug, setActiveSlug] = useState<string | undefined>(() => cleanSlugProp(slug));
 
   useEffect(() => {
-    setActiveSlug(slug);
+    setActiveSlug(cleanSlugProp(slug));
   }, [slug]);
 
-  // Handle route change via popstate
+  // Handle route change via popstate / app-navigate resiliently against UTM/query params
   useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname;
-      if (path.startsWith('/blog/') || path.startsWith('/journal/')) {
-        const currentSlug = path.replace(/^\/(blog|journal)\//, '').replace(/\/$/, '');
-        setActiveSlug(currentSlug);
-      } else if (
-        path === '/blog' ||
-        path === '/blog/' ||
-        path === '/journal' ||
-        path === '/journal/'
-      ) {
+    const syncSlugFromLocation = () => {
+      const path = normalizeRoutePath(window.location.pathname);
+      const parsedSlug = extractBlogSlug(path);
+      if (parsedSlug) {
+        setActiveSlug(parsedSlug);
+      } else if (path === '/blog' || path === '/journal') {
         setActiveSlug(undefined);
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', syncSlugFromLocation);
+    window.addEventListener('app-navigate', syncSlugFromLocation);
+    return () => {
+      window.removeEventListener('popstate', syncSlugFromLocation);
+      window.removeEventListener('app-navigate', syncSlugFromLocation);
+    };
   }, []);
 
   const activePost: BlogPostData | undefined = activeSlug
@@ -314,9 +332,12 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
           </header>
 
           {/* Cover Hero Image with Interactive Fullscreen Viewer & Watermarked Download */}
-          {activePost.coverImage && !activePost.content.includes(activePost.coverImage) && (
+          {activePost.coverImage &&
+            !activePost.content.includes(activePost.coverImage) &&
+            !activePost.content.includes(sanitizeImageSrc(activePost.coverImage, DEFAULT_BRIDAL_FALLBACK_IMAGE)) && (
             <ArticleHeroImageViewer
-              src={activePost.coverImage}
+              src={sanitizeImageSrc(activePost.coverImage, DEFAULT_BRIDAL_FALLBACK_IMAGE)}
+              fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
               alt={activePost.coverImageAlt || activePost.title}
               title={activePost.title}
               slug={activePost.slug}
@@ -348,9 +369,11 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
                 },
                 img: ({ src, alt }: any) => {
                   if (!src) return null;
+                  const safeImgSrc = sanitizeImageSrc(String(src), DEFAULT_BRIDAL_FALLBACK_IMAGE);
                   return (
                     <ArticleHeroImageViewer
-                      src={src}
+                      src={safeImgSrc}
+                      fallbackSrc={DEFAULT_BRIDAL_FALLBACK_IMAGE}
                       alt={alt || activePost.title}
                       title={activePost.title}
                       slug={activePost.slug}

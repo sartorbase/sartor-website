@@ -13,6 +13,7 @@ import { TestimonialsSection } from './components/organisms/TestimonialsSection'
 import { BlogPageView } from './components/pages/BlogPageView';
 import { CustomBridalLandingPage } from './components/pages/CustomBridalLandingPage';
 import { ServicesPageView } from './components/pages/ServicesPageView';
+import { extractBlogSlug, normalizeRoutePath } from './utils/navigation';
 import {
   buildLocationAndDiasporaGraph,
   buildPrimaryBreadcrumbSchema,
@@ -22,14 +23,14 @@ import {
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      return window.location.pathname;
+      return normalizeRoutePath(window.location.pathname);
     }
     return '/';
   });
 
   useEffect(() => {
     const handleRouteChange = () => {
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(normalizeRoutePath(window.location.pathname));
     };
 
     window.addEventListener('popstate', handleRouteChange);
@@ -110,29 +111,26 @@ export function App() {
   }, [currentPath]);
 
   const renderContent = () => {
+    const cleanPath = normalizeRoutePath(currentPath);
+
     // 1. Custom Bridal landing route
-    if (currentPath === '/custom-bridal' || currentPath === '/custom-bridal/') {
+    if (cleanPath === '/custom-bridal') {
       return <CustomBridalLandingPage />;
     }
 
     // 2. Services directory route
-    if (currentPath === '/services' || currentPath === '/services/') {
+    if (cleanPath === '/services') {
       return <ServicesPageView />;
     }
 
     // 3. Blog & Journal Single Post route
-    if (currentPath.startsWith('/blog/') || currentPath.startsWith('/journal/')) {
-      const slug = currentPath.replace(/^\/(blog|journal)\//, '').replace(/\/$/, '');
-      return <BlogPageView slug={slug} />;
+    const blogSlug = extractBlogSlug(cleanPath);
+    if (blogSlug) {
+      return <BlogPageView slug={blogSlug} />;
     }
 
     // 4. Blog & Journal Index route
-    if (
-      currentPath === '/blog' ||
-      currentPath === '/blog/' ||
-      currentPath === '/journal' ||
-      currentPath === '/journal/'
-    ) {
+    if (cleanPath === '/blog' || cleanPath === '/journal') {
       return <BlogPageView />;
     }
 

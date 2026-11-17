@@ -1,5 +1,6 @@
 import React from 'react';
-import Image, { ImageProps } from 'next/image';
+import Image, { type ImageProps } from '../src/utils/nextImage';
+import { DEFAULT_BRIDAL_FALLBACK_IMAGE, sanitizeImageSrc } from '../src/utils/imagePlaceholder';
 
 interface HeroImageProps extends Omit<ImageProps, 'src' | 'alt'> {
   src: string;
@@ -58,17 +59,22 @@ export function HeroImage({
     lowQualityBlurPlaceholder ||
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWMxOTE3Ii8+PC9zdmc+';
 
+  const safeSrc = sanitizeImageSrc(src, DEFAULT_BRIDAL_FALLBACK_IMAGE);
+  const safeMobileSrc = mobileSrc
+    ? sanitizeImageSrc(mobileSrc, safeSrc)
+    : undefined;
+
   return (
     <div
       className={`relative w-full overflow-hidden bg-stone-900 ${mobileAspectClasses} ${desktopAspectClasses} ${containerClassName}`}
       style={{ contain: 'paint layout' }}
     >
-      {mobileSrc ? (
+      {safeMobileSrc ? (
         <>
           {/* Mobile-Specific Image Variant (< 640px) */}
           <div className="block sm:hidden w-full h-full relative">
             <Image
-              src={mobileSrc}
+              src={safeMobileSrc}
               alt={alt}
               fill
               priority={priority}
@@ -85,7 +91,7 @@ export function HeroImage({
           {/* Desktop/Tablet Image Variant (>= 640px) */}
           <div className="hidden sm:block w-full h-full relative">
             <Image
-              src={src}
+              src={safeSrc}
               alt={alt}
               fill
               priority={priority}
@@ -102,7 +108,7 @@ export function HeroImage({
       ) : (
         /* Unified Responsive Image with Granular Mobile sizes */
         <Image
-          src={src}
+          src={safeSrc}
           alt={alt}
           fill
           priority={priority}

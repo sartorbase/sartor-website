@@ -14,7 +14,7 @@ import { BLOG_POSTS, BlogPostData } from '../../data/blogPosts';
 import { navigateTo } from '../../utils/navigation';
 import { LazyImage } from '../atoms/LazyImage';
 import { ImageSkeleton } from '../atoms/ImageSkeleton';
-import { DEFAULT_BRIDAL_FALLBACK_IMAGE } from '../../utils/imagePlaceholder';
+import { DEFAULT_BRIDAL_FALLBACK_IMAGE, sanitizeImageSrc } from '../../utils/imagePlaceholder';
 
 export interface BlogSearchGridProps {
   posts?: BlogPostData[];
@@ -326,7 +326,10 @@ export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
         /* Blog Post Cards Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredPosts.map((post, idx) => {
-            const coverImg = post.coverImage || DEFAULT_BRIDAL_FALLBACK_IMAGE;
+            const coverImg = sanitizeImageSrc(
+              post.coverImage,
+              DEFAULT_BRIDAL_FALLBACK_IMAGE
+            );
 
             return (
               <article

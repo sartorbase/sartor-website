@@ -107,8 +107,13 @@ export default defineConfig({
       dangerouslyAllowSVG: false,
       unoptimized: false,
       qualities: [75, 80, 85, 90],
+      localPatterns: [
+        { pathname: '/images/**' },
+        { pathname: '/**' },
+      ],
       remotePatterns: [
         { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+        { protocol: 'https', hostname: 'www.sartor.pk', pathname: '/**' },
         { protocol: 'https', hostname: 'sartor.pk', pathname: '/**' },
       ],
     }),
@@ -130,8 +135,13 @@ export default defineConfig({
             dangerouslyAllowSVG: false,
             unoptimized: false,
             qualities: [75, 80, 85, 90],
+            localPatterns: [
+              { pathname: '/images/**' },
+              { pathname: '/**' },
+            ],
             remotePatterns: [
               { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
+              { protocol: 'https', hostname: 'www.sartor.pk', pathname: '/**' },
               { protocol: 'https', hostname: 'sartor.pk', pathname: '/**' },
             ],
           }),
