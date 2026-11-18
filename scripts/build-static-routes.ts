@@ -60,10 +60,14 @@ async function buildStaticRoutes() {
     console.log(`Pre-rendered /blog/${post.slug}/index.html & /journal/${post.slug}/index.html`);
   }
 
-  // Generate sitemap.xml in dist/
+  // Generate sitemap.xml in dist/ and synchronize public/sitemap.xml
   const sitemapXml = generateSitemapXml();
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml);
-  console.log('Generated dist/sitemap.xml');
+  const publicDir = path.resolve(process.cwd(), 'public');
+  if (fs.existsSync(publicDir)) {
+    fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml);
+  }
+  console.log('Generated dist/sitemap.xml & synchronized public/sitemap.xml');
 
   // Generate rss.xml and feed.xml in dist/ (matches Vercel apex->www redirect cleanly)
   const staticFeedBaseUrl = 'https://www.sartor.pk';

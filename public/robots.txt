@@ -45,8 +45,14 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-# Sitemaps & Machine-Readable Knowledge
+# Sitemaps, Syndication Feeds & Machine-Readable Knowledge
+Allow: /sitemap.xml
+Allow: /rss.xml
+Allow: /feed.xml
+Allow: /llms.txt
+Allow: /llms-full.txt
 Sitemap: https://sartor.pk/sitemap.xml
+# RSS Feed: https://sartor.pk/rss.xml
+# Alternate RSS Feed: https://sartor.pk/feed.xml
 # LLM Context: https://sartor.pk/llms.txt
 # Extended LLM Context: https://sartor.pk/llms-full.txt
-
