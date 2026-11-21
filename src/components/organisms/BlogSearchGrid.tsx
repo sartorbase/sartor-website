@@ -15,6 +15,7 @@ import { navigateTo } from '../../utils/navigation';
 import { LazyImage } from '../atoms/LazyImage';
 import { ImageSkeleton } from '../atoms/ImageSkeleton';
 import { DEFAULT_BRIDAL_FALLBACK_IMAGE, sanitizeImageSrc } from '../../utils/imagePlaceholder';
+import { SaveForLaterButton } from '../molecules/SaveForLaterButton';
 
 export interface BlogSearchGridProps {
   posts?: BlogPostData[];
@@ -356,6 +357,15 @@ export const BlogSearchGrid: React.FC<BlogSearchGridProps> = ({
                   {/* Category Badge */}
                   <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-stone-950/85 backdrop-blur-md border border-stone-700/80 text-stone-200 text-xs font-semibold">
                     {post.category || 'Atelier Masterclass'}
+                  </div>
+
+                  {/* Quick Save for Later Toggle */}
+                  <div className="absolute top-3 right-3 z-10">
+                    <SaveForLaterButton
+                      slug={post.slug}
+                      title={post.title}
+                      variant="icon"
+                    />
                   </div>
                 </div>
 

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { getAllPosts } from '../../lib/mdx';
 import { WhatsAppButton } from '../../components/WhatsAppButton';
 import { BlogSearchGrid } from '../../components/BlogSearchGrid';
+import { SavedArticlesSection } from '../../components/SavedArticlesSection';
 import type { BlogPostData } from '../../src/data/blogPosts';
 
 export const metadata: Metadata = {
@@ -109,6 +110,7 @@ export default async function BlogPage() {
 
       {/* Interactive Blog Search & Posts Grid */}
       <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <SavedArticlesSection posts={normalizedPosts} nativeNavigation />
         <BlogSearchGrid posts={normalizedPosts} />
 
         {/* Global Conversion CTA Banner */}

@@ -31,6 +31,8 @@ import {
 import { ArticleHeroImageViewer } from '../molecules/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../organisms/BlogCommentsSection';
 import { ArticleShareBar } from '../molecules/ArticleShareBar';
+import { SaveForLaterButton } from '../molecules/SaveForLaterButton';
+import { SavedArticlesSection } from '../organisms/SavedArticlesSection';
 
 export interface BlogPageViewProps {
   slug?: string;
@@ -320,14 +322,22 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
               {activePost.excerpt}
             </p>
 
-            <div className="mt-6 pt-6 border-t border-stone-800 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-600/30 border border-amber-500/40 text-amber-400 flex items-center justify-center font-serif font-bold text-base">
-                AG
+            <div className="mt-6 pt-6 border-t border-stone-800 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-10 h-10 rounded-full bg-amber-600/30 border border-amber-500/40 text-amber-400 flex items-center justify-center font-serif font-bold text-base shrink-0">
+                  AG
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-stone-200">{activePost.author}</p>
+                  <p className="text-xs text-stone-400">Master Tailor &amp; Head Cutter, SARTOR Lahore</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-stone-200">{activePost.author}</p>
-                <p className="text-xs text-stone-400">Master Tailor &amp; Head Cutter, SARTOR Lahore</p>
-              </div>
+
+              <SaveForLaterButton
+                slug={activePost.slug}
+                title={activePost.title}
+                variant="header"
+              />
             </div>
           </header>
 
@@ -511,6 +521,9 @@ I read your tailoring guide and would like to consult on bespoke stitching and f
             Practical advice from Lahore master tailors on choosing the right artisan, sizing bridal lehengas, fabric yardage, and avoiding fitting nightmares.
           </p>
         </div>
+
+        {/* Saved Articles Reading List Section */}
+        <SavedArticlesSection />
 
         {/* Interactive Search Bar & Blog Post Cards Grid */}
         <BlogSearchGrid />

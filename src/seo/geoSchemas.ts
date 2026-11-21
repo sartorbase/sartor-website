@@ -80,7 +80,7 @@ export const PRIMARY_ROUTE_SEO: Record<'/' | '/services' | '/custom-bridal' | '/
   '/blog': {
     title: 'Atelier Journal & Couture Masterclasses | SARTOR Bespoke Lahore',
     description:
-      'Explore 67 technical masterclasses by Master Tailor Abdul Ghaffar on Pakistani bridal lehengas, zardozi, groom sherwanis, remote video fittings, and bespoke tailoring for diaspora clients.',
+      'Explore 68 technical masterclasses by Master Tailor Abdul Ghaffar on Pakistani bridal lehengas, zardozi, groom sherwanis, remote video fittings, and bespoke tailoring for diaspora clients.',
     canonicalUrl: 'https://sartor.pk/blog',
     ogImage: 'https://sartor.pk/images/silk-organza-walima-gown-editorial-drape-uk-usa-guide.jpg',
     ogImageAlt: 'SARTOR Atelier Journal & Pakistani Couture Masterclasses',

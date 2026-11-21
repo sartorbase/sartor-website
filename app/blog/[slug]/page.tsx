@@ -12,6 +12,7 @@ import { ArticleScrollProgress } from '../../../components/ArticleScrollProgress
 import { RelatedArticlesSection } from '../../../components/RelatedArticlesSection';
 import { ArticleHeroImageViewer } from '../../../components/ArticleHeroImageViewer';
 import { BlogCommentsSection } from '../../../components/BlogCommentsSection';
+import { SaveForLaterButton } from '../../../components/SaveForLaterButton';
 import type { BlogPostData } from '../../../src/data/blogPosts';
 import {
   DEFAULT_BRIDAL_FALLBACK_IMAGE,
@@ -210,13 +211,18 @@ export default async function BlogPostPage({ params }: PageProps) {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <Link
               href="/custom-bridal"
               className="hidden text-xs font-medium text-stone-300 transition-colors hover:text-amber-300 md:inline-block"
             >
               Custom Bridal
             </Link>
+            <SaveForLaterButton
+              slug={slug}
+              title={title}
+              variant="compact"
+            />
             <WhatsAppButton
               sourceLocation={`article_header_${slug}`}
               message={`Hi Sartor, I am reading "${title}" and would like to ask a tailoring question.`}
