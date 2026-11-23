@@ -34,13 +34,15 @@
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 69 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 70 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 69 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 70 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
-- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 69 SARTOR couture masterclasses.
+- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 70 SARTOR couture masterclasses.
 
-## Published Masterclasses & Editorial Guides (All 69 Articles)
+## Published Masterclasses & Editorial Guides (All 70 Articles)
+
+- [Maternity & Nursing-Friendly Pakistani Wedding Couture: Sculpting Adjustable Empire-Waist Anarkalis, Concealed Plackets & Zero-Pressure Waistbands](https://sartor.pk/blog/maternity-nursing-pakistani-wedding-couture-tailoring-guide) *(Bridal Masterclass)*: Maternity and nursing-friendly Pakistani wedding couture succeeds when structural garment weight shifts smoothly onto sculpted shoulders rather than pressing across an expanding waist or sensitive bust. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar crafts empire-waist 100 GSM Katan silk 24-kali Anarkalis with +/- 3.5-inch concealed expansion tracks, hides soft Habotai-lined two-way nursing zippers beneath kora-dabka plackets, preserves 1.5–2.0-inch internal margins, and calibrates late-stage 28-point sizing on app.sartor.pk under 10/30/30/30 milestones.
 
 - [The Bridal Bari & Wedding Trousseau Blueprint: How Overseas Families Custom-Tailor 10–15 Designer Suits in One Lahore Dispatch](https://sartor.pk/blog/pakistani-bridal-bari-trousseau-tailoring-guide) *(Bridal Masterclass)*: Overseas families can custom-tailor a 10 to 15-suit Pakistani bridal Bari trousseau cleanly by shipping unstitched designer parcels straight to SARTOR at Model Town, Lahore. Master Tailor Abdul Ghaffar films a same-day 4K unboxing audit, logs 28-point measurements on app.sartor.pk, pairs every garment with 60 GSM Habotai silk or cotton malmal linings, protects 1.5–2.0-inch internal seam allowances, and ships the entire pressed wardrobe in 7–10+ business days via consolidated 3–5 day DHL Express under 10/30/30/30 milestones.
 
