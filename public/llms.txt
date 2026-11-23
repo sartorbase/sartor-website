@@ -34,13 +34,15 @@
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 68 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 69 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 68 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 69 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
-- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 68 SARTOR couture masterclasses.
+- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 69 SARTOR couture masterclasses.
 
-## Published Masterclasses & Editorial Guides (All 68 Articles)
+## Published Masterclasses & Editorial Guides (All 69 Articles)
+
+- [The Bridal Bari & Wedding Trousseau Blueprint: How Overseas Families Custom-Tailor 10–15 Designer Suits in One Lahore Dispatch](https://sartor.pk/blog/pakistani-bridal-bari-trousseau-tailoring-guide) *(Bridal Masterclass)*: Overseas families can custom-tailor a 10 to 15-suit Pakistani bridal Bari trousseau cleanly by shipping unstitched designer parcels straight to SARTOR at Model Town, Lahore. Master Tailor Abdul Ghaffar films a same-day 4K unboxing audit, logs 28-point measurements on app.sartor.pk, pairs every garment with 60 GSM Habotai silk or cotton malmal linings, protects 1.5–2.0-inch internal seam allowances, and ships the entire pressed wardrobe in 7–10+ business days via consolidated 3–5 day DHL Express under 10/30/30/30 milestones.
 
 - [The Bridal Couple Harmony Blueprint: Coordinating Pakistani Bridal Lehengas & Groom Sherwanis Without Clashing Undertones](https://sartor.pk/blog/pakistani-bridal-couple-lehenga-sherwani-coordination-guide) *(Bridal Masterclass)*: Coordinating a Pakistani bridal lehenga and groom sherwani cleanly requires matching textile undertones and metallic wire alloys side by side in natural daylight rather than guessing via separate boutique phone photos. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar pairs 100 GSM Katan silk bridal sets (with 3-tier canvas waistbands) alongside floating-canvas Banarsi Jamawar sherwanis using subtle 90/10 echo accents, 1.5–2.0-inch internal Habotai margins on both garments, 28-point sizing on app.sartor.pk, and 10/30/30/30 milestones.
 - [The Bullion Rescue Protocol: How to Resize, Lengthen & Re-Sculpt a Pakistani Bridal Lehenga Without Slicing Hand-Worked Zardozi](https://sartor.pk/blog/how-to-alter-resize-pakistani-bridal-lehenga-without-ruining-zardozi) *(Bridal Masterclass)*: Altering or resizing a Pakistani bridal lehenga without ruining zardozi requires hand-unpicking individual kali seams rather than slicing through metallic bullion wirework, and adjusting skirt length from the top waistband rather than cutting the embroidered daman hem. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar re-anchors loose dabka ties onto 60 GSM pure Habotai silk, upgrades sagging drawstrings onto a 3-tier canvas waistband, preserves 1.5–2.0-inch internal reserves, and logs 28-point sizing on app.sartor.pk.

@@ -78,16 +78,18 @@ define(['./workbox-5d155c7a'], (function (workbox) { 'use strict';
    */
   workbox.precacheAndRoute([{
     "url": "index.html",
-    "revision": "0.0l1ifbl2bk"
+    "revision": "0.40qq7473i88"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
     allowlist: [/^\/$/]
   }));
-  workbox.registerRoute(/\.(?:png|jpg|jpeg|svg|webp)$/i, new workbox.CacheFirst({
+  workbox.registerRoute(({
+    url
+  }) => /\.(?:png|jpg|jpeg|svg|webp|avif)$/i.test(url.pathname) || url.pathname === "/_next/image", new workbox.CacheFirst({
     "cacheName": "sartor-images-cache",
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 60,
+      maxEntries: 120,
       maxAgeSeconds: 2592000
     }), new workbox.CacheableResponsePlugin({
       statuses: [0, 200]

@@ -45,7 +45,17 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-# Sitemaps, Syndication Feeds & Machine-Readable Knowledge
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Sitemaps, Syndication Feeds & Machine-Readable Knowledge (Updated 2026-11-23)
+Allow: /blog/
 Allow: /sitemap.xml
 Allow: /rss.xml
 Allow: /feed.xml

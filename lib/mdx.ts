@@ -78,7 +78,11 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     coverImage: data.coverImage ? sanitizeImageSrc(String(data.coverImage)) : undefined,
     category: (data.category as string) || 'Bespoke Tailoring',
     readingTime: (data.readingTime as string) || estimateReadingTime(content),
-    faqs: Array.isArray(data.faqs) ? (data.faqs as FAQItem[]) : undefined,
+    faqs: Array.isArray(data.faqs)
+      ? (data.faqs as FAQItem[])
+      : Array.isArray(data.faq)
+        ? (data.faq as FAQItem[])
+        : undefined,
     imageWebp: data.imageWebp ? sanitizeImageSrc(String(data.imageWebp)) : undefined,
   };
 
