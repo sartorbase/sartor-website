@@ -15,6 +15,7 @@ export const SizeChartGuide: React.FC = () => {
   const [unit, setUnit] = useState<'in' | 'cm'>('in');
   const [activeTab, setActiveTab] = useState<'standard' | 'guide' | 'calculator'>('standard');
   const [copied, setCopied] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // Custom client measurements state
   const [customMeasures, setCustomMeasures] = useState({
@@ -62,13 +63,7 @@ export const SizeChartGuide: React.FC = () => {
     }));
   };
 
-  const handleSendMeasurementsToWhatsApp = (e: React.FormEvent) => {
-    e.preventDefault();
-    analytics.trackEvent('measurement_calculator_use', {
-      unit,
-      hasChest: Boolean(customMeasures.chest),
-    });
-
+  const buildMeasurementWhatsAppUrl = (): string => {
     const msg = `*PAKISTANI SIZE & STITCHING COMMISSION - SARTOR LAHORE*
 ---------------------------------------
 • Client Name: ${customMeasures.name || 'Client'}
@@ -95,8 +90,22 @@ ${customMeasures.notes ? `• Specific Styling Instructions: ${customMeasures.no
 ---------------------------------------
 Sent via SARTOR Bespoke Women's Atelier.`;
 
-    const url = buildWhatsAppLink(msg, 'size_chart');
-    window.open(url, '_blank', 'noopener,noreferrer');
+    return buildWhatsAppLink(msg, 'size_chart');
+  };
+
+  const whatsappSubmissionUrl = buildMeasurementWhatsAppUrl();
+
+  const handleSendMeasurementsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!customMeasures.name.trim() || !customMeasures.phone.trim()) {
+      e.preventDefault();
+      setFormError('Please enter both your full name and WhatsApp phone number before dispatching.');
+      return;
+    }
+    setFormError(null);
+    analytics.trackEvent('measurement_calculator_use', {
+      unit,
+      hasChest: Boolean(customMeasures.chest),
+    });
   };
 
   const handleTabChange = (tab: 'standard' | 'guide' | 'calculator') => {
@@ -431,7 +440,7 @@ Sent via SARTOR Bespoke Women's Atelier.`;
               </div>
             </div>
 
-            <form onSubmit={handleSendMeasurementsToWhatsApp} className="flex flex-col gap-5">
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
               {/* Contact Information */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
@@ -585,15 +594,21 @@ Sent via SARTOR Bespoke Women's Atelier.`;
 
               {/* Submit CTA */}
               <div className="pt-2">
-                <Button
-                  type="submit"
-                  variant="whatsapp"
-                  size="lg"
-                  fullWidth
-                  leftIcon={<MessageSquare className="w-5 h-5 fill-current" />}
+                {formError && (
+                  <p role="alert" className="mb-3 rounded-lg border border-red-500/40 bg-red-950/40 px-3.5 py-2 text-xs text-red-300">
+                    {formError}
+                  </p>
+                )}
+                <a
+                  href={whatsappSubmissionUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleSendMeasurementsClick}
+                  className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base transition-colors shadow-xl shadow-emerald-950/50 cursor-pointer"
                 >
-                  Send Measurement Profile to Master Tailor on WhatsApp
-                </Button>
+                  <MessageSquare className="w-5 h-5 fill-current shrink-0" />
+                  <span>Send Measurement Profile to Master Tailor on WhatsApp</span>
+                </a>
                 <div className="mt-2 text-center text-[11px] text-stone-400">
                   Dispatches directly to SARTOR Master Cutter WhatsApp: <strong>{SARTOR_PHONE_LOCAL}</strong>
                 </div>

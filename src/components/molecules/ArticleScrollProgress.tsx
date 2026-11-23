@@ -184,7 +184,7 @@ export const ArticleScrollProgress: React.FC<ArticleScrollProgressProps> = ({
               {progress >= 100 ? (
                 <span className="text-emerald-400">Complete</span>
               ) : remainingMinutes <= 1 ? (
-                '&lt; 1 min left'
+                '< 1 min left'
               ) : (
                 `${remainingMinutes}m left`
               )}

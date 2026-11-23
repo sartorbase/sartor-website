@@ -40,10 +40,9 @@ export const FabricGallery: React.FC = () => {
     analytics.trackEvent('fabric_view', { fabricId: fabric.id, fabricName: fabric.name });
   };
 
-  const handleInquireFromModal = (fabric: Fabric) => {
+  const getFabricWhatsAppUrl = (fabric: Fabric) => {
     const msg = `Hello SARTOR Master Tailor, I am inquiring about your bespoke fabric collection: "${fabric.name}" (${fabric.code}, ${fabric.origin}). Please let me know its availability and suit crafting package.`;
-    const url = buildWhatsAppLink(msg, 'fabric');
-    window.open(url, '_blank', 'noopener,noreferrer');
+    return buildWhatsAppLink(msg, 'fabric');
   };
 
   return (
@@ -245,14 +244,15 @@ export const FabricGallery: React.FC = () => {
               <div className="text-xs text-stone-400">
                 Swatch sample available to touch at Moon Tower, Model Town.
               </div>
-              <Button
-                variant="whatsapp"
-                size="md"
-                leftIcon={<MessageSquare className="w-4 h-4 fill-current" />}
-                onClick={() => handleInquireFromModal(activeModalFabric)}
+              <a
+                href={getFabricWhatsAppUrl(activeModalFabric)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition-colors shadow-lg shadow-emerald-950/40 cursor-pointer"
               >
-                Inquire on WhatsApp
-              </Button>
+                <MessageSquare className="w-4 h-4 fill-current" />
+                <span>Inquire on WhatsApp</span>
+              </a>
             </div>
 
           </div>

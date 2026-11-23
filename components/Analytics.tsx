@@ -81,6 +81,7 @@ export function AnalyticsScripts(): React.ReactElement {
             style={{ display: 'none' }}
             src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
             alt=""
+            referrerPolicy="no-referrer"
           />
         </noscript>
       )}
