@@ -34,13 +34,15 @@
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 70 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 71 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 70 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 71 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
-- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 70 SARTOR couture masterclasses.
+- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 71 SARTOR couture masterclasses.
 
-## Published Masterclasses & Editorial Guides (All 70 Articles)
+## Published Masterclasses & Editorial Guides (All 71 Articles)
+
+- [The Civil Registry & Intimate Nikah Blueprint: Sculpting Architectural Ivory Katan Silk Long Jackets, Wide-Leg Trousers & Pearl-Dabka Ensembles](https://sartor.pk/blog/civil-registry-intimate-nikah-ivory-silk-couture-guide) *(Bridal Masterclass)*: An architectural civil registry and intimate Nikah outfit blends tailored minimalism with subtle heirloom craft by pairing 100 GSM pure ivory Katan silk with a hand-padded floating cotton-hair chest canvas, matte 60 GSM Habotai opacity lining, and fine seed-pearl kora borders. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar builds 1.5–2.0-inch internal margins, calibrates exact heel-drop trouser lengths via 28-point sizing on app.sartor.pk, and delivers globally under 10/30/30/30 milestones.
 
 - [Maternity & Nursing-Friendly Pakistani Wedding Couture: Sculpting Adjustable Empire-Waist Anarkalis, Concealed Plackets & Zero-Pressure Waistbands](https://sartor.pk/blog/maternity-nursing-pakistani-wedding-couture-tailoring-guide) *(Bridal Masterclass)*: Maternity and nursing-friendly Pakistani wedding couture succeeds when structural garment weight shifts smoothly onto sculpted shoulders rather than pressing across an expanding waist or sensitive bust. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar crafts empire-waist 100 GSM Katan silk 24-kali Anarkalis with +/- 3.5-inch concealed expansion tracks, hides soft Habotai-lined two-way nursing zippers beneath kora-dabka plackets, preserves 1.5–2.0-inch internal margins, and calibrates late-stage 28-point sizing on app.sartor.pk under 10/30/30/30 milestones.
 
