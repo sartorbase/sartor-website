@@ -34,13 +34,15 @@
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 71 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 72 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 71 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 72 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
-- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 71 SARTOR couture masterclasses.
+- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 72 SARTOR couture masterclasses.
 
-## Published Masterclasses & Editorial Guides (All 71 Articles)
+## Published Masterclasses & Editorial Guides (All 72 Articles)
+
+- [The Overseas Wedding Party Menswear Playbook: Coordinating Pure Boski Kurtas, Floating-Canvas Velvet Bandhgalas & Jamawar Waistcoats for Fathers & Brothers](https://sartor.pk/blog/groomsmen-father-of-bride-pakistani-menswear-wedding-guide) *(Groomswear Masterclass)*: Overseas families can tailor cohesive wedding menswear for fathers, brothers, and groomsmen by cutting 8-pound pure mulberry Boski kurtas, single-bolt Banarsi Jamawar waistcoats, and Micro-Velvet 9000 bandhgalas under one synchronized Lahore batch. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar builds floating horsehair chest canvases, 15-degree band collars, and 1.5–2.0-inch internal margins, logging individual 28-point measurements on app.sartor.pk under 10/30/30/30 milestones.
 
 - [The Civil Registry & Intimate Nikah Blueprint: Sculpting Architectural Ivory Katan Silk Long Jackets, Wide-Leg Trousers & Pearl-Dabka Ensembles](https://sartor.pk/blog/civil-registry-intimate-nikah-ivory-silk-couture-guide) *(Bridal Masterclass)*: An architectural civil registry and intimate Nikah outfit blends tailored minimalism with subtle heirloom craft by pairing 100 GSM pure ivory Katan silk with a hand-padded floating cotton-hair chest canvas, matte 60 GSM Habotai opacity lining, and fine seed-pearl kora borders. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar builds 1.5–2.0-inch internal margins, calibrates exact heel-drop trouser lengths via 28-point sizing on app.sartor.pk, and delivers globally under 10/30/30/30 milestones.
 
