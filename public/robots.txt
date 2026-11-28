@@ -54,7 +54,7 @@ Allow: /
 User-agent: YouBot
 Allow: /
 
-# Sitemaps, Syndication Feeds & Machine-Readable Knowledge (Updated 2026-11-26 — 72 Guides)
+# Sitemaps, Syndication Feeds & Machine-Readable Knowledge (Updated 2026-11-28 — 73 Guides)
 Allow: /blog/
 Allow: /sitemap.xml
 Allow: /rss.xml

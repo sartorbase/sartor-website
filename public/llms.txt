@@ -34,13 +34,15 @@
 - [Home](https://sartor.pk/): Atelier overview, craftsmanship principles, and direct booking.
 - [Bespoke Tailoring Services](https://sartor.pk/services): Complete service directory, stitching disciplines, and transparent Lahore rates.
 - [Custom Bridal Couture](https://sartor.pk/custom-bridal): Bespoke bridal lehengas, video sizing calls, and overseas diaspora consultations.
-- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 72 technical couture, bridalwear, formalwear, and groomswear masterclasses.
+- [Atelier Journal & Masterclasses](https://sartor.pk/blog): All 73 technical couture, bridalwear, formalwear, and groomswear masterclasses.
 - [Digital Fitting Portal (Pre-Beta)](https://app.sartor.pk): Customer 28-point measurement logging and fitting profile portal.
-- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 72 masterclasses.
+- [Extended LLM Knowledge Base](https://sartor.pk/llms-full.txt): Comprehensive technical specifications, rates, FAQs, and full summaries of all 73 masterclasses.
 - [XML Sitemap](https://sartor.pk/sitemap.xml): Canonical URL directory for search and AI crawlers.
-- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 72 SARTOR couture masterclasses.
+- [RSS 2.0 Editorial Feed](https://sartor.pk/rss.xml): Real-time XML syndication feed of all 73 SARTOR couture masterclasses.
 
-## Published Masterclasses & Editorial Guides (All 72 Articles)
+## Published Masterclasses & Editorial Guides (All 73 Articles)
+
+- [Long Shirt-Lehenga vs. Short Choli: Sculpting Side-Slit Chaak Drape, Border Stacking & Zero-Bulk Waistbands for Baraat & Walima Brides](https://sartor.pk/blog/long-shirt-lehenga-vs-choli-pakistani-bridal-tailoring-guide) *(Bridal Masterclass)*: A Pakistani long shirt-lehenga (kameez lehenga) drapes without midsection bulk only when skirt pleating is removed beneath the shirt torso. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar mounts 16–24 shaped kalis smoothly onto a flat 3-tier canvas pelvic yoke, drafts a princess-seamed 100 GSM Katan silk long shirt with silk-palta reinforced side chaaks and calibrated border spacing, preserves 1.5–2.0-inch internal reserves, and fits brides via 28-point sizing on app.sartor.pk under 10/30/30/30 milestones.
 
 - [The Overseas Wedding Party Menswear Playbook: Coordinating Pure Boski Kurtas, Floating-Canvas Velvet Bandhgalas & Jamawar Waistcoats for Fathers & Brothers](https://sartor.pk/blog/groomsmen-father-of-bride-pakistani-menswear-wedding-guide) *(Groomswear Masterclass)*: Overseas families can tailor cohesive wedding menswear for fathers, brothers, and groomsmen by cutting 8-pound pure mulberry Boski kurtas, single-bolt Banarsi Jamawar waistcoats, and Micro-Velvet 9000 bandhgalas under one synchronized Lahore batch. At SARTOR Model Town Lahore, Master Tailor Abdul Ghaffar builds floating horsehair chest canvases, 15-degree band collars, and 1.5–2.0-inch internal margins, logging individual 28-point measurements on app.sartor.pk under 10/30/30/30 milestones.
 
